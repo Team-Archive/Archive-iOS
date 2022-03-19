@@ -32,6 +32,8 @@ final class OnboardingFlow: Flow {
         switch step {
         case .signInIsRequired:
             return navigationToSignInScreen()
+        case .eMailSignIn(reactor: let reactor):
+            return navigationToEmailSignIn(reactor: reactor)
         case .userIsSignedIn:
             return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete)
         case .termsAgreementIsRequired:
@@ -102,5 +104,15 @@ final class OnboardingFlow: Flow {
         rootViewController.pushViewController(signUpCompletionViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: signUpCompletionViewController,
                                                  withNextStepper: signUpReactor))
+    }
+    
+    private func navigationToEmailSignIn(reactor: SignInReactor) -> FlowContributors {
+        let vc = onboardingStoryBoard
+            .instantiateViewController(identifier: EmailSignInViewController.identifier) { coder in
+                return EmailSignInViewController(coder: coder, reactor: reactor)
+            }
+        rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: vc,
+                                                 withNextStepper: reactor))
     }
 }

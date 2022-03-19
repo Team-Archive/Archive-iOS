@@ -9,23 +9,25 @@ import UIKit
 import ReactorKit
 import RxSwift
 import RxCocoa
-import AuthenticationServices
 
-final class SignInViewController: UIViewController, StoryboardView, ActivityIndicatorable, SplashViewProtocol, ASAuthorizationControllerPresentationContextProviding, ASAuthorizationControllerDelegate {
+final class SignInViewController: UIViewController, StoryboardView, ActivityIndicatorable, SplashViewProtocol {
+    
+    // MARK: IBOutlet
     
     @IBOutlet var mainContainerView: UIView!
     @IBOutlet private weak var idInputView: InputView!
-    @IBOutlet private weak var passwordInputView: InputView!
     @IBOutlet private weak var signInButton: DefaultButton!
     @IBOutlet private weak var signUpButton: UIButton!
-    @IBOutlet weak var testView: UIView!
     
+    // MARK: private property
     
-    
+    // MARK: internal property
     
     var disposeBag = DisposeBag()
     weak var targetView: UIView?
     var attachedView: UIView? = SplashView.instance()
+    
+    // MARK: lifeCycle
     
     init?(coder: NSCoder, reactor: SignInReactor) {
         super.init(coder: coder)
@@ -42,69 +44,9 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
         runSplashView()
     }
     
-    @IBAction func testAction(_ sender: Any) {
-        appleSignInButtonPress()
-    }
-    
-    // Apple Login Button Pressed
-    @objc func appleSignInButtonPress() {
-        let appleIDProvider = ASAuthorizationAppleIDProvider()
-        let request = appleIDProvider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-            
-        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
-        authorizationController.delegate = self
-        authorizationController.presentationContextProvider = self
-        authorizationController.performRequests()
-    }
-    
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        return self.view.window!
-    }
-    
-    // Apple ID 연동 성공 시
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        switch authorization.credential {
-        // Apple ID
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-                
-            // 계정 정보 가져오기
-            let userIdentifier = appleIDCredential.user
-            let fullName = appleIDCredential.fullName
-            let email = appleIDCredential.email
-                
-            print("User ID : \(userIdentifier)")
-            print("User Email : \(email ?? "")")
-            print("User Name : \((fullName?.givenName ?? "") + (fullName?.familyName ?? ""))")
-     
-        default:
-            break
-        }
-    }
-        
-    // Apple ID 연동 실패 시
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        print("error: \(error.localizedDescription)")
-        // Handle error.
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    private func setupAttributes() {
-        let tapOutside = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tapOutside)
-        
-        idInputView.rx.editingDidEndOnExit
-            .subscribe(onNext: { [weak self] in
-                self?.passwordInputView.focusTextField()
-            })
-            .disposed(by: disposeBag)
-        self.idInputView.placeholder = "아이디(이메일)"
-        self.passwordInputView.placeholder = "영문/숫자포함 8~20자"
-        self.passwordInputView.isSecureTextEntry = true
     }
     
     func bind(reactor: SignInReactor) {
@@ -114,14 +56,8 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
-        passwordInputView.rx.text.orEmpty
-            .distinctUntilChanged()
-            .map { Reactor.Action.passwordInput(text: $0) }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
-        
         signInButton.rx.tap
-            .map { Reactor.Action.signIn }
+            .map { Reactor.Action.moveToEmailSignIn }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
@@ -131,7 +67,7 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             .disposed(by: disposeBag)
         
         reactor.state
-            .map { $0.isEnableSignIn }
+            .map { $0.isValidEmail }
             .distinctUntilChanged()
             .bind(to: signInButton.rx.isEnabled)
             .disposed(by: disposeBag)
@@ -159,6 +95,15 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             .disposed(by: self.disposeBag)
     }
     
+    // MARK: private function
+    
+    private func setupAttributes() {
+        let tapOutside = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
+        view.addGestureRecognizer(tapOutside)
+        
+        self.idInputView.placeholder = "아이디(이메일)"
+    }
+    
     private func runSplashView() {
         if !AppConfigManager.shared.isPlayedIntroSplashView {
             AppConfigManager.shared.isPlayedIntroSplashView = true
@@ -178,4 +123,9 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 .disposed(by: self.disposeBag)
         }
     }
+    
+    // MARK: internal function
+    
+    // MARK: action
+    
 }

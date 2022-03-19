@@ -16,6 +16,7 @@ final class SignInReactor: Reactor, Stepper {
     enum Action {
         case idInput(text: String)
         case passwordInput(text: String)
+        case moveToEmailSignIn
         case signIn
         case signUp
     }
@@ -23,6 +24,7 @@ final class SignInReactor: Reactor, Stepper {
     enum Mutation {
         case setID(String)
         case setPassword(String)
+        case setIsVaildEmail(Bool)
         case setValidation(Bool)
         case setIsLoading(Bool)
     }
@@ -30,6 +32,7 @@ final class SignInReactor: Reactor, Stepper {
     struct State {
         var id: String = ""
         var password: String = ""
+        var isValidEmail: Bool = false
         var isEnableSignIn: Bool = false
         var isLoading: Bool = false
     }
@@ -47,9 +50,13 @@ final class SignInReactor: Reactor, Stepper {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case let .idInput(id):
-            let isValid = validator.isEnableSignIn(id: id, password: currentState.password)
+            let isValid = validator.isValidEmail(id)
             return .from([.setID(id),
-                          .setValidation(isValid)])
+                          .setIsVaildEmail(isValid)])
+            
+        case .moveToEmailSignIn:
+            steps.accept(ArchiveStep.eMailSignIn(reactor: self))
+            return .empty()
             
         case let .passwordInput(password):
             let isValid = validator.isEnableSignIn(id: currentState.id, password: password)
@@ -87,10 +94,10 @@ final class SignInReactor: Reactor, Stepper {
         switch mutation {
         case let .setID(id):
             newState.id = id
-            
         case let .setPassword(password):
             newState.password = password
-            
+        case .setIsVaildEmail(let isValidEmail):
+            newState.isValidEmail = isValidEmail
         case let.setValidation(isEnableSignIn):
             newState.isEnableSignIn = isEnableSignIn
         case let .setIsLoading(isLoading):

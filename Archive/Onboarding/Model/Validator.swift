@@ -8,6 +8,7 @@
 import Foundation
 
 protocol SignInValidator {
+    func isValidEmail(_ email: String) -> Bool
     func isEnableSignIn(id: String, password: String) -> Bool
 }
 

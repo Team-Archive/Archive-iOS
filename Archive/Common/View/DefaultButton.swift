@@ -29,5 +29,7 @@ class DefaultButton: UIButton {
     private func setupAttributes() {
         setBackgroundColor(Styles.defaultColor, for: .normal)
         setBackgroundColor(Styles.disabledColor, for: .disabled)
+        self.layer.masksToBounds = true
+        self.layer.cornerRadius = 8
     }
 }

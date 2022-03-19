@@ -75,6 +75,7 @@ final class InputView: UIView {
     }
     
     private func setupAttributes() {
+        self.backgroundColor = Gen.Colors.white.color
         layer.cornerRadius = Constants.cornerRadius
         layer.borderWidth = Constants.borderWidth
         layer.borderColor = Styles.borderColor.cgColor

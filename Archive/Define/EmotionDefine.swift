@@ -13,10 +13,8 @@ enum Emotion: String, CaseIterable {
     case wonderful = "AMAZING"
     
     static func fromString(_ str: String) -> Emotion? {
-        for item in Emotion.allCases {
-            if item.rawValue == str {
-                return item
-            }
+        for item in Emotion.allCases where item.rawValue == str {
+            return item
         }
         return nil
     }
