@@ -73,6 +73,8 @@
 		78315E742764F2E6001B3342 /* SignUp.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E732764F2E6001B3342 /* SignUp.json */; };
 		7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D51B27E58FEE00E3FA57 /* LoginOAuthUsecase.swift */; };
 		7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */; };
+		7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */; };
+		7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		784377AE273172820005CB51 /* RecordAddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784377AC273172820005CB51 /* RecordAddImageCollectionViewCell.swift */; };
@@ -230,6 +232,8 @@
 		78315E732764F2E6001B3342 /* SignUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SignUp.json; sourceTree = "<group>"; };
 		7831D51B27E58FEE00E3FA57 /* LoginOAuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthUsecase.swift; sourceTree = "<group>"; };
 		7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInViewController.swift; sourceTree = "<group>"; };
+		7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepository.swift; sourceTree = "<group>"; };
+		7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		784377AC273172820005CB51 /* RecordAddImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAddImageCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -578,6 +582,8 @@
 			isa = PBXGroup;
 			children = (
 				7831D51B27E58FEE00E3FA57 /* LoginOAuthUsecase.swift */,
+				7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */,
+				7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */,
 			);
 			path = LoginOAuth;
 			sourceTree = "<group>";
@@ -1231,8 +1237,10 @@
 				4FD4F1D4272F869A00BDB4BB /* RecordCardCollectionViewCell.swift in Sources */,
 				78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */,
 				78A3216B275B92700078650D /* DetailModel.swift in Sources */,
+				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,
 				78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
+				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,

@@ -19,6 +19,8 @@ final class SignInReactor: Reactor, Stepper {
         case moveToEmailSignIn
         case signIn
         case signUp
+        case signInWithApple
+        case signInWithKakao
     }
     
     enum Mutation {
@@ -41,10 +43,12 @@ final class SignInReactor: Reactor, Stepper {
     let steps = PublishRelay<Step>()
     private let validator: SignInValidator
     var error: PublishSubject<String>
+    private let oAuthUsecase: LoginOAuthUsecase
     
-    init(validator: SignInValidator) {
+    init(validator: SignInValidator, loginOAuthRepository: LoginOAuthRepository) {
         self.validator = validator
         self.error = .init()
+        self.oAuthUsecase = LoginOAuthUsecase(repository: loginOAuthRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -85,6 +89,12 @@ final class SignInReactor: Reactor, Stepper {
             
         case .signUp:
             steps.accept(ArchiveStep.termsAgreementIsRequired)
+            return .empty()
+        case .signInWithApple:
+            print("signInWithApple")
+            return .empty()
+        case .signInWithKakao:
+            print("signInWithKakao")
             return .empty()
         }
     }

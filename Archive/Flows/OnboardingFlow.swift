@@ -53,7 +53,7 @@ final class OnboardingFlow: Flow {
     }
     
     private func navigationToSignInScreen() -> FlowContributors {
-        let signInReactor = SignInReactor(validator: validator)
+        let signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement())
         let signInViewController = onboardingStoryBoard
             .instantiateViewController(identifier: SignInViewController.identifier) { coder in
                 return SignInViewController(coder: coder, reactor: signInReactor)

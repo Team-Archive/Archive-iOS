@@ -9,4 +9,20 @@ import UIKit
 
 class LoginOAuthUsecase: NSObject {
     
+    // MARK: private property
+    
+    private let repository: LoginOAuthRepository
+    
+    // MARK: internal property
+    
+    // MARK: lifeCycle
+    
+    init(repository: LoginOAuthRepository) {
+        self.repository = repository
+    }
+    
+    // MARK: private function
+    
+    // MARK: internal function
+    
 }

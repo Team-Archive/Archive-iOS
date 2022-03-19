@@ -98,6 +98,16 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        appleSignInBtn.rx.tap
+            .map { Reactor.Action.signInWithApple }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        kakaoSignInBtn.rx.tap
+            .map { Reactor.Action.signInWithKakao }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
     }
     
     // MARK: private function
