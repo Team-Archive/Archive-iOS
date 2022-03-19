@@ -72,6 +72,58 @@
                                     <constraint firstAttribute="height" constant="44" id="Xfh-Nn-B7d"/>
                                 </constraints>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VFT-ds-d8L">
+                                <rect key="frame" x="0.0" y="669.5" width="414" height="82.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2N5-Bz-bXG">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NtU-hB-ADY">
+                                        <rect key="frame" x="145" y="30.5" width="124" height="52"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a1M-SK-6Q0">
+                                                <rect key="frame" x="0.0" y="0.0" width="52" height="52"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="52" id="9m1-l3-cLU"/>
+                                                    <constraint firstAttribute="width" constant="52" id="Ic2-5m-adq"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="SignWithApple" title=" "/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CAP-ve-nHA">
+                                                <rect key="frame" x="72" y="0.0" width="52" height="52"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="52" id="VIx-kz-slr"/>
+                                                    <constraint firstAttribute="height" constant="52" id="jXd-1W-5la"/>
+                                                </constraints>
+                                                <state key="normal" title="Button"/>
+                                                <buttonConfiguration key="configuration" style="plain" image="SignWithkakaotalk" title=" "/>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="a1M-SK-6Q0" secondAttribute="bottom" id="ApX-7P-Btb"/>
+                                            <constraint firstItem="a1M-SK-6Q0" firstAttribute="leading" secondItem="NtU-hB-ADY" secondAttribute="leading" id="Cdq-I2-t7e"/>
+                                            <constraint firstAttribute="trailing" secondItem="CAP-ve-nHA" secondAttribute="trailing" id="D7J-Gi-J60"/>
+                                            <constraint firstItem="CAP-ve-nHA" firstAttribute="leading" secondItem="a1M-SK-6Q0" secondAttribute="trailing" constant="20" id="OWt-Rl-k43"/>
+                                            <constraint firstItem="a1M-SK-6Q0" firstAttribute="top" secondItem="NtU-hB-ADY" secondAttribute="top" id="Oq7-Sh-Zrz"/>
+                                            <constraint firstAttribute="bottom" secondItem="CAP-ve-nHA" secondAttribute="bottom" id="wpZ-UK-CM1"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="2N5-Bz-bXG" firstAttribute="leading" secondItem="VFT-ds-d8L" secondAttribute="leading" id="5Lb-87-cPJ"/>
+                                    <constraint firstItem="NtU-hB-ADY" firstAttribute="centerX" secondItem="VFT-ds-d8L" secondAttribute="centerX" id="J7X-6A-tIW"/>
+                                    <constraint firstAttribute="bottom" secondItem="NtU-hB-ADY" secondAttribute="bottom" id="e6N-50-8z3"/>
+                                    <constraint firstAttribute="trailing" secondItem="2N5-Bz-bXG" secondAttribute="trailing" id="hJh-e1-il9"/>
+                                    <constraint firstItem="NtU-hB-ADY" firstAttribute="top" secondItem="2N5-Bz-bXG" secondAttribute="bottom" constant="10" id="p56-Tg-fkH"/>
+                                    <constraint firstItem="2N5-Bz-bXG" firstAttribute="top" secondItem="VFT-ds-d8L" secondAttribute="top" id="q6S-te-aJk"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="55m-e0-FoU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -79,8 +131,11 @@
                             <constraint firstItem="JYI-9K-a3j" firstAttribute="top" relation="greaterThanOrEqual" secondItem="ExH-wP-tWK" secondAttribute="bottom" priority="750" constant="44" id="1ay-wy-QR1"/>
                             <constraint firstItem="JYI-9K-a3j" firstAttribute="leading" secondItem="55m-e0-FoU" secondAttribute="leading" constant="32" id="8u2-ik-Qeu"/>
                             <constraint firstItem="ExH-wP-tWK" firstAttribute="top" relation="greaterThanOrEqual" secondItem="55m-e0-FoU" secondAttribute="top" priority="750" constant="44" id="9T7-UF-b8a"/>
+                            <constraint firstItem="55m-e0-FoU" firstAttribute="bottom" secondItem="VFT-ds-d8L" secondAttribute="bottom" constant="110" id="B4H-ei-UYn"/>
+                            <constraint firstItem="55m-e0-FoU" firstAttribute="trailing" secondItem="VFT-ds-d8L" secondAttribute="trailing" id="EvE-zh-hM3"/>
                             <constraint firstItem="uAy-wf-Bb4" firstAttribute="top" secondItem="JYI-9K-a3j" secondAttribute="bottom" constant="20" id="MaW-Nv-XDt"/>
                             <constraint firstItem="JYI-9K-a3j" firstAttribute="top" secondItem="ExH-wP-tWK" secondAttribute="bottom" priority="500" constant="64" id="VB6-Xh-l8a"/>
+                            <constraint firstItem="VFT-ds-d8L" firstAttribute="leading" secondItem="55m-e0-FoU" secondAttribute="leading" id="WEp-Ea-Wrq"/>
                             <constraint firstItem="ExH-wP-tWK" firstAttribute="centerX" secondItem="55m-e0-FoU" secondAttribute="centerX" id="cyJ-IB-9iF"/>
                             <constraint firstItem="uAy-wf-Bb4" firstAttribute="centerX" secondItem="55m-e0-FoU" secondAttribute="centerX" id="gbV-iP-Tzi"/>
                             <constraint firstItem="ExH-wP-tWK" firstAttribute="top" secondItem="55m-e0-FoU" secondAttribute="top" priority="500" constant="118" id="iPt-ET-44f"/>
@@ -88,15 +143,18 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="appleSignInBtn" destination="a1M-SK-6Q0" id="Ims-JO-Kec"/>
                         <outlet property="idInputView" destination="SDs-c9-36d" id="pYR-zo-fUK"/>
+                        <outlet property="kakaoSignInBtn" destination="CAP-ve-nHA" id="bE1-wF-zH1"/>
                         <outlet property="mainContainerView" destination="xpv-YU-iCx" id="A2n-UM-vLR"/>
+                        <outlet property="oAuthHelpLabel" destination="2N5-Bz-bXG" id="PVo-GJ-TXh"/>
                         <outlet property="signInButton" destination="5iO-9J-Z65" id="JIj-gp-3wN"/>
                         <outlet property="signUpButton" destination="uAy-wf-Bb4" id="Vhe-UI-lsk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="egf-zc-dBV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1162" y="64"/>
+            <point key="canvasLocation" x="-1162.3188405797102" y="63.616071428571423"/>
         </scene>
         <!--Terms Agreement View Controller-->
         <scene sceneID="GEN-ik-EiM">
@@ -761,6 +819,8 @@
         <image name="CheckSquare_deselected" width="26" height="26"/>
         <image name="CheckSquare_selected" width="26" height="26"/>
         <image name="Logo" width="166" height="44"/>
+        <image name="SignWithApple" width="52" height="52"/>
+        <image name="SignWithkakaotalk" width="52" height="52"/>
         <namedColor name="Black">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

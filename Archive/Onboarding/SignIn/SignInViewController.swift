@@ -19,6 +19,11 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
     @IBOutlet private weak var signInButton: DefaultButton!
     @IBOutlet private weak var signUpButton: UIButton!
     
+    @IBOutlet weak var oAuthHelpLabel: UILabel!
+    @IBOutlet weak var appleSignInBtn: UIButton!
+    @IBOutlet weak var kakaoSignInBtn: UIButton!
+    
+    
     // MARK: private property
     
     // MARK: internal property
@@ -102,6 +107,9 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
         view.addGestureRecognizer(tapOutside)
         
         self.idInputView.placeholder = "아이디(이메일)"
+        self.oAuthHelpLabel.font = .fonts(.body)
+        self.oAuthHelpLabel.textColor = Gen.Colors.gray03.color
+        self.oAuthHelpLabel.text = "다른 방법으로 로그인하기"
     }
     
     private func runSplashView() {
