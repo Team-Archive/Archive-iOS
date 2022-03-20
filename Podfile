@@ -21,6 +21,10 @@ def pods
   pod 'UIImageColors'
   pod 'lottie-ios'
   pod 'SwiftLint'
+  
+  pod 'KakaoSDKCommon'
+  pod 'KakaoSDKAuth'
+  pod 'KakaoSDKUser'
 end
 
 target 'Archive' do
