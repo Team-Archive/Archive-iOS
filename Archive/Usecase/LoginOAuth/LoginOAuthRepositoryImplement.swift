@@ -10,6 +10,7 @@ class LoginOAuthRepositoryImplement: LoginOAuthRepository {
     // MARK: private property
     
     private let appleRepository: LoginWithAppleRepositoryImplement = LoginWithAppleRepositoryImplement()
+    private let kakaoRepository: LoginWithKakaoRepositoryImplement = LoginWithKakaoRepositoryImplement()
     
     // MARK: internal property
     
@@ -23,7 +24,7 @@ class LoginOAuthRepositoryImplement: LoginOAuthRepository {
         case .apple:
             self.appleRepository.signIn(completion: completion)
         case .kakao:
-            break
+            self.kakaoRepository.signIn(completion: completion)
         }
     }
     

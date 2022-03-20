@@ -18,6 +18,9 @@ enum ArchiveErrorCode: Int, LocalizedError {
     case unexpectedAppleSignIn = 11100 // 에러는 발생하지 않았지만 애플로그인 이상함
     case tokenNotExsitAppleSignIn // 애플로그인 토큰 없음
     case tokenAsciiToStringFailAppleSignIn // 애플로그인 토큰데이터 -> 스트링 변환 실패
+    case unexpectedKakaoSignIn = 11120
+    case kakaoIsNotIntalled // 카카오톡이 설치되어있지 않음
+    case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
 }
 
 enum ErrorFrom {
@@ -25,6 +28,7 @@ enum ErrorFrom {
     case server
     case network
     case appleOAuth
+    case kakaoOAuth
 }
 
 class ArchiveError: Error {
@@ -76,6 +80,12 @@ class ArchiveError: Error {
             returnValue = "애플 로그인 오류, 토큰이 존재하지 않음"
         case .tokenAsciiToStringFailAppleSignIn:
             returnValue = "애플로그인 오류, 아스키 변환 실패"
+        case .unexpectedKakaoSignIn:
+            returnValue = "카카오 로그인 오류"
+        case .kakaoIsNotIntalled:
+            returnValue = "카카오톡이 설치되어있지 않습니다."
+        case .kakaoIdTokenIsNull:
+            returnValue = "카카오 로그인 오류"
         }
         return returnValue
     }
