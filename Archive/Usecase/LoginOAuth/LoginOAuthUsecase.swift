@@ -25,4 +25,8 @@ class LoginOAuthUsecase: NSObject {
     
     // MARK: internal function
     
+    func getToken(type: OAuthSignInType, completion: @escaping (Result<String, ArchiveError>) -> Void) {
+        self.repository.getToken(type: type, completion: completion)
+    }
+    
 }

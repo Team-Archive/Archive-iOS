@@ -91,7 +91,9 @@ final class SignInReactor: Reactor, Stepper {
             steps.accept(ArchiveStep.termsAgreementIsRequired)
             return .empty()
         case .signInWithApple:
-            print("signInWithApple")
+            signInWithApple { [weak self] result in
+                print("result: \(result)") // TODO: 해당 토큰으로 서버에 로그인 혹은 회원가입 처리
+            }
             return .empty()
         case .signInWithKakao:
             print("signInWithKakao")
@@ -114,6 +116,10 @@ final class SignInReactor: Reactor, Stepper {
             newState.isLoading = isLoading
         }
         return newState
+    }
+    
+    private func signInWithApple(completion: @escaping (Result<String, ArchiveError>) -> Void) {
+        self.oAuthUsecase.getToken(type: .apple, completion: completion)
     }
 }
 
