@@ -31,6 +31,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 print("FCM registration token: \(token)")
             }
         }
+        application.registerForRemoteNotifications()
         return true
     }
     
@@ -62,5 +63,19 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         print("파이어베이스 토큰: \(fcmToken)")
+    }
+    
+    // 실패시
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for notifications: \(error.localizedDescription)")
+        
+    }
+    // 성공시
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenParts = deviceToken.map { data in
+            String(format: "%02.2hhx", data)
+        }
+        let token = tokenParts.joined()
+        print("Device Token: \(token)")
     }
 }
