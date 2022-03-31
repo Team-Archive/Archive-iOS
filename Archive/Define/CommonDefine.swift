@@ -15,5 +15,5 @@ enum Direction {
 }
 
 class CommonDefine: NSObject {
-    static let kakaoAppKey: String = "83536d54285d29a83b7a44334972d01e"
+    static let kakaoAppKey: String = "147a5c186ee0f5fdc58244b704165132"
 }
