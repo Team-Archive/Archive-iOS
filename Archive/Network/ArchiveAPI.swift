@@ -23,7 +23,7 @@ enum ArchiveAPI {
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
-        return URL(string: "http://3.38.66.239:8080")!
+        return URL(string: CommonDefine.apiServer)!
     }
     
     var path: String {
