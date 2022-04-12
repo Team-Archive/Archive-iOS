@@ -29,4 +29,8 @@ class LoginOAuthUsecase: NSObject {
         self.repository.getToken(type: type, completion: completion)
     }
     
+    func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
+        return self.repository.isExistEmailWithKakao(accessToken: accessToken)
+    }
+    
 }

@@ -80,8 +80,8 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
         reactor.error
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { errorMsg in
-                CommonAlertView.shared.show(message: errorMsg, btnText: "확인", hapticType: .error, confirmHandler: {
-                    CommonAlertView.shared.hide(nil)
+                CommonAlertView.shared.show(message: "오류", subMessage: errorMsg, btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide()
                 })
             })
             .disposed(by: self.disposeBag)

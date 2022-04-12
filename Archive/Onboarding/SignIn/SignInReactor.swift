@@ -86,18 +86,22 @@ final class SignInReactor: Reactor, Stepper {
                     return .setIsLoading(false)
                 }
             ])
-            
         case .signUp:
             steps.accept(ArchiveStep.termsAgreementIsRequired)
             return .empty()
         case .signInWithApple:
-            signInWithApple { [weak self] result in
+            getAppleLoginToken { [weak self] result in
                 print("Apple OAuth Token: \(result)") // TODO: 해당 토큰으로 서버에 로그인 혹은 회원가입 처리
             }
             return .empty()
         case .signInWithKakao:
-            signInWithKakao { [weak self] result in
-                print("kakao OAuth Token: \(result)") // TODO: 해당 토큰으로 서버에 로그인 혹은 회원가입 처리
+            getKakaoLoginToken { [weak self] result in
+                switch result {
+                case .success(let accessToken):
+                    isExistEmailWithKakao 호출하기부터 작업 ㄱ
+                case .failure(let err):
+                    self?.error.onNext(err.getMessage())
+                }
             }
             return .empty()
         }
@@ -120,13 +124,19 @@ final class SignInReactor: Reactor, Stepper {
         return newState
     }
     
-    private func signInWithApple(completion: @escaping (Result<String, ArchiveError>) -> Void) {
+    private func getAppleLoginToken(completion: @escaping (Result<String, ArchiveError>) -> Void) {
         self.oAuthUsecase.getToken(type: .apple, completion: completion)
     }
     
-    private func signInWithKakao(completion: @escaping (Result<String, ArchiveError>) -> Void) {
+    private func getKakaoLoginToken(completion: @escaping (Result<String, ArchiveError>) -> Void) {
         self.oAuthUsecase.getToken(type: .kakao, completion: completion)
     }
+    
+    private func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
+        self.oAuthUsecase.isExistEmailWithKakao(accessToken: <#T##String#>)
+    }
+    
+    
 }
 
 struct LoginEmailParam: Encodable {

@@ -18,8 +18,8 @@ class LoginWithKakaoRepositoryImplement: NSObject {
                 if let error = error {
                     completion(.failure(.init(from: .kakaoOAuth, code: (error as NSError).code, message: error.localizedDescription)))
                 } else {
-                    guard let idToken = oAuthToken?.idToken else { completion(.failure(.init(.kakaoIdTokenIsNull))) ; return }
-                    completion(.success(idToken))
+                    guard let accessToken = oAuthToken?.accessToken else { completion(.failure(.init(.kakaoIdTokenIsNull))) ; return }
+                    completion(.success(accessToken))
                 }
             }
         } else {

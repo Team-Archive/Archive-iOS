@@ -21,4 +21,5 @@ class CommonDefine: NSObject {
 #else
     static let apiServer: String = "http://3.38.66.239:8080"
 #endif
+    static let kakaoAPIServer: String = "https://kapi.kakao.com"
 }
