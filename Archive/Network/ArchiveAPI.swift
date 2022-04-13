@@ -141,6 +141,35 @@ extension ArchiveAPI: TargetType {
         }
     }
     
+    var parameterEncoding: ParameterEncoding {
+        switch self {
+        case .uploadImage:
+            return URLEncoding.default
+        case .registArchive:
+            return URLEncoding.default
+        case .registEmail:
+            return URLEncoding.default
+        case .loginEmail:
+            return URLEncoding.default
+        case .loginWithKakao:
+            return URLEncoding.queryString
+        case .isDuplicatedEmail:
+            return URLEncoding.default
+        case .deleteArchive:
+            return URLEncoding.default
+        case .getArchives:
+            return URLEncoding.default
+        case .getDetailArchive:
+            return URLEncoding.default
+        case .getCurrentUserInfo:
+            return URLEncoding.default
+        case .withdrawal:
+            return URLEncoding.default
+        case .getKakaoUserInfo:
+            return URLEncoding.default
+        }
+    }
+    
     var task: Task {
         switch self {
         case .uploadImage(let image):
