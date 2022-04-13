@@ -21,6 +21,8 @@ final class SignInReactor: Reactor, Stepper {
         case signUp
         case signInWithApple
         case signInWithKakao
+        case isExistIdCheckWithKakao(accessToken: String)
+        case realLoginWithKakao(accessToken: String)
     }
     
     enum Mutation {
@@ -29,6 +31,7 @@ final class SignInReactor: Reactor, Stepper {
         case setIsVaildEmail(Bool)
         case setValidation(Bool)
         case setIsLoading(Bool)
+        case empty
     }
     
     struct State {
@@ -98,11 +101,27 @@ final class SignInReactor: Reactor, Stepper {
             getKakaoLoginToken { [weak self] result in
                 switch result {
                 case .success(let accessToken):
-                    isExistEmailWithKakao 호출하기부터 작업 ㄱ
+                    self?.action.onNext(.isExistIdCheckWithKakao(accessToken: accessToken))
                 case .failure(let err):
                     self?.error.onNext(err.getMessage())
                 }
             }
+            return .empty()
+        case .isExistIdCheckWithKakao(let accessToken):
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                isExistEmailWithKakao(accessToken: accessToken).map { [weak self] isExist in
+                    if isExist {
+                        self?.action.onNext(.realLoginWithKakao(accessToken: accessToken))
+                    } else {
+                        self?.steps.accept(ArchiveStep.termsAgreeForOAuthRegist(accessToken: accessToken))
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
+        case .realLoginWithKakao(accessToken: let accessToken):
+            print("로그인 ㄱ")
             return .empty()
         }
     }
@@ -120,6 +139,8 @@ final class SignInReactor: Reactor, Stepper {
             newState.isEnableSignIn = isEnableSignIn
         case let .setIsLoading(isLoading):
             newState.isLoading = isLoading
+        case .empty:
+            break
         }
         return newState
     }
@@ -133,7 +154,7 @@ final class SignInReactor: Reactor, Stepper {
     }
     
     private func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
-        self.oAuthUsecase.isExistEmailWithKakao(accessToken: <#T##String#>)
+        self.oAuthUsecase.isExistEmailWithKakao(accessToken: accessToken)
     }
     
     

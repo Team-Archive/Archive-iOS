@@ -22,6 +22,8 @@ final class SignUpReactor: Reactor, Stepper {
         case viewPersonalInformationPolicy
         case goToEmailInput
         
+        case registKakaoLogin
+        
         case emailInput(text: String)
         case checkEmailDuplicate
         case goToPasswordInput
@@ -84,6 +86,7 @@ final class SignUpReactor: Reactor, Stepper {
     let steps = PublishRelay<Step>()
     private let validator: SignUpValidator
     var error: PublishSubject<String>
+    var kakaoAccessToken: String = ""
     
     init(validator: SignUpValidator) {
         self.validator = validator
@@ -187,6 +190,9 @@ final class SignUpReactor: Reactor, Stepper {
                     return .setIsLoading(false)
                 }
             ])
+        case .registKakaoLogin:
+            print("여기서부터 구현: \(self.kakaoAccessToken)")
+            return .empty()
         }
     }
     

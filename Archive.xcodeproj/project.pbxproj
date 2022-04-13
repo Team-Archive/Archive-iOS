@@ -161,6 +161,7 @@
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
 		78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDAD60274525D40028F56D /* ShareCardView.swift */; };
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
+		78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */; };
 		A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029C34E0C4CFA05B0DB2E343 /* Pods_Archive.framework */; };
 /* End PBXBuildFile section */
 
@@ -325,6 +326,7 @@
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		78EDAD60274525D40028F56D /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
+		78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementForOAuthViewController.swift; sourceTree = "<group>"; };
 		FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.debug.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -394,6 +396,7 @@
 				44FB0A0F27183BDA006E1048 /* EmailInputViewController.swift */,
 				44FB0A1627183C22006E1048 /* PasswordInputViewController.swift */,
 				44FB0A1B27183C9C006E1048 /* SignUpCompletionViewController.swift */,
+				78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1177,6 +1180,7 @@
 				787C2861275CC04B00C1FB17 /* ModalShareViewController.swift in Sources */,
 				780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */,
 				780389D7278957A800DB1730 /* SplashProtocol.swift in Sources */,
+				78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */,
 				78BB7E272778970900DF78AF /* DetailFriendsCollectionViewCell.swift in Sources */,
 				78C4B33527243C660006EBAD /* NSMutableAttributedStringExtension.swift in Sources */,
 				78BB7E232778938500DF78AF /* DetailContentsCollectionViewCell.swift in Sources */,
