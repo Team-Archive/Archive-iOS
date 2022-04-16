@@ -81,7 +81,7 @@ final class FindPasswordViewController: UIViewController, StoryboardView, Activi
         reactor.toastMessage
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { [weak self] toastMessage in
-                print("toast: \(toastMessage)")
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
             })
             .disposed(by: self.disposeBag)
         

@@ -115,6 +115,7 @@
 		788AB648280A9EAE00182B45 /* FindPasswordUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB647280A9EAE00182B45 /* FindPasswordUsecase.swift */; };
 		788AB64A280A9EB900182B45 /* FindPasswordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB649280A9EB900182B45 /* FindPasswordRepository.swift */; };
 		788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB64B280A9EC600182B45 /* FindPasswordRepositoryImplement.swift */; };
+		788AB64E280AAC6E00182B45 /* ArchiveToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */; };
 		78958E0C27129FBB003FF724 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78958E0927129FBB003FF724 /* Pretendard-Medium.ttf */; };
 		78958E0D27129FBB003FF724 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78958E0A27129FBB003FF724 /* Pretendard-Regular.ttf */; };
 		78958E0E27129FBB003FF724 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78958E0B27129FBB003FF724 /* Pretendard-Bold.ttf */; };
@@ -285,6 +286,7 @@
 		788AB647280A9EAE00182B45 /* FindPasswordUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordUsecase.swift; sourceTree = "<group>"; };
 		788AB649280A9EB900182B45 /* FindPasswordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordRepository.swift; sourceTree = "<group>"; };
 		788AB64B280A9EC600182B45 /* FindPasswordRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordRepositoryImplement.swift; sourceTree = "<group>"; };
+		788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveToastView.swift; sourceTree = "<group>"; };
 		78958E0927129FBB003FF724 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
 		78958E0A27129FBB003FF724 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		78958E0B27129FBB003FF724 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
@@ -693,6 +695,7 @@
 				782FDF55272D1D70004D1B6E /* ActivityIndicatorable.swift */,
 				783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */,
 				78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */,
+				788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1227,6 +1230,7 @@
 				780478262723EA0300FAA1CF /* LoginDefine.swift in Sources */,
 				782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */,
 				78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */,
+				788AB64E280AAC6E00182B45 /* ArchiveToastView.swift in Sources */,
 				44BE6F01271144AB00E74A7D /* TermsAgreementViewController.swift in Sources */,
 				78A32167275B92530078650D /* DetailViewController.swift in Sources */,
 				789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */,

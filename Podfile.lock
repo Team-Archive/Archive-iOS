@@ -43,6 +43,7 @@ PODS:
   - SwiftGen (6.5.1)
   - SwiftLint (0.47.0)
   - SwiftyJSON (4.3.0)
+  - SwiftyTimer (2.1.0)
   - UIImageColors (2.1.0)
   - WeakMapTable (1.2.0)
 
@@ -65,6 +66,7 @@ DEPENDENCIES:
   - SwiftGen
   - SwiftLint
   - SwiftyJSON (~> 4.0)
+  - SwiftyTimer
   - UIImageColors
 
 SPEC REPOS:
@@ -89,6 +91,7 @@ SPEC REPOS:
     - SwiftGen
     - SwiftLint
     - SwiftyJSON
+    - SwiftyTimer
     - UIImageColors
     - WeakMapTable
 
@@ -113,9 +116,10 @@ SPEC CHECKSUMS:
   SwiftGen: a6d22010845f08fe18fbdf3a07a8e380fd22e0ea
   SwiftLint: d41cc46a2ae58ac6d9f26954bc89f1d72e71fdef
   SwiftyJSON: 6faa0040f8b59dead0ee07436cbf76b73c08fd08
+  SwiftyTimer: 02dd6cf10cbc71cbf67cec494f6e5eb782102543
   UIImageColors: d2ef3b0877d203cbb06489eeb78ea8b7788caabe
   WeakMapTable: 05c694ce8439a7a9ebabb56187287a63c57673d6
 
-PODFILE CHECKSUM: bd5677fab299a42160132b1f361d94a72b583fe0
+PODFILE CHECKSUM: 9f4164a8fbcdaf5309cc5212e85894a56be085a3
 
 COCOAPODS: 1.11.2
