@@ -30,17 +30,25 @@ class FindPasswordUsecase: NSObject {
     func sendTempPassword(email: String) -> Observable<Result<Bool, ArchiveError>> {
         return Observable.create { [weak self] emitter in
             self?.repository.isExistEmail(email: email)
-                .subscribe(on: ConcurrentDispatchQueueScheduler.init(queue: DispatchQueue.global()))
                 .subscribe(onNext: { [weak self] isExistEmailResult in
                     switch isExistEmailResult {
                     case .success(let isExistEmail):
                         if isExistEmail {
+                            self?.repository.sendTempPassword(email: email)
+                                .subscribe(onNext: { [weak self] sendResult in
+                                    switch sendResult {
+                                    case .success(_):
+                                        emitter.onNext(.success(true))
+                                        emitter.onCompleted()
+                                    case .failure(let err):
+                                        emitter.onNext(.failure(err))
+                                        emitter.onCompleted()
+                                    }
+                                })
+                                .disposed(by: self?.disposeBag ?? DisposeBag())
+                        } else {
                             emitter.onNext(.success(false))
                             emitter.onCompleted()
-                        } else {
-//                            emitter.onNext(.success(false))
-//                            emitter.onCompleted()
-                            // 뭔가를 보내자
                         }
                     case .failure(let err):
                         emitter.onNext(.failure(err))

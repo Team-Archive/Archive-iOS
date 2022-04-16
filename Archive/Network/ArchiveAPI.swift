@@ -20,9 +20,8 @@ enum ArchiveAPI {
     case getCurrentUserInfo
     case withdrawal
     case getKakaoUserInfo(kakaoAccessToken: String)
-
+    case sendTempPassword(email: String)
 }
-
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
@@ -51,6 +50,8 @@ extension ArchiveAPI: TargetType {
             return URL(string: CommonDefine.apiServer)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
+        case .sendTempPassword:
+            return URL(string: CommonDefine.apiServer)!
         }
     }
     
@@ -80,6 +81,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v1/auth/unregister"
         case .getKakaoUserInfo:
             return "/v2/user/me"
+        case .sendTempPassword:
+            return "api/v1/auth/password/temporary"
         }
     }
     
@@ -109,64 +112,8 @@ extension ArchiveAPI: TargetType {
             return .delete
         case .getKakaoUserInfo:
             return .get
-        }
-    }
-    
-    var sampleData: Data {
-        switch self {
-        case .uploadImage:
-            return Data()
-        case .registArchive:
-            return Data()
-        case .registEmail:
-            return Data()
-        case .loginEmail:
-            return Data()
-        case .loginWithKakao:
-            return Data()
-        case .isDuplicatedEmail:
-            return Data()
-        case .deleteArchive:
-            return Data()
-        case .getArchives:
-            return Data()
-        case .getDetailArchive:
-            return Data()
-        case .getCurrentUserInfo:
-            return Data()
-        case .withdrawal:
-            return Data()
-        case .getKakaoUserInfo:
-            return Data()
-        }
-    }
-    
-    var parameterEncoding: ParameterEncoding {
-        switch self {
-        case .uploadImage:
-            return URLEncoding.default
-        case .registArchive:
-            return URLEncoding.default
-        case .registEmail:
-            return URLEncoding.default
-        case .loginEmail:
-            return URLEncoding.default
-        case .loginWithKakao:
-            return URLEncoding.queryString
-        case .isDuplicatedEmail:
-            return URLEncoding.default
-        case .deleteArchive:
-            return URLEncoding.default
-        case .getArchives:
-            return URLEncoding.default
-        case .getDetailArchive:
-            return URLEncoding.default
-        case .getCurrentUserInfo:
-            return URLEncoding.default
-        case .withdrawal:
-            return URLEncoding.default
-        case .getKakaoUserInfo:
-            return URLEncoding.default
+        case .sendTempPassword:
+            return .post
         }
     }
     
@@ -199,6 +146,8 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .getKakaoUserInfo:
             return .requestPlain
+        case .sendTempPassword(let email):
+            return .requestParameters(parameters: ["email": email], encoding: JSONEncoding.default)
         }
     }
     
@@ -232,6 +181,8 @@ extension ArchiveAPI: TargetType {
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
         case .getKakaoUserInfo(let kakaoAccessToken):
             return ["Authorization": "Bearer \(kakaoAccessToken)"]
+        case .sendTempPassword:
+            return nil
         }
     }
     

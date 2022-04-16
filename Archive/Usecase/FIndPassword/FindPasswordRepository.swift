@@ -9,4 +9,5 @@ import RxSwift
 
 protocol FindPasswordRepository {
     func isExistEmail(email: String) -> Observable<Result<Bool, ArchiveError>>
+    func sendTempPassword(email: String) -> Observable<Result<Void, ArchiveError>>
 }
