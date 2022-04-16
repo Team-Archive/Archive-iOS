@@ -66,7 +66,7 @@ extension ArchiveAPI: TargetType {
         case .loginEmail:
             return "/api/v1/auth/login"
         case .loginWithKakao:
-            return "/api/v1/auth/social?provider=kakao"
+            return "/api/v1/auth/social"
         case .isDuplicatedEmail(let eMail):
             return "/api/v1/auth/email/" + eMail
         case .deleteArchive(let archiveId):
@@ -131,7 +131,7 @@ extension ArchiveAPI: TargetType {
         case .loginEmail(let param):
             return .requestJSONEncodable(param)
         case .loginWithKakao(let kakaoAccessToken):
-            return .requestParameters(parameters: ["providerAccessToken": kakaoAccessToken], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["providerAccessToken": kakaoAccessToken, "provider": "kakao"], encoding: JSONEncoding.default)
         case .isDuplicatedEmail:
             return .requestPlain
         case .deleteArchive:
