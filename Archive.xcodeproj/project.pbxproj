@@ -47,6 +47,7 @@
 		780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478212723E83F00FAA1CF /* LoginInformationReactor.swift */; };
 		780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478232723E84900FAA1CF /* LoginInformationModel.swift */; };
 		780478262723EA0300FAA1CF /* LoginDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478252723EA0300FAA1CF /* LoginDefine.swift */; };
+		78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */; };
 		781CB19927B90E4C00FCBB18 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 781CB19827B90E4C00FCBB18 /* FirebaseAnalytics */; };
 		781CB19B27B90E4C00FCBB18 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 781CB19A27B90E4C00FCBB18 /* FirebaseAppDistribution-Beta */; };
 		781CB19D27B90E4C00FCBB18 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 781CB19C27B90E4C00FCBB18 /* FirebaseAuth */; };
@@ -71,12 +72,19 @@
 		78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */; };
 		78315E722764EC38001B3342 /* Upload.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E712764EC38001B3342 /* Upload.json */; };
 		78315E742764F2E6001B3342 /* SignUp.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E732764F2E6001B3342 /* SignUp.json */; };
+		7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D51B27E58FEE00E3FA57 /* LoginOAuthUsecase.swift */; };
+		7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */; };
+		7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */; };
+		7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		784377AE273172820005CB51 /* RecordAddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784377AC273172820005CB51 /* RecordAddImageCollectionViewCell.swift */; };
 		784377AF273172820005CB51 /* RecordAddImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784377AD273172820005CB51 /* RecordAddImageCollectionViewCell.xib */; };
 		7845765627E3809F00BE6863 /* GAModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7845765527E3809F00BE6863 /* GAModule.swift */; };
 		78458D2A272C18BB00392B45 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78458D29272C18BB00392B45 /* Util.swift */; };
+		78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78486D6727E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift */; };
+		78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78486D6927E6C62A008448A7 /* ArchiveError.swift */; };
+		78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78486D6B27E6C974008448A7 /* ErrorExtension.swift */; };
 		784CFFD8274BBB770052B1EC /* ArchiveAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784CFFD7274BBB770052B1EC /* ArchiveAPI.swift */; };
 		784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784CFFDA274BBFF10052B1EC /* ProviderProtocol.swift */; };
 		784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784CFFDD274BC0290052B1EC /* ArchiveProvider.swift */; };
@@ -153,6 +161,7 @@
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
 		78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDAD60274525D40028F56D /* ShareCardView.swift */; };
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
+		78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */; };
 		A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029C34E0C4CFA05B0DB2E343 /* Pods_Archive.framework */; };
 /* End PBXBuildFile section */
 
@@ -205,6 +214,7 @@
 		780478212723E83F00FAA1CF /* LoginInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationReactor.swift; sourceTree = "<group>"; };
 		780478232723E84900FAA1CF /* LoginInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationModel.swift; sourceTree = "<group>"; };
 		780478252723EA0300FAA1CF /* LoginDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDefine.swift; sourceTree = "<group>"; };
+		78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithKakaoRepositoryImplement.swift; sourceTree = "<group>"; };
 		781CB1A027B90F1A00FCBB18 /* Archive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Archive.entitlements; sourceTree = "<group>"; };
 		78212325273F838A007DEC28 /* RecordUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUploadViewController.swift; sourceTree = "<group>"; };
 		78212327273F8397007DEC28 /* RecordUploadReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUploadReactor.swift; sourceTree = "<group>"; };
@@ -226,12 +236,19 @@
 		78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewControllerProtocol.swift; sourceTree = "<group>"; };
 		78315E712764EC38001B3342 /* Upload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Upload.json; sourceTree = "<group>"; };
 		78315E732764F2E6001B3342 /* SignUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SignUp.json; sourceTree = "<group>"; };
+		7831D51B27E58FEE00E3FA57 /* LoginOAuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthUsecase.swift; sourceTree = "<group>"; };
+		7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInViewController.swift; sourceTree = "<group>"; };
+		7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepository.swift; sourceTree = "<group>"; };
+		7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		784377AC273172820005CB51 /* RecordAddImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAddImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		784377AD273172820005CB51 /* RecordAddImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordAddImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		7845765527E3809F00BE6863 /* GAModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAModule.swift; sourceTree = "<group>"; };
 		78458D29272C18BB00392B45 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		78486D6727E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithAppleRepositoryImplement.swift; sourceTree = "<group>"; };
+		78486D6927E6C62A008448A7 /* ArchiveError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveError.swift; sourceTree = "<group>"; };
+		78486D6B27E6C974008448A7 /* ErrorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorExtension.swift; sourceTree = "<group>"; };
 		784CFFD7274BBB770052B1EC /* ArchiveAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveAPI.swift; sourceTree = "<group>"; };
 		784CFFDA274BBFF10052B1EC /* ProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderProtocol.swift; sourceTree = "<group>"; };
 		784CFFDD274BC0290052B1EC /* ArchiveProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveProvider.swift; sourceTree = "<group>"; };
@@ -309,6 +326,7 @@
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		78EDAD60274525D40028F56D /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
+		78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementForOAuthViewController.swift; sourceTree = "<group>"; };
 		FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.debug.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -378,6 +396,7 @@
 				44FB0A0F27183BDA006E1048 /* EmailInputViewController.swift */,
 				44FB0A1627183C22006E1048 /* PasswordInputViewController.swift */,
 				44FB0A1B27183C9C006E1048 /* SignUpCompletionViewController.swift */,
+				78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -385,6 +404,7 @@
 		44BE6EFB2711445D00E74A7D /* SignIn */ = {
 			isa = PBXGroup;
 			children = (
+				7831D51D27E593DF00E3FA57 /* Sub */,
 				44922DA02719512A00A5EA2B /* SignInViewController.swift */,
 				448936A92708401500EA423A /* SignInReactor.swift */,
 			);
@@ -422,6 +442,7 @@
 				78958E122712A094003FF724 /* Extension */,
 				78958E0F2712A03C003FF724 /* Define */,
 				783A61DD273BEAE3004D848F /* Manager */,
+				7831D51927E58FA800E3FA57 /* Usecase */,
 				784D1E1E27088BB0004B1A23 /* Module */,
 				784D1DBD27083D1C004B1A23 /* Resources */,
 				44893688270837EB00EA423A /* Onboarding */,
@@ -560,6 +581,42 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		7831D51927E58FA800E3FA57 /* Usecase */ = {
+			isa = PBXGroup;
+			children = (
+				7831D51A27E58FDF00E3FA57 /* LoginOAuth */,
+			);
+			path = Usecase;
+			sourceTree = "<group>";
+		};
+		7831D51A27E58FDF00E3FA57 /* LoginOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				7831D51B27E58FEE00E3FA57 /* LoginOAuthUsecase.swift */,
+				7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */,
+				7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */,
+				78486D6727E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift */,
+				78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */,
+			);
+			path = LoginOAuth;
+			sourceTree = "<group>";
+		};
+		7831D51D27E593DF00E3FA57 /* Sub */ = {
+			isa = PBXGroup;
+			children = (
+				7831D51E27E593DF00E3FA57 /* EmailSignIn */,
+			);
+			path = Sub;
+			sourceTree = "<group>";
+		};
+		7831D51E27E593DF00E3FA57 /* EmailSignIn */ = {
+			isa = PBXGroup;
+			children = (
+				7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */,
+			);
+			path = EmailSignIn;
+			sourceTree = "<group>";
+		};
 		783A61DD273BEAE3004D848F /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -567,6 +624,7 @@
 				780161D32751FD5200F77193 /* CardShareManager.swift */,
 				78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */,
 				780389DA27895AC200DB1730 /* AppConfigManager.swift */,
+				78486D6927E6C62A008448A7 /* ArchiveError.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -710,6 +768,7 @@
 				7821233B273F9F58007DEC28 /* StringExtension.swift */,
 				78A3217E275BBEB20078650D /* UIColorExtension.swift */,
 				78BB7E1D27788D8300DF78AF /* UIViewControllerExtension.swift */,
+				78486D6B27E6C974008448A7 /* ErrorExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1112,6 +1171,7 @@
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
 				78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */,
 				78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */,
+				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
 				782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */,
 				784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */,
 				78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */,
@@ -1120,6 +1180,7 @@
 				787C2861275CC04B00C1FB17 /* ModalShareViewController.swift in Sources */,
 				780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */,
 				780389D7278957A800DB1730 /* SplashProtocol.swift in Sources */,
+				78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */,
 				78BB7E272778970900DF78AF /* DetailFriendsCollectionViewCell.swift in Sources */,
 				78C4B33527243C660006EBAD /* NSMutableAttributedStringExtension.swift in Sources */,
 				78BB7E232778938500DF78AF /* DetailContentsCollectionViewCell.swift in Sources */,
@@ -1138,12 +1199,14 @@
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
+				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
 				780478262723EA0300FAA1CF /* LoginDefine.swift in Sources */,
 				782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */,
 				78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */,
 				44BE6F01271144AB00E74A7D /* TermsAgreementViewController.swift in Sources */,
 				78A32167275B92530078650D /* DetailViewController.swift in Sources */,
 				789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */,
+				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
@@ -1169,12 +1232,14 @@
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				78BA154127218F430078B88E /* MyPageViewController.swift in Sources */,
 				782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */,
+				7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */,
 				780389E627898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift in Sources */,
 				78212326273F838A007DEC28 /* RecordUploadViewController.swift in Sources */,
 				44922DCA2719E64200A5EA2B /* DefaultButton.swift in Sources */,
 				78557A2A272ECFC800C5BD62 /* UIDeviceExtension.swift in Sources */,
 				78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */,
 				789E61B92725817900D6E18F /* NibIdentifiable.swift in Sources */,
+				7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */,
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
 				78B872DA2726C54C009EFB54 /* EmotionSelectModel.swift in Sources */,
@@ -1191,8 +1256,11 @@
 				4FD4F1D4272F869A00BDB4BB /* RecordCardCollectionViewCell.swift in Sources */,
 				78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */,
 				78A3216B275B92700078650D /* DetailModel.swift in Sources */,
+				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,
+				78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */,
 				78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
+				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,

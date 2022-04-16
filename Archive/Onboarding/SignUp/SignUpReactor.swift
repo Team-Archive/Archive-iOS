@@ -22,6 +22,8 @@ final class SignUpReactor: Reactor, Stepper {
         case viewPersonalInformationPolicy
         case goToEmailInput
         
+        case registKakaoLogin
+        
         case emailInput(text: String)
         case checkEmailDuplicate
         case goToPasswordInput
@@ -48,6 +50,7 @@ final class SignUpReactor: Reactor, Stepper {
         case setRangeValidation(Bool)
         case setPasswordCofirmationInput(String)
         case setIsLoading(Bool)
+        case empty
     }
     
     struct State {
@@ -84,6 +87,7 @@ final class SignUpReactor: Reactor, Stepper {
     let steps = PublishRelay<Step>()
     private let validator: SignUpValidator
     var error: PublishSubject<String>
+    var kakaoAccessToken: String = ""
     
     init(validator: SignUpValidator) {
         self.validator = validator
@@ -187,6 +191,21 @@ final class SignUpReactor: Reactor, Stepper {
                     return .setIsLoading(false)
                 }
             ])
+        case .registKakaoLogin:
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                self.registWithKakao(accessToken: self.kakaoAccessToken).map { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        print("카카오 로그인 성공한듯?")
+//                        self?.steps.accept(ArchiveStep.userIsSignedUp)
+                    case .failure(let err):
+                        self?.error.onNext(err.getMessage())
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
         }
     }
     
@@ -230,6 +249,9 @@ final class SignUpReactor: Reactor, Stepper {
             newState.passwordConfirmationInput = password
         case .setIsLoading(let isLoading):
             newState.isLoading = isLoading
+            
+        case .empty:
+            break
         }
         
         return newState
@@ -266,6 +288,29 @@ final class SignUpReactor: Reactor, Stepper {
             }
             .catch { err in
                 .just(.failure(err))
+            }
+    }
+    
+    private func registWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> {
+        let provider = ArchiveProvider.shared.provider
+        return provider.rx.request(.loginWithKakao(kakaoAccessToken: accessToken), callbackQueue: DispatchQueue.global())
+            .asObservable()
+            .map { response in
+//                if let result: JSON = try? JSON.init(data: response.data) {
+//                    let isDup: Bool = result["duplicatedEmail"].boolValue
+//                    if isDup {
+//                        return .success(true)
+//                    } else {
+//                        return .success(false)
+//                    }
+//                } else {
+//                    return .success(true)
+//                }
+                print("response: \(response)")
+                return .success(())
+            }
+            .catch { err in
+                    .just(.failure(ArchiveError(.archiveOAuthError)))
             }
     }
 }

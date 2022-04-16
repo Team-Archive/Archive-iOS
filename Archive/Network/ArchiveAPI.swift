@@ -12,18 +12,46 @@ enum ArchiveAPI {
     case registArchive(_ info: RecordData)
     case registEmail(_ param: RequestEmailParam)
     case loginEmail(_ param: LoginEmailParam)
+    case loginWithKakao(kakaoAccessToken: String)
     case isDuplicatedEmail(_ eMail: String)
     case deleteArchive(archiveId: String)
     case getArchives
     case getDetailArchive(archiveId: String)
     case getCurrentUserInfo
     case withdrawal
+    case getKakaoUserInfo(kakaoAccessToken: String)
+
 }
 
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
-        return URL(string: "http://3.38.66.239:8080")!
+        switch self {
+        case .uploadImage:
+            return URL(string: CommonDefine.apiServer)!
+        case .registArchive:
+            return URL(string: CommonDefine.apiServer)!
+        case .registEmail:
+            return URL(string: CommonDefine.apiServer)!
+        case .loginEmail:
+            return URL(string: CommonDefine.apiServer)!
+        case .loginWithKakao:
+            return URL(string: CommonDefine.apiServer)!
+        case .isDuplicatedEmail:
+            return URL(string: CommonDefine.apiServer)!
+        case .deleteArchive:
+            return URL(string: CommonDefine.apiServer)!
+        case .getArchives:
+            return URL(string: CommonDefine.apiServer)!
+        case .getDetailArchive:
+            return URL(string: CommonDefine.apiServer)!
+        case .getCurrentUserInfo:
+            return URL(string: CommonDefine.apiServer)!
+        case .withdrawal:
+            return URL(string: CommonDefine.apiServer)!
+        case .getKakaoUserInfo:
+            return URL(string: CommonDefine.kakaoAPIServer)!
+        }
     }
     
     var path: String {
@@ -36,6 +64,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v1/auth/register"
         case .loginEmail:
             return "/api/v1/auth/login"
+        case .loginWithKakao:
+            return "/api/v1/auth/social?provider=kakao"
         case .isDuplicatedEmail(let eMail):
             return "/api/v1/auth/email/" + eMail
         case .deleteArchive(let archiveId):
@@ -48,6 +78,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v1/auth/info"
         case .withdrawal:
             return "/api/v1/auth/unregister"
+        case .getKakaoUserInfo:
+            return "/v2/user/me"
         }
     }
     
@@ -61,6 +93,8 @@ extension ArchiveAPI: TargetType {
             return .post
         case .loginEmail:
             return .post
+        case .loginWithKakao:
+            return .post
         case .isDuplicatedEmail:
             return .get
         case .deleteArchive:
@@ -73,6 +107,8 @@ extension ArchiveAPI: TargetType {
             return .get
         case .withdrawal:
             return .delete
+        case .getKakaoUserInfo:
+            return .get
         }
     }
     
@@ -86,6 +122,8 @@ extension ArchiveAPI: TargetType {
             return Data()
         case .loginEmail:
             return Data()
+        case .loginWithKakao:
+            return Data()
         case .isDuplicatedEmail:
             return Data()
         case .deleteArchive:
@@ -98,6 +136,37 @@ extension ArchiveAPI: TargetType {
             return Data()
         case .withdrawal:
             return Data()
+        case .getKakaoUserInfo:
+            return Data()
+        }
+    }
+    
+    var parameterEncoding: ParameterEncoding {
+        switch self {
+        case .uploadImage:
+            return URLEncoding.default
+        case .registArchive:
+            return URLEncoding.default
+        case .registEmail:
+            return URLEncoding.default
+        case .loginEmail:
+            return URLEncoding.default
+        case .loginWithKakao:
+            return URLEncoding.queryString
+        case .isDuplicatedEmail:
+            return URLEncoding.default
+        case .deleteArchive:
+            return URLEncoding.default
+        case .getArchives:
+            return URLEncoding.default
+        case .getDetailArchive:
+            return URLEncoding.default
+        case .getCurrentUserInfo:
+            return URLEncoding.default
+        case .withdrawal:
+            return URLEncoding.default
+        case .getKakaoUserInfo:
+            return URLEncoding.default
         }
     }
     
@@ -114,6 +183,8 @@ extension ArchiveAPI: TargetType {
             return .requestJSONEncodable(param)
         case .loginEmail(let param):
             return .requestJSONEncodable(param)
+        case .loginWithKakao(let kakaoAccessToken):
+            return .requestParameters(parameters: ["providerAccessToken": kakaoAccessToken], encoding: JSONEncoding.default)
         case .isDuplicatedEmail:
             return .requestPlain
         case .deleteArchive:
@@ -125,6 +196,8 @@ extension ArchiveAPI: TargetType {
         case .getCurrentUserInfo:
             return .requestPlain
         case .withdrawal:
+            return .requestPlain
+        case .getKakaoUserInfo:
             return .requestPlain
         }
     }
@@ -138,6 +211,8 @@ extension ArchiveAPI: TargetType {
         case .isDuplicatedEmail:
             return nil
         case .loginEmail:
+            return nil
+        case .loginWithKakao:
             return nil
         case .registArchive:
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
@@ -155,6 +230,8 @@ extension ArchiveAPI: TargetType {
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
         case .withdrawal:
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+        case .getKakaoUserInfo(let kakaoAccessToken):
+            return ["Authorization": "Bearer \(kakaoAccessToken)"]
         }
     }
     
