@@ -93,7 +93,6 @@ final class ArchiveToastView: UIView {
     func hide(_ completion: (() -> Void)? = nil) {
         DispatchQueue.main.async {
             self.fadeOut {
-                self.removeAllSubview()
                 self.isHidden = true
                 completion?()
             }

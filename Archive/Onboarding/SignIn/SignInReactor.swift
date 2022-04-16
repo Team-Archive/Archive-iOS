@@ -185,7 +185,7 @@ final class SignInReactor: Reactor, Stepper {
     }
     
     private func sendTempPassword(email: String) -> Observable<Result<Bool, ArchiveError>> {
-        return self.sendTempPassword(email: email)
+        return self.findPasswordUsecase.sendTempPassword(email: email)
     }
     
     
