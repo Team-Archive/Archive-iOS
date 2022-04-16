@@ -23,6 +23,7 @@ final class SignInReactor: Reactor, Stepper {
         case signInWithKakao
         case isExistIdCheckWithKakao(accessToken: String)
         case realLoginWithKakao(accessToken: String)
+        case moveToFindPassword
     }
     
     enum Mutation {
@@ -122,6 +123,9 @@ final class SignInReactor: Reactor, Stepper {
             ])
         case .realLoginWithKakao(accessToken: let accessToken):
             print("로그인 ㄱ")
+            return .empty()
+        case .moveToFindPassword:
+            steps.accept(ArchiveStep.findPassword)
             return .empty()
         }
     }
