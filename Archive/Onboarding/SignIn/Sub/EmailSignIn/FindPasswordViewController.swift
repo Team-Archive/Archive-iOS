@@ -73,22 +73,17 @@ final class FindPasswordViewController: UIViewController, StoryboardView, Activi
             .bind(to: self.emailLabel.rx.text)
             .disposed(by: self.disposeBag)
         
-//        passwordInputView.rx.text.orEmpty
-//            .distinctUntilChanged()
-//            .map { Reactor.Action.passwordInput(text: $0) }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        confirmBtn.rx.tap
-//            .map { Reactor.Action.signIn }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        reactor.state
-//            .map { $0.isEnableSignIn }
-//            .distinctUntilChanged()
-//            .bind(to: confirmBtn.rx.isEnabled)
-//            .disposed(by: disposeBag)
+        confirmBtn.rx.tap
+            .map { Reactor.Action.sendTempPassword }
+            .bind(to: reactor.action)
+            .disposed(by: self.disposeBag)
+        
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                print("toast: \(toastMessage)")
+            })
+            .disposed(by: self.disposeBag)
         
     }
     

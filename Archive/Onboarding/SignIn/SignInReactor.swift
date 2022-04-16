@@ -24,6 +24,7 @@ final class SignInReactor: Reactor, Stepper {
         case isExistIdCheckWithKakao(accessToken: String)
         case realLoginWithKakao(accessToken: String)
         case moveToFindPassword
+        case sendTempPassword
     }
     
     enum Mutation {
@@ -47,12 +48,16 @@ final class SignInReactor: Reactor, Stepper {
     let steps = PublishRelay<Step>()
     private let validator: SignInValidator
     var error: PublishSubject<String>
+    var toastMessage: PublishSubject<String>
     private let oAuthUsecase: LoginOAuthUsecase
+    private let findPasswordUsecase: FindPasswordUsecase
     
-    init(validator: SignInValidator, loginOAuthRepository: LoginOAuthRepository) {
+    init(validator: SignInValidator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository) {
         self.validator = validator
         self.error = .init()
+        self.toastMessage = .init()
         self.oAuthUsecase = LoginOAuthUsecase(repository: loginOAuthRepository)
+        self.findPasswordUsecase = FindPasswordUsecase(repository: findPasswordRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -127,6 +132,24 @@ final class SignInReactor: Reactor, Stepper {
         case .moveToFindPassword:
             steps.accept(ArchiveStep.findPassword)
             return .empty()
+        case .sendTempPassword:
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                sendTempPassword(email: self.currentState.id).map { [weak self] isSuccessSendTempPasswordResult in
+                    switch isSuccessSendTempPasswordResult {
+                    case .success(let isSuccess):
+                        if isSuccess {
+                            self?.toastMessage.onNext("임시 비밀번호가 발송되었습니다.")
+                        } else {
+                            self?.toastMessage.onNext("가입하지 않은 이메일입니다. 회원가입으로 이동해주세요.")
+                        }
+                    case .failure(let err):
+                        self?.error.onNext(err.getMessage())
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
         }
     }
     
@@ -159,6 +182,10 @@ final class SignInReactor: Reactor, Stepper {
     
     private func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
         self.oAuthUsecase.isExistEmailWithKakao(accessToken: accessToken)
+    }
+    
+    private func sendTempPassword(email: String) -> Observable<Result<Bool, ArchiveError>> {
+        return self.sendTempPassword(email: email)
     }
     
     
