@@ -172,6 +172,7 @@ extension ArchiveAPI: TargetType {
         case .deleteArchive:
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
         case .getArchives:
+//            return ["Authorization": "Bearer " + UserDefaultManager.shared.getInfo(.loginToken)]
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
         case .getDetailArchive:
             return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]

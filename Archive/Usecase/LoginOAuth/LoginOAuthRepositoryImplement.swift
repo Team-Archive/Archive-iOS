@@ -33,56 +33,27 @@ class LoginOAuthRepositoryImplement: LoginOAuthRepository {
     }
     
     func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
-        return Observable.create { [weak self] emitter in
-            let provider = ArchiveProvider.shared.provider
-            provider.rx.request(.getKakaoUserInfo(kakaoAccessToken: accessToken), callbackQueue: DispatchQueue.global())
-                .asObservable()
-                .subscribe(onNext: { [weak self] result in
-                    switch result.statusCode {
-                    case 200:
-                        if let resultJson: JSON = try? JSON.init(data: result.data) {
-                            let email: String = resultJson["kakao_account"]["email"].stringValue
-                            if email == "" {
-                                emitter.onNext(false)
-                                emitter.onCompleted()
-                            } else {
-                                provider.rx.request(.isDuplicatedEmail(email))
-                                    .asObservable()
-                                    .subscribe(onNext: { [weak self] isDuplicatedEmailResponse in
-                                        switch isDuplicatedEmailResponse.statusCode {
-                                        case 200:
-                                            if let resultJson: JSON = try? JSON.init(data: isDuplicatedEmailResponse.data) {
-                                                let isDup = resultJson["duplicatedEmail"].boolValue
-                                                if isDup {
-                                                    emitter.onNext(true)
-                                                    emitter.onCompleted()
-                                                } else {
-                                                    emitter.onNext(false)
-                                                    emitter.onCompleted()
-                                                }
-                                            } else {
-                                                emitter.onNext(false)
-                                                emitter.onCompleted()
-                                            }
-                                        default:
-                                            emitter.onNext(false)
-                                            emitter.onCompleted()
-                                        }
-                                    })
-                                    .disposed(by: self?.disposeBag ?? DisposeBag())
-                            }
-                        } else {
-                            emitter.onNext(false)
-                            emitter.onCompleted()
-                        }
-                    default:
-                        emitter.onNext(false)
-                        emitter.onCompleted()
-                    }
-                })
-                .disposed(by: self?.disposeBag ?? DisposeBag())
-            return Disposables.create()
-        }
+        return self.kakaoRepository.isExistEmailWithKakao(accessToken: accessToken)
+    }
+    
+    func loginWithKakao(accessToken: String) -> Observable<Result<String, ArchiveError>> {
+        let provider = ArchiveProvider.shared.provider
+        return provider.rx.request(.loginWithKakao(kakaoAccessToken: accessToken), callbackQueue: DispatchQueue.global())
+            .asObservable()
+            .map { [weak self] result in
+                if result.statusCode == 200 {
+                    guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
+                    guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
+                    let pureLoginToken = loginToken.replacingOccurrences(of: "BEARER ", with: "", options: NSString.CompareOptions.literal, range: nil)
+                    return .success(pureLoginToken)
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
+                
+            }
+            .catch { err in
+                    .just(.failure(.init(from: .network, code: (err as NSError).code, message: err.localizedDescription)))
+            }
     }
     
 }

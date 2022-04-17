@@ -127,8 +127,19 @@ final class SignInReactor: Reactor, Stepper {
                 Observable.just(.setIsLoading(false))
             ])
         case .realLoginWithKakao(accessToken: let accessToken):
-            print("로그인 ㄱ")
-            return .empty()
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                realLoginWithKakao(accessToken: accessToken).map { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        self?.steps.accept(ArchiveStep.userIsSignedIn)
+                    case .failure(let err):
+                        self?.error.onNext(err.getMessage())
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
         case .moveToFindPassword:
             steps.accept(ArchiveStep.findPassword)
             return .empty()
@@ -182,6 +193,18 @@ final class SignInReactor: Reactor, Stepper {
     
     private func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
         self.oAuthUsecase.isExistEmailWithKakao(accessToken: accessToken)
+    }
+    
+    private func realLoginWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.oAuthUsecase.loginWithKakao(accessToken: accessToken).map { [weak self] result in
+            switch result {
+            case .success(let loginToken):
+                UserDefaultManager.shared.setLoginToken(loginToken)
+                return .success(())
+            case .failure(let err):
+                return .failure(err)
+            }
+        }
     }
     
     private func sendTempPassword(email: String) -> Observable<Result<Bool, ArchiveError>> {
