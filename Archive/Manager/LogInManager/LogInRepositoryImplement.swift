@@ -33,4 +33,23 @@ class LogInRepositoryImplement: LogInRepository {
         return userDefaultManager.getInfo(.loginToken)
     }
     
+    func getLogInType() -> LoginType {
+        var returnType: LoginType = .eMail
+        switch userDefaultManager.getInfo(.loginType) {
+        case LoginType.eMail.rawValue:
+            returnType = .eMail
+        case LoginType.kakao.rawValue:
+            returnType = .kakao
+        case LoginType.apple.rawValue:
+            returnType = .apple
+        default:
+            break
+        }
+        return returnType
+    }
+    
+    func setLogInType(_ type: LoginType) {
+        self.userDefaultManager.setLoginType(type)
+    }
+    
 }

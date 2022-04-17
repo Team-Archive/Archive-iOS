@@ -46,7 +46,6 @@
 		780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */; };
 		780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478212723E83F00FAA1CF /* LoginInformationReactor.swift */; };
 		780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478232723E84900FAA1CF /* LoginInformationModel.swift */; };
-		780478262723EA0300FAA1CF /* LoginDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478252723EA0300FAA1CF /* LoginDefine.swift */; };
 		78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */; };
 		781CB19927B90E4C00FCBB18 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 781CB19827B90E4C00FCBB18 /* FirebaseAnalytics */; };
 		781CB19B27B90E4C00FCBB18 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 781CB19A27B90E4C00FCBB18 /* FirebaseAppDistribution-Beta */; };
@@ -222,7 +221,6 @@
 		7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationViewController.swift; sourceTree = "<group>"; };
 		780478212723E83F00FAA1CF /* LoginInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationReactor.swift; sourceTree = "<group>"; };
 		780478232723E84900FAA1CF /* LoginInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationModel.swift; sourceTree = "<group>"; };
-		780478252723EA0300FAA1CF /* LoginDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginDefine.swift; sourceTree = "<group>"; };
 		78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithKakaoRepositoryImplement.swift; sourceTree = "<group>"; };
 		781CB1A027B90F1A00FCBB18 /* Archive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Archive.entitlements; sourceTree = "<group>"; };
 		78212325273F838A007DEC28 /* RecordUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUploadViewController.swift; sourceTree = "<group>"; };
@@ -792,7 +790,6 @@
 			children = (
 				78B872E02726C6D1009EFB54 /* EmotionDefine.swift */,
 				78958E102712A04B003FF724 /* FontDefine.swift */,
-				780478252723EA0300FAA1CF /* LoginDefine.swift */,
 				78BB7E0D277843ED00DF78AF /* CommonDefine.swift */,
 			);
 			path = Define;
@@ -1245,7 +1242,6 @@
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
 				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
-				780478262723EA0300FAA1CF /* LoginDefine.swift in Sources */,
 				782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */,
 				78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */,
 				788AB64E280AAC6E00182B45 /* ArchiveToastView.swift in Sources */,
