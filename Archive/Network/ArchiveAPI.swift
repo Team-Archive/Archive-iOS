@@ -164,22 +164,22 @@ extension ArchiveAPI: TargetType {
         case .loginWithKakao:
             return nil
         case .registArchive:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .registEmail:
             return nil
         case .uploadImage:
             return nil
         case .deleteArchive:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getArchives:
-//            return ["Authorization": "Bearer " + UserDefaultManager.shared.getInfo(.loginToken)]
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+//            return ["Authorization": "Bearer " + LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getDetailArchive:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getCurrentUserInfo:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .withdrawal:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getKakaoUserInfo(let kakaoAccessToken):
             return ["Authorization": "Bearer \(kakaoAccessToken)"]
         case .sendTempPassword:

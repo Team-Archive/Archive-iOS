@@ -182,7 +182,7 @@ final class SignUpReactor: Reactor, Stepper {
                             self?.error.onNext("[오류] 토큰이 존재하지 않습니다.")
                             return .setIsLoading(false)
                         }
-                        UserDefaultManager.shared.setLoginToken(token)
+                        LogInManager.shared.logIn(token)
                         self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         print("err: \(err)")

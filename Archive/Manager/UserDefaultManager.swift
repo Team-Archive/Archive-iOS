@@ -16,14 +16,8 @@ class UserDefaultManager: NSObject {
     // MARK: private property
     
     private let manager = UserDefaults.standard
-    lazy private(set) var isLoggedIn = getInfo(.loginToken) == "" ? false : true
     
     // MARK: internal property
-    
-    static let shared: UserDefaultManager = {
-        let instance = UserDefaultManager()
-        return instance
-    }()
     
     // MARK: lifeCycle
     

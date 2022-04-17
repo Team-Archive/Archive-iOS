@@ -60,6 +60,9 @@
 		78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78212330273F895B007DEC28 /* RecordUploadCompleteModel.swift */; };
 		7821233A273F9623007DEC28 /* CodableWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78212339273F9623007DEC28 /* CodableWrapper.swift */; };
 		7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7821233B273F9F58007DEC28 /* StringExtension.swift */; };
+		7823982E280C23E80071D874 /* LogInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823982D280C23E80071D874 /* LogInManager.swift */; };
+		78239830280C251F0071D874 /* LogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823982F280C251F0071D874 /* LogInRepository.swift */; };
+		78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78239831280C252D0071D874 /* LogInRepositoryImplement.swift */; };
 		782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */; };
 		782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */; };
 		782FDF3F272CF9CC004D1B6E /* ImageSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */; };
@@ -230,6 +233,9 @@
 		78212330273F895B007DEC28 /* RecordUploadCompleteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUploadCompleteModel.swift; sourceTree = "<group>"; };
 		78212339273F9623007DEC28 /* CodableWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableWrapper.swift; sourceTree = "<group>"; };
 		7821233B273F9F58007DEC28 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		7823982D280C23E80071D874 /* LogInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInManager.swift; sourceTree = "<group>"; };
+		7823982F280C251F0071D874 /* LogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRepository.swift; sourceTree = "<group>"; };
+		78239831280C252D0071D874 /* LogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRepositoryImplement.swift; sourceTree = "<group>"; };
 		782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectViewController.swift; sourceTree = "<group>"; };
 		782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectReactor.swift; sourceTree = "<group>"; };
 		782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectModel.swift; sourceTree = "<group>"; };
@@ -554,6 +560,16 @@
 			path = RecordUploadComplete;
 			sourceTree = "<group>";
 		};
+		7823982C280C23DD0071D874 /* LogInManager */ = {
+			isa = PBXGroup;
+			children = (
+				7823982D280C23E80071D874 /* LogInManager.swift */,
+				7823982F280C251F0071D874 /* LogInRepository.swift */,
+				78239831280C252D0071D874 /* LogInRepositoryImplement.swift */,
+			);
+			path = LogInManager;
+			sourceTree = "<group>";
+		};
 		782FDF39272CF9A3004D1B6E /* ImageSelect */ = {
 			isa = PBXGroup;
 			children = (
@@ -634,6 +650,7 @@
 		783A61DD273BEAE3004D848F /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				7823982C280C23DD0071D874 /* LogInManager */,
 				783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */,
 				780161D32751FD5200F77193 /* CardShareManager.swift */,
 				78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */,
@@ -1200,6 +1217,7 @@
 				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
 				782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */,
 				784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */,
+				78239830280C251F0071D874 /* LogInRepository.swift in Sources */,
 				78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */,
 				78599DD8276375C2003FD959 /* HomeViewController.swift in Sources */,
 				789E61C5272584ED00D6E18F /* ContentsRecordReactor.swift in Sources */,
@@ -1279,6 +1297,7 @@
 				78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */,
 				78599DE8276381A9003FD959 /* ArchiveInfo.swift in Sources */,
 				78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */,
+				78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */,
 				784D1E3527088EC8004B1A23 /* Assets.swift in Sources */,
 				78599DD9276375C2003FD959 /* TicketDescriptionContentView.swift in Sources */,
 				78599DD6276375C2003FD959 /* TicketCollectionViewCell.swift in Sources */,
@@ -1303,6 +1322,7 @@
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
+				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,

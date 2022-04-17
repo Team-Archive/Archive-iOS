@@ -86,7 +86,7 @@ final class SignInReactor: Reactor, Stepper {
                             self?.error.onNext("[오류] 토큰이 존재하지 않습니다.")
                             return .setIsLoading(false)
                         }
-                        UserDefaultManager.shared.setLoginToken(token)
+                        LogInManager.shared.logIn(token)
                         self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         print("err: \(err)")
@@ -199,7 +199,7 @@ final class SignInReactor: Reactor, Stepper {
         return self.oAuthUsecase.loginWithKakao(accessToken: accessToken).map { [weak self] result in
             switch result {
             case .success(let loginToken):
-                UserDefaultManager.shared.setLoginToken(loginToken)
+                LogInManager.shared.logIn(loginToken)
                 return .success(())
             case .failure(let err):
                 return .failure(err)

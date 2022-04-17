@@ -69,7 +69,7 @@ final class HomeReactor: Reactor, Stepper {
                         print("err: \(err.localizedDescription)")
                         guard let code = (err as? MoyaError)?.response?.statusCode else { return .setMyArchivesData(nil) }
                         if code == 403 {
-                            UserDefaultManager.shared.setLoginToken("")
+                            LogInManager.shared.logOut()
                             self?.steps.accept(ArchiveStep.logout)
                             return .setMyArchivesData(nil)
                         } else {
