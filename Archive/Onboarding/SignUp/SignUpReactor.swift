@@ -198,7 +198,7 @@ final class SignUpReactor: Reactor, Stepper {
                     switch result {
                     case .success(_):
                         print("카카오 로그인 성공한듯?")
-//                        self?.steps.accept(ArchiveStep.userIsSignedUp)
+                        self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
                     }
@@ -291,22 +291,22 @@ final class SignUpReactor: Reactor, Stepper {
             }
     }
     
-    private func registWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> {
+    private func registWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> { // TODO: Usecase생성 후 이동하기
         let provider = ArchiveProvider.shared.provider
         return provider.rx.request(.loginWithKakao(kakaoAccessToken: accessToken), callbackQueue: DispatchQueue.global())
             .asObservable()
-            .map { response in
-//                if let result: JSON = try? JSON.init(data: response.data) {
-//                    let isDup: Bool = result["duplicatedEmail"].boolValue
-//                    if isDup {
-//                        return .success(true)
-//                    } else {
-//                        return .success(false)
-//                    }
-//                } else {
-//                    return .success(true)
-//                }
-                print("response: \(response)")
+            .map { result in
+                if result.statusCode == 200 {
+                    guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
+                    guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
+                    let pureLoginToken = loginToken.replacingOccurrences(of: "BEARER ", with: "", options: NSString.CompareOptions.literal, range: nil)
+                    // TODO: DIP를 이용해 바꿀것
+                    LogInManager.shared.logIn(token: pureLoginToken, type: .kakao)
+                    //
+                    return .success(())
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
                 return .success(())
             }
             .catch { err in
