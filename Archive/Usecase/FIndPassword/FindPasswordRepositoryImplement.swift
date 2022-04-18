@@ -46,4 +46,20 @@ class FindPasswordRepositoryImplement: FindPasswordRepository {
                     .just(.failure(.init(from: .server, code: (err as NSError).code, message: err.localizedDescription)))
             }
     }
+    
+    func changePassword(eMail: String, tempPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
+        let provider = ArchiveProvider.shared.provider
+        return provider.rx.request(.changePassword(eMail: eMail, beforePassword: tempPassword, newPassword: newPassword), callbackQueue: DispatchQueue.global())
+            .asObservable()
+            .map { result in
+                if result.statusCode == 200 {
+                    return .success(())
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
+            }
+            .catch { err in
+                    .just(.failure(.init(from: .server, code: (err as NSError).code, message: err.localizedDescription)))
+            }
+    }
 }

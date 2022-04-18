@@ -21,6 +21,7 @@ enum ArchiveAPI {
     case withdrawal
     case getKakaoUserInfo(kakaoAccessToken: String)
     case sendTempPassword(email: String)
+    case changePassword(eMail: String, beforePassword: String, newPassword: String)
 }
 extension ArchiveAPI: TargetType {
     
@@ -51,6 +52,8 @@ extension ArchiveAPI: TargetType {
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
         case .sendTempPassword:
+            return URL(string: CommonDefine.apiServer)!
+        case .changePassword:
             return URL(string: CommonDefine.apiServer)!
         }
     }
@@ -83,6 +86,8 @@ extension ArchiveAPI: TargetType {
             return "/v2/user/me"
         case .sendTempPassword:
             return "api/v1/auth/password/temporary"
+        case .changePassword:
+            return "api/v1/auth/password/reset"
         }
     }
     
@@ -113,6 +118,8 @@ extension ArchiveAPI: TargetType {
         case .getKakaoUserInfo:
             return .get
         case .sendTempPassword:
+            return .post
+        case .changePassword:
             return .post
         }
     }
@@ -148,6 +155,8 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .sendTempPassword(let email):
             return .requestParameters(parameters: ["email": email], encoding: JSONEncoding.default)
+        case .changePassword(let eMail, let beforePassword, let newPassword):
+            return .requestParameters(parameters: ["currentPassword": beforePassword, "email": eMail, "newPassword": newPassword], encoding: JSONEncoding.default)
         }
     }
     
@@ -183,6 +192,8 @@ extension ArchiveAPI: TargetType {
         case .getKakaoUserInfo(let kakaoAccessToken):
             return ["Authorization": "Bearer \(kakaoAccessToken)"]
         case .sendTempPassword:
+            return nil
+        case .changePassword:
             return nil
         }
     }

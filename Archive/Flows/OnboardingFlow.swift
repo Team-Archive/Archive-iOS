@@ -52,7 +52,7 @@ final class OnboardingFlow: Flow {
             return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken)
         case .findPassword:
             return navigationToFindPasswordScreen()
-        case .changePassword:
+        case .changePasswordFromFindPassword:
             return navigationToChangePasswordScreen()
         default:
             return .none

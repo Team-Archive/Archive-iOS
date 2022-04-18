@@ -28,6 +28,7 @@ final class SignInReactor: Reactor, Stepper {
         case changepasswordInput(text: String)
         case passwordCofirmInput(text: String)
         case tempPasswordInput(text: String)
+        case changePassword
     }
     
     enum Mutation {
@@ -79,6 +80,7 @@ final class SignInReactor: Reactor, Stepper {
     private let validator: Validator
     var error: PublishSubject<String>
     var toastMessage: PublishSubject<String>
+    var popToRootView: PublishSubject<Void>
     private let oAuthUsecase: LoginOAuthUsecase
     private let findPasswordUsecase: FindPasswordUsecase
     
@@ -86,6 +88,7 @@ final class SignInReactor: Reactor, Stepper {
         self.validator = validator
         self.error = .init()
         self.toastMessage = .init()
+        self.popToRootView = .init()
         self.oAuthUsecase = LoginOAuthUsecase(repository: loginOAuthRepository)
         self.findPasswordUsecase = FindPasswordUsecase(repository: findPasswordRepository)
     }
@@ -181,7 +184,7 @@ final class SignInReactor: Reactor, Stepper {
                     case .success(let isSuccess):
                         if isSuccess {
                             self?.toastMessage.onNext("임시 비밀번호가 발송되었습니다.")
-                            self?.steps.accept(ArchiveStep.changePassword)
+                            self?.steps.accept(ArchiveStep.changePasswordFromFindPassword)
                         } else {
                             self?.toastMessage.onNext("가입하지 않은 이메일입니다. 회원가입으로 이동해주세요.")
                         }
@@ -205,6 +208,24 @@ final class SignInReactor: Reactor, Stepper {
             return .just(.setPasswordCofirmationInput(text))
         case .tempPasswordInput(text: let text):
             return .just(.setTempPasswordInput(text))
+        case .changePassword:
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                changePassword(email: self.currentState.id,
+                               tempPassword: self.currentState.tempPassword,
+                               newPassword: self.currentState.changePassword)
+                .map { [weak self] changePasswordResult in
+                    switch changePasswordResult {
+                    case .success(()):
+                        self?.toastMessage.onNext("비밀번호 변경 완료")
+                        self?.popToRootView.onNext(())
+                    case .failure(let err):
+                        self?.error.onNext(err.getMessage())
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
         }
     }
     
@@ -265,6 +286,10 @@ final class SignInReactor: Reactor, Stepper {
     
     private func sendTempPassword(email: String) -> Observable<Result<Bool, ArchiveError>> {
         return self.findPasswordUsecase.sendTempPassword(email: email)
+    }
+    
+    private func changePassword(email: String, tempPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.findPasswordUsecase.changePassword(eMail: email, tempPassword: tempPassword, newPassword: newPassword)
     }
     
     

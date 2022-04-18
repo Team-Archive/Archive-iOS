@@ -75,10 +75,10 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
 
-//        nextButton?.rx.tap
-//            .map { Reactor.Action.completeSignUp }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
+        nextButton?.rx.tap
+            .map { Reactor.Action.changePassword }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
 
         reactor.state
             .map { $0.isContainsEnglish }
@@ -128,6 +128,13 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
                 } else {
                     self?.stopIndicatorAnimating()
                 }
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.popToRootView
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.popToRootViewController(animated: true)
             })
             .disposed(by: self.disposeBag)
 
