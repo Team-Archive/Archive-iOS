@@ -299,15 +299,13 @@ final class SignUpReactor: Reactor, Stepper {
                 if result.statusCode == 200 {
                     guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
                     guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
-                    let pureLoginToken = loginToken.replacingOccurrences(of: "BEARER ", with: "", options: NSString.CompareOptions.literal, range: nil)
                     // TODO: DIP를 이용해 바꿀것
-                    LogInManager.shared.logIn(token: pureLoginToken, type: .kakao)
+                    LogInManager.shared.logIn(token: loginToken, type: .kakao)
                     //
                     return .success(())
                 } else {
                     return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
                 }
-                return .success(())
             }
             .catch { err in
                     .just(.failure(ArchiveError(.archiveOAuthError)))
