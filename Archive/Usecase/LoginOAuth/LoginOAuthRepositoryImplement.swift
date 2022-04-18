@@ -44,8 +44,7 @@ class LoginOAuthRepositoryImplement: LoginOAuthRepository {
                 if result.statusCode == 200 {
                     guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
                     guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
-                    let pureLoginToken = loginToken.replacingOccurrences(of: "BEARER ", with: "", options: NSString.CompareOptions.literal, range: nil)
-                    return .success(pureLoginToken)
+                    return .success(loginToken)
                 } else {
                     return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
                 }
