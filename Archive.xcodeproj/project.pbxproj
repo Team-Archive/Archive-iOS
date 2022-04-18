@@ -139,6 +139,9 @@
 		78A3216B275B92700078650D /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3216A275B92700078650D /* DetailModel.swift */; };
 		78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3217E275BBEB20078650D /* UIColorExtension.swift */; };
 		78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */; };
+		78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */; };
+		78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */; };
+		78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */; };
 		78B345F02766242A0053FB7B /* LoginModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B345EF2766242A0053FB7B /* LoginModule.swift */; };
 		78B872DA2726C54C009EFB54 /* EmotionSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D72726C54C009EFB54 /* EmotionSelectModel.swift */; };
 		78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */; };
@@ -313,6 +316,9 @@
 		78A3216A275B92700078650D /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		78A3217E275BBEB20078650D /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInUsecase.swift; sourceTree = "<group>"; };
+		78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepository.swift; sourceTree = "<group>"; };
+		78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepositoryImplement.swift; sourceTree = "<group>"; };
 		78B345EF2766242A0053FB7B /* LoginModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModule.swift; sourceTree = "<group>"; };
 		78B872D72726C54C009EFB54 /* EmotionSelectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectModel.swift; sourceTree = "<group>"; };
 		78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectReactor.swift; sourceTree = "<group>"; };
@@ -613,6 +619,7 @@
 			isa = PBXGroup;
 			children = (
 				788AB646280A9E9F00182B45 /* FIndPassword */,
+				78A38BEE280DB3EB000C921B /* LoginEMail */,
 				7831D51A27E58FDF00E3FA57 /* LoginOAuth */,
 			);
 			path = Usecase;
@@ -891,6 +898,16 @@
 				787C285E275CC03700C1FB17 /* ModalShare */,
 			);
 			path = Sub;
+			sourceTree = "<group>";
+		};
+		78A38BEE280DB3EB000C921B /* LoginEMail */ = {
+			isa = PBXGroup;
+			children = (
+				78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */,
+				78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */,
+				78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */,
+			);
+			path = LoginEMail;
 			sourceTree = "<group>";
 		};
 		78B872D62726C54C009EFB54 /* EmotionSelect */ = {
@@ -1216,6 +1233,7 @@
 				78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */,
 				78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */,
 				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
+				78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */,
 				782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */,
 				784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */,
 				78239830280C251F0071D874 /* LogInRepository.swift in Sources */,
@@ -1277,6 +1295,7 @@
 				78599DDA276375C2003FD959 /* HomeReactor.swift in Sources */,
 				780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */,
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
+				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				78BA154127218F430078B88E /* MyPageViewController.swift in Sources */,
 				782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */,
@@ -1298,6 +1317,7 @@
 				78599DE8276381A9003FD959 /* ArchiveInfo.swift in Sources */,
 				78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */,
 				78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */,
+				78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */,
 				784D1E3527088EC8004B1A23 /* Assets.swift in Sources */,
 				78599DD9276375C2003FD959 /* TicketDescriptionContentView.swift in Sources */,
 				78599DD6276375C2003FD959 /* TicketCollectionViewCell.swift in Sources */,
