@@ -25,6 +25,8 @@ final class SignInReactor: Reactor, Stepper {
         case realLoginWithKakao(accessToken: String)
         case moveToFindPassword
         case sendTempPassword
+        case changepasswordInput(text: String)
+        case passwordCofirmInput(text: String)
     }
     
     enum Mutation {
@@ -34,6 +36,11 @@ final class SignInReactor: Reactor, Stepper {
         case setValidation(Bool)
         case setIsLoading(Bool)
         case empty
+        case setChangePassword(String)
+        case setEnglishCombination(Bool)
+        case setNumberCombination(Bool)
+        case setRangeValidation(Bool)
+        case setPasswordCofirmationInput(String)
     }
     
     struct State {
@@ -42,17 +49,30 @@ final class SignInReactor: Reactor, Stepper {
         var isValidEmail: Bool = false
         var isEnableSignIn: Bool = false
         var isLoading: Bool = false
+    
+        var changePassword: String = ""
+        var isContainsEnglish: Bool = false
+        var isContainsNumber: Bool = false
+        var isWithinRange: Bool = false
+        var passwordConfirmationInput: String = ""
+        var isSamePasswordInput: Bool {
+            if password == "" { return false }
+            return password == passwordConfirmationInput
+        }
+        var isValidPassword: Bool {
+            return isContainsEnglish && isContainsNumber && isWithinRange && isSamePasswordInput
+        }
     }
     
     let initialState = State()
     let steps = PublishRelay<Step>()
-    private let validator: SignInValidator
+    private let validator: Validator
     var error: PublishSubject<String>
     var toastMessage: PublishSubject<String>
     private let oAuthUsecase: LoginOAuthUsecase
     private let findPasswordUsecase: FindPasswordUsecase
     
-    init(validator: SignInValidator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository) {
+    init(validator: Validator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository) {
         self.validator = validator
         self.error = .init()
         self.toastMessage = .init()
@@ -151,6 +171,7 @@ final class SignInReactor: Reactor, Stepper {
                     case .success(let isSuccess):
                         if isSuccess {
                             self?.toastMessage.onNext("임시 비밀번호가 발송되었습니다.")
+                            self?.steps.accept(ArchiveStep.changePassword)
                         } else {
                             self?.toastMessage.onNext("가입하지 않은 이메일입니다. 회원가입으로 이동해주세요.")
                         }
@@ -161,6 +182,17 @@ final class SignInReactor: Reactor, Stepper {
                 },
                 Observable.just(.setIsLoading(false))
             ])
+        case let .changepasswordInput(text):
+            let isContainsEnglish = validator.isContainsEnglish(text)
+            let isContainsNumber = validator.isContainsNumber(text)
+            let isWithinRage = validator.isWithinRange(text, range: (8...20))
+            return .from([.setPassword(text),
+                          .setEnglishCombination(isContainsEnglish),
+                          .setNumberCombination(isContainsNumber),
+                          .setRangeValidation(isWithinRage)])
+            
+        case let .passwordCofirmInput(text):
+            return .just(.setPasswordCofirmationInput(text))
         }
     }
     
@@ -179,6 +211,16 @@ final class SignInReactor: Reactor, Stepper {
             newState.isLoading = isLoading
         case .empty:
             break
+        case let .setChangePassword(password):
+            newState.changePassword = password
+        case let .setEnglishCombination(isContainsEnglish):
+            newState.isContainsEnglish = isContainsEnglish
+        case let.setNumberCombination(isContainsNumber):
+            newState.isContainsNumber = isContainsNumber
+        case let .setRangeValidation(isWithinRange):
+            newState.isWithinRange = isWithinRange
+        case let .setPasswordCofirmationInput(password):
+            newState.passwordConfirmationInput = password
         }
         return newState
     }

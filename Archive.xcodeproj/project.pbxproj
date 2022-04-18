@@ -138,6 +138,7 @@
 		78A32169275B92600078650D /* DetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32168275B92600078650D /* DetailReactor.swift */; };
 		78A3216B275B92700078650D /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3216A275B92700078650D /* DetailModel.swift */; };
 		78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3217E275BBEB20078650D /* UIColorExtension.swift */; };
+		78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */; };
 		78B345F02766242A0053FB7B /* LoginModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B345EF2766242A0053FB7B /* LoginModule.swift */; };
 		78B872DA2726C54C009EFB54 /* EmotionSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D72726C54C009EFB54 /* EmotionSelectModel.swift */; };
 		78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */; };
@@ -311,6 +312,7 @@
 		78A32168275B92600078650D /* DetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReactor.swift; sourceTree = "<group>"; };
 		78A3216A275B92700078650D /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		78A3217E275BBEB20078650D /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		78B345EF2766242A0053FB7B /* LoginModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModule.swift; sourceTree = "<group>"; };
 		78B872D72726C54C009EFB54 /* EmotionSelectModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectModel.swift; sourceTree = "<group>"; };
 		78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectReactor.swift; sourceTree = "<group>"; };
@@ -641,6 +643,7 @@
 			children = (
 				7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */,
 				78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */,
+				78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */,
 			);
 			path = EmailSignIn;
 			sourceTree = "<group>";
@@ -1205,6 +1208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */,
 				78B345F02766242A0053FB7B /* LoginModule.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,

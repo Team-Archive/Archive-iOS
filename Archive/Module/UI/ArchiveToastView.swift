@@ -30,6 +30,7 @@ final class ArchiveToastView: UIView {
     private func attatchToastView() {
         messageLabel.font = .fonts(.body)
         messageLabel.textColor = Gen.Colors.white.color
+        messageLabel.numberOfLines = 3
         self.toastView.addSubview(self.messageLabel)
         self.messageLabel.snp.makeConstraints {
             $0.leading.equalTo(self.toastView.snp.leading).offset(20)

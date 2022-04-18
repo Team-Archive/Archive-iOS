@@ -17,6 +17,7 @@ enum ArchiveStep: Step {
     case eMailSignIn(reactor: SignInReactor)
     case userIsSignedIn
     case findPassword
+    case changePassword
     
     // SignUp
     case termsAgreementIsRequired

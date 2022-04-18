@@ -52,6 +52,8 @@ final class OnboardingFlow: Flow {
             return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken)
         case .findPassword:
             return navigationToFindPasswordScreen()
+        case .changePassword:
+            return navigationToChangePasswordScreen()
         default:
             return .none
         }
@@ -139,6 +141,16 @@ final class OnboardingFlow: Flow {
             }
         rootViewController.pushViewController(findPasswordViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: findPasswordViewController,
+                                                 withNextStepper: signInReactor))
+    }
+    
+    private func navigationToChangePasswordScreen() -> FlowContributors {
+        let changePasswordViewController = onboardingStoryBoard
+            .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
+                return ChangePasswordViewController(coder: coder, reactor: self.signInReactor)
+            }
+        rootViewController.pushViewController(changePasswordViewController, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
                                                  withNextStepper: signInReactor))
     }
 }
