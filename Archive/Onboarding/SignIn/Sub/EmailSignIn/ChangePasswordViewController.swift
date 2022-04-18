@@ -57,6 +57,12 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
     }
     
     func bind(reactor: SignInReactor) {
+        tempPasswordInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.tempPasswordInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
         passwordInputView.rx.text.orEmpty
             .distinctUntilChanged()
             .map { Reactor.Action.changepasswordInput(text: $0) }

@@ -27,6 +27,7 @@ final class SignInReactor: Reactor, Stepper {
         case sendTempPassword
         case changepasswordInput(text: String)
         case passwordCofirmInput(text: String)
+        case tempPasswordInput(text: String)
     }
     
     enum Mutation {
@@ -41,6 +42,7 @@ final class SignInReactor: Reactor, Stepper {
         case setNumberCombination(Bool)
         case setRangeValidation(Bool)
         case setPasswordCofirmationInput(String)
+        case setTempPasswordInput(String)
     }
     
     struct State {
@@ -50,17 +52,25 @@ final class SignInReactor: Reactor, Stepper {
         var isEnableSignIn: Bool = false
         var isLoading: Bool = false
     
+        var tempPassword: String = ""
         var changePassword: String = ""
         var isContainsEnglish: Bool = false
         var isContainsNumber: Bool = false
         var isWithinRange: Bool = false
         var passwordConfirmationInput: String = ""
         var isSamePasswordInput: Bool {
-            if password == "" { return false }
-            return password == passwordConfirmationInput
+            if changePassword == "" { return false }
+            return changePassword == passwordConfirmationInput
+        }
+        var isNotNullTempPassword: Bool {
+            if tempPassword == "" {
+                return false
+            } else {
+                return true
+            }
         }
         var isValidPassword: Bool {
-            return isContainsEnglish && isContainsNumber && isWithinRange && isSamePasswordInput
+            return isContainsEnglish && isContainsNumber && isWithinRange && isSamePasswordInput && isNotNullTempPassword
         }
     }
     
@@ -186,13 +196,15 @@ final class SignInReactor: Reactor, Stepper {
             let isContainsEnglish = validator.isContainsEnglish(text)
             let isContainsNumber = validator.isContainsNumber(text)
             let isWithinRage = validator.isWithinRange(text, range: (8...20))
-            return .from([.setPassword(text),
+            return .from([.setChangePassword(text),
                           .setEnglishCombination(isContainsEnglish),
                           .setNumberCombination(isContainsNumber),
                           .setRangeValidation(isWithinRage)])
             
         case let .passwordCofirmInput(text):
             return .just(.setPasswordCofirmationInput(text))
+        case .tempPasswordInput(text: let text):
+            return .just(.setTempPasswordInput(text))
         }
     }
     
@@ -221,6 +233,8 @@ final class SignInReactor: Reactor, Stepper {
             newState.isWithinRange = isWithinRange
         case let .setPasswordCofirmationInput(password):
             newState.passwordConfirmationInput = password
+        case .setTempPasswordInput(let password):
+            newState.tempPassword = password
         }
         return newState
     }

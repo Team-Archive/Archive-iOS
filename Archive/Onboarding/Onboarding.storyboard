@@ -1280,7 +1280,7 @@
                                                             <constraint firstAttribute="height" constant="56" id="lsL-tU-1Bk"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                                        <state key="normal" title="다음">
+                                                        <state key="normal" title="비밀번호 변경">
                                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </state>
                                                         <userDefinedRuntimeAttributes>
