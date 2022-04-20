@@ -54,7 +54,7 @@ class LoginInformationReactor: Reactor, Stepper {
             steps.accept(ArchiveStep.withdrawalIsRequired(self.model.cardCnt))
             return .empty()
         case .logout:
-            UserDefaultManager.shared.removeInfo(.loginToken)
+            LogInManager.shared.logOut()
             steps.accept(ArchiveStep.logout)
             return .empty()
         case .getEmail:

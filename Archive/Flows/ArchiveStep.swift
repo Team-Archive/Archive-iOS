@@ -14,7 +14,10 @@ enum ArchiveStep: Step {
     
     // SignIn
     case signInIsRequired
+    case eMailSignIn(reactor: SignInReactor)
     case userIsSignedIn
+    case findPassword
+    case changePasswordFromFindPassword
     
     // SignUp
     case termsAgreementIsRequired
@@ -22,6 +25,7 @@ enum ArchiveStep: Step {
     case passwordInputRequired
     case userIsSignedUp
     case signUpComplete
+    case termsAgreeForOAuthRegist(accessToken: String)
     
     // MyPage
     case myPageIsRequired(Int)

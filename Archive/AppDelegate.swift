@@ -7,6 +7,8 @@
 
 import UIKit
 import Firebase
+import KakaoSDKAuth
+import KakaoSDKCommon
 
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +17,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         setupNavigationBarGlobalAppearance()
         FirebaseApp.configure()
+        KakaoSDK.initSDK(appKey: CommonDefine.kakaoAppKey)
         return true
     }
     
