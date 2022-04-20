@@ -32,6 +32,9 @@ class GAModule: NSObject {
     }
     
     static func sendEventLogToGA(_ event: GAEvent) {
+#if DEBUG
+        
+#else
         switch event {
         case .startRegistArchive:
             Analytics.logEvent("startRegistArchive", parameters: nil)
@@ -54,5 +57,7 @@ class GAModule: NSObject {
         case .showDetail:
             Analytics.logEvent("showDetail", parameters: nil)
         }
+#endif
+        
     }
 }

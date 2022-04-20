@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-final class InputView: UIView {
+final class InputView: UIView, UITextFieldDelegate {
     
     private enum Constants {
         static let cornerRadius: CGFloat = 8
@@ -47,6 +47,12 @@ final class InputView: UIView {
             rightButton.isHidden = false
         }
     }
+    var returnKeyType: UIReturnKeyType = .default {
+        didSet {
+            self.textField.returnKeyType = self.returnKeyType
+        }
+    }
+    
     fileprivate lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -57,6 +63,7 @@ final class InputView: UIView {
     fileprivate lazy var textField: UITextField = {
         let textField = UITextField()
         textField.font = .fonts(.body)
+        textField.delegate = self
         return textField
     }()
     fileprivate lazy var rightButton: UIButton = {
@@ -119,6 +126,11 @@ final class InputView: UIView {
     
     func focusTextField() {
         textField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }
 

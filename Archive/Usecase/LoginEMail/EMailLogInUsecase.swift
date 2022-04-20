@@ -26,7 +26,7 @@ class EMailLogInUsecase: NSObject {
     // MARK: internal function
     
     func loginEmail(eMail: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
-        return self.loginEmail(eMail: eMail, password: password)
+        return self.repository.loginEmail(eMail: eMail, password: password)
     }
     
 }

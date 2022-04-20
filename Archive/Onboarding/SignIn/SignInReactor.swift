@@ -83,14 +83,16 @@ final class SignInReactor: Reactor, Stepper {
     var popToRootView: PublishSubject<Void>
     private let oAuthUsecase: LoginOAuthUsecase
     private let findPasswordUsecase: FindPasswordUsecase
+    private let emailLogInUsecase: EMailLogInUsecase
     
-    init(validator: Validator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository) {
+    init(validator: Validator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository, emailLogInRepository: EMailLogInRepository) {
         self.validator = validator
         self.error = .init()
         self.toastMessage = .init()
         self.popToRootView = .init()
         self.oAuthUsecase = LoginOAuthUsecase(repository: loginOAuthRepository)
         self.findPasswordUsecase = FindPasswordUsecase(repository: findPasswordRepository)
+        self.emailLogInUsecase = EMailLogInUsecase(repository: emailLogInRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -112,21 +114,24 @@ final class SignInReactor: Reactor, Stepper {
         case .signIn:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                LoginModule.loginEmail(eMail: self.currentState.id, password: self.currentState.password).map { [weak self] result in
-                    switch result {
-                    case .success(let response):
-                        guard let token: String = response["Authorization"] else {
-                            self?.error.onNext("[오류] 토큰이 존재하지 않습니다.")
-                            return .setIsLoading(false)
+                eMailLogIn(email: self.currentState.id, password: self.currentState.password)
+                    .map { [weak self] result in
+                        switch result {
+                        case .success(let logInSuccessType):
+                            switch logInSuccessType {
+                            case .logInSuccess(let token):
+                                LogInManager.shared.logIn(token: token, type: .eMail)
+                                self?.steps.accept(ArchiveStep.userIsSignedIn)
+                            case .isTempPW:
+                                self?.toastMessage.onNext("임시 비밀번호를 변경해주세요.")
+                                self?.steps.accept(ArchiveStep.changePasswordFromFindPassword)
+                            }
+                        case .failure(let err):
+                            self?.error.onNext(err.getMessage())
                         }
-                        LogInManager.shared.logIn(token: token, type: .eMail)
-                        self?.steps.accept(ArchiveStep.userIsSignedIn)
-                    case .failure(let err):
-                        print("err: \(err)")
-                        self?.error.onNext("로그인 정보가 정확하지 않습니다.")
-                    }
-                    return .setIsLoading(false)
-                }
+                        return .empty
+                    },
+                Observable.just(.setIsLoading(false))
             ])
         case .signUp:
             steps.accept(ArchiveStep.termsAgreementIsRequired)
@@ -217,7 +222,7 @@ final class SignInReactor: Reactor, Stepper {
                 .map { [weak self] changePasswordResult in
                     switch changePasswordResult {
                     case .success(()):
-                        self?.toastMessage.onNext("비밀번호 변경 완료")
+                        self?.toastMessage.onNext("비밀번호 변경 완료.\n변경된 비밀번호로 로그인해주세요.")
                         self?.popToRootView.onNext(())
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
@@ -290,6 +295,10 @@ final class SignInReactor: Reactor, Stepper {
     
     private func changePassword(email: String, tempPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
         return self.findPasswordUsecase.changePassword(eMail: email, tempPassword: tempPassword, newPassword: newPassword)
+    }
+    
+    private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
+        return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
     }
     
     

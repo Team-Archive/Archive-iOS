@@ -24,8 +24,8 @@ final class OnboardingFlow: Flow {
     }()
     private let onboardingStoryBoard = UIStoryboard(name: Constants.onboardingStoryBoardName, bundle: nil)
     private let validator = Validator()
-    private lazy var signUpReactor = SignUpReactor(validator: validator)
-    private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement())
+    private lazy var signUpReactor = SignUpReactor(validator: validator, emailLogInRepository: EMailLogInRepositoryImplement())
+    private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement(), emailLogInRepository: EMailLogInRepositoryImplement())
     
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }

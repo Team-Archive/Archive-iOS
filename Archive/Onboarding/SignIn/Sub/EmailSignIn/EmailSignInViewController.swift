@@ -95,6 +95,13 @@ final class EmailSignInViewController: UIViewController, StoryboardView, Activit
             .bind(to: reactor.action)
             .disposed(by: self.disposeBag)
         
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {

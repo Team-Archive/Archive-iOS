@@ -137,6 +137,13 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
                 self?.navigationController?.popToRootViewController(animated: true)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
+            })
+            .disposed(by: self.disposeBag)
 
     }
 
@@ -161,8 +168,11 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
         self.passwordTitleLabel.text = "신규 비밀번호"
         
         self.tempPasswordInputView.isSecureTextEntry = true
+        self.tempPasswordInputView.returnKeyType = .done
         self.passwordInputView.isSecureTextEntry = true
+        self.passwordInputView.returnKeyType = .done
         self.passwordConfirmInputView.isSecureTextEntry = true
+        self.passwordConfirmInputView.returnKeyType = .done
         
         self.englishCombinationCheckView.title = "영문조합"
         self.numberCombinationCheckView.title = "숫자조합"

@@ -30,7 +30,6 @@ class EMailLogInRepositoryImplement: EMailLogInRepository {
                 } else {
                     return .failure(.init(from: .server, code: result.statusCode, message: "서버 오류"))
                 }
-                return .failure(.init(.invaldData))
             }
             .catch { err in
                     .just(.failure(.init(from: .network, code: (err as? MoyaError)?.errorCode ?? -1, message: "네트워크 오류")))
