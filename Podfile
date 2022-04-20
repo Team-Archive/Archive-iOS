@@ -21,6 +21,7 @@ def pods
   pod 'UIImageColors'
   pod 'lottie-ios'
   pod 'SwiftLint'
+  pod 'SwiftyTimer'
   
   pod 'KakaoSDKCommon'
   pod 'KakaoSDKAuth'

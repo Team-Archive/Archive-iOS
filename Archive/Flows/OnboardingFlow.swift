@@ -24,7 +24,8 @@ final class OnboardingFlow: Flow {
     }()
     private let onboardingStoryBoard = UIStoryboard(name: Constants.onboardingStoryBoardName, bundle: nil)
     private let validator = Validator()
-    private lazy var signUpReactor = SignUpReactor(validator: validator)
+    private lazy var signUpReactor = SignUpReactor(validator: validator, emailLogInRepository: EMailLogInRepositoryImplement())
+    private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement(), emailLogInRepository: EMailLogInRepositoryImplement())
     
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }
@@ -49,16 +50,19 @@ final class OnboardingFlow: Flow {
             return .none
         case .termsAgreeForOAuthRegist(let accessToken):
             return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken)
+        case .findPassword:
+            return navigationToFindPasswordScreen()
+        case .changePasswordFromFindPassword:
+            return navigationToChangePasswordScreen()
         default:
             return .none
         }
     }
     
     private func navigationToSignInScreen() -> FlowContributors {
-        let signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement())
         let signInViewController = onboardingStoryBoard
             .instantiateViewController(identifier: SignInViewController.identifier) { coder in
-                return SignInViewController(coder: coder, reactor: signInReactor)
+                return SignInViewController(coder: coder, reactor: self.signInReactor)
             }
         rootViewController.pushViewController(signInViewController, animated: false)
         return .one(flowContributor: .contribute(withNextPresentable: signInViewController,
@@ -128,5 +132,25 @@ final class OnboardingFlow: Flow {
         rootViewController.pushViewController(termsAgreementViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: termsAgreementViewController,
                                                  withNextStepper: signUpReactor))
+    }
+    
+    private func navigationToFindPasswordScreen() -> FlowContributors {
+        let findPasswordViewController = onboardingStoryBoard
+            .instantiateViewController(identifier: FindPasswordViewController.identifier) { coder in
+                return FindPasswordViewController(coder: coder, reactor: self.signInReactor)
+            }
+        rootViewController.pushViewController(findPasswordViewController, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: findPasswordViewController,
+                                                 withNextStepper: signInReactor))
+    }
+    
+    private func navigationToChangePasswordScreen() -> FlowContributors {
+        let changePasswordViewController = onboardingStoryBoard
+            .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
+                return ChangePasswordViewController(coder: coder, reactor: self.signInReactor)
+            }
+        rootViewController.pushViewController(changePasswordViewController, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
+                                                 withNextStepper: signInReactor))
     }
 }

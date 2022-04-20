@@ -88,10 +88,12 @@ final class SignUpReactor: Reactor, Stepper {
     private let validator: SignUpValidator
     var error: PublishSubject<String>
     var kakaoAccessToken: String = ""
+    private let emailLogInUsecase: EMailLogInUsecase
     
-    init(validator: SignUpValidator) {
+    init(validator: SignUpValidator, emailLogInRepository: EMailLogInRepository) {
         self.validator = validator
         self.error = .init()
+        self.emailLogInUsecase = EMailLogInUsecase(repository: emailLogInRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -175,21 +177,23 @@ final class SignUpReactor: Reactor, Stepper {
         case .startArchive:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                LoginModule.loginEmail(eMail: self.currentState.email, password: self.currentState.password).map { [weak self] result in
-                    switch result {
-                    case .success(let response):
-                        guard let token: String = response["Authorization"] else {
-                            self?.error.onNext("[오류] 토큰이 존재하지 않습니다.")
-                            return .setIsLoading(false)
+                eMailLogIn(email: self.currentState.email, password: self.currentState.password)
+                    .map { [weak self] result in
+                        switch result {
+                        case .success(let logInSuccessType):
+                            switch logInSuccessType {
+                            case .logInSuccess(let token):
+                                LogInManager.shared.logIn(token: token, type: .eMail)
+                                self?.steps.accept(ArchiveStep.userIsSignedIn)
+                            case .isTempPW:
+                                self?.steps.accept(ArchiveStep.changePasswordFromFindPassword)
+                            }
+                        case .failure(let err):
+                            self?.error.onNext(err.getMessage())
                         }
-                        UserDefaultManager.shared.setLoginToken(token)
-                        self?.steps.accept(ArchiveStep.userIsSignedIn)
-                    case .failure(let err):
-                        print("err: \(err)")
-                        self?.error.onNext("로그인 정보가 정확하지 않습니다.")
-                    }
-                    return .setIsLoading(false)
-                }
+                        return .empty
+                    },
+                Observable.just(.setIsLoading(false))
             ])
         case .registKakaoLogin:
             return Observable.concat([
@@ -198,7 +202,7 @@ final class SignUpReactor: Reactor, Stepper {
                     switch result {
                     case .success(_):
                         print("카카오 로그인 성공한듯?")
-//                        self?.steps.accept(ArchiveStep.userIsSignedUp)
+                        self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
                     }
@@ -291,27 +295,30 @@ final class SignUpReactor: Reactor, Stepper {
             }
     }
     
-    private func registWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> {
+    private func registWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> { // TODO: Usecase생성 후 이동하기
         let provider = ArchiveProvider.shared.provider
         return provider.rx.request(.loginWithKakao(kakaoAccessToken: accessToken), callbackQueue: DispatchQueue.global())
             .asObservable()
-            .map { response in
-//                if let result: JSON = try? JSON.init(data: response.data) {
-//                    let isDup: Bool = result["duplicatedEmail"].boolValue
-//                    if isDup {
-//                        return .success(true)
-//                    } else {
-//                        return .success(false)
-//                    }
-//                } else {
-//                    return .success(true)
-//                }
-                print("response: \(response)")
-                return .success(())
+            .map { result in
+                if result.statusCode == 200 {
+                    guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
+                    guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
+                    // TODO: DIP를 이용해 바꿀것
+                    // TODO: kakao Login 모듈과 중복된 코드
+                    LogInManager.shared.logIn(token: loginToken, type: .kakao)
+                    //
+                    return .success(())
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
             }
             .catch { err in
                     .just(.failure(ArchiveError(.archiveOAuthError)))
             }
+    }
+    
+    private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
+        return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
     }
 }
 

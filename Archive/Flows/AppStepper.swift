@@ -13,7 +13,7 @@ final class AppStepper: Stepper {
     let steps = PublishRelay<Step>()
 
     var initialStep: Step {
-        if UserDefaultManager.shared.isLoggedIn {
+        if LogInManager.shared.isLoggedIn {
             return ArchiveStep.homeIsRequired
         } else {
             print("로그인 안됨")

@@ -20,9 +20,9 @@ enum ArchiveAPI {
     case getCurrentUserInfo
     case withdrawal
     case getKakaoUserInfo(kakaoAccessToken: String)
-
+    case sendTempPassword(email: String)
+    case changePassword(eMail: String, beforePassword: String, newPassword: String)
 }
-
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
@@ -51,6 +51,10 @@ extension ArchiveAPI: TargetType {
             return URL(string: CommonDefine.apiServer)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
+        case .sendTempPassword:
+            return URL(string: CommonDefine.apiServer)!
+        case .changePassword:
+            return URL(string: CommonDefine.apiServer)!
         }
     }
     
@@ -65,7 +69,7 @@ extension ArchiveAPI: TargetType {
         case .loginEmail:
             return "/api/v1/auth/login"
         case .loginWithKakao:
-            return "/api/v1/auth/social?provider=kakao"
+            return "/api/v1/auth/social"
         case .isDuplicatedEmail(let eMail):
             return "/api/v1/auth/email/" + eMail
         case .deleteArchive(let archiveId):
@@ -80,6 +84,10 @@ extension ArchiveAPI: TargetType {
             return "/api/v1/auth/unregister"
         case .getKakaoUserInfo:
             return "/v2/user/me"
+        case .sendTempPassword:
+            return "api/v1/auth/password/temporary"
+        case .changePassword:
+            return "api/v1/auth/password/reset"
         }
     }
     
@@ -109,64 +117,10 @@ extension ArchiveAPI: TargetType {
             return .delete
         case .getKakaoUserInfo:
             return .get
-        }
-    }
-    
-    var sampleData: Data {
-        switch self {
-        case .uploadImage:
-            return Data()
-        case .registArchive:
-            return Data()
-        case .registEmail:
-            return Data()
-        case .loginEmail:
-            return Data()
-        case .loginWithKakao:
-            return Data()
-        case .isDuplicatedEmail:
-            return Data()
-        case .deleteArchive:
-            return Data()
-        case .getArchives:
-            return Data()
-        case .getDetailArchive:
-            return Data()
-        case .getCurrentUserInfo:
-            return Data()
-        case .withdrawal:
-            return Data()
-        case .getKakaoUserInfo:
-            return Data()
-        }
-    }
-    
-    var parameterEncoding: ParameterEncoding {
-        switch self {
-        case .uploadImage:
-            return URLEncoding.default
-        case .registArchive:
-            return URLEncoding.default
-        case .registEmail:
-            return URLEncoding.default
-        case .loginEmail:
-            return URLEncoding.default
-        case .loginWithKakao:
-            return URLEncoding.queryString
-        case .isDuplicatedEmail:
-            return URLEncoding.default
-        case .deleteArchive:
-            return URLEncoding.default
-        case .getArchives:
-            return URLEncoding.default
-        case .getDetailArchive:
-            return URLEncoding.default
-        case .getCurrentUserInfo:
-            return URLEncoding.default
-        case .withdrawal:
-            return URLEncoding.default
-        case .getKakaoUserInfo:
-            return URLEncoding.default
+        case .sendTempPassword:
+            return .post
+        case .changePassword:
+            return .post
         }
     }
     
@@ -184,7 +138,7 @@ extension ArchiveAPI: TargetType {
         case .loginEmail(let param):
             return .requestJSONEncodable(param)
         case .loginWithKakao(let kakaoAccessToken):
-            return .requestParameters(parameters: ["providerAccessToken": kakaoAccessToken], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["providerAccessToken": kakaoAccessToken, "provider": "kakao"], encoding: JSONEncoding.default)
         case .isDuplicatedEmail:
             return .requestPlain
         case .deleteArchive:
@@ -199,6 +153,10 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .getKakaoUserInfo:
             return .requestPlain
+        case .sendTempPassword(let email):
+            return .requestParameters(parameters: ["email": email], encoding: JSONEncoding.default)
+        case .changePassword(let eMail, let beforePassword, let newPassword):
+            return .requestParameters(parameters: ["currentPassword": beforePassword, "email": eMail, "newPassword": newPassword], encoding: JSONEncoding.default)
         }
     }
     
@@ -215,23 +173,28 @@ extension ArchiveAPI: TargetType {
         case .loginWithKakao:
             return nil
         case .registArchive:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .registEmail:
             return nil
         case .uploadImage:
             return nil
         case .deleteArchive:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getArchives:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+//            return ["Authorization": "Bearer " + LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getDetailArchive:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getCurrentUserInfo:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .withdrawal:
-            return ["Authorization": UserDefaultManager.shared.getInfo(.loginToken)]
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         case .getKakaoUserInfo(let kakaoAccessToken):
             return ["Authorization": "Bearer \(kakaoAccessToken)"]
+        case .sendTempPassword:
+            return nil
+        case .changePassword:
+            return nil
         }
     }
     

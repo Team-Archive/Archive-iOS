@@ -202,7 +202,7 @@ class LoginInformationViewController: UIViewController, StoryboardView {
     
     private func refreshUIForKakao() {
         refreshUIForSocialLogin()
-        self.eMailIconImageView.image = Gen.Images.signWithkakaotalk.image
+        self.eMailIconImageView.image = Gen.Images.kakaotalk.image
     }
     
     private func refreshUIForApple() {

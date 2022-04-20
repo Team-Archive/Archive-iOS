@@ -21,6 +21,8 @@ enum ArchiveErrorCode: Int, LocalizedError {
     case unexpectedKakaoSignIn = 11120
     case kakaoIsNotIntalled // 카카오톡이 설치되어있지 않음
     case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
+    case responseHeaderIsNull // 헤더 존재하지 않음
+    case loginTokenIsNull // 로그인 토큰이 존재하지않음
 }
 
 enum ErrorFrom {
@@ -86,6 +88,10 @@ class ArchiveError: Error {
             returnValue = "카카오톡이 설치되어있지 않습니다."
         case .kakaoIdTokenIsNull:
             returnValue = "카카오 로그인 오류"
+        case .responseHeaderIsNull:
+            returnValue = "로그인 응답 오류"
+        case .loginTokenIsNull:
+            returnValue = "로그인 토큰 오류"
         }
         return returnValue
     }

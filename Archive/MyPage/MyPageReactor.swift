@@ -58,7 +58,7 @@ class MyPageReactor: Reactor, Stepper {
                     case .success(let data):
                         if let jsonData: JSON = try? JSON.init(data: data) {
                             let mailAddrStr = jsonData["mailAddress"].stringValue
-                            self?.steps.accept(ArchiveStep.loginInfomationIsRequired(.eMail, mailAddrStr, self?.currentState.cardCnt ?? 0))
+                            self?.steps.accept(ArchiveStep.loginInfomationIsRequired(LogInManager.shared.logInType, mailAddrStr, self?.currentState.cardCnt ?? 0))
                         }
                     case .failure(let err):
                         print("err: \(err.localizedDescription)")
