@@ -105,5 +105,14 @@ final class TermsAgreementForOAuthViewController: UIViewController, StoryboardVi
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.error
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] msg in
+                CommonAlertView.shared.show(message: "[오류]", subMessage: msg, btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide()
+                })
+            })
+            .disposed(by: self.disposeBag)
     }
 }

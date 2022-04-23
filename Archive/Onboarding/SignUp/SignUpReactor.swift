@@ -313,7 +313,11 @@ final class SignUpReactor: Reactor, Stepper {
                 }
             }
             .catch { err in
-                    .just(.failure(ArchiveError(.archiveOAuthError)))
+                if let errData = (err as? MoyaError)?.response?.data, let errJson: JSON = try? JSON.init(data: errData) {
+                    return .just(.failure(.init(from: .server, code: (err as? MoyaError)?.errorCode ?? -1, message: errJson["message"].stringValue)))
+                } else {
+                    return .just(.failure(ArchiveError(.archiveOAuthError)))
+                }
             }
     }
     

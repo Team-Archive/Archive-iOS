@@ -56,6 +56,7 @@ class WithdrawalReactor: Reactor, Stepper {
                 self.withdrawal().map { [weak self] result in
                     switch result {
                     case .success(_):
+                        LogInManager.shared.logOut()
                         self?.steps.accept(ArchiveStep.logout)
                     case .failure(let err):
                         print("err: \(err.localizedDescription)")
