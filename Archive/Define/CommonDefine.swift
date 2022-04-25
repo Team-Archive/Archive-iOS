@@ -17,10 +17,12 @@ enum Direction {
 class CommonDefine: NSObject {
     static let kakaoAppKey: String = "147a5c186ee0f5fdc58244b704165132"
 #if DEBUG
-    static let apiServer: String = "http://13.124.85.216:8080" // 개발
-//    static let apiServer: String = "http://3.38.66.239:8080" // 실서버
+    static let apiServer: String = "https://archive-ticket.site/dev" // 개발
+//    static let apiServer: String = "https://archive-ticket.site/prd" // 실서버
 #else
-    static let apiServer: String = "http://3.38.66.239:8080"
+    static let apiServer: String = "https://archive-ticket.site/prd"
 #endif
     static let kakaoAPIServer: String = "https://kapi.kakao.com"
 }
+
+
