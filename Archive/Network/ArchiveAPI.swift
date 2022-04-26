@@ -12,7 +12,7 @@ enum ArchiveAPI {
     case registArchive(_ info: RecordData)
     case registEmail(_ param: RequestEmailParam)
     case loginEmail(_ param: LoginEmailParam)
-    case loginWithKakao(kakaoAccessToken: String)
+    case logInWithOAuth(logInType: OAuthSignInType, token: String)
     case isDuplicatedEmail(_ eMail: String)
     case deleteArchive(archiveId: String)
     case getArchives
@@ -35,7 +35,7 @@ extension ArchiveAPI: TargetType {
             return URL(string: CommonDefine.apiServer)!
         case .loginEmail:
             return URL(string: CommonDefine.apiServer)!
-        case .loginWithKakao:
+        case .logInWithOAuth:
             return URL(string: CommonDefine.apiServer)!
         case .isDuplicatedEmail:
             return URL(string: CommonDefine.apiServer)!
@@ -68,7 +68,7 @@ extension ArchiveAPI: TargetType {
             return "/api/v1/auth/register"
         case .loginEmail:
             return "/api/v1/auth/login"
-        case .loginWithKakao:
+        case .logInWithOAuth:
             return "/api/v1/auth/social"
         case .isDuplicatedEmail(let eMail):
             return "/api/v1/auth/email/" + eMail
@@ -101,7 +101,7 @@ extension ArchiveAPI: TargetType {
             return .post
         case .loginEmail:
             return .post
-        case .loginWithKakao:
+        case .logInWithOAuth:
             return .post
         case .isDuplicatedEmail:
             return .get
@@ -137,8 +137,8 @@ extension ArchiveAPI: TargetType {
             return .requestJSONEncodable(param)
         case .loginEmail(let param):
             return .requestJSONEncodable(param)
-        case .loginWithKakao(let kakaoAccessToken):
-            return .requestParameters(parameters: ["providerAccessToken": kakaoAccessToken, "provider": "kakao"], encoding: JSONEncoding.default)
+        case .logInWithOAuth(let type, let token):
+            return .requestParameters(parameters: ["providerAccessToken": token, "provider": type.rawValue], encoding: JSONEncoding.default)
         case .isDuplicatedEmail:
             return .requestPlain
         case .deleteArchive:
@@ -170,7 +170,7 @@ extension ArchiveAPI: TargetType {
             return nil
         case .loginEmail:
             return nil
-        case .loginWithKakao:
+        case .logInWithOAuth:
             return nil
         case .registArchive:
             return ["Authorization": LogInManager.shared.getLogInToken()]

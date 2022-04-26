@@ -34,8 +34,16 @@ class LoginOAuthUsecase: NSObject {
         return self.repository.isExistEmailWithKakao(accessToken: accessToken)
     }
     
+    func isExistEmailWithApple(accessToken: String) -> Observable<Bool> {
+        return self.repository.isExistEmailWithApple(accessToken: accessToken)
+    }
+    
     func loginWithKakao(accessToken: String) -> Observable<Result<String, ArchiveError>> {
         return self.repository.loginWithKakao(accessToken: accessToken)
+    }
+    
+    func loginWithApple(accessToken: String) -> Observable<Result<String, ArchiveError>> {
+        return self.repository.loginWithApple(accessToken: accessToken)
     }
     
 }

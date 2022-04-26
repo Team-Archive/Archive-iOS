@@ -22,7 +22,7 @@ final class SignUpReactor: Reactor, Stepper {
         case viewPersonalInformationPolicy
         case goToEmailInput
         
-        case registKakaoLogin
+        case registOAuthLogin(OAuthSignInType)
         
         case emailInput(text: String)
         case checkEmailDuplicate
@@ -87,7 +87,8 @@ final class SignUpReactor: Reactor, Stepper {
     let steps = PublishRelay<Step>()
     private let validator: SignUpValidator
     var error: PublishSubject<String>
-    var kakaoAccessToken: String = ""
+    var oAuthAccessToken: String = ""
+    var oAuthLoginType: OAuthSignInType = .kakao
     private let emailLogInUsecase: EMailLogInUsecase
     
     init(validator: SignUpValidator, emailLogInRepository: EMailLogInRepository) {
@@ -195,13 +196,12 @@ final class SignUpReactor: Reactor, Stepper {
                     },
                 Observable.just(.setIsLoading(false))
             ])
-        case .registKakaoLogin:
+        case .registOAuthLogin(let type):
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                self.registWithKakao(accessToken: self.kakaoAccessToken).map { [weak self] result in
+                self.registWithOAuth(accessToken: self.oAuthAccessToken, type: type).map { [weak self] result in
                     switch result {
                     case .success(_):
-                        print("카카오 로그인 성공한듯?")
                         self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
@@ -295,9 +295,10 @@ final class SignUpReactor: Reactor, Stepper {
             }
     }
     
-    private func registWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> { // TODO: Usecase생성 후 이동하기
+    // TODO: Usecase생성 후 이동하기
+    private func registWithOAuth(accessToken: String, type: OAuthSignInType) -> Observable<Result<Void, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.loginWithKakao(kakaoAccessToken: accessToken), callbackQueue: DispatchQueue.global())
+        return provider.rx.request(.logInWithOAuth(logInType: type, token: accessToken), callbackQueue: DispatchQueue.global())
             .asObservable()
             .map { result in
                 if result.statusCode == 200 {

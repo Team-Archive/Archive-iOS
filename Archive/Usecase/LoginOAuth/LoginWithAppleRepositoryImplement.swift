@@ -6,6 +6,7 @@
 //
 
 import AuthenticationServices
+import RxSwift
 
 class LoginWithAppleRepositoryImplement: NSObject {
     var completion: ((Result<String, ArchiveError>) -> Void)?
@@ -22,6 +23,14 @@ class LoginWithAppleRepositoryImplement: NSObject {
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
+    }
+    
+    func isExistEmailWithApple(accessToken: String) -> Observable<Bool> {
+        return Observable.create { [weak self] emitter in
+            emitter.onNext(false)
+            // TODO: 작업
+            return Disposables.create()
+        }
     }
 }
 

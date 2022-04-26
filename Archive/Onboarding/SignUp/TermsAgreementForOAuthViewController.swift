@@ -65,7 +65,7 @@ final class TermsAgreementForOAuthViewController: UIViewController, StoryboardVi
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .map { Reactor.Action.registKakaoLogin }
+            .map { Reactor.Action.registOAuthLogin(reactor.oAuthLoginType) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
