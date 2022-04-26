@@ -174,7 +174,7 @@ final class SignInReactor: Reactor, Stepper {
         case .isExistIdCheckWithApple(let accessToken):
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                isExistEmailWithKakao(accessToken: accessToken).map { [weak self] isExist in
+                isExistEmailWithApple(accessToken: accessToken).map { [weak self] isExist in
                     if isExist {
                         self?.action.onNext(.realLoginWithApple(accessToken: accessToken))
                     } else {

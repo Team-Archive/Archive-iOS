@@ -306,7 +306,14 @@ final class SignUpReactor: Reactor, Stepper {
                     guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
                     // TODO: DIP를 이용해 바꿀것
                     // TODO: kakao Login 모듈과 중복된 코드
-                    LogInManager.shared.logIn(token: loginToken, type: .kakao)
+                    var loginType: LoginType = .eMail
+                    switch type {
+                    case .apple:
+                        loginType = .apple
+                    case .kakao:
+                        loginType = .kakao
+                    }
+                    LogInManager.shared.logIn(token: loginToken, type: loginType)
                     //
                     return .success(())
                 } else {

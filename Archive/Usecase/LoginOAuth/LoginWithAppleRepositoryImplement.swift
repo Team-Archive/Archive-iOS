@@ -28,6 +28,7 @@ class LoginWithAppleRepositoryImplement: NSObject {
     func isExistEmailWithApple(accessToken: String) -> Observable<Bool> {
         return Observable.create { [weak self] emitter in
             emitter.onNext(false)
+            emitter.onCompleted()
             // TODO: 작업
             return Disposables.create()
         }
