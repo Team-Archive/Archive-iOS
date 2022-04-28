@@ -25,7 +25,7 @@ enum ArchiveStep: Step {
     case passwordInputRequired
     case userIsSignedUp
     case signUpComplete
-    case termsAgreeForOAuthRegist(accessToken: String)
+    case termsAgreeForOAuthRegist(accessToken: String, loginType: OAuthSignInType)
     
     // MyPage
     case myPageIsRequired(Int)

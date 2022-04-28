@@ -22,7 +22,9 @@ final class SignInReactor: Reactor, Stepper {
         case signInWithApple
         case signInWithKakao
         case isExistIdCheckWithKakao(accessToken: String)
+        case isExistIdCheckWithApple(accessToken: String)
         case realLoginWithKakao(accessToken: String)
+        case realLoginWithApple(accessToken: String)
         case moveToFindPassword
         case sendTempPassword
         case changepasswordInput(text: String)
@@ -138,7 +140,12 @@ final class SignInReactor: Reactor, Stepper {
             return .empty()
         case .signInWithApple:
             getAppleLoginToken { [weak self] result in
-                print("Apple OAuth Token: \(result)") // TODO: 해당 토큰으로 서버에 로그인 혹은 회원가입 처리
+                switch result {
+                case .success(let accessToken):
+                    self?.action.onNext(.isExistIdCheckWithApple(accessToken: accessToken))
+                case .failure(let err):
+                    self?.error.onNext(err.getMessage())
+                }
             }
             return .empty()
         case .signInWithKakao:
@@ -158,7 +165,20 @@ final class SignInReactor: Reactor, Stepper {
                     if isExist {
                         self?.action.onNext(.realLoginWithKakao(accessToken: accessToken))
                     } else {
-                        self?.steps.accept(ArchiveStep.termsAgreeForOAuthRegist(accessToken: accessToken))
+                        self?.steps.accept(ArchiveStep.termsAgreeForOAuthRegist(accessToken: accessToken, loginType: .kakao))
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
+        case .isExistIdCheckWithApple(let accessToken):
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                isExistEmailWithApple(accessToken: accessToken).map { [weak self] isExist in
+                    if isExist {
+                        self?.action.onNext(.realLoginWithApple(accessToken: accessToken))
+                    } else {
+                        self?.steps.accept(ArchiveStep.termsAgreeForOAuthRegist(accessToken: accessToken, loginType: OAuthSignInType.apple))
                     }
                     return .empty
                 },
@@ -168,6 +188,20 @@ final class SignInReactor: Reactor, Stepper {
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
                 realLoginWithKakao(accessToken: accessToken).map { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        self?.steps.accept(ArchiveStep.userIsSignedIn)
+                    case .failure(let err):
+                        self?.error.onNext(err.getMessage())
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
+        case .realLoginWithApple(accessToken: let accessToken):
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                realLoginWithApple(accessToken: accessToken).map { [weak self] result in
                     switch result {
                     case .success(_):
                         self?.steps.accept(ArchiveStep.userIsSignedIn)
@@ -274,14 +308,30 @@ final class SignInReactor: Reactor, Stepper {
     }
     
     private func isExistEmailWithKakao(accessToken: String) -> Observable<Bool> {
-        self.oAuthUsecase.isExistEmailWithKakao(accessToken: accessToken)
+        return self.oAuthUsecase.isExistEmailWithKakao(accessToken: accessToken)
+    }
+    
+    private func isExistEmailWithApple(accessToken: String) -> Observable<Bool> {
+        return self.oAuthUsecase.isExistEmailWithApple(accessToken: accessToken)
     }
     
     private func realLoginWithKakao(accessToken: String) -> Observable<Result<Void, ArchiveError>> {
-        return self.oAuthUsecase.loginWithKakao(accessToken: accessToken).map { [weak self] result in
+        return self.oAuthUsecase.loginWithKakao(accessToken: accessToken).map { result in
             switch result {
             case .success(let loginToken):
                 LogInManager.shared.logIn(token: loginToken, type: .kakao)
+                return .success(())
+            case .failure(let err):
+                return .failure(err)
+            }
+        }
+    }
+    
+    private func realLoginWithApple(accessToken: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.oAuthUsecase.loginWithApple(accessToken: accessToken).map { result in
+            switch result {
+            case .success(let loginToken):
+                LogInManager.shared.logIn(token: loginToken, type: .apple)
                 return .success(())
             case .failure(let err):
                 return .failure(err)

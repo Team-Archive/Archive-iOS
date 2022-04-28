@@ -48,8 +48,8 @@ final class OnboardingFlow: Flow {
         case .signUpComplete:
             rootViewController.popToRootViewController(animated: true)
             return .none
-        case .termsAgreeForOAuthRegist(let accessToken):
-            return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken)
+        case .termsAgreeForOAuthRegist(let accessToken, let type):
+            return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken, loginType: type)
         case .findPassword:
             return navigationToFindPasswordScreen()
         case .changePasswordFromFindPassword:
@@ -122,13 +122,14 @@ final class OnboardingFlow: Flow {
                                                  withNextStepper: reactor))
     }
     
-    private func navigationToTermsAgreementForOAuthScreen(accessToken: String) -> FlowContributors {
+    private func navigationToTermsAgreementForOAuthScreen(accessToken: String, loginType: OAuthSignInType) -> FlowContributors {
         let termsAgreementViewController = onboardingStoryBoard
             .instantiateViewController(identifier: TermsAgreementForOAuthViewController.identifier) { coder in
                 return TermsAgreementForOAuthViewController(coder: coder, reactor: self.signUpReactor)
             }
         termsAgreementViewController.title = Constants.signUpNavigationTitle
-        self.signUpReactor.kakaoAccessToken = accessToken
+        self.signUpReactor.oAuthAccessToken = accessToken
+        self.signUpReactor.oAuthLoginType = loginType
         rootViewController.pushViewController(termsAgreementViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: termsAgreementViewController,
                                                  withNextStepper: signUpReactor))

@@ -7,7 +7,7 @@
 
 import RxSwift
 
-public enum OAuthSignInType: Codable {
+public enum OAuthSignInType: String, Codable {
     case apple
     case kakao
 }
@@ -15,5 +15,7 @@ public enum OAuthSignInType: Codable {
 protocol LoginOAuthRepository {
     func getToken(type: OAuthSignInType, completion: @escaping (Result<String, ArchiveError>) -> Void)
     func isExistEmailWithKakao(accessToken: String) -> Observable<Bool>
+    func isExistEmailWithApple(accessToken: String) -> Observable<Bool>
     func loginWithKakao(accessToken: String) -> Observable<Result<String, ArchiveError>>
+    func loginWithApple(accessToken: String) -> Observable<Result<String, ArchiveError>>
 }
