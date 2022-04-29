@@ -53,11 +53,17 @@
 ![merge_from_ofoct](https://user-images.githubusercontent.com/60125719/146006348-806d7994-cd60-4cb9-955c-b05393c65602.jpg)
 
 ## 릴리즈
-
  - [v 1.0.1](https://github.com/depromeet/Archive_iOS/releases/tag/1.0.1)
  - [v 1.0.2](https://github.com/depromeet/Archive_iOS/releases/tag/1.0.2)
  - [v 1.0.3](https://github.com/depromeet/Archive_iOS/releases/tag/1.0.3)
  - [v 1.0.4](https://github.com/depromeet/Archive_iOS/releases/tag/1.0.4)
+ - v 1.0.5
+ - v 1.0.6
+  
+ - [v 1.1.1](https://github.com/Team-Archive/Archive-iOS/releases/tag/1.1.1)
+
+##### 저장소 이관
+[이전저장소](https://github.com/depromeet/Archive_iOS)
 
 ## 라이센스
 
