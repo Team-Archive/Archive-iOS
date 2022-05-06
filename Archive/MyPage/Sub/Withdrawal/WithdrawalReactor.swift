@@ -19,6 +19,7 @@ class WithdrawalReactor: Reactor, Stepper {
     
     let steps = PublishRelay<Step>()
     let initialState = State()
+    var err: PublishSubject<ArchiveError> = .init()
     
     // MARK: lifeCycle
     
@@ -59,7 +60,7 @@ class WithdrawalReactor: Reactor, Stepper {
                         LogInManager.shared.logOut()
                         self?.steps.accept(ArchiveStep.logout)
                     case .failure(let err):
-                        print("err: \(err.localizedDescription)")
+                        self?.err.onNext(err)
                     }
                     return .setIsLoading(false)
                 }
@@ -80,7 +81,7 @@ class WithdrawalReactor: Reactor, Stepper {
     
     // MARK: private function
     
-    private func withdrawal() -> Observable<Result<Data, Error>> {
+    private func withdrawal() -> Observable<Result<Data, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
         
         return provider.rx.request(.withdrawal, callbackQueue: DispatchQueue.global())
@@ -89,7 +90,7 @@ class WithdrawalReactor: Reactor, Stepper {
                 return .success(result.data)
             }
             .catch { err in
-                .just(.failure(err))
+                    .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
     
