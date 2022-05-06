@@ -65,8 +65,8 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
         super.viewDidLoad()
         initUI()
         self.reactor?.action.onNext(.refreshLoginType)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIWindow.keyboardWillHideNotification, object: nil)
         self.reactor?.action.onNext(.getEmail)
     }
     
@@ -204,6 +204,7 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
     // MARK: private function
     
     private func initUI() {
+        self.originScrollContainerViewBottomConstraint = self.scrollContainerViewBottomConstraint.constant
         self.backgroundView.backgroundColor = Gen.Colors.white.color
         self.scrollViewContainerView.backgroundColor = .clear
         self.scrollView.backgroundColor = .clear
@@ -224,6 +225,7 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
         self.currentPasswordTitleLabel.text = "현재 비밀번호"
         self.currentPasswordInputView.isSecureTextEntry = true
         self.currentPasswordInputView.returnKeyType = .done
+        self.currentPasswordInputView.placeholder = "현재 비밀번호를 입력해주세요."
         
         self.newPasswordTitleLabel.font = .fonts(.body)
         self.newPasswordTitleLabel.textColor = Gen.Colors.gray01.color
@@ -231,8 +233,10 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
         
         self.newPasswordInputView.isSecureTextEntry = true
         self.newPasswordInputView.returnKeyType = .done
+        self.newPasswordInputView.placeholder = "신규 비밀번호를 입력해주세요."
         self.newPasswordConfirmInputView.isSecureTextEntry = true
         self.newPasswordConfirmInputView.returnKeyType = .done
+        self.newPasswordConfirmInputView.placeholder = "신규 비밀번호를 입력해주세요."
         
         self.englishCombinationCheckView.title = "영문조합"
         self.numberCombinationCheckView.title = "숫자조합"
@@ -249,8 +253,6 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
         self.logoutBtn.setTitle("로그아웃", for: .highlighted)
         self.logoutBtn.setTitleColor(Gen.Colors.gray04.color, for: .highlighted)
         self.logoutBtn.titleLabel?.font = .fonts(.body)
-//        self.currentPWTextField.returnKeyType = .done
-//        self.newPWTextField.returnKeyType = .done
     }
     
     private func refreshUIForEMail() {
@@ -258,18 +260,12 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
         self.eMailIconImageView.isHidden = true
         self.eMailLabel.textColor = Gen.Colors.gray04.color
         self.eMailTextContainerView.backgroundColor = Gen.Colors.gray06.color
-//        self.passwordCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.confirmBtnView.backgroundColor = Gen.Colors.gray04.color
-//        self.confirmBtnTitleLabel.textColor = Gen.Colors.white.color
-//        self.currentPWTextContainerView.backgroundColor = Gen.Colors.white.color
-//        self.newPWTextContainerView.backgroundColor = Gen.Colors.white.color
-//        self.newPWTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요.", attributes: self.activePlaceHolderAttributes)
-//        self.currentPWTextField.attributedPlaceholder = NSAttributedString(string: "현재 비밀번호를 입력해주세요.", attributes: self.activePlaceHolderAttributes)
-//        self.newPWTextField.isEnabled = true
-//        self.currentPWTextField.isEnabled = true
+        self.currentPasswordInputView.isEnabled = true
+        self.currentPasswordInputView.backgroundColor = Gen.Colors.white.color
+        self.newPasswordInputView.isEnabled = true
+        self.newPasswordInputView.backgroundColor = Gen.Colors.white.color
+        self.newPasswordConfirmInputView.isEnabled = true
+        self.newPasswordConfirmInputView.backgroundColor = Gen.Colors.white.color
     }
     
     private func refreshUIForKakao() {
@@ -285,31 +281,29 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
     private func refreshUIForSocialLogin() {
         self.eMailLabel.textColor = Gen.Colors.black.color
         self.eMailTextContainerView.backgroundColor = Gen.Colors.white.color
-//        self.passwordCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.confirmBtnView.backgroundColor = Gen.Colors.gray04.color
-//        self.confirmBtnTitleLabel.textColor = Gen.Colors.white.color
-//        self.currentPWTextContainerView.backgroundColor = Gen.Colors.white.color
-//        self.newPWTextContainerView.backgroundColor = Gen.Colors.white.color
-//        self.confirmBtnView.isHidden = true
-//        self.currentPWTextContainerView.backgroundColor = Gen.Colors.gray06.color
-//        self.newPWTextContainerView.backgroundColor = Gen.Colors.gray06.color
-//        self.newPWTextField.isEnabled = false
-//        self.currentPWTextField.isEnabled = false
-//        self.newPWTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요.", attributes: self.nonActivePlaceHolderAttributes)
-//        self.currentPWTextField.attributedPlaceholder = NSAttributedString(string: "현재 비밀번호를 입력해주세요.", attributes: self.nonActivePlaceHolderAttributes)
+        self.currentPasswordInputView.isEnabled = false
+        self.currentPasswordInputView.backgroundColor = Gen.Colors.gray05.color
+        self.newPasswordInputView.isEnabled = false
+        self.newPasswordInputView.backgroundColor = Gen.Colors.gray05.color
+        self.newPasswordConfirmInputView.isEnabled = false
+        self.newPasswordConfirmInputView.backgroundColor = Gen.Colors.gray05.color
+        self.nextButton.isEnabled = false
     }
     
-    @objc private func keyboardWillShowNotification(_ notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            self.scrollContainerViewBottomConstraint.constant = self.originEMailIconWidthConstraint + keyboardSize.height
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardHeight = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height else { return }
+        var added: CGFloat = 0
+        if UIDevice.current.hasNotch {
+            added = 34
         }
+        self.scrollContainerViewBottomConstraint.constant = keyboardHeight - added
     }
-    
-    @objc private func keyboardWillHideNotification(_ notification: Notification) {
-        self.scrollContainerViewBottomConstraint.constant = self.originEMailIconWidthConstraint
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        self.scrollContainerViewBottomConstraint.constant = self.originScrollContainerViewBottomConstraint
+        UIView.animate(withDuration: 1.0, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        })
     }
     
     // MARK: internal function

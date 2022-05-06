@@ -52,6 +52,11 @@ final class InputView: UIView, UITextFieldDelegate {
             self.textField.returnKeyType = self.returnKeyType
         }
     }
+    var isEnabled: Bool = true {
+        didSet {
+            self.textField.isEnabled = isEnabled
+        }
+    }
     
     fileprivate lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()

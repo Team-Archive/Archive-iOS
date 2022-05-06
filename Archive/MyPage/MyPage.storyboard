@@ -486,15 +486,15 @@
                                                             </stackView>
                                                         </subviews>
                                                     </stackView>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phw-NH-SiH">
+                                                        <rect key="frame" x="264" y="655.5" width="54" height="34"/>
+                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                        <state key="normal" title="Button"/>
+                                                    </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwZ-WF-pXU">
                                                         <rect key="frame" x="328" y="655.5" width="54" height="34"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="Button"/>
-                                                    </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="phw-NH-SiH">
-                                                        <rect key="frame" x="251" y="655.5" width="67" height="31"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kbs-85-zRA" customClass="DefaultButton" customModule="Archive" customModuleProvider="target">
                                                         <rect key="frame" x="32" y="589.5" width="350" height="56"/>
@@ -522,7 +522,6 @@
                                                     <constraint firstItem="fjG-aG-22N" firstAttribute="top" secondItem="xtZ-sC-vaY" secondAttribute="bottom" constant="24" id="NNj-Qp-0Vr"/>
                                                     <constraint firstItem="Kbs-85-zRA" firstAttribute="leading" secondItem="Xw3-bK-EQh" secondAttribute="leading" constant="32" id="OZv-jz-wpM"/>
                                                     <constraint firstItem="xtZ-sC-vaY" firstAttribute="leading" secondItem="Xw3-bK-EQh" secondAttribute="leading" constant="32" id="Rb3-2o-fgh"/>
-                                                    <constraint firstItem="phw-NH-SiH" firstAttribute="top" secondItem="Kbs-85-zRA" secondAttribute="bottom" constant="10" id="Rhi-L1-10s"/>
                                                     <constraint firstItem="xtZ-sC-vaY" firstAttribute="top" secondItem="Bgn-mu-Btt" secondAttribute="bottom" constant="8" id="T4h-Uc-njk"/>
                                                     <constraint firstAttribute="trailing" secondItem="Bgn-mu-Btt" secondAttribute="trailing" constant="32" id="YBJ-Ww-Xtu"/>
                                                     <constraint firstItem="hwZ-WF-pXU" firstAttribute="top" secondItem="Kbs-85-zRA" secondAttribute="bottom" constant="10" id="ZYb-FT-iTm"/>
@@ -533,6 +532,7 @@
                                                     <constraint firstItem="Bgn-mu-Btt" firstAttribute="leading" secondItem="Xw3-bK-EQh" secondAttribute="leading" constant="32" id="suB-O3-Cgk"/>
                                                     <constraint firstItem="Bgn-mu-Btt" firstAttribute="top" secondItem="Xw3-bK-EQh" secondAttribute="top" constant="36" id="uqM-YQ-RkK"/>
                                                     <constraint firstAttribute="trailing" secondItem="hwZ-WF-pXU" secondAttribute="trailing" constant="32" id="xLY-JP-7KF"/>
+                                                    <constraint firstItem="phw-NH-SiH" firstAttribute="centerY" secondItem="hwZ-WF-pXU" secondAttribute="centerY" id="yGO-q5-4Xx"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
