@@ -60,8 +60,8 @@ class FindPasswordUsecase: NSObject {
         }
     }
     
-    func changePassword(eMail: String, tempPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
-        return self.repository.changePassword(eMail: eMail, tempPassword: tempPassword, newPassword: newPassword)
+    func changePassword(eMail: String, currentPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.repository.changePassword(eMail: eMail, currentPassword: currentPassword, newPassword: newPassword)
     }
     
 }

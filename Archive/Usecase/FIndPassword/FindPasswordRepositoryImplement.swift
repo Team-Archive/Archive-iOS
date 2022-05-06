@@ -47,9 +47,9 @@ class FindPasswordRepositoryImplement: FindPasswordRepository {
             }
     }
     
-    func changePassword(eMail: String, tempPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
+    func changePassword(eMail: String, currentPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.changePassword(eMail: eMail, beforePassword: tempPassword, newPassword: newPassword), callbackQueue: DispatchQueue.global())
+        return provider.rx.request(.changePassword(eMail: eMail, beforePassword: currentPassword, newPassword: newPassword), callbackQueue: DispatchQueue.global())
             .asObservable()
             .map { result in
                 if result.statusCode == 200 {
