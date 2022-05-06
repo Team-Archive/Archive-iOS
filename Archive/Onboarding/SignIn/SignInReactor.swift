@@ -31,6 +31,7 @@ final class SignInReactor: Reactor, Stepper {
         case passwordCofirmInput(text: String)
         case tempPasswordInput(text: String)
         case changePassword
+        case debugTouchAction
     }
      
     enum Mutation {
@@ -83,9 +84,11 @@ final class SignInReactor: Reactor, Stepper {
     var error: PublishSubject<String>
     var toastMessage: PublishSubject<String>
     var popToRootView: PublishSubject<Void>
+    var showDebugPasswordInputView: PublishSubject<Void> = .init()
     private let oAuthUsecase: LoginOAuthUsecase
     private let findPasswordUsecase: FindPasswordUsecase
     private let emailLogInUsecase: EMailLogInUsecase
+    private var debugTouchCnt: Int = 0
     
     init(validator: Validator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository, emailLogInRepository: EMailLogInRepository) {
         self.validator = validator
@@ -265,6 +268,9 @@ final class SignInReactor: Reactor, Stepper {
                 },
                 Observable.just(.setIsLoading(false))
             ])
+        case .debugTouchAction:
+            debugTouch()
+            return .empty()
         }
     }
     
@@ -349,6 +355,13 @@ final class SignInReactor: Reactor, Stepper {
     
     private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
         return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
+    }
+    
+    private func debugTouch() {
+        self.debugTouchCnt += 1
+        if debugTouchCnt >= 15 {
+            self.showDebugPasswordInputView.onNext(())
+        }
     }
     
     

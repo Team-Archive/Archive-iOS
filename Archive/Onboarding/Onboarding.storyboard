@@ -124,6 +124,15 @@
                                     <constraint firstItem="2N5-Bz-bXG" firstAttribute="top" secondItem="VFT-ds-d8L" secondAttribute="top" id="q6S-te-aJk"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3v-Z3-tsr">
+                                <rect key="frame" x="0.0" y="44" width="100" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="O6O-tt-guk"/>
+                                    <constraint firstAttribute="height" constant="100" id="fPM-rT-ufR"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title=" "/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NOq-FR-j98"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -133,17 +142,20 @@
                             <constraint firstItem="ExH-wP-tWK" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NOq-FR-j98" secondAttribute="top" priority="750" constant="44" id="9T7-UF-b8a"/>
                             <constraint firstItem="NOq-FR-j98" firstAttribute="bottom" secondItem="VFT-ds-d8L" secondAttribute="bottom" constant="110" id="B4H-ei-UYn"/>
                             <constraint firstItem="NOq-FR-j98" firstAttribute="trailing" secondItem="VFT-ds-d8L" secondAttribute="trailing" id="EvE-zh-hM3"/>
+                            <constraint firstItem="h3v-Z3-tsr" firstAttribute="top" secondItem="NOq-FR-j98" secondAttribute="top" id="KUh-ta-6hl"/>
                             <constraint firstItem="uAy-wf-Bb4" firstAttribute="top" secondItem="JYI-9K-a3j" secondAttribute="bottom" constant="20" id="MaW-Nv-XDt"/>
                             <constraint firstItem="JYI-9K-a3j" firstAttribute="top" secondItem="ExH-wP-tWK" secondAttribute="bottom" priority="500" constant="64" id="VB6-Xh-l8a"/>
                             <constraint firstItem="VFT-ds-d8L" firstAttribute="leading" secondItem="NOq-FR-j98" secondAttribute="leading" id="WEp-Ea-Wrq"/>
                             <constraint firstItem="ExH-wP-tWK" firstAttribute="centerX" secondItem="NOq-FR-j98" secondAttribute="centerX" id="cyJ-IB-9iF"/>
                             <constraint firstItem="uAy-wf-Bb4" firstAttribute="centerX" secondItem="NOq-FR-j98" secondAttribute="centerX" id="gbV-iP-Tzi"/>
                             <constraint firstItem="ExH-wP-tWK" firstAttribute="top" secondItem="NOq-FR-j98" secondAttribute="top" priority="500" constant="118" id="iPt-ET-44f"/>
+                            <constraint firstItem="h3v-Z3-tsr" firstAttribute="leading" secondItem="NOq-FR-j98" secondAttribute="leading" id="lpX-Oj-Gf7"/>
                             <constraint firstItem="NOq-FR-j98" firstAttribute="trailing" secondItem="JYI-9K-a3j" secondAttribute="trailing" constant="32" id="rQW-Ej-Mc6"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="appleSignInBtn" destination="a1M-SK-6Q0" id="Ims-JO-Kec"/>
+                        <outlet property="debugBtn" destination="h3v-Z3-tsr" id="tlp-DM-Lf7"/>
                         <outlet property="idInputView" destination="SDs-c9-36d" id="pYR-zo-fUK"/>
                         <outlet property="kakaoSignInBtn" destination="CAP-ve-nHA" id="bE1-wF-zH1"/>
                         <outlet property="mainContainerView" destination="xpv-YU-iCx" id="A2n-UM-vLR"/>
