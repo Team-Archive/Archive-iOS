@@ -24,23 +24,23 @@ class LoginInformationViewController: UIViewController, StoryboardView {
     @IBOutlet weak var eMailLabel: UILabel!
     @IBOutlet weak var eMailIconImageView: UIImageView!
     @IBOutlet weak var eMailIconWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var currentPWLabel: UILabel!
-    @IBOutlet weak var currentPWTextContainerView: UIView!
-    @IBOutlet weak var currentPWTextField: UITextField!
-    @IBOutlet weak var passwordCorrectLabel: UILabel!
-    @IBOutlet weak var passwordCorrectImageView: UIImageView!
-    @IBOutlet weak var newPWLabel: UILabel!
-    @IBOutlet weak var newPWTextContainerView: UIView!
-    @IBOutlet weak var newPWTextField: UITextField!
-    @IBOutlet weak var newPWEngCorrectLabel: UILabel!
-    @IBOutlet weak var newPWEngCorrectImageView: UIImageView!
-    @IBOutlet weak var newPWNumCorrectLabel: UILabel!
-    @IBOutlet weak var newPWNumCorrectImageView: UIImageView!
-    @IBOutlet weak var newPWSizeCorrectLabel: UILabel!
-    @IBOutlet weak var newPWSizeCorrectImageView: UIImageView!
-    @IBOutlet weak var confirmBtnView: UIView!
-    @IBOutlet weak var confirmBtnTitleLabel: UILabel!
-    @IBOutlet weak var confirmBtn: UIButton!
+//    @IBOutlet weak var currentPWLabel: UILabel!
+//    @IBOutlet weak var currentPWTextContainerView: UIView!
+//    @IBOutlet weak var currentPWTextField: UITextField!
+//    @IBOutlet weak var passwordCorrectLabel: UILabel!
+//    @IBOutlet weak var passwordCorrectImageView: UIImageView!
+//    @IBOutlet weak var newPWLabel: UILabel!
+//    @IBOutlet weak var newPWTextContainerView: UIView!
+//    @IBOutlet weak var newPWTextField: UITextField!
+//    @IBOutlet weak var newPWEngCorrectLabel: UILabel!
+//    @IBOutlet weak var newPWEngCorrectImageView: UIImageView!
+//    @IBOutlet weak var newPWNumCorrectLabel: UILabel!
+//    @IBOutlet weak var newPWNumCorrectImageView: UIImageView!
+//    @IBOutlet weak var newPWSizeCorrectLabel: UILabel!
+//    @IBOutlet weak var newPWSizeCorrectImageView: UIImageView!
+//    @IBOutlet weak var confirmBtnView: UIView!
+//    @IBOutlet weak var confirmBtnTitleLabel: UILabel!
+//    @IBOutlet weak var confirmBtn: UIButton!
     @IBOutlet weak var withdrawalBtn: UIButton!
     @IBOutlet weak var logoutBtn: UIButton!
     
@@ -136,37 +136,37 @@ class LoginInformationViewController: UIViewController, StoryboardView {
         self.eMailLabel.textColor = Gen.Colors.black.color
         self.originEMailIconWidthConstraint = self.eMailIconWidthConstraint.constant
         self.eMailLabel.font = .fonts(.body)
-        self.currentPWLabel.font = .fonts(.body)
-        self.currentPWLabel.textColor = Gen.Colors.gray01.color
-        self.currentPWLabel.text = "현재 비밀번호"
-        self.currentPWTextContainerView.layer.cornerRadius = 8
-        self.currentPWTextContainerView.layer.borderColor = Gen.Colors.gray04.color.cgColor
-        self.currentPWTextContainerView.layer.borderWidth = 1
-        self.currentPWTextField.textColor = Gen.Colors.black.color
-        self.passwordCorrectLabel.font = .fonts(.body)
-        self.passwordCorrectLabel.text = "비밀번호 일치"
-        self.currentPWLabel.font = .fonts(.body)
-        self.currentPWLabel.textColor = Gen.Colors.black.color
-        self.currentPWLabel.text = "현재 비밀번호"
-        self.newPWLabel.font = .fonts(.body)
-        self.newPWLabel.textColor = Gen.Colors.gray01.color
-        self.newPWLabel.text = "신규 비밀번호"
-        self.newPWTextContainerView.layer.cornerRadius = 8
-        self.newPWTextContainerView.layer.borderColor = Gen.Colors.gray04.color.cgColor
-        self.newPWTextContainerView.layer.borderWidth = 1
-        self.newPWTextField.textColor = Gen.Colors.black.color
-        self.newPWEngCorrectLabel.font = .fonts(.body)
-        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWEngCorrectLabel.text = "영문조합"
-        self.newPWNumCorrectLabel.font = .fonts(.body)
-        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWNumCorrectLabel.text = "숫자조합"
-        self.newPWSizeCorrectLabel.font = .fonts(.body)
-        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWSizeCorrectLabel.text = "8-20자 이내"
-        self.confirmBtnView.layer.cornerRadius = 8
-        self.confirmBtnTitleLabel.font = .fonts(.button)
-        self.confirmBtnTitleLabel.text = "비밀번호 변경"
+//        self.currentPWLabel.font = .fonts(.body)
+//        self.currentPWLabel.textColor = Gen.Colors.gray01.color
+//        self.currentPWLabel.text = "현재 비밀번호"
+//        self.currentPWTextContainerView.layer.cornerRadius = 8
+//        self.currentPWTextContainerView.layer.borderColor = Gen.Colors.gray04.color.cgColor
+//        self.currentPWTextContainerView.layer.borderWidth = 1
+//        self.currentPWTextField.textColor = Gen.Colors.black.color
+//        self.passwordCorrectLabel.font = .fonts(.body)
+//        self.passwordCorrectLabel.text = "비밀번호 일치"
+//        self.currentPWLabel.font = .fonts(.body)
+//        self.currentPWLabel.textColor = Gen.Colors.black.color
+//        self.currentPWLabel.text = "현재 비밀번호"
+//        self.newPWLabel.font = .fonts(.body)
+//        self.newPWLabel.textColor = Gen.Colors.gray01.color
+//        self.newPWLabel.text = "신규 비밀번호"
+//        self.newPWTextContainerView.layer.cornerRadius = 8
+//        self.newPWTextContainerView.layer.borderColor = Gen.Colors.gray04.color.cgColor
+//        self.newPWTextContainerView.layer.borderWidth = 1
+//        self.newPWTextField.textColor = Gen.Colors.black.color
+//        self.newPWEngCorrectLabel.font = .fonts(.body)
+//        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWEngCorrectLabel.text = "영문조합"
+//        self.newPWNumCorrectLabel.font = .fonts(.body)
+//        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWNumCorrectLabel.text = "숫자조합"
+//        self.newPWSizeCorrectLabel.font = .fonts(.body)
+//        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWSizeCorrectLabel.text = "8-20자 이내"
+//        self.confirmBtnView.layer.cornerRadius = 8
+//        self.confirmBtnTitleLabel.font = .fonts(.button)
+//        self.confirmBtnTitleLabel.text = "비밀번호 변경"
         self.withdrawalBtn.setTitle("회원탈퇴", for: .normal)
         self.withdrawalBtn.setTitleColor(Gen.Colors.gray04.color, for: .normal)
         self.withdrawalBtn.setTitle("회원탈퇴", for: .highlighted)
@@ -177,8 +177,8 @@ class LoginInformationViewController: UIViewController, StoryboardView {
         self.logoutBtn.setTitle("로그아웃", for: .highlighted)
         self.logoutBtn.setTitleColor(Gen.Colors.gray04.color, for: .highlighted)
         self.logoutBtn.titleLabel?.font = .fonts(.body)
-        self.currentPWTextField.returnKeyType = .done
-        self.newPWTextField.returnKeyType = .done
+//        self.currentPWTextField.returnKeyType = .done
+//        self.newPWTextField.returnKeyType = .done
     }
     
     private func refreshUIForEMail() {
@@ -186,18 +186,18 @@ class LoginInformationViewController: UIViewController, StoryboardView {
         self.eMailIconImageView.isHidden = true
         self.eMailLabel.textColor = Gen.Colors.gray04.color
         self.eMailTextContainerView.backgroundColor = Gen.Colors.gray06.color
-        self.passwordCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.confirmBtnView.backgroundColor = Gen.Colors.gray04.color
-        self.confirmBtnTitleLabel.textColor = Gen.Colors.white.color
-        self.currentPWTextContainerView.backgroundColor = Gen.Colors.white.color
-        self.newPWTextContainerView.backgroundColor = Gen.Colors.white.color
-        self.newPWTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요.", attributes: self.activePlaceHolderAttributes)
-        self.currentPWTextField.attributedPlaceholder = NSAttributedString(string: "현재 비밀번호를 입력해주세요.", attributes: self.activePlaceHolderAttributes)
-        self.newPWTextField.isEnabled = true
-        self.currentPWTextField.isEnabled = true
+//        self.passwordCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.confirmBtnView.backgroundColor = Gen.Colors.gray04.color
+//        self.confirmBtnTitleLabel.textColor = Gen.Colors.white.color
+//        self.currentPWTextContainerView.backgroundColor = Gen.Colors.white.color
+//        self.newPWTextContainerView.backgroundColor = Gen.Colors.white.color
+//        self.newPWTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요.", attributes: self.activePlaceHolderAttributes)
+//        self.currentPWTextField.attributedPlaceholder = NSAttributedString(string: "현재 비밀번호를 입력해주세요.", attributes: self.activePlaceHolderAttributes)
+//        self.newPWTextField.isEnabled = true
+//        self.currentPWTextField.isEnabled = true
     }
     
     private func refreshUIForKakao() {
@@ -213,21 +213,21 @@ class LoginInformationViewController: UIViewController, StoryboardView {
     private func refreshUIForSocialLogin() {
         self.eMailLabel.textColor = Gen.Colors.black.color
         self.eMailTextContainerView.backgroundColor = Gen.Colors.white.color
-        self.passwordCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
-        self.confirmBtnView.backgroundColor = Gen.Colors.gray04.color
-        self.confirmBtnTitleLabel.textColor = Gen.Colors.white.color
-        self.currentPWTextContainerView.backgroundColor = Gen.Colors.white.color
-        self.newPWTextContainerView.backgroundColor = Gen.Colors.white.color
-        self.confirmBtnView.isHidden = true
-        self.currentPWTextContainerView.backgroundColor = Gen.Colors.gray06.color
-        self.newPWTextContainerView.backgroundColor = Gen.Colors.gray06.color
-        self.newPWTextField.isEnabled = false
-        self.currentPWTextField.isEnabled = false
-        self.newPWTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요.", attributes: self.nonActivePlaceHolderAttributes)
-        self.currentPWTextField.attributedPlaceholder = NSAttributedString(string: "현재 비밀번호를 입력해주세요.", attributes: self.nonActivePlaceHolderAttributes)
+//        self.passwordCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
+//        self.confirmBtnView.backgroundColor = Gen.Colors.gray04.color
+//        self.confirmBtnTitleLabel.textColor = Gen.Colors.white.color
+//        self.currentPWTextContainerView.backgroundColor = Gen.Colors.white.color
+//        self.newPWTextContainerView.backgroundColor = Gen.Colors.white.color
+//        self.confirmBtnView.isHidden = true
+//        self.currentPWTextContainerView.backgroundColor = Gen.Colors.gray06.color
+//        self.newPWTextContainerView.backgroundColor = Gen.Colors.gray06.color
+//        self.newPWTextField.isEnabled = false
+//        self.currentPWTextField.isEnabled = false
+//        self.newPWTextField.attributedPlaceholder = NSAttributedString(string: "비밀번호를 입력해주세요.", attributes: self.nonActivePlaceHolderAttributes)
+//        self.currentPWTextField.attributedPlaceholder = NSAttributedString(string: "현재 비밀번호를 입력해주세요.", attributes: self.nonActivePlaceHolderAttributes)
     }
     
     @objc private func keyboardWillShowNotification(_ notification: Notification) {
