@@ -569,13 +569,23 @@
                     </view>
                     <connections>
                         <outlet property="backgroundView" destination="waP-Wg-hNP" id="R9c-J6-Zcz"/>
+                        <outlet property="countCheckView" destination="i2W-Mc-cly" id="jMQ-Ni-lNL"/>
+                        <outlet property="currentPasswordInputView" destination="cNp-ml-Ebg" id="HrU-4A-UHt"/>
+                        <outlet property="currentPasswordTitleLabel" destination="MWi-Vr-dRV" id="nkF-at-3iq"/>
                         <outlet property="eMailIconImageView" destination="jLc-0f-vmo" id="Zu1-M9-hUC"/>
                         <outlet property="eMailIconWidthConstraint" destination="q4c-ls-EWp" id="4CS-lA-eym"/>
                         <outlet property="eMailLabel" destination="Kyp-mt-01s" id="hwT-Ya-s4R"/>
                         <outlet property="eMailTextContainerView" destination="xtZ-sC-vaY" id="aiK-NO-P3u"/>
                         <outlet property="eMailTitleLabel" destination="Bgn-mu-Btt" id="IM5-sT-fJR"/>
+                        <outlet property="englishCombinationCheckView" destination="eyJ-wa-6NO" id="1bR-EE-Bdy"/>
                         <outlet property="logoutBtn" destination="phw-NH-SiH" id="8Bw-hA-d1f"/>
                         <outlet property="mainContainerView" destination="Xw3-bK-EQh" id="Y6y-fZ-wMW"/>
+                        <outlet property="newPasswordCofirmCheckView" destination="FWN-MC-Bgr" id="xQe-za-pDX"/>
+                        <outlet property="newPasswordConfirmInputView" destination="snl-I5-9kF" id="QUP-f2-djO"/>
+                        <outlet property="newPasswordInputView" destination="Lnl-70-Fwd" id="T5V-eq-sSj"/>
+                        <outlet property="newPasswordTitleLabel" destination="LGn-8L-h2a" id="Mk5-vJ-3KO"/>
+                        <outlet property="nextButton" destination="Kbs-85-zRA" id="yNX-jv-wAp"/>
+                        <outlet property="numberCombinationCheckView" destination="x60-NW-DQj" id="Bbv-Zb-osW"/>
                         <outlet property="scrollContainerViewBottomConstraint" destination="Xj8-Tj-s2P" id="yoY-lK-HbQ"/>
                         <outlet property="scrollView" destination="J6d-Mq-S0j" id="oMb-Ry-6cL"/>
                         <outlet property="scrollViewContainerView" destination="qYD-Fu-q7h" id="tAa-pn-hzx"/>

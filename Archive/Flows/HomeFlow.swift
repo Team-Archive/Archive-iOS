@@ -142,7 +142,7 @@ class HomeFlow: Flow {
     
     private func navigationToLoginInformationScreen(type: LoginType, eMail: String, cardCnt: Int) -> FlowContributors {
         let model: LoginInformationModel = LoginInformationModel(email: eMail, cardCount: cardCnt)
-        let reactor = LoginInformationReactor(model: model, type: type)
+        let reactor = LoginInformationReactor(model: model, type: type, validator: Validator(), findPasswordUsecase: FindPasswordUsecase(repository: FindPasswordRepositoryImplement()))
         let loginInfoViewController: LoginInformationViewController = myPageStoryBoard.instantiateViewController(identifier: LoginInformationViewController.identifier) { corder in
             return LoginInformationViewController(coder: corder, reactor: reactor)
         }

@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxFlow
 
-class LoginInformationViewController: UIViewController, StoryboardView {
+class LoginInformationViewController: UIViewController, StoryboardView, ActivityIndicatorable {
 
     // MARK: IBOutlet
     @IBOutlet weak var backgroundView: UIView!
@@ -24,23 +24,20 @@ class LoginInformationViewController: UIViewController, StoryboardView {
     @IBOutlet weak var eMailLabel: UILabel!
     @IBOutlet weak var eMailIconImageView: UIImageView!
     @IBOutlet weak var eMailIconWidthConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var currentPWLabel: UILabel!
-//    @IBOutlet weak var currentPWTextContainerView: UIView!
-//    @IBOutlet weak var currentPWTextField: UITextField!
-//    @IBOutlet weak var passwordCorrectLabel: UILabel!
-//    @IBOutlet weak var passwordCorrectImageView: UIImageView!
-//    @IBOutlet weak var newPWLabel: UILabel!
-//    @IBOutlet weak var newPWTextContainerView: UIView!
-//    @IBOutlet weak var newPWTextField: UITextField!
-//    @IBOutlet weak var newPWEngCorrectLabel: UILabel!
-//    @IBOutlet weak var newPWEngCorrectImageView: UIImageView!
-//    @IBOutlet weak var newPWNumCorrectLabel: UILabel!
-//    @IBOutlet weak var newPWNumCorrectImageView: UIImageView!
-//    @IBOutlet weak var newPWSizeCorrectLabel: UILabel!
-//    @IBOutlet weak var newPWSizeCorrectImageView: UIImageView!
-//    @IBOutlet weak var confirmBtnView: UIView!
-//    @IBOutlet weak var confirmBtnTitleLabel: UILabel!
-//    @IBOutlet weak var confirmBtn: UIButton!
+    
+    @IBOutlet weak var currentPasswordTitleLabel: UILabel!
+    @IBOutlet weak var currentPasswordInputView: InputView!
+    
+    @IBOutlet weak var newPasswordTitleLabel: UILabel!
+    @IBOutlet weak var newPasswordInputView: InputView!
+    @IBOutlet weak var englishCombinationCheckView: ConditionCheckmarkView!
+    @IBOutlet weak var numberCombinationCheckView: ConditionCheckmarkView!
+    @IBOutlet weak var countCheckView: ConditionCheckmarkView!
+    
+    @IBOutlet weak var newPasswordConfirmInputView: InputView!
+    @IBOutlet weak var newPasswordCofirmCheckView: ConditionCheckmarkView!
+    @IBOutlet private weak var nextButton: UIButton!
+    
     @IBOutlet weak var withdrawalBtn: UIButton!
     @IBOutlet weak var logoutBtn: UIButton!
     
@@ -117,6 +114,91 @@ class LoginInformationViewController: UIViewController, StoryboardView {
         reactor.state.map { $0.eMail }
         .bind(to: self.eMailLabel.rx.text)
         .disposed(by: self.disposeBag)
+        
+        currentPasswordInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.currentPasswordInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        newPasswordInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.changeNewPasswordInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        newPasswordConfirmInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.newPasswordCofirmInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        nextButton?.rx.tap
+            .map { Reactor.Action.changePassword }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isContainsEnglish }
+            .distinctUntilChanged()
+            .bind(to: englishCombinationCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isContainsNumber }
+            .distinctUntilChanged()
+            .bind(to: numberCombinationCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isWithinRange }
+            .distinctUntilChanged()
+            .bind(to: countCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isSamePasswordInput }
+            .distinctUntilChanged()
+            .bind(to: newPasswordCofirmCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isValidPassword }
+            .distinctUntilChanged()
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        reactor.error
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { errMsg in
+                print("test!!@#@!3")
+                CommonAlertView.shared.show(message: errMsg, subMessage: nil, btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide(nil)
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: { [weak self] in
+                    self?.navigationController?.popViewController(animated: true)
+                })
+            })
+            .disposed(by: self.disposeBag)
+
+        reactor.state
+            .map { $0.isLoading }
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] in
+                if $0 {
+                    self?.startIndicatorAnimating()
+                } else {
+                    self?.stopIndicatorAnimating()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     // MARK: private function
@@ -136,37 +218,27 @@ class LoginInformationViewController: UIViewController, StoryboardView {
         self.eMailLabel.textColor = Gen.Colors.black.color
         self.originEMailIconWidthConstraint = self.eMailIconWidthConstraint.constant
         self.eMailLabel.font = .fonts(.body)
-//        self.currentPWLabel.font = .fonts(.body)
-//        self.currentPWLabel.textColor = Gen.Colors.gray01.color
-//        self.currentPWLabel.text = "현재 비밀번호"
-//        self.currentPWTextContainerView.layer.cornerRadius = 8
-//        self.currentPWTextContainerView.layer.borderColor = Gen.Colors.gray04.color.cgColor
-//        self.currentPWTextContainerView.layer.borderWidth = 1
-//        self.currentPWTextField.textColor = Gen.Colors.black.color
-//        self.passwordCorrectLabel.font = .fonts(.body)
-//        self.passwordCorrectLabel.text = "비밀번호 일치"
-//        self.currentPWLabel.font = .fonts(.body)
-//        self.currentPWLabel.textColor = Gen.Colors.black.color
-//        self.currentPWLabel.text = "현재 비밀번호"
-//        self.newPWLabel.font = .fonts(.body)
-//        self.newPWLabel.textColor = Gen.Colors.gray01.color
-//        self.newPWLabel.text = "신규 비밀번호"
-//        self.newPWTextContainerView.layer.cornerRadius = 8
-//        self.newPWTextContainerView.layer.borderColor = Gen.Colors.gray04.color.cgColor
-//        self.newPWTextContainerView.layer.borderWidth = 1
-//        self.newPWTextField.textColor = Gen.Colors.black.color
-//        self.newPWEngCorrectLabel.font = .fonts(.body)
-//        self.newPWEngCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWEngCorrectLabel.text = "영문조합"
-//        self.newPWNumCorrectLabel.font = .fonts(.body)
-//        self.newPWNumCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWNumCorrectLabel.text = "숫자조합"
-//        self.newPWSizeCorrectLabel.font = .fonts(.body)
-//        self.newPWSizeCorrectLabel.textColor = Gen.Colors.gray04.color
-//        self.newPWSizeCorrectLabel.text = "8-20자 이내"
-//        self.confirmBtnView.layer.cornerRadius = 8
-//        self.confirmBtnTitleLabel.font = .fonts(.button)
-//        self.confirmBtnTitleLabel.text = "비밀번호 변경"
+        
+        self.currentPasswordTitleLabel.font = .fonts(.body)
+        self.currentPasswordTitleLabel.textColor = Gen.Colors.gray01.color
+        self.currentPasswordTitleLabel.text = "현재 비밀번호"
+        self.currentPasswordInputView.isSecureTextEntry = true
+        self.currentPasswordInputView.returnKeyType = .done
+        
+        self.newPasswordTitleLabel.font = .fonts(.body)
+        self.newPasswordTitleLabel.textColor = Gen.Colors.gray01.color
+        self.newPasswordTitleLabel.text = "신규 비밀번호"
+        
+        self.newPasswordInputView.isSecureTextEntry = true
+        self.newPasswordInputView.returnKeyType = .done
+        self.newPasswordConfirmInputView.isSecureTextEntry = true
+        self.newPasswordConfirmInputView.returnKeyType = .done
+        
+        self.englishCombinationCheckView.title = "영문조합"
+        self.numberCombinationCheckView.title = "숫자조합"
+        self.countCheckView.title = "8-20자 이내"
+        self.newPasswordCofirmCheckView.title = "비밀번호 일치"
+        
         self.withdrawalBtn.setTitle("회원탈퇴", for: .normal)
         self.withdrawalBtn.setTitleColor(Gen.Colors.gray04.color, for: .normal)
         self.withdrawalBtn.setTitle("회원탈퇴", for: .highlighted)

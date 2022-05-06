@@ -32,7 +32,7 @@ final class SignInReactor: Reactor, Stepper {
         case tempPasswordInput(text: String)
         case changePassword
     }
-    
+     
     enum Mutation {
         case setID(String)
         case setPassword(String)
@@ -344,7 +344,7 @@ final class SignInReactor: Reactor, Stepper {
     }
     
     private func changePassword(email: String, tempPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
-        return self.findPasswordUsecase.changePassword(eMail: email, tempPassword: tempPassword, newPassword: newPassword)
+        return self.findPasswordUsecase.changePassword(eMail: email, currentPassword: tempPassword, newPassword: newPassword)
     }
     
     private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {

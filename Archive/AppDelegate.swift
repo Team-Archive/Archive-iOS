@@ -64,8 +64,5 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
         let token = tokenParts.joined()
         print("Device Token: \(token)")
-        CommonAlertView.shared.show(message: "Device Token", subMessage: token, btnText: "확인", hapticType: .success, confirmHandler: {
-            CommonAlertView.shared.hide()
-        })
     }
 }
