@@ -37,7 +37,7 @@ class LoginOAuthRepositoryImplement: LoginOAuthRepository {
                 
             }
             .catch { err in
-                    .just(.failure(.init(from: .network, code: (err as NSError).code, message: err.localizedDescription)))
+                    .just(.failure(.init(from: .network, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
     

@@ -32,7 +32,7 @@ class EMailLogInRepositoryImplement: EMailLogInRepository {
                 }
             }
             .catch { err in
-                    .just(.failure(.init(from: .network, code: (err as? MoyaError)?.errorCode ?? -1, message: "네트워크 오류")))
+                    .just(.failure(.init(from: .network, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
 }

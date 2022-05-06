@@ -79,6 +79,15 @@ class WithdrawalViewController: UIViewController, StoryboardView, ActivityIndica
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.err
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { [weak self] err in
+                CommonAlertView.shared.show(message: "[\(err.code)]", subMessage: err.archiveErrMsg, btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide()
+                })
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private function

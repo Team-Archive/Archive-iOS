@@ -122,7 +122,7 @@ extension LoginWithAppleRepositoryImplement: ASAuthorizationControllerDelegate {
     // Apple ID 연동 실패 시
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         if (error as NSError).code != 1001 { // 사용자 취소
-            self.completion?(.failure(ArchiveError.init(from: .appleOAuth, code: error.toResponseCode(), message: error.localizedDescription)))
+            self.completion?(.failure(ArchiveError.init(from: .appleOAuth, code: error.responseCode, message: error.archiveErrMsg)))
         }
     }
 }

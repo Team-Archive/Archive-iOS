@@ -171,7 +171,6 @@ class LoginInformationViewController: UIViewController, StoryboardView, Activity
         reactor.error
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { errMsg in
-                print("test!!@#@!3")
                 CommonAlertView.shared.show(message: errMsg, subMessage: nil, btnText: "확인", hapticType: .error, confirmHandler: {
                     CommonAlertView.shared.hide(nil)
                 })

@@ -27,7 +27,7 @@ class FindPasswordRepositoryImplement: FindPasswordRepository {
                 }
             }
             .catch { err in
-                    .just(.failure(.init(from: .server, code: (err as NSError).code, message: err.localizedDescription)))
+                    .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
     
@@ -43,7 +43,7 @@ class FindPasswordRepositoryImplement: FindPasswordRepository {
                 }
             }
             .catch { err in
-                    .just(.failure(.init(from: .server, code: (err as NSError).code, message: err.localizedDescription)))
+                    .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
     
@@ -59,7 +59,7 @@ class FindPasswordRepositoryImplement: FindPasswordRepository {
                 }
             }
             .catch { err in
-                    .just(.failure(.init(from: .server, code: (err as NSError).code, message: err.localizedDescription)))
+                    .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
 }
