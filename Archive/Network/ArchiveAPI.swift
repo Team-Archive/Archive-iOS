@@ -26,35 +26,18 @@ enum ArchiveAPI {
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
+        var domain: String = ""
+        if ArchiveStatus.shared.mode == .debug {
+            domain = CommonDefine.devApiServer
+        } else {
+            domain = CommonDefine.apiServer
+        }
+        
         switch self {
-        case .uploadImage:
-            return URL(string: CommonDefine.apiServer)!
-        case .registArchive:
-            return URL(string: CommonDefine.apiServer)!
-        case .registEmail:
-            return URL(string: CommonDefine.apiServer)!
-        case .loginEmail:
-            return URL(string: CommonDefine.apiServer)!
-        case .logInWithOAuth:
-            return URL(string: CommonDefine.apiServer)!
-        case .isDuplicatedEmail:
-            return URL(string: CommonDefine.apiServer)!
-        case .deleteArchive:
-            return URL(string: CommonDefine.apiServer)!
-        case .getArchives:
-            return URL(string: CommonDefine.apiServer)!
-        case .getDetailArchive:
-            return URL(string: CommonDefine.apiServer)!
-        case .getCurrentUserInfo:
-            return URL(string: CommonDefine.apiServer)!
-        case .withdrawal:
-            return URL(string: CommonDefine.apiServer)!
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword:
+            return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
-        case .sendTempPassword:
-            return URL(string: CommonDefine.apiServer)!
-        case .changePassword:
-            return URL(string: CommonDefine.apiServer)!
         }
     }
     

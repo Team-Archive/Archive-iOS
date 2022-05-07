@@ -23,8 +23,11 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
     @IBOutlet weak var appleSignInBtn: UIButton!
     @IBOutlet weak var kakaoSignInBtn: UIButton!
     
+    @IBOutlet weak var debugBtn: UIButton!
     
     // MARK: private property
+    
+    private var debugTouchCnt: Int = 0
     
     // MARK: internal property
     
@@ -108,6 +111,36 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             .map { Reactor.Action.signInWithKakao }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
+        
+        debugBtn.rx.tap
+            .map { Reactor.Action.debugTouchAction }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+        
+        reactor.showDebugPasswordInputView
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                let alert = UIAlertController(title: "디버그용 치트키", message: "비밀번호를 입력해주세요", preferredStyle: .alert)
+                alert.addTextField { [weak self] textField in
+                    textField.isSecureTextEntry = true
+                }
+                alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak alert] (_) in
+                    guard let text: String = alert?.textFields?[0].text else { return }
+                    let result = ArchiveStatus.shared.changeMode(mode: .debug, password: text)
+                    switch result {
+                    case .success(let mode):
+                        CommonAlertView.shared.show(message: "모드 변경: \(mode)", btnText: "확인", hapticType: .success, confirmHandler: {
+                            CommonAlertView.shared.hide()
+                        })
+                    case .failure(_):
+                        CommonAlertView.shared.show(message: "비밀번호 불일치", btnText: "확인", hapticType: .error, confirmHandler: {
+                            CommonAlertView.shared.hide()
+                        })
+                    }
+                }))
+                self?.present(alert, animated: true, completion: nil)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private function
