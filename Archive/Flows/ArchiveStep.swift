@@ -8,8 +8,15 @@
 import RxFlow
 
 enum ArchiveStep: Step {
+    
+    // Splash
+    case splashIsRequired
+    case successAutoLoggedIn
+    case failAutoLoggedIn
+    case splashIsComplete(isSuccessAutoLogin: Bool)
+    
     // Onboarding
-    case onboardingIsRequired
+//    case onboardingIsRequired
     case onboardingIsComplete
     
     // SignIn
@@ -26,6 +33,15 @@ enum ArchiveStep: Step {
     case userIsSignedUp
     case signUpComplete
     case termsAgreeForOAuthRegist(accessToken: String, loginType: OAuthSignInType)
+    
+    // MainTab
+    case mainIsRequired
+    
+    // Home
+    case homeIsRequired
+    
+    // Community
+    case communityIsRequired
     
     // MyPage
     case myPageIsRequired(Int)
@@ -47,6 +63,4 @@ enum ArchiveStep: Step {
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)
     
-    // Home
-    case homeIsRequired
 }

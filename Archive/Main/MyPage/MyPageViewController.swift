@@ -120,3 +120,13 @@ class MyPageViewController: UIViewController, StoryboardView, ActivityIndicatora
     // MARK: action
 
 }
+
+extension MyPageViewController: MajorTabViewController {
+    func willTabSeleted() {
+        
+    }
+    
+    func didTabSeleted() {
+        
+    }
+}

@@ -8,7 +8,7 @@
 import UIKit
 import RxFlow
 
-class HomeFlow: Flow {
+class HomeFlow: Flow, MainTabFlowProtocol {
     
     private enum Constants {
         static let HomeStoryBoardName = "Home"
@@ -23,14 +23,7 @@ class HomeFlow: Flow {
         static let RecordNavigationTitle = "전시기록"
     }
     
-    var root: Presentable {
-        return rootViewController
-    }
-    
-    private lazy var rootViewController: UINavigationController = {
-        let viewController = UINavigationController()
-        return viewController
-    }()
+    // MARK: private property
     
     private let homeStoryBoard = UIStoryboard(name: Constants.HomeStoryBoardName, bundle: nil)
     private let detailStoryBoard = UIStoryboard(name: Constants.DetailStoryBoardName, bundle: nil)
@@ -42,6 +35,33 @@ class HomeFlow: Flow {
     private weak var recordViewController: RecordViewController?
     private weak var editEmotionViewController: EmotionSelectViewController?
     private weak var imageSelectViewControllerNavi: UINavigationController?
+    
+    // MARK: internal property
+    
+    var root: Presentable {
+        return rootViewController ?? UINavigationController()
+    }
+    
+    weak var rootViewController: UINavigationController?
+    
+    // MARK: lifeCycle
+    
+    // MARK: private function
+    
+    // MARK: internal function
+    
+    func makeNavigationItems() {
+        let logoImage = Gen.Images.logo.image
+        let logoImageView = UIImageView.init(image: logoImage)
+        logoImageView.frame = CGRect(x: -40, y: 0, width: 108, height: 28)
+        logoImageView.contentMode = .scaleAspectFit
+        let imageItem = UIBarButtonItem.init(customView: logoImageView)
+        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -25
+        
+        let leftItems: [UIBarButtonItem] = [negativeSpacer, imageItem]
+        self.rootViewController?.navigationBar.topItem?.leftBarButtonItems = leftItems
+    }
     
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }
@@ -82,11 +102,11 @@ class HomeFlow: Flow {
             return navigationToRecordUpload(contents: contents, thumbnail: thumbnail, emotion: emotion, imageInfos: imageInfos)
         case .recordUploadIsComplete(let thumbnail, let emotion, let contentsInfo):
             GAModule.sendEventLogToGA(.completeRegistArchive)
-            rootViewController.dismiss(animated: false, completion: nil)
+            rootViewController?.dismiss(animated: false, completion: nil)
             return navigationToRecordUploadComplete(thumbnail: thumbnail, emotion: emotion, conetentsInfo: contentsInfo)
         case .recordComplete:
-            rootViewController.dismiss(animated: true, completion: { [weak self] in
-                self?.rootViewController.popToRootViewController(animated: false)
+            rootViewController?.dismiss(animated: true, completion: { [weak self] in
+                self?.rootViewController?.popToRootViewController(animated: false)
                 self?.homeViewControllerPtr?.reactor?.action.onNext(.getMyArchives)
                 self?.homeViewControllerPtr?.moveCollectionViewFirstIndex()
             })
@@ -104,7 +124,7 @@ class HomeFlow: Flow {
         }
         homeViewController.title = Constants.HomeNavigationTitle
         self.homeViewControllerPtr = homeViewController
-        rootViewController.pushViewController(homeViewController, animated: false)
+        rootViewController?.pushViewController(homeViewController, animated: false)
         
         return .one(flowContributor: .contribute(withNextPresentable: homeViewController, withNextStepper: reactor, allowStepWhenNotPresented: false, allowStepWhenDismissed: false))
     }
@@ -121,7 +141,7 @@ class HomeFlow: Flow {
             self.subVCNavi = UINavigationController(rootViewController: detailViewController)
             if let navi = self.subVCNavi {
                 navi.modalPresentationStyle = .fullScreen
-                self.rootViewController.present(navi, animated: true, completion: nil)
+                self.rootViewController?.present(navi, animated: true, completion: nil)
             }
         }
         return .one(flowContributor: .contribute(withNextPresentable: detailViewController,
@@ -135,7 +155,7 @@ class HomeFlow: Flow {
             return MyPageViewController(coder: corder, reactor: reactor)
         }
         myPageViewController.title = Constants.MyPageNavigationTitle
-        rootViewController.pushViewController(myPageViewController, animated: true)
+        rootViewController?.pushViewController(myPageViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: myPageViewController,
                                                  withNextStepper: reactor))
     }
@@ -147,7 +167,7 @@ class HomeFlow: Flow {
             return LoginInformationViewController(coder: corder, reactor: reactor)
         }
         loginInfoViewController.title = Constants.LoginInfoNavigationTitle
-        rootViewController.pushViewController(loginInfoViewController, animated: true)
+        rootViewController?.pushViewController(loginInfoViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: loginInfoViewController, withNextStepper: reactor))
     }
     
@@ -158,7 +178,7 @@ class HomeFlow: Flow {
             return WithdrawalViewController(coder: corder, reactor: reactor)
         }
         withdrawalViewController.title = Constants.WithdrawalNavigationTitle
-        rootViewController.pushViewController(withdrawalViewController, animated: true)
+        rootViewController?.pushViewController(withdrawalViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: withdrawalViewController, withNextStepper: reactor))
     }
     
@@ -170,7 +190,7 @@ class HomeFlow: Flow {
         }
         recordViewController.title = Constants.RecordNavigationTitle
         self.recordViewController = recordViewController
-        rootViewController.pushViewController(recordViewController, animated: true)
+        rootViewController?.pushViewController(recordViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: recordViewController,
                                                  withNextStepper: reactor))
     }
@@ -184,7 +204,7 @@ class HomeFlow: Flow {
         emotionSelectViewController.title = ""
         emotionSelectViewController.modalPresentationStyle = .overFullScreen
         self.editEmotionViewController = emotionSelectViewController
-        rootViewController.present(emotionSelectViewController, animated: false, completion: {
+        rootViewController?.present(emotionSelectViewController, animated: false, completion: {
             emotionSelectViewController.fadeInAnimation()
         })
         return .one(flowContributor: .contribute(withNextPresentable: emotionSelectViewController,
@@ -206,7 +226,7 @@ class HomeFlow: Flow {
         let navi: UINavigationController = UINavigationController(rootViewController: imageSelectViewController)
         navi.modalPresentationStyle = .fullScreen
         self.imageSelectViewControllerNavi = navi
-        rootViewController.present(navi, animated: true, completion: nil)
+        rootViewController?.present(navi, animated: true, completion: nil)
         return .one(flowContributor: .contribute(withNextPresentable: imageSelectViewController,
                                                  withNextStepper: reactor))
     }
@@ -224,7 +244,7 @@ class HomeFlow: Flow {
             return RecordUploadViewController(coder: corder, reactor: reactor)
         }
         recordUploadViewController.modalPresentationStyle = .fullScreen
-        rootViewController.present(recordUploadViewController, animated: true, completion: nil)
+        rootViewController?.present(recordUploadViewController, animated: true, completion: nil)
         return .one(flowContributor: .contribute(withNextPresentable: recordUploadViewController,
                                                  withNextStepper: reactor))
     }
@@ -236,7 +256,7 @@ class HomeFlow: Flow {
             return RecordUploadCompleteViewController(coder: corder, reactor: reactor)
         }
         recordUploadCompleteViewController.modalPresentationStyle = .fullScreen
-        rootViewController.present(recordUploadCompleteViewController, animated: false, completion: nil)
+        rootViewController?.present(recordUploadCompleteViewController, animated: false, completion: nil)
         return .one(flowContributor: .contribute(withNextPresentable: recordUploadCompleteViewController,
                                                  withNextStepper: reactor))
     }

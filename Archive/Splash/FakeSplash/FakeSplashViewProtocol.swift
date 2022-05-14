@@ -1,14 +1,13 @@
 //
-//  SplashProtocol.swift
+//  FakeSplashViewProtocol.swift
 //  Archive
 //
-//  Created by hanwe on 2022/01/08.
+//  Created by hanwe on 2022/05/14.
 //
 
-import Foundation
 import UIKit
 
-protocol SplashViewProtocol: AnyObject {
+protocol FakeSplashViewProtocol: AnyObject {
     var targetView: UIView? { get set }
     var attachedView: UIView? { get set }
     
@@ -16,7 +15,7 @@ protocol SplashViewProtocol: AnyObject {
     func hideSplashView(fadeOutDuration: TimeInterval, completion: (() -> Void)?)
 }
 
-extension SplashViewProtocol {
+extension FakeSplashViewProtocol {
     func showSplashView(fadeInDuration: TimeInterval = 0.0, completion: (() -> Void)? = nil) {
         guard let attached = self.attachedView else { print("attachedView is null") ; return }
         guard let target = self.targetView else { print("targetView is null") ; return }
@@ -45,6 +44,7 @@ extension SplashViewProtocol {
             completion?()
         })
     }
+    
     func hideSplashView(fadeOutDuration: TimeInterval = 0.3, completion: (() -> Void)? = nil) {
         guard let attached = self.attachedView else { print("attachedView is null") ; return }
         guard let _ = self.targetView else { print("targetView is null") ; return }

@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-final class HomeViewController: UIViewController, StoryboardView, ActivityIndicatorable, SplashViewProtocol {
+final class HomeViewController: UIViewController, StoryboardView, ActivityIndicatorable, FakeSplashViewProtocol {
     
     // MARK: IBOutlet
     @IBOutlet weak var mainContainerView: UIView!
@@ -40,7 +40,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     var disposeBag = DisposeBag()
     weak var targetView: UIView?
-    var attachedView: UIView? = SplashView.instance()
+    var attachedView: UIView? = FakeSplashView()
     
     // MARK: lifeCycle
     
@@ -58,12 +58,17 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         initUI()
         self.reactor?.action.onNext(.setMyArchivesOrderBy(.dateToVisit))
         self.reactor?.action.onNext(.getMyArchives)
-        runSplashView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        makeNavigationItems() // TODO: 위치바꾸기
+        let status = ArchiveStatus.shared
+        if !status.isShownFakeSplash {
+            self.targetView = self.view
+            showSplashView()
+            hideSplashView()
+            status.runFakeSplash()
+        }
     }
     
     func bind(reactor: HomeReactor) {
@@ -210,50 +215,30 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.pageControl.isEnabled = false
     }
     
-    private func makeNavigationItems() {
-        let logoImage = Gen.Images.logo.image
-        let logoImageView = UIImageView.init(image: logoImage)
-        logoImageView.frame = CGRect(x: -40, y: 0, width: 98, height: 18)
-        logoImageView.contentMode = .scaleAspectFit
-        let imageItem = UIBarButtonItem.init(customView: logoImageView)
-        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativeSpacer.width = -25
-        navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
-        
-        let backImage = Gen.Images.iconMyPage.image // iconmypage
-        backImage.withRenderingMode(.alwaysTemplate)
-        let backBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(myPageAction(_:)))
-        self.navigationItem.rightBarButtonItem = backBarButtonItem
-        
-        self.navigationController?.navigationBar.barStyle = .default
-        self.navigationController?.navigationBar.tintColor = .black
-        UINavigationBar.appearance().backIndicatorImage = Gen.Images.back.image
-        UINavigationBar.appearance().backIndicatorTransitionMaskImage = Gen.Images.back.image
-    }
+//    private func makeNavigationItems() {
+//        let logoImage = Gen.Images.logo.image
+//        let logoImageView = UIImageView.init(image: logoImage)
+//        logoImageView.frame = CGRect(x: -40, y: 0, width: 98, height: 18)
+//        logoImageView.contentMode = .scaleAspectFit
+//        let imageItem = UIBarButtonItem.init(customView: logoImageView)
+//        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+//        negativeSpacer.width = -25
+//        navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
+//        
+//        let backImage = Gen.Images.iconMyPage.image // iconmypage
+//        backImage.withRenderingMode(.alwaysTemplate)
+//        let backBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(myPageAction(_:)))
+//        self.navigationItem.rightBarButtonItem = backBarButtonItem
+//        
+//        self.navigationController?.navigationBar.barStyle = .default
+//        self.navigationController?.navigationBar.tintColor = .black
+//        UINavigationBar.appearance().backIndicatorImage = Gen.Images.back.image
+//        UINavigationBar.appearance().backIndicatorTransitionMaskImage = Gen.Images.back.image
+//    }
     
-    @objc private func myPageAction(_ sender: UIButton) {
-        self.reactor?.action.onNext(.showMyPage(self.reactor?.currentState.arvhivesCount ?? 0))
-    }
-    
-    private func runSplashView() {
-        if !AppConfigManager.shared.isPlayedIntroSplashView {
-            AppConfigManager.shared.isPlayedIntroSplashView = true
-            self.targetView = self.mainContainerView
-            showSplashView(completion: {
-                (self.attachedView as? SplashView)?.play()
-            })
-            (self.attachedView as? SplashView)?.isFinishAnimationFlag
-                .asDriver(onErrorJustReturn: true)
-                .drive(onNext: { [weak self] in
-                    if $0 {
-                        self?.hideSplashView(completion: { [weak self] in
-                            self?.attachedView = nil
-                        })
-                    }
-                })
-                .disposed(by: self.disposeBag)
-        }
-    }
+//    @objc private func myPageAction(_ sender: UIButton) {
+//        self.reactor?.action.onNext(.showMyPage(self.reactor?.currentState.arvhivesCount ?? 0))
+//    }
     
     // MARK: internal function
     
@@ -284,4 +269,14 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     
     
+}
+
+extension HomeViewController: MajorTabViewController {
+    func willTabSeleted() {
+        
+    }
+    
+    func didTabSeleted() {
+        
+    }
 }

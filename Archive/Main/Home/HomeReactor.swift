@@ -12,7 +12,7 @@ import SwiftyJSON
 import Moya
 import Foundation
 
-final class HomeReactor: Reactor, Stepper {
+final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     enum ArchivesOrderBy {
         case dateToUpload
@@ -205,6 +205,10 @@ final class HomeReactor: Reactor, Stepper {
     }
     
     // MARK: internal function
+    
+    func runReturnEndFlow() {
+//        self.action.onNext(.endFlow)
+    }
     
     
 
