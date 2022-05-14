@@ -285,3 +285,13 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     
 }
+
+extension HomeViewController: MajorTabViewController {
+    func willTabSeleted() {
+        
+    }
+    
+    func didTabSeleted() {
+        
+    }
+}

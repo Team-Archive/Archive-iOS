@@ -11,7 +11,7 @@ import RxRelay
 import RxFlow
 import SwiftyJSON
 
-class MyPageReactor: Reactor, Stepper {
+class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: private property
     
@@ -103,10 +103,8 @@ class MyPageReactor: Reactor, Stepper {
     
     // MARK: internal function
     
-
-    
-
-    
-    
+    func runReturnEndFlow() {
+//        self.action.onNext(.endFlow)
+    }
     
 }

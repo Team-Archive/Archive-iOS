@@ -1,0 +1,34 @@
+//
+//  Tab.swift
+//  Archive
+//
+//  Created by hanwe on 2022/05/14.
+//
+
+import UIKit
+import RxFlow
+
+class TabViewControllers {
+    let homeViewController: HomeViewController
+    let homeStepper: Stepper
+    let myPageViewController: MyPageViewController
+    let myPageStepper: Stepper
+    
+    init(homeViewController: HomeViewController, homeStepper: Stepper, myPageViewController: MyPageViewController, myPageStepper: Stepper) {
+        self.homeViewController = homeViewController
+        self.myPageViewController = myPageViewController
+        self.homeStepper = homeStepper
+        self.myPageStepper = myPageStepper
+    }
+}
+
+protocol MajorTabViewController {
+    func willTabSeleted()
+    func didTabSeleted()
+}
+
+enum Tab {
+    case none
+    case home
+    case myPage
+}

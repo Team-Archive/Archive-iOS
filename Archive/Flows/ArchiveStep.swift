@@ -49,4 +49,7 @@ enum ArchiveStep: Step {
     
     // Home
     case homeIsRequired
+    
+    // My Page
+    
 }
