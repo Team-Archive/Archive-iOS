@@ -13,11 +13,12 @@ final class AppStepper: Stepper {
     let steps = PublishRelay<Step>()
 
     var initialStep: Step {
-        if LogInManager.shared.isLoggedIn {
-            return ArchiveStep.mainIsRequired
-        } else {
-            print("로그인 안됨")
-            return ArchiveStep.onboardingIsRequired
-        }
+//        if LogInManager.shared.isLoggedIn {
+//            return ArchiveStep.mainIsRequired
+//        } else {
+//            print("로그인 안됨")
+//            return ArchiveStep.onboardingIsRequired
+//        }
+        return ArchiveStep.splashIsRequired
     }
 }

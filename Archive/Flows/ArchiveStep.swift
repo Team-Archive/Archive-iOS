@@ -8,8 +8,15 @@
 import RxFlow
 
 enum ArchiveStep: Step {
+    
+    // Splash
+    case splashIsRequired
+    case successAutoLoggedIn
+    case failAutoLoggedIn
+    case splashIsComplete(isSuccessAutoLogin: Bool)
+    
     // Onboarding
-    case onboardingIsRequired
+//    case onboardingIsRequired
     case onboardingIsComplete
     
     // SignIn

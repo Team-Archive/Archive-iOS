@@ -34,17 +34,38 @@ final class AppFlow: Flow {
         }
         
         switch step {
-        case .onboardingIsRequired:
-            return navigationToOnboardingScreen()
-        case .mainIsRequired:
-            return navigationToMainScreen()
+        case .splashIsRequired:
+            return navigationToSplashScreen()
+//        case .onboardingIsRequired:
+//            return navigationToOnboardingScreen()
+//        case .mainIsRequired:
+//            return navigationToMainScreen()
         case .onboardingIsComplete:
             return navigationToMainScreen()
         case .logout:
             return navigationToOnboardingScreen()
+        case .splashIsComplete(let isLoggedIn):
+            if isLoggedIn {
+                return navigationToMainScreen()
+            } else {
+                return navigationToOnboardingScreen()
+            }
         default:
             return .none
         }
+    }
+    
+    private func navigationToSplashScreen() -> FlowContributors {
+        let splashFlow = SplashFlow()
+        Flows.use(splashFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
+            self?.rootWindow.rootViewController = root
+            self?.rootWindow.makeKeyAndVisible()
+        })
+        
+        return .one(flowContributor: .contribute(withNextPresentable: splashFlow,
+                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.splashIsRequired),
+                                                 allowStepWhenNotPresented: false,
+                                                 allowStepWhenDismissed: false))
     }
     
     private func navigationToOnboardingScreen() -> FlowContributors {
