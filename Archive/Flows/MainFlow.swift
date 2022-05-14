@@ -137,7 +137,32 @@ final class MainFlow: Flow {
         case .mainIsRequired:
             return navigationToMainTabBarScreen()
         case .homeIsRequired:
-            return .none
+            if self.currentTabFlow != .home {
+                print("homeIsRequired")
+                endTabFlow(current: self.currentTabFlow)
+                self.currentTabFlow = .home
+                return startTabFlow(new: .home)
+            } else {
+                return .none
+            }
+        case .communityIsRequired:
+            if self.currentTabFlow != .community {
+                print("communityIsRequired")
+                endTabFlow(current: self.currentTabFlow)
+                self.currentTabFlow = .community
+                return startTabFlow(new: .community)
+            } else {
+                return .none
+            }
+        case .myPageIsRequired(let recordCount):
+            if self.currentTabFlow != .myPage {
+                print("myPageIsRequired")
+                endTabFlow(current: self.currentTabFlow)
+                self.currentTabFlow = .myPage
+                return startTabFlow(new: .myPage)
+            } else {
+                return .none
+            }
         default:
             return .none
         }

@@ -63,7 +63,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        makeNavigationItems() // TODO: 위치바꾸기
+//        makeNavigationItems() // TODO: 위치바꾸기
     }
     
     func bind(reactor: HomeReactor) {
@@ -210,30 +210,30 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.pageControl.isEnabled = false
     }
     
-    private func makeNavigationItems() {
-        let logoImage = Gen.Images.logo.image
-        let logoImageView = UIImageView.init(image: logoImage)
-        logoImageView.frame = CGRect(x: -40, y: 0, width: 98, height: 18)
-        logoImageView.contentMode = .scaleAspectFit
-        let imageItem = UIBarButtonItem.init(customView: logoImageView)
-        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativeSpacer.width = -25
-        navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
-        
-        let backImage = Gen.Images.iconMyPage.image // iconmypage
-        backImage.withRenderingMode(.alwaysTemplate)
-        let backBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(myPageAction(_:)))
-        self.navigationItem.rightBarButtonItem = backBarButtonItem
-        
-        self.navigationController?.navigationBar.barStyle = .default
-        self.navigationController?.navigationBar.tintColor = .black
-        UINavigationBar.appearance().backIndicatorImage = Gen.Images.back.image
-        UINavigationBar.appearance().backIndicatorTransitionMaskImage = Gen.Images.back.image
-    }
+//    private func makeNavigationItems() {
+//        let logoImage = Gen.Images.logo.image
+//        let logoImageView = UIImageView.init(image: logoImage)
+//        logoImageView.frame = CGRect(x: -40, y: 0, width: 98, height: 18)
+//        logoImageView.contentMode = .scaleAspectFit
+//        let imageItem = UIBarButtonItem.init(customView: logoImageView)
+//        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+//        negativeSpacer.width = -25
+//        navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
+//        
+//        let backImage = Gen.Images.iconMyPage.image // iconmypage
+//        backImage.withRenderingMode(.alwaysTemplate)
+//        let backBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(myPageAction(_:)))
+//        self.navigationItem.rightBarButtonItem = backBarButtonItem
+//        
+//        self.navigationController?.navigationBar.barStyle = .default
+//        self.navigationController?.navigationBar.tintColor = .black
+//        UINavigationBar.appearance().backIndicatorImage = Gen.Images.back.image
+//        UINavigationBar.appearance().backIndicatorTransitionMaskImage = Gen.Images.back.image
+//    }
     
-    @objc private func myPageAction(_ sender: UIButton) {
-        self.reactor?.action.onNext(.showMyPage(self.reactor?.currentState.arvhivesCount ?? 0))
-    }
+//    @objc private func myPageAction(_ sender: UIButton) {
+//        self.reactor?.action.onNext(.showMyPage(self.reactor?.currentState.arvhivesCount ?? 0))
+//    }
     
     private func runSplashView() {
         if !AppConfigManager.shared.isPlayedIntroSplashView {

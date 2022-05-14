@@ -33,6 +33,16 @@ enum ArchiveStep: Step {
     // Home
     case homeIsRequired
     
+    // Community
+    case communityIsRequired
+    
+    // MyPage
+    case myPageIsRequired(Int)
+    case loginInfomationIsRequired(LoginType, String?, Int)
+    case withdrawalIsRequired(Int)
+    case withdrawalIsComplete
+    case logout
+    
     // Record
     case recordIsRequired
     case recordEmotionEditIsRequired(Emotion?)
@@ -42,13 +52,6 @@ enum ArchiveStep: Step {
     case recordUploadIsRequired(ContentsRecordModelData, UIImage, Emotion, [ImageInfo]?)
     case recordUploadIsComplete(UIImage, Emotion, ContentsRecordModelData)
     case recordComplete
-    
-    // MyPage
-    case myPageIsRequired(Int)
-    case loginInfomationIsRequired(LoginType, String?, Int)
-    case withdrawalIsRequired(Int)
-    case withdrawalIsComplete
-    case logout
     
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)

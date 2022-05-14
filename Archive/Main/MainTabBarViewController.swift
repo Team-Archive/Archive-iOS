@@ -90,6 +90,11 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         switch viewController {
         case self.tabViewControllers?.homeViewController:
             self.tabViewControllers?.homeViewController.willTabSeleted()
+        case self.tabViewControllers?.communityViewController:
+            self.tabViewControllers?.communityViewController.willTabSeleted()
+        case self.tabViewControllers?.dummyRecordViewController:
+            //TODO: present
+            return false
         case self.tabViewControllers?.myPageViewController:
             self.tabViewControllers?.myPageViewController.willTabSeleted()
         default:
@@ -98,7 +103,6 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         return true
     }
     
-    
     func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
         switch viewController {
         case self.tabViewControllers?.homeViewController:
@@ -106,6 +110,11 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
                 self.currentTab = .home
             }
             self.tabViewControllers?.homeViewController.didTabSeleted()
+        case self.tabViewControllers?.communityViewController:
+            if self.currentTab != .community {
+                self.currentTab = .community
+            }
+            self.tabViewControllers?.communityViewController.didTabSeleted()
         case self.tabViewControllers?.myPageViewController:
             if self.currentTab != .myPage {
                 self.currentTab = .myPage
