@@ -36,10 +36,10 @@ final class AppFlow: Flow {
         switch step {
         case .onboardingIsRequired:
             return navigationToOnboardingScreen()
-        case .homeIsRequired:
-            return navigationToHomeScreen()
+        case .mainIsRequired:
+            return navigationToMainScreen()
         case .onboardingIsComplete:
-            return navigationToHomeScreen()
+            return navigationToMainScreen()
         case .logout:
             return navigationToOnboardingScreen()
         default:
@@ -60,16 +60,16 @@ final class AppFlow: Flow {
                                                  allowStepWhenDismissed: false))
     }
     
-    private func navigationToHomeScreen() -> FlowContributors {
+    private func navigationToMainScreen() -> FlowContributors {
 
-        let homeFlow = HomeFlow()
-        Flows.use(homeFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
+        let mainFlow = MainFlow()
+        Flows.use(mainFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
             self?.rootWindow.rootViewController = root
             self?.rootWindow.makeKeyAndVisible()
         })
         
-        return .one(flowContributor: .contribute(withNextPresentable: homeFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.homeIsRequired),
+        return .one(flowContributor: .contribute(withNextPresentable: mainFlow,
+                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.mainIsRequired),
                                                  allowStepWhenNotPresented: false,
                                                  allowStepWhenDismissed: false))
     }

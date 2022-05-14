@@ -54,6 +54,11 @@
 		781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C8432282F6378004A0FB3 /* MainTabBarViewController.swift */; };
 		781C8435282F63C9004A0FB3 /* MainTabBarReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C8434282F63C9004A0FB3 /* MainTabBarReactor.swift */; };
 		781C8437282F64F7004A0FB3 /* MyPageFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C8436282F64F7004A0FB3 /* MyPageFlow.swift */; };
+		781C8439282F7BAA004A0FB3 /* RecordFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C8438282F7BA9004A0FB3 /* RecordFlow.swift */; };
+		781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C843A282F7BC3004A0FB3 /* CommunityFlow.swift */; };
+		781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */; };
+		781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C843F282F7D05004A0FB3 /* CommunityReactor.swift */; };
+		781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C8441282F7F9C004A0FB3 /* DummyRecordViewController.swift */; };
 		78212326273F838A007DEC28 /* RecordUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78212325273F838A007DEC28 /* RecordUploadViewController.swift */; };
 		78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78212327273F8397007DEC28 /* RecordUploadReactor.swift */; };
 		7821232A273F83A1007DEC28 /* RecordUploadModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78212329273F83A1007DEC28 /* RecordUploadModel.swift */; };
@@ -239,6 +244,11 @@
 		781C8432282F6378004A0FB3 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		781C8434282F63C9004A0FB3 /* MainTabBarReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarReactor.swift; sourceTree = "<group>"; };
 		781C8436282F64F7004A0FB3 /* MyPageFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageFlow.swift; sourceTree = "<group>"; };
+		781C8438282F7BA9004A0FB3 /* RecordFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordFlow.swift; sourceTree = "<group>"; };
+		781C843A282F7BC3004A0FB3 /* CommunityFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFlow.swift; sourceTree = "<group>"; };
+		781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityViewController.swift; sourceTree = "<group>"; };
+		781C843F282F7D05004A0FB3 /* CommunityReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityReactor.swift; sourceTree = "<group>"; };
+		781C8441282F7F9C004A0FB3 /* DummyRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyRecordViewController.swift; sourceTree = "<group>"; };
 		781CB1A027B90F1A00FCBB18 /* Archive.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Archive.entitlements; sourceTree = "<group>"; };
 		78212325273F838A007DEC28 /* RecordUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUploadViewController.swift; sourceTree = "<group>"; };
 		78212327273F8397007DEC28 /* RecordUploadReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordUploadReactor.swift; sourceTree = "<group>"; };
@@ -570,6 +580,8 @@
 			isa = PBXGroup;
 			children = (
 				781C842D282F621A004A0FB3 /* HomeFlow.swift */,
+				781C8438282F7BA9004A0FB3 /* RecordFlow.swift */,
+				781C843A282F7BC3004A0FB3 /* CommunityFlow.swift */,
 				781C8436282F64F7004A0FB3 /* MyPageFlow.swift */,
 			);
 			path = TabFlows;
@@ -581,10 +593,21 @@
 				781C8430282F62B5004A0FB3 /* Tab.swift */,
 				781C8432282F6378004A0FB3 /* MainTabBarViewController.swift */,
 				781C8434282F63C9004A0FB3 /* MainTabBarReactor.swift */,
+				781C8441282F7F9C004A0FB3 /* DummyRecordViewController.swift */,
 				78599DCB276375C2003FD959 /* Home */,
+				781C843C282F7CE3004A0FB3 /* Community */,
 				78BA153D27218F100078B88E /* MyPage */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		781C843C282F7CE3004A0FB3 /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */,
+				781C843F282F7D05004A0FB3 /* CommunityReactor.swift */,
+			);
+			path = Community;
 			sourceTree = "<group>";
 		};
 		78212324273F8366007DEC28 /* RecordUpload */ = {
@@ -1291,6 +1314,7 @@
 				78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */,
 				784377AE273172820005CB51 /* RecordAddImageCollectionViewCell.swift in Sources */,
 				44922DC52719DF3F00A5EA2B /* UIButtonExtension.swift in Sources */,
+				781C8439282F7BAA004A0FB3 /* RecordFlow.swift in Sources */,
 				782FDF56272D1D70004D1B6E /* ActivityIndicatorable.swift in Sources */,
 				44FB0A09271832E9006E1048 /* OnboardingFlow.swift in Sources */,
 				780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */,
@@ -1314,6 +1338,7 @@
 				789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */,
 				78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */,
 				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
+				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
@@ -1322,6 +1347,7 @@
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,
 				44BE6F07271144BF00E74A7D /* SignUpReactor.swift in Sources */,
 				782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */,
+				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
 				78BA154327218F4F0078B88E /* MyPageReactor.swift in Sources */,
 				448936AA2708401500EA423A /* SignInReactor.swift in Sources */,
@@ -1344,6 +1370,7 @@
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				78BA154127218F430078B88E /* MyPageViewController.swift in Sources */,
+				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,
 				782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */,
 				7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */,
 				780389E627898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift in Sources */,
@@ -1399,6 +1426,7 @@
 				782FDF4C272CFB6E004D1B6E /* PhotoFromAlbumCell.swift in Sources */,
 				788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */,
 				78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */,
+				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
 				78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */,
 				783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */,
 				782FDF3F272CF9CC004D1B6E /* ImageSelectModel.swift in Sources */,

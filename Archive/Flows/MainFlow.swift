@@ -22,6 +22,7 @@ final class MainFlow: Flow {
     }()
     
     private let homeFlow: MainTabFlowProtocol = HomeFlow()
+    private let communityFlow: MainTabFlowProtocol = CommunityFlow()
     private let myPageFlow: MainTabFlowProtocol = MyPageFlow()
     
     private(set) var currentTabFlow: Tab = .none
@@ -55,25 +56,33 @@ final class MainFlow: Flow {
         let homeViewController = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(identifier: HomeViewController.identifier) { coder in
             return HomeViewController(coder: coder, reactor: homeReactor)
         }
-        homeViewController.tabBarItem = UITabBarItem(title: "homeTest", image: Gen.Images.btnApple.image, selectedImage: Gen.Images.btnApple.image)
+        homeViewController.tabBarItem = UITabBarItem(title: "나의 티켓", image: Gen.Images.homeOff.image, selectedImage: Gen.Images.homeOn.image)
+        
+        let dummyRecordViewController = DummyRecordViewController()
+        dummyRecordViewController.tabBarItem = UITabBarItem(title: "전시 기록", image: Gen.Images.addArchvieOff.image, selectedImage: Gen.Images.addArchvieOn.image)
+        
+        let communityReactor: CommunityReactor = CommunityReactor()
+        let communityViewController = CommunityViewController()
+        communityViewController.tabBarItem = UITabBarItem(title: "전시 소통", image: Gen.Images.communityOff.image, selectedImage: Gen.Images.communityOn.image)
+        
         
         let myPageReactor: MyPageReactor = MyPageReactor(model: MyPageModel(cardCount: 0))
         let myPageViewController = UIStoryboard(name: "MyPage", bundle: nil).instantiateViewController(identifier: MyPageViewController.identifier) { coder in
             return MyPageViewController(coder: coder, reactor: myPageReactor)
         }
-        myPageViewController.tabBarItem = UITabBarItem(title: "myPageTest", image: Gen.Images.btnApple.image, selectedImage: Gen.Images.btnApple.image)
+        myPageViewController.tabBarItem = UITabBarItem(title: "내 정보", image: Gen.Images.myPageOff.image, selectedImage: Gen.Images.myPageOn.image)
         
         return TabViewControllers(homeViewController: homeViewController,
                                   homeStepper: homeReactor,
+                                  dummyRecordViewController: dummyRecordViewController,
+                                  communityViewController: communityViewController,
+                                  communityStepper: communityReactor,
                                   myPageViewController: myPageViewController,
                                   myPageStepper: myPageReactor)
     }
     
-    private func navigationToMainTabBarScreen(isRequiredPolicyAgree: Bool) -> FlowContributors {
+    private func navigationToMainTabBarScreen() -> FlowContributors {
         rootViewController.pushViewController(self.mainTabBarContoller, animated: false)
-        if isRequiredPolicyAgree {
-            print("present Policy Agree")
-        }
         return .one(flowContributor: .contribute(withNextPresentable: self.mainTabBarContoller,
                                                  withNextStepper: self.mainTabBarReactor))
     }
@@ -85,6 +94,12 @@ final class MainFlow: Flow {
             self.homeFlow.rootViewController = self.rootViewController
             self.homeFlow.makeNavigationItems()
             return .one(flowContributor: .contribute(withNextPresentable: self.homeFlow, withNextStepper: self.mainTabs.homeStepper))
+        case .record:
+            return .none
+        case .community:
+            self.communityFlow.rootViewController = self.rootViewController
+            self.communityFlow.makeNavigationItems()
+            return .one(flowContributor: .contribute(withNextPresentable: self.communityFlow, withNextStepper: self.mainTabs.communityStepper))
         case .myPage:
             self.myPageFlow.rootViewController = self.rootViewController
             self.myPageFlow.makeNavigationItems()
@@ -98,6 +113,10 @@ final class MainFlow: Flow {
         switch current {
         case .home:
             ((self.mainTabs.homeStepper) as? MainTabStepperProtocol)?.runReturnEndFlow()
+        case .record:
+            break
+        case .community:
+            ((self.mainTabs.communityStepper) as? MainTabStepperProtocol)?.runReturnEndFlow()
         case .myPage:
             ((self.mainTabs.myPageStepper) as? MainTabStepperProtocol)?.runReturnEndFlow()
         case .none:
@@ -115,6 +134,10 @@ final class MainFlow: Flow {
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }
         switch step {
+        case .mainIsRequired:
+            return navigationToMainTabBarScreen()
+        case .homeIsRequired:
+            return .none
         default:
             return .none
         }

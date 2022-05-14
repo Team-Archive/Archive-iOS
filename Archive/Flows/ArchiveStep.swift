@@ -27,12 +27,11 @@ enum ArchiveStep: Step {
     case signUpComplete
     case termsAgreeForOAuthRegist(accessToken: String, loginType: OAuthSignInType)
     
-    // MyPage
-    case myPageIsRequired(Int)
-    case loginInfomationIsRequired(LoginType, String?, Int)
-    case withdrawalIsRequired(Int)
-    case withdrawalIsComplete
-    case logout
+    // MainTab
+    case mainIsRequired
+    
+    // Home
+    case homeIsRequired
     
     // Record
     case recordIsRequired
@@ -44,12 +43,14 @@ enum ArchiveStep: Step {
     case recordUploadIsComplete(UIImage, Emotion, ContentsRecordModelData)
     case recordComplete
     
+    // MyPage
+    case myPageIsRequired(Int)
+    case loginInfomationIsRequired(LoginType, String?, Int)
+    case withdrawalIsRequired(Int)
+    case withdrawalIsComplete
+    case logout
+    
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)
-    
-    // Home
-    case homeIsRequired
-    
-    // My Page
     
 }

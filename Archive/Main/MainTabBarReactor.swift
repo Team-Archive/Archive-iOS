@@ -42,6 +42,10 @@ class MainTabBarReactor: Reactor, Stepper {
             switch tab {
             case .home:
                 self.steps.accept(ArchiveStep.homeIsRequired)
+            case .record:
+                return .empty()
+            case .community:
+                return .empty()
             case .myPage:
                 self.steps.accept(ArchiveStep.myPageIsRequired(0))
             case .none:

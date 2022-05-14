@@ -59,6 +59,8 @@ class MainTabBarViewController: UITabBarController, View {
         var controllers: [UIViewController] = []
         guard let tabs = self.tabViewControllers else { return }
         controllers.append(tabs.homeViewController)
+        controllers.append(tabs.dummyRecordViewController)
+        controllers.append(tabs.communityViewController)
         controllers.append(tabs.myPageViewController)
         self.viewControllers = controllers
         DispatchQueue.global().async { [weak self] in // 타이밍 이슈로 인해.. TODO: 해결법 찾아보기
