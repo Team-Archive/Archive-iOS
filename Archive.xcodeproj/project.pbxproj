@@ -35,10 +35,7 @@
 		780161D42751FD5200F77193 /* CardShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780161D32751FD5200F77193 /* CardShareManager.swift */; };
 		780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780189BF279BD08C006C82CB /* ServerErrorUtil.swift */; };
 		780389D3278956AF00DB1730 /* Splash.json in Resources */ = {isa = PBXBuildFile; fileRef = 780389D2278956AF00DB1730 /* Splash.json */; };
-		780389D7278957A800DB1730 /* SplashProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389D6278957A800DB1730 /* SplashProtocol.swift */; };
 		780389DB27895AC200DB1730 /* AppConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389DA27895AC200DB1730 /* AppConfigManager.swift */; };
-		780389DD27895C7600DB1730 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389DC27895C7600DB1730 /* SplashView.swift */; };
-		780389DF27895C9C00DB1730 /* SplashView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780389DE27895C9C00DB1730 /* SplashView.xib */; };
 		780389E2278988BF00DB1730 /* CardRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389E0278988BF00DB1730 /* CardRecordCollectionViewCell.swift */; };
 		780389E3278988BF00DB1730 /* CardRecordCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780389E1278988BF00DB1730 /* CardRecordCollectionViewCell.xib */; };
 		780389E627898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389E427898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift */; };
@@ -234,10 +231,7 @@
 		780161D32751FD5200F77193 /* CardShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardShareManager.swift; sourceTree = "<group>"; };
 		780189BF279BD08C006C82CB /* ServerErrorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerErrorUtil.swift; sourceTree = "<group>"; };
 		780389D2278956AF00DB1730 /* Splash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Splash.json; sourceTree = "<group>"; };
-		780389D6278957A800DB1730 /* SplashProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashProtocol.swift; sourceTree = "<group>"; };
 		780389DA27895AC200DB1730 /* AppConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigManager.swift; sourceTree = "<group>"; };
-		780389DC27895C7600DB1730 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
-		780389DE27895C9C00DB1730 /* SplashView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SplashView.xib; sourceTree = "<group>"; };
 		780389E0278988BF00DB1730 /* CardRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		780389E1278988BF00DB1730 /* CardRecordCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CardRecordCollectionViewCell.xib; sourceTree = "<group>"; };
 		780389E427898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoRecordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -435,8 +429,6 @@
 				44922DC92719E64200A5EA2B /* DefaultButton.swift */,
 				44922DD12719FB9300A5EA2B /* InputView.swift */,
 				44AA7D882724494B006EEA98 /* ConditionCheckView.swift */,
-				780389DC27895C7600DB1730 /* SplashView.swift */,
-				780389DE27895C9C00DB1730 /* SplashView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -444,7 +436,6 @@
 		44922DEA271A011000A5EA2B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				780389D6278957A800DB1730 /* SplashProtocol.swift */,
 				44FB0A2127184376006E1048 /* ReuseIdentifiable.swift */,
 				78212339273F9623007DEC28 /* CodableWrapper.swift */,
 				78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */,
@@ -1214,7 +1205,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				78315E742764F2E6001B3342 /* SignUp.json in Resources */,
-				780389DF27895C9C00DB1730 /* SplashView.xib in Resources */,
 				784D1DC927083D88004B1A23 /* Colors.xcassets in Resources */,
 				784377AF273172820005CB51 /* RecordAddImageCollectionViewCell.xib in Resources */,
 				78958E0D27129FBB003FF724 /* Pretendard-Regular.ttf in Resources */,
@@ -1368,7 +1358,6 @@
 				787C2861275CC04B00C1FB17 /* ModalShareViewController.swift in Sources */,
 				780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */,
 				781C8451282F8B6E004A0FB3 /* MainSplashViewController.swift in Sources */,
-				780389D7278957A800DB1730 /* SplashProtocol.swift in Sources */,
 				784FCDEB282FEEAA007683D2 /* LoginAccessTokenRepositoryImplement.swift in Sources */,
 				781C8444282F8B2E004A0FB3 /* SplashFlow.swift in Sources */,
 				78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */,
@@ -1384,7 +1373,6 @@
 				780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */,
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,
-				780389DD27895C7600DB1730 /* SplashView.swift in Sources */,
 				781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */,
 				78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */,
 				44FB09FB27183269006E1048 /* ArchiveStep.swift in Sources */,

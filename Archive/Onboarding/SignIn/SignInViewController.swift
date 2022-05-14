@@ -10,7 +10,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-final class SignInViewController: UIViewController, StoryboardView, ActivityIndicatorable, SplashViewProtocol {
+final class SignInViewController: UIViewController, StoryboardView, ActivityIndicatorable, FakeSplashViewProtocol {
     
     // MARK: IBOutlet
     
@@ -33,7 +33,7 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
     
     var disposeBag = DisposeBag()
     weak var targetView: UIView?
-    var attachedView: UIView? = SplashView.instance()
+    var attachedView: UIView? = FakeSplashView()
     
     // MARK: lifeCycle
     
@@ -49,7 +49,13 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAttributes()
-        runSplashView()
+        self.targetView = self.view
+        let status = ArchiveStatus.shared
+        if !status.isShownFakeSplash {
+            showSplashView()
+            hideSplashView()
+            status.runFakeSplash()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -153,26 +159,6 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
         self.oAuthHelpLabel.font = .fonts(.body)
         self.oAuthHelpLabel.textColor = Gen.Colors.gray03.color
         self.oAuthHelpLabel.text = "다른 방법으로 로그인하기"
-    }
-    
-    private func runSplashView() {
-        if !AppConfigManager.shared.isPlayedIntroSplashView {
-            AppConfigManager.shared.isPlayedIntroSplashView = true
-            self.targetView = self.mainContainerView
-            showSplashView(completion: {
-                (self.attachedView as? SplashView)?.play()
-            })
-            (self.attachedView as? SplashView)?.isFinishAnimationFlag
-                .asDriver(onErrorJustReturn: true)
-                .drive(onNext: { [weak self] in
-                    if $0 {
-                        self?.hideSplashView(completion: { [weak self] in
-                            self?.attachedView = nil
-                        })
-                    }
-                })
-                .disposed(by: self.disposeBag)
-        }
     }
     
     // MARK: internal function

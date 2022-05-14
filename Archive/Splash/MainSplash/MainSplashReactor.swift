@@ -91,8 +91,6 @@ class MainSplashReactor: Reactor, Stepper {
                 print("자동로그인 실패")
                 self.steps.accept(ArchiveStep.failAutoLoggedIn)
             }
-        } else {
-            print("음? : \(isFinishAnimation) \(isFinishAutoLogin)")
         }
     }
     
@@ -100,7 +98,6 @@ class MainSplashReactor: Reactor, Stepper {
         if LogInManager.shared.isLoggedIn {
             return self.usecase.isValidAccessToken()
         } else {
-            print("로그인 안됨")
             return .just(false)
         }
     }

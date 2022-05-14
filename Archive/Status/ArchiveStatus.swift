@@ -19,6 +19,7 @@ class ArchiveStatus: NSObject {
     // MARK: internal property
     
     private(set) var mode: Mode = .normal
+    private(set) var isShownFakeSplash: Bool = false
     
     // MARK: lifeCycle
     
@@ -38,6 +39,10 @@ class ArchiveStatus: NSObject {
         } else {
             return .failure(.init(.commonError))
         }
+    }
+    
+    func runFakeSplash() {
+        self.isShownFakeSplash = true
     }
 
 }
