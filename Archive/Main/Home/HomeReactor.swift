@@ -34,10 +34,10 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: lifeCycle
     
     enum Action {
+        case endFlow
         case getMyArchives
         case showDetail(Int)
         case addArchive
-        case showMyPage(Int)
         case showMyArchives
         case setMyArchivesOrderBy(ArchivesOrderBy)
     }
@@ -58,6 +58,9 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .endFlow:
+            self.steps.accept(ArchiveStep.homeIsComplete)
+            return .empty()
         case .getMyArchives:
             return Observable.concat([
                 Observable.just(.setIsShimmering(true)),
@@ -107,9 +110,6 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
             ])
         case .addArchive:
             self.steps.accept(ArchiveStep.recordIsRequired)
-            return .empty()
-        case .showMyPage(let archiveCnt):
-            self.steps.accept(ArchiveStep.myPageIsRequired(archiveCnt))
             return .empty()
         case .setMyArchivesOrderBy(let orderBy):
             self.archivesOrderBy = orderBy
@@ -207,7 +207,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: internal function
     
     func runReturnEndFlow() {
-//        self.action.onNext(.endFlow)
+        self.action.onNext(.endFlow)
     }
     
     
