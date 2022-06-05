@@ -157,28 +157,28 @@ class EmotionSelectViewController: UIViewController, StoryboardView {
         self.splendidLabel.textColor = Gen.Colors.gray03.color
         self.wonderfulLabel.textColor = Gen.Colors.gray03.color
         self.impressiveLabel.textColor = Gen.Colors.gray03.color
-        switch emotion {
-        case .fun:
-            self.funImageView.image = Gen.Images.typeFun.image
-            self.preImageView.image = Gen.Images.preFun.image
-            self.funLabel.textColor = Gen.Colors.black.color
-        case .impressive:
-            self.impressiveImageView.image = Gen.Images.typeImpressive.image
-            self.preImageView.image = Gen.Images.preImpressive.image
-            self.impressiveLabel.textColor = Gen.Colors.black.color
-        case .pleasant:
-            self.pleasantImageView.image = Gen.Images.typePleasant.image
-            self.preImageView.image = Gen.Images.prePleasant.image
-            self.pleasantLabel.textColor = Gen.Colors.black.color
-        case .splendid:
-            self.splendidImageView.image = Gen.Images.typeSplendid.image
-            self.preImageView.image = Gen.Images.preSplendid.image
-            self.splendidLabel.textColor = Gen.Colors.black.color
-        case .wonderful:
-            self.wonderfulImageView.image = Gen.Images.typeWonderful.image
-            self.preImageView.image = Gen.Images.preWonderful.image
-            self.wonderfulLabel.textColor = Gen.Colors.black.color
-        }
+//        switch emotion { // TODO: 처리하기
+//        case .fun:
+//            self.funImageView.image = Gen.Images.typeFun.image
+//            self.preImageView.image = Gen.Images.preFun.image
+//            self.funLabel.textColor = Gen.Colors.black.color
+//        case .impressive:
+//            self.impressiveImageView.image = Gen.Images.typeImpressive.image
+//            self.preImageView.image = Gen.Images.preImpressive.image
+//            self.impressiveLabel.textColor = Gen.Colors.black.color
+//        case .pleasant:
+//            self.pleasantImageView.image = Gen.Images.typePleasant.image
+//            self.preImageView.image = Gen.Images.prePleasant.image
+//            self.pleasantLabel.textColor = Gen.Colors.black.color
+//        case .splendid:
+//            self.splendidImageView.image = Gen.Images.typeSplendid.image
+//            self.preImageView.image = Gen.Images.preSplendid.image
+//            self.splendidLabel.textColor = Gen.Colors.black.color
+//        case .wonderful:
+//            self.wonderfulImageView.image = Gen.Images.typeWonderful.image
+//            self.preImageView.image = Gen.Images.preWonderful.image
+//            self.wonderfulLabel.textColor = Gen.Colors.black.color
+//        }
     }
     
     // MARK: internal function

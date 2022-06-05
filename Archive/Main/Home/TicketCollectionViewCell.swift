@@ -54,33 +54,10 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
                 if let emotion: Emotion = Emotion.fromString(info.emotion) {
-                    switch emotion {
-                    case .fun:
-                        self?.imageContentView.bgColor = Gen.Colors.funYellow.color
-                        self?.coverImageView.image = Gen.Images.colorFun.image
-                        self?.emotionImageView.image = Gen.Images.preFun.image
-                        self?.emotionTitleLabel.text = "재미있는"
-                    case .impressive:
-                        self?.imageContentView.bgColor = Gen.Colors.impressiveGreen.color
-                        self?.coverImageView.image = Gen.Images.colorImpressive.image
-                        self?.emotionImageView.image = Gen.Images.preImpressive.image
-                        self?.emotionTitleLabel.text = "인상적인"
-                    case .pleasant:
-                        self?.imageContentView.bgColor = Gen.Colors.pleasantRed.color
-                        self?.coverImageView.image = Gen.Images.colorPleasant.image
-                        self?.emotionImageView.image = Gen.Images.prePleasant.image
-                        self?.emotionTitleLabel.text = "기분좋은"
-                    case .splendid:
-                        self?.imageContentView.bgColor = Gen.Colors.splendidBlue.color
-                        self?.coverImageView.image = Gen.Images.colorSplendid.image
-                        self?.emotionImageView.image = Gen.Images.preSplendid.image
-                        self?.emotionTitleLabel.text = "아름다운"
-                    case .wonderful:
-                        self?.imageContentView.bgColor = Gen.Colors.wonderfulPurple.color
-                        self?.coverImageView.image = Gen.Images.colorWonderful.image
-                        self?.emotionImageView.image = Gen.Images.preWonderful.image
-                        self?.emotionTitleLabel.text = "경이로운"
-                    }
+                    self?.imageContentView.bgColor = emotion.color
+                    self?.coverImageView.image = emotion.coverAlphaImage
+                    self?.emotionImageView.image = emotion.preImage
+                    self?.emotionTitleLabel.text = emotion.localizationTitle
                     self?.imageContentView.setNeedsDisplay()
                 }
                 self?.mainImageView.kf.setImage(with: URL(string: info.mainImage),
