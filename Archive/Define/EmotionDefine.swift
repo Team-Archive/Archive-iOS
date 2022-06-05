@@ -171,6 +171,27 @@ enum Emotion: String, CaseIterable {
         }
     }
     
+    var typeNoImage: UIImage {
+        switch self {
+        case .fun:
+            return Gen.Images.typeFunNo.image
+        case .impressive:
+            return Gen.Images.typeImpressiveNo.image
+        case .pleasant:
+            return Gen.Images.typePleasantNo.image
+        case .splendid:
+            return Gen.Images.typeSplendidNo.image
+        case .wonderful:
+            return Gen.Images.typeWonderfulNo.image
+        case .interesting:
+            return Gen.Images.typeInterestingNo.image
+        case .fresh:
+            return Gen.Images.typeFreshNo.image
+        case .touching:
+            return Gen.Images.typeTouchingNo.image
+        }
+    }
+    
     var preImage: UIImage {
         switch self {
         case .fun:
