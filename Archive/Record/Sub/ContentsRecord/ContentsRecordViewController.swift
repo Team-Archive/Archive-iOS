@@ -269,18 +269,7 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
     func setEmotion(_ emotion: Emotion?) {
         self.topCardView.backgroundColor = Gen.Colors.pleasantRed.color
         guard let emotion = emotion else { return }
-        switch emotion {
-        case .fun:
-            self.topCardView.backgroundColor = Gen.Colors.funYellow.color
-        case .impressive:
-            self.topCardView.backgroundColor = Gen.Colors.impressiveGreen.color
-        case .pleasant:
-            self.topCardView.backgroundColor = Gen.Colors.pleasantRed.color
-        case .splendid:
-            self.topCardView.backgroundColor = Gen.Colors.splendidBlue.color
-        case .wonderful:
-            self.topCardView.backgroundColor = Gen.Colors.wonderfulPurple.color
-        }
+        self.topCardView.backgroundColor = emotion.color
     }
     
     // MARK: action
