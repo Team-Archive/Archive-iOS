@@ -146,23 +146,6 @@ class ImageSelectViewController: UIViewController, StoryboardView, ActivityIndic
         })
     }
     
-    private func getEmotionCoverImage(_ emotion: Emotion) -> UIImage {
-        var returnImage: UIImage = UIImage()
-        switch emotion {
-        case .fun:
-            returnImage = Gen.Images.dimFun.image
-        case .impressive:
-            returnImage = Gen.Images.dimImpressive.image
-        case .pleasant:
-            returnImage = Gen.Images.dimPleasant.image
-        case .splendid:
-            returnImage = Gen.Images.dimSplendid.image
-        case .wonderful:
-            returnImage = Gen.Images.dimWonderful.image
-        }
-        return returnImage
-    }
-    
     private func showImageEditView(image: UIImage) {
         let cropViewController: CropViewController = CropViewController(croppingStyle: .default, image: image)
         cropViewController.delegate = self
@@ -174,7 +157,7 @@ class ImageSelectViewController: UIViewController, StoryboardView, ActivityIndic
         cropViewController.resetButtonHidden = true
         cropViewController.customAspectRatio = CGSize(width: 300, height: 300)
         cropViewController.aspectRatioPickerButtonHidden = true
-        let emotionCoverImage = self.getEmotionCoverImage(self.reactor?.emotion ?? .fun)
+        let emotionCoverImage = (self.reactor?.emotion ?? .fun).dimImage
         let emotionCoverImageView: UIImageView = UIImageView()
         emotionCoverImageView.contentMode = .scaleToFill
         emotionCoverImageView.image = emotionCoverImage

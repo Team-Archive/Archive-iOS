@@ -95,33 +95,10 @@ class DetailCardCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private func setNewEmotion(_ emotion: Emotion) {
-        switch emotion {
-        case .fun:
-            self.emotionCoverImageView.image = Gen.Images.colorFun.image
-            self.mainContetnsView.backgroundColor = Gen.Colors.funYellow.color
-            self.emotionLabel.text = "재미있는"
-            self.miniEmotionImageView.image = Gen.Images.preFun.image
-        case .impressive:
-            self.emotionCoverImageView.image = Gen.Images.colorImpressive.image
-            self.mainContetnsView.backgroundColor = Gen.Colors.impressiveGreen.color
-            self.emotionLabel.text = "인상적인"
-            self.miniEmotionImageView.image = Gen.Images.preImpressive.image
-        case .pleasant:
-            self.emotionCoverImageView.image = Gen.Images.colorPleasant.image
-            self.mainContetnsView.backgroundColor = Gen.Colors.pleasantRed.color
-            self.emotionLabel.text = "기분좋은"
-            self.miniEmotionImageView.image = Gen.Images.prePleasant.image
-        case .splendid:
-            self.emotionCoverImageView.image = Gen.Images.colorSplendid.image
-            self.mainContetnsView.backgroundColor = Gen.Colors.splendidBlue.color
-            self.emotionLabel.text = "아름다운"
-            self.miniEmotionImageView.image = Gen.Images.preSplendid.image
-        case .wonderful:
-            self.emotionCoverImageView.image = Gen.Images.colorWonderful.image
-            self.mainContetnsView.backgroundColor = Gen.Colors.wonderfulPurple.color
-            self.emotionLabel.text = "경이로운"
-            self.miniEmotionImageView.image = Gen.Images.preWonderful.image
-        }
+        self.emotionCoverImageView.image = emotion.coverAlphaImage
+        self.mainContetnsView.backgroundColor = emotion.color
+        self.emotionLabel.text = emotion.localizationTitle
+        self.miniEmotionImageView.image = emotion.preImage
     }
     
     private func getFriendsCellWidth(_ text: String) -> CGFloat {

@@ -88,18 +88,7 @@ class DetailContentsCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
         view.backgroundColor = Gen.Colors.white.color
         
         let emotionView: UIImageView = UIImageView()
-        switch emotion {
-        case .fun:
-            emotionView.image = Gen.Images.typeFun.image
-        case .impressive:
-            emotionView.image = Gen.Images.typeImpressive.image
-        case .pleasant:
-            emotionView.image = Gen.Images.typePleasant.image
-        case .splendid:
-            emotionView.image = Gen.Images.typeSplendid.image
-        case .wonderful:
-            emotionView.image = Gen.Images.typeWonderful.image
-        }
+        emotionView.image = emotion.typeImage
         view.addSubview(emotionView)
         emotionView.snp.makeConstraints {
             $0.leading.equalTo(view.snp.leading).offset(40)
