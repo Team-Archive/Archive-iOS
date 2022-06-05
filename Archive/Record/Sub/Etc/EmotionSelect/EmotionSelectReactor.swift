@@ -11,9 +11,8 @@ import RxRelay
 import RxFlow
 
 class EmotionSelectReactor: Reactor, Stepper {
-    // MARK: private property
     
-    private let model: EmotionSelectModelProtocol
+    // MARK: private property
     
     // MARK: internal property
     
@@ -22,8 +21,7 @@ class EmotionSelectReactor: Reactor, Stepper {
     
     // MARK: lifeCycle
     
-    init(model: EmotionSelectModelProtocol, currentEmotion: Emotion?) {
-        self.model = model
+    init(currentEmotion: Emotion?) {
         if let emotion = currentEmotion {
             self.action.onNext(.select(emotion))
         }
