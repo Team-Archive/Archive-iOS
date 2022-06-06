@@ -26,11 +26,11 @@ class ArchiveSelectEmotionView: UIView {
     private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.backgroundColor = Gen.Colors.white.color
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = 16
         layout.minimumInteritemSpacing = 16
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 48, height: 60) // TODO: 높이 테스트해봐야함.. 피그마에서 안찍힘
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: 50, height: 70)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 32, bottom: 0, right: 32)
         $0.collectionViewLayout = layout
     }
     
@@ -49,6 +49,13 @@ class ArchiveSelectEmotionView: UIView {
     // MARK: internal property
     
     weak var delegate: ArchiveSelectEmotionViewDelegate?
+    
+    var layout: UICollectionViewLayout? {
+        didSet {
+            guard let layout = layout else { return }
+            self.collectionView.collectionViewLayout = layout
+        }
+    }
     
     // MARK: lifeCycle
     

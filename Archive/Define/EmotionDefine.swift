@@ -8,10 +8,10 @@
 import UIKit
 
 enum Emotion: String, CaseIterable {
-    case fun = "INTERESTING"
-    case impressive = "IMPRESSIVE"
     case pleasant = "PLEASANT"
+    case fun = "INTERESTING"
     case splendid = "BEAUTIFUL"
+    case impressive = "IMPRESSIVE"
     case wonderful = "AMAZING"
     case interesting = "INTERESTING2" // TODO: 서버에서 어떻게 내려올까..?
     case fresh = "FRESH"
