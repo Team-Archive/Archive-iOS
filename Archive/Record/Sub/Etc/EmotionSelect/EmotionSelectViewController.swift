@@ -198,6 +198,16 @@ class EmotionSelectViewController: UIViewController, View {
     }
     
     func bind(reactor: EmotionSelectReactor) {
+        
+        self.selectEmotionView.rx
+            .selectedIndex
+            .subscribe(onNext: { [weak self] index in
+                if index == -1 { return }
+                guard let emotion = Emotion.getEmotionFromIndex(index) else { return }
+                self?.emotionSampleImageView.image = emotion.preImage
+            })
+            .disposed(by: self.disposeBag)
+        
 //        self.pleasantBtn.rx.tap
 //            .map { Reactor.Action.select(.pleasant) }
 //            .bind(to: reactor.action)

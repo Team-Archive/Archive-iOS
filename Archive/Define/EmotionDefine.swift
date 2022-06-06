@@ -24,6 +24,18 @@ enum Emotion: String, CaseIterable {
         return nil
     }
     
+    static func getEmotionFromIndex(_ index: Int) -> Emotion? {
+        if index + 1 > Emotion.allCases.count { return nil }
+        var currentEmotionIndex: Int = 0
+        for item in Emotion.allCases {
+            if currentEmotionIndex == index {
+                return item
+            }
+            currentEmotionIndex += 1
+        }
+        return nil
+    }
+    
     var localizationTitle: String {
         switch self {
         case .fun:
