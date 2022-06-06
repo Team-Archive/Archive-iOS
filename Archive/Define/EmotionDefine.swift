@@ -8,10 +8,10 @@
 import UIKit
 
 enum Emotion: String, CaseIterable {
-    case fun = "INTERESTING"
-    case impressive = "IMPRESSIVE"
     case pleasant = "PLEASANT"
+    case fun = "INTERESTING"
     case splendid = "BEAUTIFUL"
+    case impressive = "IMPRESSIVE"
     case wonderful = "AMAZING"
     case interesting = "INTERESTING2" // TODO: 서버에서 어떻게 내려올까..?
     case fresh = "FRESH"
@@ -20,6 +20,18 @@ enum Emotion: String, CaseIterable {
     static func fromString(_ str: String) -> Emotion? {
         for item in Emotion.allCases where item.rawValue == str {
             return item
+        }
+        return nil
+    }
+    
+    static func getEmotionFromIndex(_ index: Int) -> Emotion? {
+        if index + 1 > Emotion.allCases.count { return nil }
+        var currentEmotionIndex: Int = 0
+        for item in Emotion.allCases {
+            if currentEmotionIndex == index {
+                return item
+            }
+            currentEmotionIndex += 1
         }
         return nil
     }
@@ -168,6 +180,27 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.typeFresh.image
         case .touching:
             return Gen.Images.typeTouching.image
+        }
+    }
+    
+    var typeNoImage: UIImage {
+        switch self {
+        case .fun:
+            return Gen.Images.typeFunNo.image
+        case .impressive:
+            return Gen.Images.typeImpressiveNo.image
+        case .pleasant:
+            return Gen.Images.typePleasantNo.image
+        case .splendid:
+            return Gen.Images.typeSplendidNo.image
+        case .wonderful:
+            return Gen.Images.typeWonderfulNo.image
+        case .interesting:
+            return Gen.Images.typeInterestingNo.image
+        case .fresh:
+            return Gen.Images.typeFreshNo.image
+        case .touching:
+            return Gen.Images.typeTouchingNo.image
         }
     }
     
