@@ -196,11 +196,8 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     }
     
     private func navigationToEditEmotion(currentEmotion: Emotion?) -> FlowContributors {
-        let model: EmotionSelectModel = EmotionSelectModel()
-        let reactor = EmotionSelectReactor(model: model, currentEmotion: currentEmotion)
-        let emotionSelectViewController: EmotionSelectViewController = recordStoryBoard.instantiateViewController(identifier: EmotionSelectViewController.identifier) { corder in
-            return EmotionSelectViewController(coder: corder, reactor: reactor)
-        }
+        let reactor = EmotionSelectReactor(currentEmotion: currentEmotion)
+        let emotionSelectViewController: EmotionSelectViewController = EmotionSelectViewController(reactor: reactor)
         emotionSelectViewController.title = ""
         emotionSelectViewController.modalPresentationStyle = .overFullScreen
         self.editEmotionViewController = emotionSelectViewController

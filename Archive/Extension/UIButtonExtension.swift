@@ -18,4 +18,19 @@ extension UIButton {
         
         setBackgroundImage(backgroundImage, for: state)
     }
+    
+    func setImageAllState(_ image: UIImage? = nil) {
+        setImage(image, for: .normal)
+        setImage(image, for: .highlighted)
+        setImage(image, for: .disabled)
+        setImage(image, for: .selected)
+    }
+    
+    func setTitleAllState(_ title: String) {
+        self.setTitle(title, for: .normal)
+        self.setTitle(title, for: .highlighted)
+        self.setTitle(title, for: .selected)
+        self.setTitle(title, for: .focused)
+        self.setTitle(title, for: .disabled)
+    }
 }
