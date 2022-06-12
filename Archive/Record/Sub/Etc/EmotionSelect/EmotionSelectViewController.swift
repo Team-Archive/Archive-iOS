@@ -183,6 +183,7 @@ class EmotionSelectViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: .pleasant)
             .drive(onNext: { [weak self] emotion in
                 self?.emotionSampleImageView.image = emotion.preImage
+                self?.selectEmotionView.setSelecteEmotion(emotion)
             })
             .disposed(by: self.disposeBag)
         
