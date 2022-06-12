@@ -24,6 +24,17 @@ enum Emotion: String, CaseIterable {
         return nil
     }
     
+    var toOrderIndex: Int {
+        var currentEmotionIndex: Int = 0
+        for item in Emotion.allCases {
+            if item == self {
+                return currentEmotionIndex
+            }
+            currentEmotionIndex += 1
+        }
+        return 0
+    }
+    
     static func getEmotionFromIndex(_ index: Int) -> Emotion? {
         if index + 1 > Emotion.allCases.count { return nil }
         var currentEmotionIndex: Int = 0
