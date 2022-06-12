@@ -93,6 +93,13 @@ class ArchiveSelectEmotionView: UIView {
         self.feedbackGenerator?.prepare()
     }
     
+    // MARK: function
+    
+    func setSelecteEmotion(_ emotion: Emotion) {
+        self.currentSelectedIndex = emotion.toOrderIndex
+        self.collectionView.reloadData()
+    }
+    
 }
 
 extension ArchiveSelectEmotionView: UICollectionViewDelegate, UICollectionViewDataSource {
