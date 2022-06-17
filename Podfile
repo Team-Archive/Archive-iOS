@@ -22,6 +22,7 @@ def pods
   pod 'lottie-ios'
   pod 'SwiftLint'
   pod 'SwiftyTimer'
+  pod 'Then'
   
   pod 'KakaoSDKCommon'
   pod 'KakaoSDKAuth'

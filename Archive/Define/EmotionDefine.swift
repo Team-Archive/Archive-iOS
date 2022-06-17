@@ -13,9 +13,10 @@ enum Emotion: String, CaseIterable {
     case splendid = "BEAUTIFUL"
     case impressive = "IMPRESSIVE"
     case wonderful = "AMAZING"
-    case interesting = "INTERESTING2" // TODO: 서버에서 어떻게 내려올까..?
+    case interesting = "INTERESTING2"
     case fresh = "FRESH"
     case touching = "TOUCHING"
+    case shame = "SHAME"
     
     static func fromString(_ str: String) -> Emotion? {
         for item in Emotion.allCases where item.rawValue == str {
@@ -65,6 +66,8 @@ enum Emotion: String, CaseIterable {
             return "신선한"
         case .touching:
             return "감동적인"
+        case .shame:
+            return "아쉬운"
         }
     }
     
@@ -86,6 +89,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.coverFresh.image
         case .touching:
             return Gen.Images.coverTouching.image
+        case .shame:
+            return Gen.Images.coverShame.image
         }
     }
     
@@ -107,6 +112,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.colorFresh.image
         case .touching:
             return Gen.Images.colorTouching.image
+        case .shame:
+            return Gen.Images.colorShame.image
         }
     }
     
@@ -128,6 +135,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Colors.freshMint.color
         case .touching:
             return Gen.Colors.touchingOrange.color
+        case .shame:
+            return Gen.Colors.shameNavy.color
         }
     }
     
@@ -149,6 +158,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Colors.freshMintDarken.color
         case .touching:
             return Gen.Colors.touchingOrangeDarken.color
+        case .shame:
+            return Gen.Colors.shameNavyDarken.color
         }
     }
     
@@ -170,6 +181,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.typeFreshMini.image
         case .touching:
             return Gen.Images.typeTouchingMini.image
+        case .shame:
+            return Gen.Images.typeShameMini.image
         }
     }
     
@@ -191,6 +204,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.typeFresh.image
         case .touching:
             return Gen.Images.typeTouching.image
+        case .shame:
+            return Gen.Images.typeShame.image
         }
     }
     
@@ -212,6 +227,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.typeFreshNo.image
         case .touching:
             return Gen.Images.typeTouchingNo.image
+        case .shame:
+            return Gen.Images.typeShameNo.image
         }
     }
     
@@ -233,6 +250,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.preFresh.image
         case .touching:
             return Gen.Images.preTouching.image
+        case .shame:
+            return Gen.Images.preShame.image
         }
     }
     
@@ -254,6 +273,8 @@ enum Emotion: String, CaseIterable {
             return Gen.Images.dimFresh.image
         case .touching:
             return Gen.Images.dimTouching.image
+        case .shame:
+            return Gen.Images.dimShame.image
         }
     }
 }

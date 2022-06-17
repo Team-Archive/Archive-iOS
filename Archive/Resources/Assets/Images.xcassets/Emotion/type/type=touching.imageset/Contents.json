@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "type_touching-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "type_touching.png",
+      "filename" : "type_touching@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "type_touching@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
