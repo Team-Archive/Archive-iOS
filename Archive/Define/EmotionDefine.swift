@@ -136,7 +136,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Colors.touchingOrange.color
         case .shame:
-            return Gen.Colors.touchingOrangeDarken.color
+            return Gen.Colors.shameNavy.color
         }
     }
     
@@ -159,7 +159,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Colors.touchingOrangeDarken.color
         case .shame:
-            return Gen.Colors.touchingOrangeDarken.color
+            return Gen.Colors.shameNavyDarken.color
         }
     }
     
