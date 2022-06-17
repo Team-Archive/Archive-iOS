@@ -90,7 +90,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.coverTouching.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.coverShame.image
         }
     }
     
@@ -113,7 +113,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.colorTouching.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.colorShame.image
         }
     }
     
@@ -182,7 +182,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.typeTouchingMini.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.typeShameMini.image
         }
     }
     
@@ -205,7 +205,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.typeTouching.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.typeShame.image
         }
     }
     
@@ -228,7 +228,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.typeTouchingNo.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.typeShameNo.image
         }
     }
     
@@ -251,7 +251,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.preTouching.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.preShame.image
         }
     }
     
@@ -274,7 +274,7 @@ enum Emotion: String, CaseIterable {
         case .touching:
             return Gen.Images.dimTouching.image
         case .shame:
-            return Gen.Images.colorTouching.image
+            return Gen.Images.dimShame.image
         }
     }
 }

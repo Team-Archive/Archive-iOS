@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "pre_fresh-1.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "pre_fresh.png",
+      "filename" : "pre_fresh@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "pre_fresh@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
