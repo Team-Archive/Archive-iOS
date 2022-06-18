@@ -46,7 +46,7 @@ class RecordUploadCompleteReactor: Reactor, Stepper {
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
         case .close:
-            steps.accept(ArchiveStep.recordComplete)
+            steps.accept(ArchiveStep.recordUploadCompleteDone)
             return .empty()
         case .shareToInstagram:
             GAModule.sendEventLogToGA(.shareInstagramFromRegist)

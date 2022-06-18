@@ -135,13 +135,13 @@ class RecordFlow: Flow {
             GAModule.sendEventLogToGA(.completeRegistArchive)
             rootViewController.dismiss(animated: false, completion: nil)
             return navigationToRecordUploadComplete(thumbnail: thumbnail, emotion: emotion, conetentsInfo: contentsInfo)
-        case .recordComplete:
+        case .recordUploadCompleteDone:
             rootViewController.dismiss(animated: true, completion: { [weak self] in
-//                self?.rootViewController?.popToRootViewController(animated: false)
-//                self?.homeViewControllerPtr?.reactor?.action.onNext(.getMyArchives)
-//                self?.homeViewControllerPtr?.moveCollectionViewFirstIndex()
-                self?.rootViewController.dismiss(animated: false)
+                self?.recordViewController?.completeRecord()
             })
+            return .none
+        case .recordComplete:
+            self.rootViewController.dismiss(animated: false)
             return .end(forwardToParentFlowWithStep: ArchiveStep.recordComplete)
         default:
             return .none

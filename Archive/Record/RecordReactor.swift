@@ -44,6 +44,7 @@ class RecordReactor: Reactor, Stepper {
         case setThumbnailImage(UIImage)
         case setImageInfos([ImageInfo])
         case record
+        case completeRecord
     }
     
     enum Mutation {
@@ -94,6 +95,9 @@ class RecordReactor: Reactor, Stepper {
             guard let emotion = self.model.emotion else { return .empty() }
             let imageInfos = self.model.imageInfos
             steps.accept(ArchiveStep.recordUploadIsRequired(contents, thumbnailImage, emotion, imageInfos))
+            return .empty()
+        case .completeRecord:
+            steps.accept(ArchiveStep.recordComplete)
             return .empty()
         }
     }

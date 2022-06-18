@@ -222,6 +222,10 @@ class RecordViewController: UIViewController, StoryboardView {
     
     // MARK: internal function
     
+    func completeRecord() {
+        self.reactor?.action.onNext(.completeRecord)
+    }
+    
     // MARK: action
     
     @objc private func confirmAction(_ sender: UIButton) {
