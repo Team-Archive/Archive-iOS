@@ -92,6 +92,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 } else {
                     self?.emptyTicketImageView.isHidden = true
                     self?.ticketCollectionView.isHidden = false
+                    self?.moveCollectionViewFirstIndex()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -212,8 +213,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     }
     
     @objc private func archiveIsAddedNotificationReceive(notification: Notification) {
-//        self.reactor?.action.onNext(.getMyArchives)
-//        self.moveCollectionViewFirstIndex()
+        self.reactor?.action.onNext(.getMyArchives)
     }
     
     private func moveCollectionViewFirstIndex() {
