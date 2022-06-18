@@ -59,6 +59,7 @@ enum ArchiveStep: Step {
     case recordUploadIsRequired(ContentsRecordModelData, UIImage, Emotion, [ImageInfo]?)
     case recordUploadIsComplete(UIImage, Emotion, ContentsRecordModelData)
     case recordComplete
+    case recordClose // 완료 안하고 닫기
     
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)

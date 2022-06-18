@@ -35,6 +35,7 @@ class RecordReactor: Reactor, Stepper {
     }
     
     enum Action {
+        case close
         case moveToSelectEmotion(Emotion?)
         case setEmotion(Emotion)
         case setRecordInfo(ContentsRecordModelData)
@@ -59,6 +60,9 @@ class RecordReactor: Reactor, Stepper {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .close:
+            steps.accept(ArchiveStep.recordClose)
+            return .empty()
         case .moveToSelectEmotion(let emotion):
             steps.accept(ArchiveStep.recordEmotionEditIsRequired(emotion))
             return .empty()

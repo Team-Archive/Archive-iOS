@@ -45,6 +45,10 @@ class RecordViewController: UIViewController, StoryboardView {
     
     // MARK: lifeCycle
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -70,14 +74,14 @@ class RecordViewController: UIViewController, StoryboardView {
     private func makeNaviBtn() {
         let closeImage = Gen.Images.backWhite.image
         closeImage.withRenderingMode(.alwaysTemplate)
-        let backBarButtonItem = UIBarButtonItem(image: closeImage, style: .plain, target: self, action: #selector(backButtonClicked(_:)))
+        let backBarButtonItem = UIBarButtonItem(image: closeImage, style: .plain, target: self, action: #selector(closeButtonClicked(_:)))
         backBarButtonItem.tintColor = Gen.Colors.white.color
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Gen.Colors.white.color]
     }
     
-    @objc private func backButtonClicked(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+    @objc private func closeButtonClicked(_ sender: UIButton) {
+        self.reactor?.action.onNext(.close)
     }
     
     init?(coder: NSCoder, reactor: RecordReactor) {

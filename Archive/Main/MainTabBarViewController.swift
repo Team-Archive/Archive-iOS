@@ -93,7 +93,7 @@ extension MainTabBarViewController: UITabBarControllerDelegate {
         case self.tabViewControllers?.communityViewController:
             self.tabViewControllers?.communityViewController.willTabSeleted()
         case self.tabViewControllers?.dummyRecordViewController:
-            //TODO: present
+            self.reactor?.action.onNext(.moveTo(.record))
             return false
         case self.tabViewControllers?.myPageViewController:
             self.tabViewControllers?.myPageViewController.willTabSeleted()
