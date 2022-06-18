@@ -18,7 +18,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     @IBOutlet weak var contentsCountTitleLabel: UILabel!
     @IBOutlet weak var contentsCountLabel: UILabel!
     @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var addArchiveBtn: UIButton!
     @IBOutlet weak var emptyTicketImageView: UIImageView!
     @IBOutlet private weak var ticketCollectionView: UICollectionView! {
         didSet {
@@ -150,10 +149,10 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
             })
             .disposed(by: self.disposeBag)
         
-        self.addArchiveBtn.rx.tap
-            .map { Reactor.Action.addArchive }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
+//        self.addArchiveBtn.rx.tap
+//            .map { Reactor.Action.addArchive }
+//            .bind(to: reactor.action)
+//            .disposed(by: disposeBag)
         
         reactor.state.map { $0.isLoading }
         .distinctUntilChanged()
