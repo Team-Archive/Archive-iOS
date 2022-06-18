@@ -15,6 +15,7 @@ struct ArchiveInfo: CodableWrapper {
     let emotion: String
     let companions: [String]?
     let mainImage: String
+    let isPublic: Bool
 }
 
 struct ArchiveDetailInfo: CodableWrapper {
