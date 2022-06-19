@@ -23,7 +23,6 @@ class RecordReactor: Reactor, Stepper {
     let initialState = State()
     let moveToConfig: PublishSubject<Void>
     let error: PublishSubject<String>
-    let isAllDataSetted: PublishSubject<Bool>
     
     // MARK: lifeCycle
     
@@ -31,7 +30,6 @@ class RecordReactor: Reactor, Stepper {
         self.model = model
         self.moveToConfig = .init()
         self.error = .init()
-        self.isAllDataSetted = .init()
     }
     
     enum Action {
@@ -51,12 +49,14 @@ class RecordReactor: Reactor, Stepper {
         case setEmotion(Emotion)
         case setThumbnailImage(UIImage)
         case setImages([UIImage])
+        case setIsAllDataSetted(Bool)
     }
     
     struct State {
         var currentEmotion: Emotion?
         var thumbnailImage: UIImage?
         var images: [UIImage]?
+        var isAllDataSetted: Bool = false
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -77,18 +77,15 @@ class RecordReactor: Reactor, Stepper {
             return .empty()
         case .setRecordInfo(let info):
             self.model.recordInfo = info
-            checkIsAllDataSetted()
-            return .empty()
+            return .just(.setIsAllDataSetted(checkIsAllDataSetted()))
         case .setImages(let images):
             return .just(.setImages(images))
         case .setThumbnailImage(let image):
             self.model.thumbnailImage = image
-            checkIsAllDataSetted()
-            return .just(.setThumbnailImage(image))
+            return .from([.setThumbnailImage(image), .setIsAllDataSetted(checkIsAllDataSetted())])
         case .setImageInfos(let infos):
             self.model.imageInfos = infos
-            checkIsAllDataSetted()
-            return .empty()
+            return .just(.setIsAllDataSetted(checkIsAllDataSetted()))
         case .record:
             guard let contents = self.model.recordInfo else { return .empty() }
             guard let thumbnailImage = self.model.thumbnailImage else { return .empty() }
@@ -111,6 +108,8 @@ class RecordReactor: Reactor, Stepper {
             newState.thumbnailImage = image
         case .setImages(let images):
             newState.images = images
+        case .setIsAllDataSetted(let isSetted):
+            newState.isAllDataSetted = isSetted
         }
         return newState
     }
@@ -159,12 +158,8 @@ class RecordReactor: Reactor, Stepper {
         }
     }
     
-    private func checkIsAllDataSetted() {
-        if self.model.isAllDataSetted() {
-            self.isAllDataSetted.onNext(true)
-        } else {
-            self.isAllDataSetted.onNext(false)
-        }
+    private func checkIsAllDataSetted() -> Bool {
+        return self.model.isAllDataSetted()
     }
     
     // MARK: internal function

@@ -78,6 +78,7 @@ class RecordViewController: UIViewController, StoryboardView {
         backBarButtonItem.tintColor = Gen.Colors.white.color
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Gen.Colors.white.color]
+        self.title = "전시기록"
     }
     
     @objc private func closeButtonClicked(_ sender: UIButton) {
@@ -96,6 +97,7 @@ class RecordViewController: UIViewController, StoryboardView {
     func bind(reactor: RecordReactor) {
         reactor.state
             .map { $0.currentEmotion }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: nil)
             .drive(onNext: { [weak self] emotion in
                 guard let emotion = emotion else { return }
@@ -125,6 +127,7 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.thumbnailImage }
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] image in
                 guard let image = image else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setThumbnailImage(image))
@@ -133,23 +136,18 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.images }
+            .distinctUntilChanged()
             .subscribe(onNext: { [weak self] images in
                 guard let images = images else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setImages(images))
             })
             .disposed(by: self.disposeBag)
         
-        reactor.isAllDataSetted
+        reactor.state
+            .map { $0.isAllDataSetted }
             .distinctUntilChanged()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] isSetted in
-                if isSetted {
-                    self?.setConfirmBtnColor(Gen.Colors.black.color)
-                    self?.confirmBtn?.isEnabled = true
-                } else {
-                    self?.setConfirmBtnColor(Gen.Colors.gray04.color)
-                    self?.confirmBtn?.isEnabled = false
-                }
+            .subscribe(onNext: { [weak self] in
+                self?.setConfirmBtnIsEnable($0)
             })
             .disposed(by: self.disposeBag)
     }
@@ -205,7 +203,7 @@ class RecordViewController: UIViewController, StoryboardView {
     
     private func makeConfirmBtn() {
         self.confirmBtn = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(confirmAction(_:)))
-        setConfirmBtnColor(Gen.Colors.gray04.color)
+        self.setConfirmBtnIsEnable(self.reactor?.currentState.isAllDataSetted ?? false)
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem = confirmBtn
     }
@@ -216,8 +214,16 @@ class RecordViewController: UIViewController, StoryboardView {
         self.confirmBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button), NSAttributedString.Key.foregroundColor: color], for: .disabled)
     }
     
-    private func removeConfrimBtn() {
-        self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
+    private func setConfirmBtnIsEnable(_ isEnable: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            if isEnable {
+                self?.setConfirmBtnColor(Gen.Colors.black.color)
+                self?.confirmBtn?.isEnabled = true
+            } else {
+                self?.setConfirmBtnColor(Gen.Colors.gray04.color)
+                self?.confirmBtn?.isEnabled = false
+            }
+        }
     }
     
     // MARK: internal function
@@ -290,7 +296,9 @@ extension RecordViewController: ContentsRecordViewControllerDelegate {
     }
     
     func completeContentsRecord(infoData: ContentsRecordModelData) {
-        self.reactor?.action.onNext(.setRecordInfo(infoData))
+        DispatchQueue.global().async { [weak self] in
+            self?.reactor?.action.onNext(.setRecordInfo(infoData))
+        }
         self.pageViewController.moveToPreviousPage()
         removePageViewControllerSwipeGesture()
         self.imageRecordViewController?.setRecordTitle(infoData.title)

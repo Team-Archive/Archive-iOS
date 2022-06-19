@@ -19,8 +19,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         static let MyPageNavigationTitle = "내정보"
         static let LoginInfoNavigationTitle = "로그인 정보"
         static let WithdrawalNavigationTitle = "회원탈퇴"
-        static let RecordStoryBoardName = "Record"
-        static let RecordNavigationTitle = "전시기록"
     }
     
     // MARK: private property
@@ -28,7 +26,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     private let homeStoryBoard = UIStoryboard(name: Constants.HomeStoryBoardName, bundle: nil)
     private let detailStoryBoard = UIStoryboard(name: Constants.DetailStoryBoardName, bundle: nil)
     private let myPageStoryBoard = UIStoryboard(name: Constants.MyPageStoryBoardName, bundle: nil)
-    private let recordStoryBoard = UIStoryboard(name: Constants.RecordStoryBoardName, bundle: nil)
     
     private var subVCNavi: UINavigationController?
     private weak var homeViewControllerPtr: HomeViewController?

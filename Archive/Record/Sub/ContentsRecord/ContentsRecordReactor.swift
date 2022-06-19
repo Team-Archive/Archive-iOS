@@ -62,11 +62,7 @@ class ContentsRecordReactor: Reactor {
                 Observable.just(Mutation.checkIsAllContentsSetted)
             ])
         case .setFriends(value: let friendsStr):
-            let friends = convertStrFriendsToFriendsArray(friendsStr)
-            return Observable.concat([
-                Observable.just(Mutation.setFriends(friends)),
-                Observable.just(Mutation.checkIsAllContentsSetted)
-            ])
+            return .just(.setFriends(convertStrFriendsToFriendsArray(friendsStr)))
         case .confirm:
             return .just(.complete)
         case .clearCompleteData:
