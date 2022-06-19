@@ -123,6 +123,7 @@ class ImageRecordViewController: UIViewController, StoryboardView, ImageRecordVi
         
         reactor.state
             .map { $0.emotion }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
             .drive(onNext: { [weak self] emotion in

@@ -17,7 +17,6 @@ class RecordFlow: Flow {
     private let recordStoryBoard = UIStoryboard(name: "Record", bundle: nil)
     
     private weak var recordViewController: RecordViewController?
-    private weak var editEmotionViewController: EmotionSelectViewController?
     private weak var imageSelectViewControllerNavi: UINavigationController?
     
     // MARK: internal property
@@ -42,7 +41,6 @@ class RecordFlow: Flow {
         let emotionSelectViewController: EmotionSelectViewController = EmotionSelectViewController(reactor: reactor)
         emotionSelectViewController.title = ""
         emotionSelectViewController.modalPresentationStyle = .overFullScreen
-        self.editEmotionViewController = emotionSelectViewController
         rootViewController.present(emotionSelectViewController, animated: false, completion: {
             emotionSelectViewController.fadeInAnimation()
         })
@@ -51,7 +49,6 @@ class RecordFlow: Flow {
     }
     
     private func dismissEditEmotion(emotion: Emotion) {
-        self.editEmotionViewController?.dismiss(animated: false, completion: nil)
         self.recordViewController?.reactor?.action.onNext(.setEmotion(emotion))
     }
     

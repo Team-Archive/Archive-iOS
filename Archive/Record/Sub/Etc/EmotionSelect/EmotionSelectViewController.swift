@@ -191,6 +191,13 @@ class EmotionSelectViewController: UIViewController, View {
             .map { Reactor.Action.completeEmotionEdit }
             .bind(to: reactor.action )
             .disposed(by: self.disposeBag)
+        
+        reactor.close
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.dismiss(animated: false)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private function

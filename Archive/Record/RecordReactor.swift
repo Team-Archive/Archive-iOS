@@ -68,7 +68,6 @@ class RecordReactor: Reactor, Stepper {
             steps.accept(ArchiveStep.recordEmotionEditIsRequired(emotion))
             return .empty()
         case .setEmotion(let emotion):
-            self.model.emotion = emotion
             return .just(.setEmotion(emotion))
         case .moveToPhotoSelet:
             checkPhotoAuth(completion: { [weak self] in

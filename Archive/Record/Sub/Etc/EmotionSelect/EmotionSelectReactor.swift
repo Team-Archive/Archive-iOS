@@ -18,6 +18,7 @@ class EmotionSelectReactor: Reactor, Stepper {
     
     let initialState = State()
     let steps = PublishRelay<Step>()
+    let close: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
@@ -46,6 +47,7 @@ class EmotionSelectReactor: Reactor, Stepper {
             return .just(.setEmotion(emotion))
         case .completeEmotionEdit:
             steps.accept(ArchiveStep.recordEmotionEditIsComplete(self.currentState.currentEmotion))
+            self.close.onNext(())
             return .empty()
         }
     }

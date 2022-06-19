@@ -97,7 +97,6 @@ class RecordViewController: UIViewController, StoryboardView {
     func bind(reactor: RecordReactor) {
         reactor.state
             .map { $0.currentEmotion }
-            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: nil)
             .drive(onNext: { [weak self] emotion in
                 guard let emotion = emotion else { return }
