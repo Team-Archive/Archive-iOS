@@ -23,6 +23,10 @@ class ImageSelectModel: ImageSelectModelProtocol {
     
     // MARK: lifeCycle
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     // MARK: private function
     
     // MARK: internal function

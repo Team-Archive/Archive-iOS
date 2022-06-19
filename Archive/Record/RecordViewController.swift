@@ -126,7 +126,7 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.thumbnailImage }
-            .distinctUntilChanged()
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [weak self] image in
                 guard let image = image else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setThumbnailImage(image))
@@ -135,7 +135,7 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.images }
-            .distinctUntilChanged()
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
             .subscribe(onNext: { [weak self] images in
                 guard let images = images else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setImages(images))
@@ -295,9 +295,10 @@ extension RecordViewController: ContentsRecordViewControllerDelegate {
     }
     
     func completeContentsRecord(infoData: ContentsRecordModelData) {
-        DispatchQueue.global().async { [weak self] in
-            self?.reactor?.action.onNext(.setRecordInfo(infoData))
-        }
+//        DispatchQueue.global().async { [weak self] in
+//            self?.reactor?.action.onNext(.setRecordInfo(infoData))
+//        }
+        self.reactor?.action.onNext(.setRecordInfo(infoData))
         self.pageViewController.moveToPreviousPage()
         removePageViewControllerSwipeGesture()
         self.imageRecordViewController?.setRecordTitle(infoData.title)

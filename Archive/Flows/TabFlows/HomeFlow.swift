@@ -31,7 +31,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     private weak var homeViewControllerPtr: HomeViewController?
     private weak var recordViewController: RecordViewController?
     private weak var editEmotionViewController: EmotionSelectViewController?
-    private weak var imageSelectViewControllerNavi: UINavigationController?
     
     // MARK: internal property
     
