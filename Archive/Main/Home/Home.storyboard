@@ -72,9 +72,10 @@
                                         </constraints>
                                     </imageView>
                                     <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="n4g-2g-gSz">
-                                        <rect key="frame" x="0.0" y="593" width="414" height="10"/>
+                                        <rect key="frame" x="124.5" y="593" width="165" height="10"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="10" id="9UA-Sw-jdA"/>
+                                            <constraint firstAttribute="width" constant="165" id="QHk-D9-pp1"/>
                                         </constraints>
                                     </pageControl>
                                 </subviews>
@@ -82,10 +83,9 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="AWx-k8-KNs" secondAttribute="trailing" id="0IJ-jv-QNW"/>
                                     <constraint firstItem="AWx-k8-KNs" firstAttribute="top" secondItem="RTC-6G-D1m" secondAttribute="top" id="3mL-6j-dkF"/>
-                                    <constraint firstItem="n4g-2g-gSz" firstAttribute="leading" secondItem="RTC-6G-D1m" secondAttribute="leading" id="Bip-3k-VgG"/>
                                     <constraint firstItem="JOp-sB-xJD" firstAttribute="top" secondItem="RTC-6G-D1m" secondAttribute="top" id="Kh0-Wc-WSI"/>
                                     <constraint firstAttribute="bottom" secondItem="n4g-2g-gSz" secondAttribute="bottom" id="Qd6-gF-bc6"/>
-                                    <constraint firstAttribute="trailing" secondItem="n4g-2g-gSz" secondAttribute="trailing" id="Rzr-1E-C1P"/>
+                                    <constraint firstItem="n4g-2g-gSz" firstAttribute="centerX" secondItem="RTC-6G-D1m" secondAttribute="centerX" id="SyD-GA-7yg"/>
                                     <constraint firstItem="n4g-2g-gSz" firstAttribute="top" secondItem="AWx-k8-KNs" secondAttribute="bottom" constant="19" id="Vtp-0s-mmP"/>
                                     <constraint firstItem="AWx-k8-KNs" firstAttribute="leading" secondItem="RTC-6G-D1m" secondAttribute="leading" id="a1C-xo-g03"/>
                                     <constraint firstItem="JOp-sB-xJD" firstAttribute="centerX" secondItem="RTC-6G-D1m" secondAttribute="centerX" id="vry-ft-h4z"/>
