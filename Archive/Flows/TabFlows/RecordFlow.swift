@@ -67,9 +67,10 @@ class RecordFlow: Flow {
                                                  withNextStepper: reactor))
     }
     
-    private func dismissImageSelect() {
+    private func dismissImageSelect(completion: (() -> Void)?) {
         self.imageSelectViewControllerNavi?.dismiss(animated: true, completion: {
             self.imageSelectViewControllerNavi?.viewControllers = []
+            completion?()
         })
     }
     
@@ -121,10 +122,11 @@ class RecordFlow: Flow {
             GAModule.sendEventLogToGA(.startPhotoSelect)
             return navigationToImageSelect(emotion: emotion)
         case .recordImageSelectIsComplete(let thumbnailImage, let images):
-            GAModule.sendEventLogToGA(.completePhotoSelect)
-            self.recordViewController?.reactor?.action.onNext(.setImages(images))
-            self.recordViewController?.reactor?.action.onNext(.setThumbnailImage(thumbnailImage))
-            dismissImageSelect()
+            dismissImageSelect(completion: { [weak self] in
+                GAModule.sendEventLogToGA(.completePhotoSelect)
+                self?.recordViewController?.reactor?.action.onNext(.setImages(images))
+                self?.recordViewController?.reactor?.action.onNext(.setThumbnailImage(thumbnailImage))
+            })
             return .none
         case .recordUploadIsRequired(let contents, let thumbnail, let emotion, let imageInfos):
             return navigationToRecordUpload(contents: contents, thumbnail: thumbnail, emotion: emotion, imageInfos: imageInfos)

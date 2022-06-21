@@ -153,8 +153,8 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
         
         reactor.state
             .map { $0.complete }
-            .asDriver(onErrorJustReturn: nil)
-            .drive(onNext: { [weak self] infoData in
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] infoData in
                 guard let info = infoData else { return }
                 self?.removeConfrimBtn()
                 self?.delegate?.completeContentsRecord(infoData: info)

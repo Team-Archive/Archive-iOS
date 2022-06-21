@@ -126,7 +126,7 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.thumbnailImage }
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] image in
                 guard let image = image else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setThumbnailImage(image))
@@ -135,7 +135,7 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.images }
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] images in
                 guard let images = images else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setImages(images))
@@ -205,6 +205,7 @@ class RecordViewController: UIViewController, StoryboardView {
         self.setConfirmBtnIsEnable(self.reactor?.currentState.isAllDataSetted ?? false)
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem = confirmBtn
+        self.reactor?.action.onNext(.checkIsAllDataSetted)
     }
     
     private func setConfirmBtnColor(_ color: UIColor) {
@@ -295,12 +296,10 @@ extension RecordViewController: ContentsRecordViewControllerDelegate {
     }
     
     func completeContentsRecord(infoData: ContentsRecordModelData) {
-//        DispatchQueue.global().async { [weak self] in
-//            self?.reactor?.action.onNext(.setRecordInfo(infoData))
-//        }
         self.reactor?.action.onNext(.setRecordInfo(infoData))
         self.pageViewController.moveToPreviousPage()
         removePageViewControllerSwipeGesture()
         self.imageRecordViewController?.setRecordTitle(infoData.title)
+        makeConfirmBtn()
     }
 }

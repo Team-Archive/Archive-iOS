@@ -42,6 +42,7 @@ class RecordReactor: Reactor, Stepper {
         case setThumbnailImage(UIImage)
         case setImageInfos([ImageInfo])
         case record
+        case checkIsAllDataSetted
         case completeRecord
     }
     
@@ -68,6 +69,7 @@ class RecordReactor: Reactor, Stepper {
             steps.accept(ArchiveStep.recordEmotionEditIsRequired(emotion))
             return .empty()
         case .setEmotion(let emotion):
+            self.model.emotion = emotion
             return .just(.setEmotion(emotion))
         case .moveToPhotoSelet:
             checkPhotoAuth(completion: { [weak self] in
@@ -92,6 +94,8 @@ class RecordReactor: Reactor, Stepper {
             let imageInfos = self.model.imageInfos
             steps.accept(ArchiveStep.recordUploadIsRequired(contents, thumbnailImage, emotion, imageInfos))
             return .empty()
+        case .checkIsAllDataSetted:
+            return .just(.setIsAllDataSetted(checkIsAllDataSetted()))
         case .completeRecord:
             steps.accept(ArchiveStep.recordComplete)
             return .empty()
