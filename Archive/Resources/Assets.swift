@@ -31,6 +31,7 @@ internal enum Gen {
     internal static let funYellowDarken = ColorAsset(name: "FunYellowDarken")
     internal static let gray01 = ColorAsset(name: "Gray01")
     internal static let gray02 = ColorAsset(name: "Gray02")
+    internal static let gray032 = ColorAsset(name: "Gray03-2")
     internal static let gray03 = ColorAsset(name: "Gray03")
     internal static let gray04 = ColorAsset(name: "Gray04")
     internal static let gray05 = ColorAsset(name: "Gray05")

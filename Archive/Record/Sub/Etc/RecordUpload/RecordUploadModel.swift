@@ -94,12 +94,15 @@ class RecordUploadModel: RecordUploadModelProtocol {
     func record(completion: @escaping () -> Void) {
         uploadImages(completion: { [weak self] recordImageDatas in
             self?.uploadMainImage(completion: { mainImageUrl in
-                let recordData = RecordData(name: self?.contents.title ?? "",
-                                            watchedOn: self?.contents.date ?? "",
-                                            companions: self?.contents.friends ?? nil,
-                                            emotion: self?.emotion.rawValue ?? "",
-                                            mainImage: mainImageUrl,
-                                            images: recordImageDatas)
+                let recordData = RecordData(
+                    name: self?.contents.title ?? "",
+                    watchedOn: self?.contents.date ?? "",
+                    companions: self?.contents.friends ?? nil,
+                    emotion: self?.emotion.rawValue ?? "",
+                    mainImage: mainImageUrl,
+                    images: recordImageDatas,
+                    isPublic: true // TODO: 화면에서 조정하기
+                )
                 let provider = ArchiveProvider.shared.provider
                 provider.request(.registArchive(recordData), completion: { response in
                     switch response {
@@ -126,6 +129,7 @@ struct RecordData: CodableWrapper {
     let emotion: String
     let mainImage: String
     let images: [RecordImageData]?
+    let isPublic: Bool
     
 }
 

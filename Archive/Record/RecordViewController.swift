@@ -45,6 +45,10 @@ class RecordViewController: UIViewController, StoryboardView {
     
     // MARK: lifeCycle
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -70,14 +74,15 @@ class RecordViewController: UIViewController, StoryboardView {
     private func makeNaviBtn() {
         let closeImage = Gen.Images.backWhite.image
         closeImage.withRenderingMode(.alwaysTemplate)
-        let backBarButtonItem = UIBarButtonItem(image: closeImage, style: .plain, target: self, action: #selector(backButtonClicked(_:)))
+        let backBarButtonItem = UIBarButtonItem(image: closeImage, style: .plain, target: self, action: #selector(closeButtonClicked(_:)))
         backBarButtonItem.tintColor = Gen.Colors.white.color
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Gen.Colors.white.color]
+        self.title = "전시기록"
     }
     
-    @objc private func backButtonClicked(_ sender: UIButton) {
-        self.navigationController?.popViewController(animated: true)
+    @objc private func closeButtonClicked(_ sender: UIButton) {
+        self.reactor?.action.onNext(.close)
     }
     
     init?(coder: NSCoder, reactor: RecordReactor) {
@@ -121,6 +126,7 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.thumbnailImage }
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] image in
                 guard let image = image else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setThumbnailImage(image))
@@ -129,23 +135,18 @@ class RecordViewController: UIViewController, StoryboardView {
         
         reactor.state
             .map { $0.images }
+            .observe(on: MainScheduler.asyncInstance)
             .subscribe(onNext: { [weak self] images in
                 guard let images = images else { return }
                 self?.imageRecordViewController?.reactor?.action.onNext(.setImages(images))
             })
             .disposed(by: self.disposeBag)
         
-        reactor.isAllDataSetted
+        reactor.state
+            .map { $0.isAllDataSetted }
             .distinctUntilChanged()
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] isSetted in
-                if isSetted {
-                    self?.setConfirmBtnColor(Gen.Colors.black.color)
-                    self?.confirmBtn?.isEnabled = true
-                } else {
-                    self?.setConfirmBtnColor(Gen.Colors.gray04.color)
-                    self?.confirmBtn?.isEnabled = false
-                }
+            .subscribe(onNext: { [weak self] in
+                self?.setConfirmBtnIsEnable($0)
             })
             .disposed(by: self.disposeBag)
     }
@@ -201,9 +202,10 @@ class RecordViewController: UIViewController, StoryboardView {
     
     private func makeConfirmBtn() {
         self.confirmBtn = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(confirmAction(_:)))
-        setConfirmBtnColor(Gen.Colors.gray04.color)
+        self.setConfirmBtnIsEnable(self.reactor?.currentState.isAllDataSetted ?? false)
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
         self.navigationController?.navigationBar.topItem?.rightBarButtonItem = confirmBtn
+        self.reactor?.action.onNext(.checkIsAllDataSetted)
     }
     
     private func setConfirmBtnColor(_ color: UIColor) {
@@ -212,11 +214,23 @@ class RecordViewController: UIViewController, StoryboardView {
         self.confirmBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button), NSAttributedString.Key.foregroundColor: color], for: .disabled)
     }
     
-    private func removeConfrimBtn() {
-        self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
+    private func setConfirmBtnIsEnable(_ isEnable: Bool) {
+        DispatchQueue.main.async { [weak self] in
+            if isEnable {
+                self?.setConfirmBtnColor(Gen.Colors.black.color)
+                self?.confirmBtn?.isEnabled = true
+            } else {
+                self?.setConfirmBtnColor(Gen.Colors.gray04.color)
+                self?.confirmBtn?.isEnabled = false
+            }
+        }
     }
     
     // MARK: internal function
+    
+    func completeRecord() {
+        self.reactor?.action.onNext(.completeRecord)
+    }
     
     // MARK: action
     
@@ -286,5 +300,6 @@ extension RecordViewController: ContentsRecordViewControllerDelegate {
         self.pageViewController.moveToPreviousPage()
         removePageViewControllerSwipeGesture()
         self.imageRecordViewController?.setRecordTitle(infoData.title)
+        makeConfirmBtn()
     }
 }

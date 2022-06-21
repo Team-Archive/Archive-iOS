@@ -43,7 +43,7 @@ class MainTabBarReactor: Reactor, Stepper {
             case .home:
                 self.steps.accept(ArchiveStep.homeIsRequired)
             case .record:
-                return .empty()
+                self.steps.accept(ArchiveStep.recordIsRequired)
             case .community:
                 self.steps.accept(ArchiveStep.communityIsRequired)
             case .myPage:

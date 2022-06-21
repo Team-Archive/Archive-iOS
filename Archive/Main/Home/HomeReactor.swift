@@ -36,7 +36,6 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     enum Action {
         case getMyArchives
         case showDetail(Int)
-        case addArchive
         case showMyPage(Int)
         case showMyArchives
         case setMyArchivesOrderBy(ArchivesOrderBy)
@@ -105,9 +104,6 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
                     return .setIsLoading(false)
                 }
             ])
-        case .addArchive:
-            self.steps.accept(ArchiveStep.recordIsRequired)
-            return .empty()
         case .showMyPage(let archiveCnt):
             self.steps.accept(ArchiveStep.myPageIsRequired(archiveCnt))
             return .empty()

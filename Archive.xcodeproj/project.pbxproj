@@ -151,6 +151,7 @@
 		789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */; };
 		789E61C5272584ED00D6E18F /* ContentsRecordReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61C4272584ED00D6E18F /* ContentsRecordReactor.swift */; };
 		789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61C6272584FC00D6E18F /* ContentsRecordModel.swift */; };
+		789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789F34BA285D9B9E00733214 /* NotificationDefine.swift */; };
 		78A32164275B91580078650D /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78A32163275B91580078650D /* Detail.storyboard */; };
 		78A32167275B92530078650D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32166275B92530078650D /* DetailViewController.swift */; };
 		78A32169275B92600078650D /* DetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32168275B92600078650D /* DetailReactor.swift */; };
@@ -343,6 +344,7 @@
 		789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassIdentifiable.swift; sourceTree = "<group>"; };
 		789E61C4272584ED00D6E18F /* ContentsRecordReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordReactor.swift; sourceTree = "<group>"; };
 		789E61C6272584FC00D6E18F /* ContentsRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordModel.swift; sourceTree = "<group>"; };
+		789F34BA285D9B9E00733214 /* NotificationDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDefine.swift; sourceTree = "<group>"; };
 		78A32163275B91580078650D /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		78A32166275B92530078650D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		78A32168275B92600078650D /* DetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReactor.swift; sourceTree = "<group>"; };
@@ -913,6 +915,7 @@
 				78B872E02726C6D1009EFB54 /* EmotionDefine.swift */,
 				78958E102712A04B003FF724 /* FontDefine.swift */,
 				78BB7E0D277843ED00DF78AF /* CommonDefine.swift */,
+				789F34BA285D9B9E00733214 /* NotificationDefine.swift */,
 			);
 			path = Define;
 			sourceTree = "<group>";
@@ -1341,6 +1344,7 @@
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
+				789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */,
 				78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */,
 				78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */,
 				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
@@ -1628,7 +1632,6 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = P4ZJYAK634;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Archive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1709,7 +1712,6 @@
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = P4ZJYAK634;
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				INFOPLIST_FILE = Archive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

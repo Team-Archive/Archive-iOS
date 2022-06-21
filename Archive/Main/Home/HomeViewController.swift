@@ -18,7 +18,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     @IBOutlet weak var contentsCountTitleLabel: UILabel!
     @IBOutlet weak var contentsCountLabel: UILabel!
     @IBOutlet weak var pageControl: UIPageControl!
-    @IBOutlet weak var addArchiveBtn: UIButton!
     @IBOutlet weak var emptyTicketImageView: UIImageView!
     @IBOutlet private weak var ticketCollectionView: UICollectionView! {
         didSet {
@@ -58,6 +57,8 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         initUI()
         self.reactor?.action.onNext(.setMyArchivesOrderBy(.dateToVisit))
         self.reactor?.action.onNext(.getMyArchives)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsAddedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,6 +92,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 } else {
                     self?.emptyTicketImageView.isHidden = true
                     self?.ticketCollectionView.isHidden = false
+                    self?.moveCollectionViewFirstIndex()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -149,11 +151,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 reactor.action.onNext(.showDetail(info.item))
             })
             .disposed(by: self.disposeBag)
-        
-        self.addArchiveBtn.rx.tap
-            .map { Reactor.Action.addArchive }
-            .bind(to: reactor.action)
-            .disposed(by: disposeBag)
         
         reactor.state.map { $0.isLoading }
         .distinctUntilChanged()
@@ -215,6 +212,20 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.pageControl.isEnabled = false
     }
     
+    @objc private func archiveIsAddedNotificationReceive(notification: Notification) {
+        self.reactor?.action.onNext(.getMyArchives)
+    }
+    
+    private func moveCollectionViewFirstIndex() {
+        DispatchQueue.main.async { [weak self] in
+            if self?.reactor?.currentState.archives.count ?? 0 > 1 {
+                self?.ticketCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
+                                                        at: .left,
+                                                        animated: false)
+            }
+        }
+    }
+    
 //    private func makeNavigationItems() {
 //        let logoImage = Gen.Images.logo.image
 //        let logoImageView = UIImageView.init(image: logoImage)
@@ -249,16 +260,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
             }
             if index+1 >= reactor.currentState.archives.count {
                 self?.ticketCollectionView.scrollToItem(at: IndexPath(item: index-1, section: 0), at: .top, animated: false)
-            }
-        }
-    }
-    
-    func moveCollectionViewFirstIndex() {
-        DispatchQueue.main.async { [weak self] in
-            if self?.reactor?.currentState.archives.count ?? 0 > 1 {
-                self?.ticketCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0),
-                                                        at: .left,
-                                                        animated: false)
             }
         }
     }
