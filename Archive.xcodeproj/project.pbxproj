@@ -499,6 +499,7 @@
 				78958E0F2712A03C003FF724 /* Define */,
 				783A61DD273BEAE3004D848F /* Manager */,
 				7831D51927E58FA800E3FA57 /* Usecase */,
+				784D1E1F27088BB0004B1A23 /* UIModule */,
 				784D1E1E27088BB0004B1A23 /* Module */,
 				784D1DBD27083D1C004B1A23 /* Resources */,
 				44893688270837EB00EA423A /* Onboarding */,
@@ -805,7 +806,6 @@
 		784D1E1E27088BB0004B1A23 /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				784D1E1F27088BB0004B1A23 /* UI */,
 				789E61B82725817900D6E18F /* NibIdentifiable.swift */,
 				789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */,
 				78458D29272C18BB00392B45 /* Util.swift */,
@@ -815,7 +815,7 @@
 			path = Module;
 			sourceTree = "<group>";
 		};
-		784D1E1F27088BB0004B1A23 /* UI */ = {
+		784D1E1F27088BB0004B1A23 /* UIModule */ = {
 			isa = PBXGroup;
 			children = (
 				78C4B33727244ACB0006EBAD /* CommonAlertView.swift */,
@@ -826,7 +826,7 @@
 				788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */,
 				7831CCE1284CB6D700526D11 /* ArchiveSelectEmotionView.swift */,
 			);
-			path = UI;
+			path = UIModule;
 			sourceTree = "<group>";
 		};
 		784FCDE5282FEE6E007683D2 /* LoginAccessToken */ = {
