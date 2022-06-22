@@ -30,6 +30,11 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         }
     }
     
+    @IBOutlet weak var filterBtn: FilterButton!
+    
+    // MARK: private UI property
+    
+    
     // MARK: private property
     
     private let shimmerView: HomeShimmerView? = HomeShimmerView.instance()
@@ -189,6 +194,13 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
             }
         })
         .disposed(by: self.disposeBag)
+        
+        self.filterBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] in
+                self?.present(self.selectEmotionView ?? UIViewController(), animated: false)
+            })
+            .disposed(by: self.disposeBag)
         
     }
     
