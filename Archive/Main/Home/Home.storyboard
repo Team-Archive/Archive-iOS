@@ -34,7 +34,7 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9V4-6t-79D" customClass="FilterButton" customModule="Archive" customModuleProvider="target">
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9V4-6t-79D" customClass="ImageButton" customModule="Archive" customModuleProvider="target">
                                         <rect key="frame" x="329" y="1" width="67" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="pWO-BL-QGS"/>

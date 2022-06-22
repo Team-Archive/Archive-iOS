@@ -130,6 +130,8 @@ internal enum Gen {
     internal static let logo = ImageAsset(name: "Logo")
     internal static let logoImage = ImageAsset(name: "LogoImage")
     internal static let logoWhite = ImageAsset(name: "Logo_white")
+    internal static let radioSelected = ImageAsset(name: "RadioSelected")
+    internal static let radioUnSelected = ImageAsset(name: "RadioUnSelected")
     internal static let signWithApple = ImageAsset(name: "SignWithApple")
     internal static let signWithkakaotalk = ImageAsset(name: "SignWithkakaotalk")
     internal static let splash = ImageAsset(name: "Splash")

@@ -30,7 +30,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         }
     }
     
-    @IBOutlet weak var filterBtn: FilterButton!
+    @IBOutlet weak var filterBtn: ImageButton!
     
     // MARK: private UI property
     
@@ -198,7 +198,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.filterBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] in
-                self?.present(self.selectEmotionView ?? UIViewController(), animated: false)
             })
             .disposed(by: self.disposeBag)
         
@@ -222,6 +221,9 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.pageControl.pageIndicatorTintColor = Gen.Colors.gray03.color
         self.pageControl.currentPageIndicatorTintColor = Gen.Colors.gray01.color
         self.pageControl.isEnabled = false
+        
+        self.filterBtn.buttonTitle = "필터"
+        self.filterBtn.buttonImage = Gen.Images.filter.image
     }
     
     @objc private func archiveIsAddedNotificationReceive(notification: Notification) {

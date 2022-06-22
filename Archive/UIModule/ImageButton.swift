@@ -1,5 +1,5 @@
 //
-//  FilterButton.swift
+//  ImageButton.swift
 //  Archive
 //
 //  Created by hanwe on 2022/06/22.
@@ -11,25 +11,31 @@ import RxCocoa
 import SnapKit
 import Then
 
-//@objc protocol FilterButtonDelegate: AnyObject {
-//
-//}
-
-class FilterButton: UIButton {
+class ImageButton: UIButton {
 
     // MARK: UI property
-    
-//    private let mainContentsView = UIView().then {
-//        $0.backgroundColor = Gen.Colors.white.color
-//    }
-    
-    
     
     // MARK: private property
     
     // MARK: internal property
     
-//    weak var delegate: FilterButtonDelegate?
+    var buttonTitle: String = "" {
+        didSet {
+            self.setTitleAllState(self.buttonTitle)
+        }
+    }
+    
+    var buttonTitleFont: UIFont = .fonts(.button) {
+        didSet {
+            self.titleLabel?.font = self.buttonTitleFont
+        }
+    }
+    
+    var buttonImage: UIImage = UIImage() {
+        didSet {
+            self.setImageAllState(self.buttonImage)
+        }
+    }
     
     // MARK: lifeCycle
     
@@ -46,17 +52,11 @@ class FilterButton: UIButton {
     // MARK: private function
     
     private func setup() {
-//        self.addSubview(self.mainContentsView)
-//        self.mainContentsView.snp.makeConstraints {
-//            $0.edges.equalTo(self.snp.edges)
-//        }
-        
-//        self.imageView?.image = Gen.Images.coverShame.image
-        self.setImageAllState(Gen.Images.filter.image)
-        self.setTitleAllState("필터")
-        self.titleLabel?.font = .fonts(.button)
+        self.setImageAllState(self.buttonImage)
+        self.setTitleAllState(self.buttonTitle)
+        self.titleLabel?.font = self.buttonTitleFont
         self.setTitleColor(Gen.Colors.black.color, for: .selected)
-        self.setTitleColor(Gen.Colors.black.color, for: .highlighted)
+        self.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
         self.setTitleColor(Gen.Colors.black.color, for: .focused)
         self.setTitleColor(Gen.Colors.black.color, for: .normal)
     }
