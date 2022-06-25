@@ -33,13 +33,13 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.delaysContentTouches = false
-        $0.contentInset = UIEdgeInsets(top: self.topContentsContainerViewHeight, left: 0, bottom: 0, right: 0)
+        $0.contentInset = UIEdgeInsets(top: self.topContentsContainerViewHeight + 10, left: 0, bottom: 0, right: 0)
         $0.alwaysBounceVertical = true
         
         $0.backgroundColor = Gen.Colors.white.color
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
+        layout.minimumInteritemSpacing = 24
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
         $0.collectionViewLayout = layout
