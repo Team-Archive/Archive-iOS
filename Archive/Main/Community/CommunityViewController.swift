@@ -13,7 +13,7 @@ import RxSwift
 import Then
 import RxDataSources
 
-class CommunityViewController: UIViewController, View {
+class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
     // MARK: UI property
     
@@ -95,6 +95,50 @@ class CommunityViewController: UIViewController, View {
     }
     
     func bind(reactor: CommunityReactor) {
+        
+        reactor.err
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide(nil)
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isLoading }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] in
+                if $0 {
+                    self?.startIndicatorAnimating()
+                } else {
+                    self?.stopIndicatorAnimating()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isShimmerLoading }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] in
+                if $0 {
+                    self?.startIndicatorAnimating()
+                } else {
+                    self?.stopIndicatorAnimating()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.archives }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] test in
+                print("디버그용: \(test)")
+            })
+            .disposed(by: self.disposeBag)
         
     }
     

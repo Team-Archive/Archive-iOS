@@ -21,7 +21,7 @@ class CommunityRepositoryImplement: CommunityRepository {
     
     // MARK: internal function
     
-    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<String, ArchiveError>> {
+    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<[PublicArchive], ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
         return provider.rx.request(.getPublicArchives(sortBy: sortBy.rawValue,
                                                       emotion: emotion?.rawValue,
@@ -31,14 +31,18 @@ class CommunityRepositoryImplement: CommunityRepository {
             .asObservable()
             .map { result in
                 if result.statusCode == 200 {
-//                    guard let resultJson: JSON = try? JSON.init(data: result.data) else { return .failure(.init(.invaldData))}
-//                    if resultJson["duplicatedEmail"].boolValue {
-//                        return .success(true)
-//                    } else {
-//                        return .success(false)
-//                    }
-                    print("뭐가 왔네 : \(result)")
-                    return .failure(.init(.archiveOAuthError))
+                    guard let resultJson: JSON = try? JSON.init(data: result.data) else { return .failure(.init(.invaldData))}
+                    let result: [PublicArchive] = {
+                        var returnValue: [PublicArchive] = []
+                        for item in resultJson {
+                            guard let data = try? item.1.rawData() else { continue }
+                            if let newItem = PublicArchive.fromJson(jsonData: data) {
+                                returnValue.append(newItem)
+                            }
+                        }
+                        return returnValue
+                    }()
+                    return .success(result)
                 } else {
                     return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
                 }

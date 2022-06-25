@@ -38,13 +38,13 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case empty
         case setIsLoading(Bool)
         case setIsShimmerLoading(Bool)
-        case setArchives(String)
+        case setArchives([PublicArchive])
     }
     
     struct State {
         var isLoading: Bool = false
         var isShimmerLoading: Bool = false
-        var archives: String = "" // 임시로 String
+        var archives: [PublicArchive] = []
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -59,8 +59,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     .map { [weak self] result in
                         switch result {
                         case .success(let archiveInfo):
-                            print("archiveInfo: \(archiveInfo)")
-                            return .setArchives("")
+                            return .setArchives(archiveInfo)
                         case .failure(let err):
                             self?.err.onNext(err)
                             return .empty
@@ -88,7 +87,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: private function
     
-    private func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<String, ArchiveError>> {
+    private func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.usecase.getPublicArchives(sortBy: sortBy, emotion: emotion)
     }
     
