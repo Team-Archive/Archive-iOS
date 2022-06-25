@@ -15,11 +15,13 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: private property
     
     private let usecase: CommunityUsecase
+    private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
     
     // MARK: internal property
     
     let steps = PublishRelay<Step>()
     let initialState = State()
+    var err: PublishSubject<ArchiveError> = .init()
     
     // MARK: lifeCycle
     
@@ -29,14 +31,20 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     enum Action {
         case endFlow
+        case getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?)
     }
     
     enum Mutation {
+        case empty
+        case setIsLoading(Bool)
+        case setIsShimmerLoading(Bool)
+        case setArchives(String)
     }
     
     struct State {
-        
         var isLoading: Bool = false
+        var isShimmerLoading: Bool = false
+        var archives: String = "" // 임시로 String
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -44,21 +52,45 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .endFlow:
             self.steps.accept(ArchiveStep.communityIsComplete)
             return .empty()
+        case .getPublicArchives(sortBy: let sortBy, emotion: let emotion):
+            return Observable.concat([
+                Observable.just(Mutation.setIsShimmerLoading(true)),
+                getPublicArchives(sortBy: sortBy, emotion: emotion)
+                    .map { [weak self] result in
+                        switch result {
+                        case .success(let archiveInfo):
+                            print("archiveInfo: \(archiveInfo)")
+                            return .setArchives("")
+                        case .failure(let err):
+                            self?.err.onNext(err)
+                            return .empty
+                        }
+                    },
+                Observable.just(Mutation.setIsShimmerLoading(false))
+            ])
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
-//        switch mutation {
-//        case .setCardCnt(let cardCnt):
-//            newState.cardCnt = cardCnt
-//        case .setIsLoading(let isLoading):
-//            newState.isLoading = isLoading
-//        }
+        switch mutation {
+        case .empty:
+            break
+        case .setIsLoading(let isLoading):
+            newState.isLoading = isLoading
+        case .setIsShimmerLoading(let isLoading):
+            newState.isShimmerLoading = isLoading
+        case .setArchives(let archives):
+            newState.archives = archives
+        }
         return newState
     }
     
     // MARK: private function
+    
+    private func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<String, ArchiveError>> {
+        return self.usecase.getPublicArchives(sortBy: sortBy, emotion: emotion)
+    }
     
     // MARK: internal function
     

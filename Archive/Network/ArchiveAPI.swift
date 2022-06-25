@@ -22,7 +22,9 @@ enum ArchiveAPI {
     case getKakaoUserInfo(kakaoAccessToken: String)
     case sendTempPassword(email: String)
     case changePassword(eMail: String, beforePassword: String, newPassword: String)
+    case getPublicArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
 }
+        
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
@@ -34,7 +36,7 @@ extension ArchiveAPI: TargetType {
         }
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -71,6 +73,8 @@ extension ArchiveAPI: TargetType {
             return "api/v1/auth/password/temporary"
         case .changePassword:
             return "api/v1/auth/password/reset"
+        case .getPublicArchives:
+            return "/api/v2/archive/community"
         }
     }
     
@@ -104,6 +108,8 @@ extension ArchiveAPI: TargetType {
             return .post
         case .changePassword:
             return .post
+        case .getPublicArchives:
+            return .get
         }
     }
     
@@ -140,6 +146,22 @@ extension ArchiveAPI: TargetType {
             return .requestParameters(parameters: ["email": email], encoding: JSONEncoding.default)
         case .changePassword(let eMail, let beforePassword, let newPassword):
             return .requestParameters(parameters: ["currentPassword": beforePassword, "email": eMail, "newPassword": newPassword], encoding: JSONEncoding.default)
+        case .getPublicArchives(let sortBy, let emotion, let lastSeenArchiveDateMilli, let lastSeenArchiveId):
+            let param: [String: Any] = {
+                var returnValue: [String: Any] = [String: Any]()
+                returnValue["sortType"] = sortBy
+                if let emotion = emotion {
+                    returnValue["emotion"] = emotion
+                }
+                if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli {
+                    returnValue["lastSeenArchiveDateMilli"] = lastSeenArchiveDateMilli
+                }
+                if let lastSeenArchiveId = lastSeenArchiveId {
+                    returnValue["lastSeenArchiveId"] = lastSeenArchiveId
+                }
+                return returnValue
+            }()
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         }
     }
     
@@ -177,6 +199,8 @@ extension ArchiveAPI: TargetType {
             return nil
         case .changePassword:
             return nil
+        case .getPublicArchives:
+            return ["Authorization": LogInManager.shared.getLogInToken()]
         }
     }
     

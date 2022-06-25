@@ -24,5 +24,11 @@ class CommunityUsecase: NSObject {
     // MARK: private function
     
     // MARK: internal function
+    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<String, ArchiveError>> {
+        return self.repository.getPublicArchives(sortBy: sortBy,
+                                                 emotion: nil, // TODO: 작업
+                                                 lastSeenArchiveDateMilli: nil, // TODO: 작업
+                                                 lastSeenArchiveId: nil) // TODO: 작업
+    }
     
 }

@@ -47,6 +47,7 @@ class CommunityViewController: UIViewController, View {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
     }
     
     init(reactor: CommunityReactor) {
