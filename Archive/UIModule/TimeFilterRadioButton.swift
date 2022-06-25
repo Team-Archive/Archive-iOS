@@ -1,0 +1,155 @@
+//
+//  TimeFilterRadioButton.swift
+//  Archive
+//
+//  Created by hanwe on 2022/06/22.
+//
+
+import UIKit
+import RxSwift
+import RxCocoa
+import SnapKit
+import Then
+
+protocol TimeFilterRadioButtonDelegate: AnyObject {
+    func selectedSortBy(view: TimeFilterRadioButton, type: TimeFilterRadioButton.sortType)
+}
+
+class TimeFilterRadioButton: UIView {
+    
+    enum sortType {
+        case sortByRegist
+        case sortByVisit
+    }
+    
+    // MARK: UI property
+    
+    private let mainContentsView = UIView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+    }
+    
+    private let leftContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let sortByRegistImageBtn = UIButton().then {
+        $0.setImage(Gen.Images.radioSelected.image, for: .normal)
+        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByRegist), for: .touchUpInside)
+    }
+    
+    private let sortByRegistTextBtn = UIButton().then {
+        $0.setTitleAllState("최신 기록순")
+        $0.titleLabel?.font = .fonts(.body)
+        $0.setTitleColor(Gen.Colors.black.color, for: .normal)
+        $0.setTitleColor(Gen.Colors.black.color, for: .focused)
+        $0.setTitleColor(Gen.Colors.black.color, for: .selected)
+        $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
+        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByRegist), for: .touchUpInside)
+    }
+    
+    private let rightContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let sortByVisitImageBtn = UIButton().then {
+        $0.setImage(Gen.Images.radioUnSelected.image, for: .normal)
+        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByVisit), for: .touchUpInside)
+    }
+    
+    private let sortByVisitTextBtn = UIButton().then {
+        $0.setTitleAllState("전시 관람순")
+        $0.titleLabel?.font = .fonts(.body)
+        $0.setTitleColor(Gen.Colors.black.color, for: .normal)
+        $0.setTitleColor(Gen.Colors.black.color, for: .focused)
+        $0.setTitleColor(Gen.Colors.black.color, for: .selected)
+        $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
+        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByVisit), for: .touchUpInside)
+    }
+    
+    // MARK: private property
+    
+    // MARK: internal property
+    
+    weak var delegate: TimeFilterRadioButtonDelegate?
+    
+    // MARK: lifeCycle
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    // MARK: private function
+    
+    private func setup() {
+        self.addSubview(self.mainContentsView)
+        self.mainContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.snp.edges)
+        }
+        
+        self.mainContentsView.addSubview(self.leftContentsView)
+        self.leftContentsView.snp.makeConstraints {
+            $0.leading.equalTo(self.mainContentsView.snp.leading)
+            $0.top.equalTo(self.mainContentsView.snp.top)
+            $0.bottom.equalTo(self.mainContentsView.snp.bottom)
+        }
+        
+        self.mainContentsView.addSubview(self.rightContentsView)
+        self.rightContentsView.snp.makeConstraints {
+            $0.trailing.equalTo(self.mainContentsView.snp.trailing)
+            $0.top.equalTo(self.mainContentsView.snp.top)
+            $0.bottom.equalTo(self.mainContentsView.snp.bottom)
+            $0.leading.equalTo(self.leftContentsView.snp.trailing)
+            $0.width.equalTo(self.leftContentsView.snp.width)
+        }
+        
+        self.leftContentsView.addSubview(self.sortByRegistImageBtn)
+        self.sortByRegistImageBtn.snp.makeConstraints {
+            $0.leading.equalTo(self.leftContentsView.snp.leading)
+            $0.centerY.equalTo(self.leftContentsView.snp.centerY)
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+        }
+        
+        self.leftContentsView.addSubview(self.sortByRegistTextBtn)
+        self.sortByRegistTextBtn.snp.makeConstraints {
+            $0.leading.equalTo(self.sortByRegistImageBtn.snp.trailing).offset(8)
+            $0.centerY.equalTo(self.sortByRegistImageBtn.snp.centerY)
+        }
+        
+        self.rightContentsView.addSubview(self.sortByVisitImageBtn)
+        self.sortByVisitImageBtn.snp.makeConstraints {
+            $0.leading.equalTo(self.rightContentsView.snp.leading)
+            $0.centerY.equalTo(self.rightContentsView.snp.centerY)
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+        }
+        
+        self.rightContentsView.addSubview(self.sortByVisitTextBtn)
+        self.sortByVisitTextBtn.snp.makeConstraints {
+            $0.leading.equalTo(self.sortByVisitImageBtn.snp.trailing).offset(8)
+            $0.centerY.equalTo(self.sortByVisitImageBtn.snp.centerY)
+        }
+        
+    }
+    
+    @objc private func selectedSortByRegist() {
+        self.sortByVisitImageBtn.setImageAllState(Gen.Images.radioUnSelected.image)
+        self.sortByRegistImageBtn.setImageAllState(Gen.Images.radioSelected.image)
+        self.delegate?.selectedSortBy(view: self, type: .sortByRegist)
+    }
+    
+    @objc private func selectedSortByVisit() {
+        self.sortByVisitImageBtn.setImageAllState(Gen.Images.radioSelected.image)
+        self.sortByRegistImageBtn.setImageAllState(Gen.Images.radioUnSelected.image)
+        self.delegate?.selectedSortBy(view: self, type: .sortByVisit)
+    }
+    
+    // MARK: function
+    
+}

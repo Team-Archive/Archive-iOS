@@ -16,7 +16,6 @@ enum ArchiveStep: Step {
     case splashIsComplete(isSuccessAutoLogin: Bool)
     
     // Onboarding
-//    case onboardingIsRequired
     case onboardingIsComplete
     
     // SignIn
@@ -39,16 +38,19 @@ enum ArchiveStep: Step {
     
     // Home
     case homeIsRequired
+    case homeIsComplete
     
     // Community
     case communityIsRequired
+    case communityIsComplete
     
     // MyPage
-    case myPageIsRequired(Int)
+    case myPageIsRequired
     case loginInfomationIsRequired(LoginType, String?, Int)
     case withdrawalIsRequired(Int)
     case withdrawalIsComplete
     case logout
+    case myPageIsComplete
     
     // Record
     case recordIsRequired

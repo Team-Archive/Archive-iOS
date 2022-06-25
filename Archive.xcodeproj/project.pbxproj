@@ -166,9 +166,7 @@
 		78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E02726C6D1009EFB54 /* EmotionDefine.swift */; };
 		78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E42726E420009EFB54 /* ImageRecordViewController.swift */; };
 		78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */; };
-		78BA154127218F430078B88E /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BA154027218F430078B88E /* MyPageViewController.swift */; };
-		78BA154327218F4F0078B88E /* MyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BA154227218F4E0078B88E /* MyPageReactor.swift */; };
-		78BA1549272197250078B88E /* MyPageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BA1548272197250078B88E /* MyPageModel.swift */; };
+		78BA154127218F430078B88E /* MyPageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BA154027218F430078B88E /* MyPageSettingViewController.swift */; };
 		78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0D277843ED00DF78AF /* CommonDefine.swift */; };
 		78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */; };
 		78BB7E142778563700DF78AF /* DetailCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */; };
@@ -185,11 +183,15 @@
 		78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33727244ACB0006EBAD /* CommonAlertView.swift */; };
 		78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33A27244C000006EBAD /* UIViewExtension.swift */; };
 		78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */; };
+		78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA759028634E9C00EA35EA /* ImageButton.swift */; };
+		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
 		78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */; };
 		78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */; };
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
 		78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDAD60274525D40028F56D /* ShareCardView.swift */; };
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
+		78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8A2830C8420033882E /* MyPageViewController.swift */; };
+		78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8C2830C8510033882E /* MyPageReactor.swift */; };
 		78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */; };
 		A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029C34E0C4CFA05B0DB2E343 /* Pods_Archive.framework */; };
 /* End PBXBuildFile section */
@@ -359,9 +361,7 @@
 		78B872E02726C6D1009EFB54 /* EmotionDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionDefine.swift; sourceTree = "<group>"; };
 		78B872E42726E420009EFB54 /* ImageRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRecordViewController.swift; sourceTree = "<group>"; };
 		78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordViewController.swift; sourceTree = "<group>"; };
-		78BA154027218F430078B88E /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		78BA154227218F4E0078B88E /* MyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageReactor.swift; sourceTree = "<group>"; };
-		78BA1548272197250078B88E /* MyPageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageModel.swift; sourceTree = "<group>"; };
+		78BA154027218F430078B88E /* MyPageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingViewController.swift; sourceTree = "<group>"; };
 		78BB7E0D277843ED00DF78AF /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
 		78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCardCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -378,11 +378,15 @@
 		78C4B33727244ACB0006EBAD /* CommonAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAlertView.swift; sourceTree = "<group>"; };
 		78C4B33A27244C000006EBAD /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPageViewControllerExtension.swift; sourceTree = "<group>"; };
+		78CA759028634E9C00EA35EA /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
+		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
 		78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBtn.swift; sourceTree = "<group>"; };
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
 		78EDAD60274525D40028F56D /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
+		78F06C8A2830C8420033882E /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		78F06C8C2830C8510033882E /* MyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageReactor.swift; sourceTree = "<group>"; };
 		78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAgreementForOAuthViewController.swift; sourceTree = "<group>"; };
 		FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.debug.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -499,6 +503,7 @@
 				78958E0F2712A03C003FF724 /* Define */,
 				783A61DD273BEAE3004D848F /* Manager */,
 				7831D51927E58FA800E3FA57 /* Usecase */,
+				784D1E1F27088BB0004B1A23 /* UIModule */,
 				784D1E1E27088BB0004B1A23 /* Module */,
 				784D1DBD27083D1C004B1A23 /* Resources */,
 				44893688270837EB00EA423A /* Onboarding */,
@@ -563,6 +568,7 @@
 		780478152723E79500FAA1CF /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				78F06C892830C8320033882E /* Setting */,
 				780478182723E7E400FAA1CF /* LoginInformation */,
 				78C4B329272428B40006EBAD /* Withdrawal */,
 			);
@@ -805,7 +811,6 @@
 		784D1E1E27088BB0004B1A23 /* Module */ = {
 			isa = PBXGroup;
 			children = (
-				784D1E1F27088BB0004B1A23 /* UI */,
 				789E61B82725817900D6E18F /* NibIdentifiable.swift */,
 				789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */,
 				78458D29272C18BB00392B45 /* Util.swift */,
@@ -815,7 +820,7 @@
 			path = Module;
 			sourceTree = "<group>";
 		};
-		784D1E1F27088BB0004B1A23 /* UI */ = {
+		784D1E1F27088BB0004B1A23 /* UIModule */ = {
 			isa = PBXGroup;
 			children = (
 				78C4B33727244ACB0006EBAD /* CommonAlertView.swift */,
@@ -824,9 +829,11 @@
 				783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */,
 				78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */,
 				788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */,
+				78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */,
 				7831CCE1284CB6D700526D11 /* ArchiveSelectEmotionView.swift */,
+				78CA759028634E9C00EA35EA /* ImageButton.swift */,
 			);
-			path = UI;
+			path = UIModule;
 			sourceTree = "<group>";
 		};
 		784FCDE5282FEE6E007683D2 /* LoginAccessToken */ = {
@@ -1037,11 +1044,10 @@
 		78BA153D27218F100078B88E /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				78F06C8A2830C8420033882E /* MyPageViewController.swift */,
+				78F06C8C2830C8510033882E /* MyPageReactor.swift */,
 				78C4B327272428AB0006EBAD /* MyPage.storyboard */,
 				780478152723E79500FAA1CF /* Sub */,
-				78BA154027218F430078B88E /* MyPageViewController.swift */,
-				78BA154227218F4E0078B88E /* MyPageReactor.swift */,
-				78BA1548272197250078B88E /* MyPageModel.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -1091,6 +1097,14 @@
 				78EDAD62274525E80028F56D /* ShareCardView.xib */,
 			);
 			path = Sub;
+			sourceTree = "<group>";
+		};
+		78F06C892830C8320033882E /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				78BA154027218F430078B88E /* MyPageSettingViewController.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 		7A78CD9881593A0B9DDBF955 /* Pods */ = {
@@ -1377,8 +1391,10 @@
 				78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */,
 				44FB09FB27183269006E1048 /* ArchiveStep.swift in Sources */,
 				7821232A273F83A1007DEC28 /* RecordUploadModel.swift in Sources */,
+				78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */,
 				7821233A273F9623007DEC28 /* CodableWrapper.swift in Sources */,
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
+				78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
@@ -1403,9 +1419,9 @@
 				782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */,
 				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
-				78BA154327218F4F0078B88E /* MyPageReactor.swift in Sources */,
 				448936AA2708401500EA423A /* SignInReactor.swift in Sources */,
 				44F9B0E1270606E7005418F0 /* AppDelegate.swift in Sources */,
+				78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */,
 				781C8435282F63C9004A0FB3 /* MainTabBarReactor.swift in Sources */,
 				78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */,
 				4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */,
@@ -1424,7 +1440,7 @@
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
-				78BA154127218F430078B88E /* MyPageViewController.swift in Sources */,
+				78BA154127218F430078B88E /* MyPageSettingViewController.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,
 				782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */,
 				7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */,
@@ -1444,6 +1460,7 @@
 				78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */,
 				78599DE8276381A9003FD959 /* ArchiveInfo.swift in Sources */,
 				78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */,
+				78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */,
 				78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */,
 				78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */,
 				784D1E3527088EC8004B1A23 /* Assets.swift in Sources */,
@@ -1462,7 +1479,6 @@
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
-				78BA1549272197250078B88E /* MyPageModel.swift in Sources */,
 				78C4B32D2724292D0006EBAD /* WithdrawalReactor.swift in Sources */,
 				780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */,
 				789E61B227257BD400D6E18F /* ImageRecordModel.swift in Sources */,

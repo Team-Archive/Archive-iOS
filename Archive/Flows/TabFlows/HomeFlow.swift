@@ -16,7 +16,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         static let DetailStoryBoardName = "Detail"
         static let DetailNavigationTitle = "나의 아카이브"
         static let MyPageStoryBoardName = "MyPage"
-        static let MyPageNavigationTitle = "내정보"
         static let LoginInfoNavigationTitle = "로그인 정보"
         static let WithdrawalNavigationTitle = "회원탈퇴"
     }
@@ -67,8 +66,8 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         case .detailIsRequired(let info, let index):
             GAModule.sendEventLogToGA(.showDetail)
             return navigationToDetailScreen(infoData: info, index: index)
-        case .myPageIsRequired(let cnt):
-            return navigationToMyPageScreen(cardCount: cnt)
+        case .myPageIsRequired:
+            return navigationToMyPageScreen()
         case .loginInfomationIsRequired(let type, let email, let cardCnt):
             return navigationToLoginInformationScreen(type: type, eMail: email ?? "", cardCnt: cardCnt)
         case .withdrawalIsRequired(let cnt):
@@ -112,13 +111,12 @@ class HomeFlow: Flow, MainTabFlowProtocol {
                                                  withNextStepper: reactor))
     }
     
-    private func navigationToMyPageScreen(cardCount: Int) -> FlowContributors {
-        let model: MyPageModel = MyPageModel(cardCount: cardCount)
-        let reactor = MyPageReactor(model: model)
-        let myPageViewController: MyPageViewController = myPageStoryBoard.instantiateViewController(identifier: MyPageViewController.identifier) { corder in
-            return MyPageViewController(coder: corder, reactor: reactor)
-        }
-        myPageViewController.title = Constants.MyPageNavigationTitle
+    private func navigationToMyPageScreen() -> FlowContributors {
+        let reactor = MyPageReactor()
+//        let myPageViewController: MyPageViewController = myPageStoryBoard.instantiateViewController(identifier: MyPageViewController.identifier) { corder in
+//            return MyPageViewController(coder: corder, reactor: reactor)
+//        }
+        let myPageViewController = MyPageViewController(reactor: reactor)
         rootViewController?.pushViewController(myPageViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: myPageViewController,
                                                  withNextStepper: reactor))

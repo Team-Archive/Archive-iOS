@@ -30,6 +30,11 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         }
     }
     
+    @IBOutlet weak var filterBtn: ImageButton!
+    
+    // MARK: private UI property
+    
+    
     // MARK: private property
     
     private let shimmerView: HomeShimmerView? = HomeShimmerView.instance()
@@ -80,6 +85,14 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
             cell.infoData = element
         }
         .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.archives }
+            .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] in
+                ArchiveStatus.shared.currentArchives.onNext($0)
+            })
+            .disposed(by: self.disposeBag)
         
         reactor.state
             .map { $0.archives }
@@ -190,6 +203,12 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         })
         .disposed(by: self.disposeBag)
         
+        self.filterBtn.rx.tap
+            .asDriver()
+            .drive(onNext: { [weak self] in
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     // MARK: private function
@@ -210,6 +229,9 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.pageControl.pageIndicatorTintColor = Gen.Colors.gray03.color
         self.pageControl.currentPageIndicatorTintColor = Gen.Colors.gray01.color
         self.pageControl.isEnabled = false
+        
+        self.filterBtn.buttonTitle = "필터"
+        self.filterBtn.buttonImage = Gen.Images.filter.image
     }
     
     @objc private func archiveIsAddedNotificationReceive(notification: Notification) {
