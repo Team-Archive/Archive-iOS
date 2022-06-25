@@ -26,8 +26,8 @@ class CommunityRepositoryImplement: CommunityRepository {
         return provider.rx.request(.getPublicArchives(sortBy: sortBy.rawValue,
                                                       emotion: emotion?.rawValue,
                                                       lastSeenArchiveDateMilli: lastSeenArchiveDateMilli,
-                                                      lastSeenArchiveId: lastSeenArchiveId)
-                                   , callbackQueue: DispatchQueue.global())
+                                                      lastSeenArchiveId: lastSeenArchiveId),
+                                   callbackQueue: DispatchQueue.global())
             .asObservable()
             .map { result in
                 if result.statusCode == 200 {

@@ -23,7 +23,7 @@ struct PublicArchive: CodableWrapper {
     let mainImage: String
     let authorProfileImage: String
     let archiveName: String
-    let isLiked: Bool
+    var isLiked: Bool
     let archiveId: Int
     let authorNickname: String
     let emotion: Emotion
