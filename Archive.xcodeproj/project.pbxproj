@@ -188,6 +188,8 @@
 		78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */; };
 		78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */; };
 		78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */; };
+		78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */; };
+		78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6362866FD3A00B18AD8 /* IntExtension.swift */; };
 		78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */; };
 		78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */; };
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
@@ -386,6 +388,8 @@
 		78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityUsecase.swift; sourceTree = "<group>"; };
 		78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepository.swift; sourceTree = "<group>"; };
 		78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepositoryImplement.swift; sourceTree = "<group>"; };
+		78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCollectionViewCell.swift; sourceTree = "<group>"; };
+		78E8E6362866FD3A00B18AD8 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBtn.swift; sourceTree = "<group>"; };
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -629,6 +633,7 @@
 			children = (
 				781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */,
 				781C843F282F7D05004A0FB3 /* CommunityReactor.swift */,
+				78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -948,6 +953,7 @@
 				78A3217E275BBEB20078650D /* UIColorExtension.swift */,
 				78BB7E1D27788D8300DF78AF /* UIViewControllerExtension.swift */,
 				78486D6B27E6C974008448A7 /* ErrorExtension.swift */,
+				78E8E6362866FD3A00B18AD8 /* IntExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1414,6 +1420,7 @@
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
 				78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
+				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
@@ -1506,6 +1513,7 @@
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
+				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,

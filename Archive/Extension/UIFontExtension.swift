@@ -14,6 +14,7 @@ enum ArchiveFonts {
     case subTitle
     case body
     case button
+    case button2
     case caption
 }
 
@@ -34,6 +35,8 @@ extension UIFont {
             optionalReturnFont = UIFont(name: FontDefine.regular, size: 14)
         case .button:
             optionalReturnFont = UIFont(name: FontDefine.medium, size: 14)
+        case .button2:
+            optionalReturnFont = UIFont(name: FontDefine.bold, size: 14)
         case .caption:
             optionalReturnFont = UIFont(name: FontDefine.regular, size: 12)
         }

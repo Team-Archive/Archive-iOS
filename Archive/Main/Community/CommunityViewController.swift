@@ -35,6 +35,14 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         $0.delaysContentTouches = false
         $0.contentInset = UIEdgeInsets(top: self.topContentsContainerViewHeight, left: 0, bottom: 0, right: 0)
         $0.alwaysBounceVertical = true
+        
+        $0.backgroundColor = Gen.Colors.white.color
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .vertical
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
+        $0.collectionViewLayout = layout
     }
     
     
@@ -47,6 +55,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
         self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
     }
     
@@ -73,12 +82,6 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         self.collectionView.snp.makeConstraints {
             $0.edges.equalTo(self.mainContentsView)
         }
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: 100, height: 100)
-        self.collectionView.collectionViewLayout = layout
         
         self.mainContentsView.addSubview(self.topContentsContainerView)
         self.topContentsContainerView.snp.makeConstraints {
@@ -134,10 +137,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         reactor.state
             .map { $0.archives }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { [weak self] test in
-                print("디버그용: \(test)")
-            })
+            .bind(to: self.collectionView.rx.items(cellIdentifier: CommunityCollectionViewCell.identifier, cellType: CommunityCollectionViewCell.self)) { index, element, cell in
+                cell.infoData = element
+            }
             .disposed(by: self.disposeBag)
         
     }
