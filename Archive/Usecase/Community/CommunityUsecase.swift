@@ -12,6 +12,10 @@ class CommunityUsecase: NSObject {
     // MARK: private property
     
     private let repository: CommunityRepository
+    private var currentEmotion: Emotion?
+    private var currentSortBy: PublicArchiveSortBy?
+    private var lastSeenArchiveDateMilli: Int = 0
+    private var lastSeenArchiveId: Int = 0
     
     // MARK: internal property
     
@@ -24,11 +28,26 @@ class CommunityUsecase: NSObject {
     // MARK: private function
     
     // MARK: internal function
+    
     func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
-        return self.repository.getPublicArchives(sortBy: sortBy,
-                                                 emotion: nil, // TODO: 작업
-                                                 lastSeenArchiveDateMilli: nil, // TODO: 작업
-                                                 lastSeenArchiveId: nil) // TODO: 작업
+        if sortBy == self.currentSortBy && emotion == self.currentEmotion {
+            return self.repository.getPublicArchives(sortBy: sortBy,
+                                                     emotion: emotion,
+                                                     lastSeenArchiveDateMilli: self.lastSeenArchiveDateMilli,
+                                                     lastSeenArchiveId: self.lastSeenArchiveId)
+        } else {
+            self.currentSortBy = sortBy
+            self.currentEmotion = emotion
+            return self.repository.getPublicArchives(sortBy: sortBy,
+                                                     emotion: emotion,
+                                                     lastSeenArchiveDateMilli: nil,
+                                                     lastSeenArchiveId: nil)
+        }
+    }
+    
+    func setLastInfo(lastSeenArchiveDateMilli: Int, lastSeenArchiveId: Int) {
+        self.lastSeenArchiveId = lastSeenArchiveId
+        self.lastSeenArchiveDateMilli = lastSeenArchiveDateMilli
     }
     
 }

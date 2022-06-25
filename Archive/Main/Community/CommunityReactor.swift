@@ -59,6 +59,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     .map { [weak self] result in
                         switch result {
                         case .success(let archiveInfo):
+                            self?.usecase.setLastInfo(lastSeenArchiveDateMilli: archiveInfo.last?.dateMilli ?? 0,
+                                                      lastSeenArchiveId: archiveInfo.last?.archiveId ?? 0)
                             return .setArchives(archiveInfo)
                         case .failure(let err):
                             self?.err.onNext(err)
