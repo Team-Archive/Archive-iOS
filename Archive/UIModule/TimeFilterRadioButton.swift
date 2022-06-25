@@ -32,38 +32,38 @@ class TimeFilterRadioButton: UIView {
         $0.backgroundColor = .clear
     }
     
-    private let sortByRegistImageBtn = UIButton().then {
+    private lazy var sortByRegistImageBtn = UIButton().then {
         $0.setImage(Gen.Images.radioSelected.image, for: .normal)
-        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByRegist), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(selectedSortByRegist), for: .touchUpInside)
     }
     
-    private let sortByRegistTextBtn = UIButton().then {
+    private lazy var sortByRegistTextBtn = UIButton().then {
         $0.setTitleAllState("최신 기록순")
         $0.titleLabel?.font = .fonts(.body)
         $0.setTitleColor(Gen.Colors.black.color, for: .normal)
         $0.setTitleColor(Gen.Colors.black.color, for: .focused)
         $0.setTitleColor(Gen.Colors.black.color, for: .selected)
         $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
-        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByRegist), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(selectedSortByRegist), for: .touchUpInside)
     }
     
     private let rightContentsView = UIView().then {
         $0.backgroundColor = .clear
     }
     
-    private let sortByVisitImageBtn = UIButton().then {
+    private lazy var sortByVisitImageBtn = UIButton().then {
         $0.setImage(Gen.Images.radioUnSelected.image, for: .normal)
-        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByVisit), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(selectedSortByVisit), for: .touchUpInside)
     }
     
-    private let sortByVisitTextBtn = UIButton().then {
+    private lazy var sortByVisitTextBtn = UIButton().then {
         $0.setTitleAllState("전시 관람순")
         $0.titleLabel?.font = .fonts(.body)
         $0.setTitleColor(Gen.Colors.black.color, for: .normal)
         $0.setTitleColor(Gen.Colors.black.color, for: .focused)
         $0.setTitleColor(Gen.Colors.black.color, for: .selected)
         $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
-        $0.addTarget(TimeFilterRadioButton.self, action: #selector(selectedSortByVisit), for: .touchUpInside)
+        $0.addTarget(self, action: #selector(selectedSortByVisit), for: .touchUpInside)
     }
     
     // MARK: private property

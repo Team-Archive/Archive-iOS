@@ -190,6 +190,7 @@
 		78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */; };
 		78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */; };
 		78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6362866FD3A00B18AD8 /* IntExtension.swift */; };
+		78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63828671E6900B18AD8 /* LikeButton.swift */; };
 		78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */; };
 		78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */; };
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
@@ -390,6 +391,7 @@
 		78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepositoryImplement.swift; sourceTree = "<group>"; };
 		78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCollectionViewCell.swift; sourceTree = "<group>"; };
 		78E8E6362866FD3A00B18AD8 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		78E8E63828671E6900B18AD8 /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBtn.swift; sourceTree = "<group>"; };
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -844,6 +846,7 @@
 				78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */,
 				7831CCE1284CB6D700526D11 /* ArchiveSelectEmotionView.swift */,
 				78CA759028634E9C00EA35EA /* ImageButton.swift */,
+				78E8E63828671E6900B18AD8 /* LikeButton.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1419,6 +1422,7 @@
 				7821233A273F9623007DEC28 /* CodableWrapper.swift in Sources */,
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
 				78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */,
+				78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,

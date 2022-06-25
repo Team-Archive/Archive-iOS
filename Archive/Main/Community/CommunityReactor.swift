@@ -32,6 +32,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     enum Action {
         case endFlow
         case getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?)
+        case like(archiveId: Int, index: Int)
+        case unlike(archiveId: Int, index: Int)
     }
     
     enum Mutation {
@@ -69,6 +71,12 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     },
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
+        case .like(archiveId: let archiveId, let index): // 인덱스 지울지도..
+            print("좋아요!")
+            return .empty()
+        case .unlike(archiveId: let archiveId, let index):
+            print("좋아요취소!")
+            return .empty()
         }
     }
     

@@ -139,6 +139,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .distinctUntilChanged()
             .bind(to: self.collectionView.rx.items(cellIdentifier: CommunityCollectionViewCell.identifier, cellType: CommunityCollectionViewCell.self)) { index, element, cell in
                 cell.infoData = element
+                cell.reactor = self.reactor
+                cell.index = index
             }
             .disposed(by: self.disposeBag)
         

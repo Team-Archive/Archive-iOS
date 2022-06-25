@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RxSwift
+import RxCocoa
 import Then
 
 class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
@@ -64,8 +65,8 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         $0.textColor = Gen.Colors.gray03.color
     }
     
-    private let likeBtn = UIView().then { // TODO: 임시. UI모듈로 만들자.
-        $0.backgroundColor = .red
+    private let likeBtn = LikeButton().then {
+        $0.backgroundColor = .clear
     }
     
     private let likeCntLabel = UILabel().then {
@@ -74,6 +75,9 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     // MARK: private property
+    
+    private let disposeBag = DisposeBag()
+    private var isLike: Bool = false // 화면에서 보여지는 버튼의 좋아요가 아닌 진짜 나의 상태값임
     
     // MARK: internal property
     
@@ -94,23 +98,32 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
                 self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
+                self?.likeBtn.isLike = info.isLiked
+                self?.isLike = info.isLiked
             }
         }
     }
+    
+    weak var reactor: CommunityReactor?
+    var index: Int = -1
     
     // MARK: lifeCycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        bind()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
+        bind()
     }
     
-    func setup() {
+    // MARK: private function
+    
+    private func setup() {
         
         self.addSubview(mainBackgroundView)
         self.mainBackgroundView.snp.makeConstraints {
@@ -178,7 +191,7 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
 
         self.cardBottomView.addSubview(self.dateLabel)
         self.dateLabel.snp.makeConstraints {
-            $0.top.equalTo(self.archiveTitleLabel.snp.bottom)
+            $0.top.equalTo(self.archiveTitleLabel.snp.bottom).offset(5)
             $0.leading.equalTo(self.cardView.snp.leading)
         }
 
@@ -186,8 +199,8 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         self.likeBtn.snp.makeConstraints {
             $0.trailing.equalTo(self.cardBottomView.snp.trailing).offset(5)
             $0.top.equalTo(self.cardBottomView.snp.top).offset(5)
-            $0.width.equalTo(40)
-            $0.height.equalTo(40)
+            $0.width.equalTo(30)
+            $0.height.equalTo(30)
             $0.leading.equalTo(self.archiveTitleLabel.snp.trailing).offset(8)
         }
 
@@ -198,7 +211,31 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         }
     }
     
-    // MARK: private function
+    private func bind() {
+        let currentRealIsLike = self.isLike
+        let index = self.index
+        self.likeBtn.rx.likeClicked
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { [weak self] isLike in
+                if isLike {
+                    if currentRealIsLike {
+                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
+                    } else {
+                        guard let archiveId = self?.infoData?.archiveId else { return }
+                        self?.reactor?.action.onNext(.like(archiveId: archiveId, index: index))
+                    }
+                } else {
+                    if currentRealIsLike {
+                        guard let archiveId = self?.infoData?.archiveId else { return }
+                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId, index: index))
+                    } else {
+                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
+                    }
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
     
     // MARK: internal function
     
