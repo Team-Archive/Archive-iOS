@@ -23,6 +23,8 @@ enum ArchiveAPI {
     case sendTempPassword(email: String)
     case changePassword(eMail: String, beforePassword: String, newPassword: String)
     case getPublicArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
+    case like(archiveId: Int)
+    case unlike(archiveId: Int)
 }
         
 extension ArchiveAPI: TargetType {
@@ -36,7 +38,7 @@ extension ArchiveAPI: TargetType {
         }
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -75,6 +77,10 @@ extension ArchiveAPI: TargetType {
             return "api/v1/auth/password/reset"
         case .getPublicArchives:
             return "/api/v2/archive/community"
+        case .like(let archiveId):
+            return "/api/v2/archive/\(archiveId)/like"
+        case .unlike(let archiveId):
+            return "/api/v2/archive/\(archiveId)/like"
         }
     }
     
@@ -110,6 +116,10 @@ extension ArchiveAPI: TargetType {
             return .post
         case .getPublicArchives:
             return .get
+        case .like:
+            return .post
+        case .unlike:
+            return .delete
         }
     }
     
@@ -162,6 +172,10 @@ extension ArchiveAPI: TargetType {
                 return returnValue
             }()
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        case .like:
+            return .requestPlain
+        case .unlike:
+            return .requestPlain
         }
     }
     
@@ -200,6 +214,10 @@ extension ArchiveAPI: TargetType {
         case .changePassword:
             return nil
         case .getPublicArchives:
+            return ["Authorization": LogInManager.shared.getLogInToken()]
+        case .like:
+            return ["Authorization": LogInManager.shared.getLogInToken()]
+        case .unlike:
             return ["Authorization": LogInManager.shared.getLogInToken()]
         }
     }

@@ -15,6 +15,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: private property
     
     private let usecase: CommunityUsecase
+    private let likeUsecase: LikeUsecase
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
     
     // MARK: internal property
@@ -25,8 +26,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: CommunityRepository) {
+    init(repository: CommunityRepository, likeRepository: LikeRepository) {
         self.usecase = CommunityUsecase(repository: repository)
+        self.likeUsecase = LikeUsecase(repository: likeRepository)
     }
     
     enum Action {
@@ -72,11 +74,29 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
         case .like(archiveId: let archiveId, let index): // 인덱스 지울지도..
-            print("좋아요!")
-            return .empty()
-        case .unlike(archiveId: let archiveId, let index):
-            print("좋아요취소!")
-            return .empty()
+            return self.like(archiveId: archiveId)
+                .map { [weak self] result in
+                    switch result {
+                    case .success(()):
+                        // TODO: 데이터 새로고침
+                        break
+                    case .failure(let err):
+                        print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
+                    }
+                    return .empty
+                }
+        case .unlike(archiveId: let archiveId, let index): // 인덱스 지울지도..
+            return self.unlike(archiveId: archiveId)
+                .map { [weak self] result in
+                    switch result {
+                    case .success(()):
+                        // TODO: 데이터 새로고침
+                        break
+                    case .failure(let err):
+                        print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
+                    }
+                    return .empty
+                }
         }
     }
     
@@ -99,6 +119,14 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.usecase.getPublicArchives(sortBy: sortBy, emotion: emotion)
+    }
+    
+    private func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
+        return self.likeUsecase.like(archiveId: archiveId)
+    }
+    
+    private func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
+        return self.likeUsecase.unlike(archiveId: archiveId)
     }
     
     // MARK: internal function
