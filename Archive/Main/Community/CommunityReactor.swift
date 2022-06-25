@@ -73,25 +73,35 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     },
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
-        case .like(archiveId: let archiveId, let index): // 인덱스 지울지도..
+        case .like(archiveId: let archiveId, let index):
             return self.like(archiveId: archiveId)
                 .map { [weak self] result in
                     switch result {
                     case .success(()):
-                        // TODO: 데이터 새로고침
-                        break
+                        guard let refreshResult = self?.refreshArchivesForIsLike(index: index, isLike: true) else { return .empty }
+                        switch refreshResult {
+                        case .success(let newArchives):
+                            return .setArchives(newArchives)
+                        case .failure(_):
+                            break // 딱히 오류를 출력해주지는 않는다.
+                        }
                     case .failure(let err):
                         print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
                     }
                     return .empty
                 }
-        case .unlike(archiveId: let archiveId, let index): // 인덱스 지울지도..
+        case .unlike(archiveId: let archiveId, let index):
             return self.unlike(archiveId: archiveId)
                 .map { [weak self] result in
                     switch result {
                     case .success(()):
-                        // TODO: 데이터 새로고침
-                        break
+                        guard let refreshResult = self?.refreshArchivesForIsLike(index: index, isLike: true) else { return .empty }
+                        switch refreshResult {
+                        case .success(let newArchives):
+                            return .setArchives(newArchives)
+                        case .failure(_):
+                            break // 딱히 오류를 출력해주지는 않는다.
+                        }
                     case .failure(let err):
                         print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
                     }
@@ -127,6 +137,28 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
         return self.likeUsecase.unlike(archiveId: archiveId)
+    }
+    
+    private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
+        var returnValue = self.currentState.archives
+        if self.currentState.archives.count > index + 1 {
+            return .failure(.init(.publicArchiveIsRefreshed))
+        } else {
+            let newArchive = PublicArchive(authorId: returnValue[index].authorId,
+                                           mainImage: returnValue[index].mainImage,
+                                           authorProfileImage: returnValue[index].authorProfileImage,
+                                           archiveName: returnValue[index].archiveName,
+                                           isLiked: isLike,
+                                           archiveId: returnValue[index].archiveId,
+                                           authorNickname: returnValue[index].authorNickname,
+                                           emotion: returnValue[index].emotion,
+                                           watchedOn: returnValue[index].watchedOn,
+                                           dateMilli: returnValue[index].dateMilli,
+                                           likeCount: returnValue[index].likeCount)
+            returnValue.remove(at: index)
+            returnValue.insert(newArchive, at: index)
+            return .success(returnValue)
+        }
     }
     
     // MARK: internal function
