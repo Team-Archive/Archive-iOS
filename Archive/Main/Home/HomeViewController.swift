@@ -89,6 +89,14 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         reactor.state
             .map { $0.archives }
             .distinctUntilChanged()
+            .subscribe(onNext: { [weak self] in
+                ArchiveStatus.shared.currentArchives.onNext($0)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.archives }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] in
                 if $0.count == 0 {

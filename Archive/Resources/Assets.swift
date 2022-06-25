@@ -135,6 +135,7 @@ internal enum Gen {
     internal static let signWithApple = ImageAsset(name: "SignWithApple")
     internal static let signWithkakaotalk = ImageAsset(name: "SignWithkakaotalk")
     internal static let splash = ImageAsset(name: "Splash")
+    internal static let setting = ImageAsset(name: "setting")
     internal static let addArchvieOff = ImageAsset(name: "Add_Archvie_Off")
     internal static let addArchvieOn = ImageAsset(name: "Add_Archvie_On")
     internal static let communityOff = ImageAsset(name: "Community_Off")

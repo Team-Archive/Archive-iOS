@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class ArchiveStatus: NSObject {
     
@@ -20,6 +21,7 @@ class ArchiveStatus: NSObject {
     
     private(set) var mode: Mode = .normal
     private(set) var isShownFakeSplash: Bool = false
+    var currentArchives: BehaviorSubject<[ArchiveInfo]> = .init(value: [])
     
     // MARK: lifeCycle
     

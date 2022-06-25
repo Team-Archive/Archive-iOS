@@ -15,8 +15,6 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: private property
     
-    private let model: MyPageModelProtocol
-    
     // MARK: internal property
     
     let steps = PublishRelay<Step>()
@@ -24,11 +22,12 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(model: MyPageModelProtocol) {
-        self.model = model
+    init() {
+        
     }
     
     enum Action {
+        case endFlow
         case cardCnt
         case moveToLoginInfo
         case openTerms
@@ -47,9 +46,11 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .endFlow:
+            self.steps.accept(ArchiveStep.myPageIsComplete)
+            return .empty()
         case .cardCnt:
-            let cnt = model.cardCount
-            return .just(.setCardCnt(cnt))
+            return .just(.setCardCnt(0))
         case .moveToLoginInfo:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
@@ -104,7 +105,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: internal function
     
     func runReturnEndFlow() {
-//        self.action.onNext(.endFlow)
+        self.action.onNext(.endFlow)
     }
     
 }
