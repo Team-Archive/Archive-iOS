@@ -62,8 +62,9 @@ final class MainFlow: Flow {
         let dummyRecordViewController = DummyRecordViewController()
         dummyRecordViewController.tabBarItem = UITabBarItem(title: "전시 기록", image: Gen.Images.addArchvieOff.image, selectedImage: Gen.Images.addArchvieOn.image)
         
-        let communityReactor: CommunityReactor = CommunityReactor()
-        let communityViewController = CommunityViewController()
+        let communityReactor: CommunityReactor = CommunityReactor(repository: CommunityRepositoryImplement(),
+                                                                  likeRepository: LikeRepositoryImplement())
+        let communityViewController = CommunityViewController(reactor: communityReactor)
         communityViewController.tabBarItem = UITabBarItem(title: "전시 소통", image: Gen.Images.communityOff.image, selectedImage: Gen.Images.communityOn.image)
         
         

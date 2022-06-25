@@ -161,6 +161,8 @@
 		78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */; };
 		78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */; };
 		78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */; };
+		78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A45427286754480081D17E /* CommunityDetailViewController.swift */; };
+		78A4542A286754620081D17E /* CommunityDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A45429286754620081D17E /* CommunityDetailReactor.swift */; };
 		78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */; };
 		78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D92726C54C009EFB54 /* EmotionSelectViewController.swift */; };
 		78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E02726C6D1009EFB54 /* EmotionDefine.swift */; };
@@ -185,6 +187,15 @@
 		78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */; };
 		78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA759028634E9C00EA35EA /* ImageButton.swift */; };
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
+		78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */; };
+		78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */; };
+		78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */; };
+		78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */; };
+		78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6362866FD3A00B18AD8 /* IntExtension.swift */; };
+		78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63828671E6900B18AD8 /* LikeButton.swift */; };
+		78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63B2867399A00B18AD8 /* LikeUsecase.swift */; };
+		78E8E63E286739A100B18AD8 /* LikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63D286739A100B18AD8 /* LikeRepository.swift */; };
+		78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63F286739AA00B18AD8 /* LikeRepositoryImplement.swift */; };
 		78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */; };
 		78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */; };
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
@@ -356,6 +367,8 @@
 		78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInUsecase.swift; sourceTree = "<group>"; };
 		78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepository.swift; sourceTree = "<group>"; };
 		78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepositoryImplement.swift; sourceTree = "<group>"; };
+		78A45427286754480081D17E /* CommunityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailViewController.swift; sourceTree = "<group>"; };
+		78A45429286754620081D17E /* CommunityDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailReactor.swift; sourceTree = "<group>"; };
 		78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectReactor.swift; sourceTree = "<group>"; };
 		78B872D92726C54C009EFB54 /* EmotionSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectViewController.swift; sourceTree = "<group>"; };
 		78B872E02726C6D1009EFB54 /* EmotionDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionDefine.swift; sourceTree = "<group>"; };
@@ -380,6 +393,15 @@
 		78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPageViewControllerExtension.swift; sourceTree = "<group>"; };
 		78CA759028634E9C00EA35EA /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
+		78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityUsecase.swift; sourceTree = "<group>"; };
+		78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepository.swift; sourceTree = "<group>"; };
+		78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepositoryImplement.swift; sourceTree = "<group>"; };
+		78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCollectionViewCell.swift; sourceTree = "<group>"; };
+		78E8E6362866FD3A00B18AD8 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		78E8E63828671E6900B18AD8 /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
+		78E8E63B2867399A00B18AD8 /* LikeUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeUsecase.swift; sourceTree = "<group>"; };
+		78E8E63D286739A100B18AD8 /* LikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeRepository.swift; sourceTree = "<group>"; };
+		78E8E63F286739AA00B18AD8 /* LikeRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeRepositoryImplement.swift; sourceTree = "<group>"; };
 		78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBtn.swift; sourceTree = "<group>"; };
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
@@ -621,8 +643,10 @@
 		781C843C282F7CE3004A0FB3 /* Community */ = {
 			isa = PBXGroup;
 			children = (
+				78A45426286754350081D17E /* Detail */,
 				781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */,
 				781C843F282F7D05004A0FB3 /* CommunityReactor.swift */,
+				78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -727,6 +751,8 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78E8E63A2867399000B18AD8 /* Like */,
+				78E8E62D2866D6C500B18AD8 /* Community */,
 				788AB646280A9E9F00182B45 /* FIndPassword */,
 				78A38BEE280DB3EB000C921B /* LoginEMail */,
 				7831D51A27E58FDF00E3FA57 /* LoginOAuth */,
@@ -832,6 +858,7 @@
 				78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */,
 				7831CCE1284CB6D700526D11 /* ArchiveSelectEmotionView.swift */,
 				78CA759028634E9C00EA35EA /* ImageButton.swift */,
+				78E8E63828671E6900B18AD8 /* LikeButton.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -941,6 +968,7 @@
 				78A3217E275BBEB20078650D /* UIColorExtension.swift */,
 				78BB7E1D27788D8300DF78AF /* UIViewControllerExtension.swift */,
 				78486D6B27E6C974008448A7 /* ErrorExtension.swift */,
+				78E8E6362866FD3A00B18AD8 /* IntExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1032,6 +1060,15 @@
 			path = LoginEMail;
 			sourceTree = "<group>";
 		};
+		78A45426286754350081D17E /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				78A45427286754480081D17E /* CommunityDetailViewController.swift */,
+				78A45429286754620081D17E /* CommunityDetailReactor.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
 		78B872D62726C54C009EFB54 /* EmotionSelect */ = {
 			isa = PBXGroup;
 			children = (
@@ -1088,6 +1125,26 @@
 				78C4B32E272429370006EBAD /* WithdrawalModel.swift */,
 			);
 			path = Withdrawal;
+			sourceTree = "<group>";
+		};
+		78E8E62D2866D6C500B18AD8 /* Community */ = {
+			isa = PBXGroup;
+			children = (
+				78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */,
+				78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */,
+				78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */,
+			);
+			path = Community;
+			sourceTree = "<group>";
+		};
+		78E8E63A2867399000B18AD8 /* Like */ = {
+			isa = PBXGroup;
+			children = (
+				78E8E63B2867399A00B18AD8 /* LikeUsecase.swift */,
+				78E8E63D286739A100B18AD8 /* LikeRepository.swift */,
+				78E8E63F286739AA00B18AD8 /* LikeRepositoryImplement.swift */,
+			);
+			path = Like;
 			sourceTree = "<group>";
 		};
 		78EDAD5F274525A50028F56D /* Sub */ = {
@@ -1355,6 +1412,7 @@
 			files = (
 				78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
+				78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
@@ -1384,6 +1442,7 @@
 				781C8439282F7BAA004A0FB3 /* RecordFlow.swift in Sources */,
 				782FDF56272D1D70004D1B6E /* ActivityIndicatorable.swift in Sources */,
 				44FB0A09271832E9006E1048 /* OnboardingFlow.swift in Sources */,
+				78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */,
 				780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */,
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,
@@ -1395,9 +1454,12 @@
 				7821233A273F9623007DEC28 /* CodableWrapper.swift in Sources */,
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
 				78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */,
+				78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
+				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
+				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
 				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
 				781C8452282F8B6E004A0FB3 /* MainSplashReactor.swift in Sources */,
 				782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */,
@@ -1411,14 +1473,17 @@
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
+				78A4542A286754620081D17E /* CommunityDetailReactor.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
+				78E8E63E286739A100B18AD8 /* LikeRepository.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,
 				44BE6F07271144BF00E74A7D /* SignUpReactor.swift in Sources */,
 				782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */,
 				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
+				78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */,
 				448936AA2708401500EA423A /* SignInReactor.swift in Sources */,
 				44F9B0E1270606E7005418F0 /* AppDelegate.swift in Sources */,
 				78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */,
@@ -1439,6 +1504,7 @@
 				780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */,
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
+				78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				78BA154127218F430078B88E /* MyPageSettingViewController.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,
@@ -1450,6 +1516,7 @@
 				78557A2A272ECFC800C5BD62 /* UIDeviceExtension.swift in Sources */,
 				78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */,
 				789E61B92725817900D6E18F /* NibIdentifiable.swift in Sources */,
+				78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */,
 				7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */,
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
@@ -1486,6 +1553,7 @@
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
+				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,

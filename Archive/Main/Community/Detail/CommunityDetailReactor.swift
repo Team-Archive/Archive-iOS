@@ -1,8 +1,8 @@
 //
-//  CommunityReactor.swift
+//  CommunityDetailReactor.swift
 //  Archive
 //
-//  Created by hanwe on 2022/05/14.
+//  Created by hanwe on 2022/06/25.
 //
 
 import RxSwift
@@ -10,13 +10,12 @@ import RxRelay
 import RxFlow
 import ReactorKit
 
-class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
+class CommunityDetailReactor: Reactor, Stepper {
     
     // MARK: private property
     
-    private let usecase: CommunityUsecase
+    private let communityUsecase: CommunityUsecase
     private let likeUsecase: LikeUsecase
-    private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
     
     // MARK: internal property
     
@@ -26,8 +25,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: CommunityRepository, likeRepository: LikeRepository) {
-        self.usecase = CommunityUsecase(repository: repository)
+    init(communityRepository: CommunityRepository, likeRepository: LikeRepository) {
+        self.communityUsecase = CommunityUsecase(repository: communityRepository)
         self.likeUsecase = LikeUsecase(repository: likeRepository)
     }
     

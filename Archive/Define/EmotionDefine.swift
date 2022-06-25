@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum Emotion: String, CaseIterable {
+enum Emotion: String, CaseIterable, Codable {
     case pleasant = "PLEASANT"
     case fun = "INTERESTING"
     case splendid = "BEAUTIFUL"
