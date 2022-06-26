@@ -16,6 +16,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private let usecase: CommunityUsecase
     private let likeUsecase: LikeUsecase
+    private let detailUsecase: DetailUsecase
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
     
     // MARK: internal property
@@ -26,9 +27,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: CommunityRepository, likeRepository: LikeRepository) {
+    init(repository: CommunityRepository, likeRepository: LikeRepository, detailRepository: DetailRepository) {
         self.usecase = CommunityUsecase(repository: repository)
         self.likeUsecase = LikeUsecase(repository: likeRepository)
+        self.detailUsecase = DetailUsecase(repository: detailRepository)
     }
     
     enum Action {
@@ -37,6 +39,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case like(archiveId: Int)
         case unlike(archiveId: Int)
         case refreshLikeData(index: Int, isLike: Bool)
+        case showDetail(index: Int)
     }
     
     enum Mutation {
@@ -107,6 +110,20 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 break // 딱히 오류를 출력해주지는 않는다.
             }
             return .empty()
+        case .showDetail(let index):
+            return Observable.concat([
+                Observable.just(Mutation.setIsShimmerLoading(true)),
+                getDetailArchiveInfo(index: index).map { [weak self] result in
+                    switch result {
+                    case .success(let detailData):
+                        self?.steps.accept(ArchiveStep.communityDetailIsRequired(data: detailData))
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
+                },
+                Observable.just(Mutation.setIsShimmerLoading(false))
+            ])
         }
     }
     
@@ -146,6 +163,14 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return .success(returnValue)
         } else {
             return .failure(.init(.publicArchiveIsRefreshed))
+        }
+    }
+    
+    private func getDetailArchiveInfo(index: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
+        if self.currentState.archives.count > index + 1 {
+            return self.detailUsecase.getDetailArchiveInfo(id: "\(self.currentState.archives[index].archiveId)")
+        } else {
+            return .just(.failure(.init(.publicArchiveIsRefreshed)))
         }
     }
     
