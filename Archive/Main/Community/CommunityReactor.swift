@@ -34,8 +34,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     enum Action {
         case endFlow
         case getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?)
-        case like(archiveId: Int, index: Int)
-        case unlike(archiveId: Int, index: Int)
+        case like(archiveId: Int)
+        case unlike(archiveId: Int)
+        case refreshLikeData(index: Int, isLike: Bool)
     }
     
     enum Mutation {
@@ -73,40 +74,39 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     },
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
-        case .like(archiveId: let archiveId, let index):
+        case .like(archiveId: let archiveId):
             return self.like(archiveId: archiveId)
                 .map { [weak self] result in
                     switch result {
                     case .success(()):
-                        guard let refreshResult = self?.refreshArchivesForIsLike(index: index, isLike: true) else { return .empty }
-                        switch refreshResult {
-                        case .success(let newArchives):
-                            return .setArchives(newArchives)
-                        case .failure(_):
-                            break // 딱히 오류를 출력해주지는 않는다.
-                        }
+                        // 특별히 액션이 없다.
+                        break
                     case .failure(let err):
                         print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
                     }
                     return .empty
                 }
-        case .unlike(archiveId: let archiveId, let index):
+        case .unlike(archiveId: let archiveId):
             return self.unlike(archiveId: archiveId)
                 .map { [weak self] result in
                     switch result {
                     case .success(()):
-                        guard let refreshResult = self?.refreshArchivesForIsLike(index: index, isLike: true) else { return .empty }
-                        switch refreshResult {
-                        case .success(let newArchives):
-                            return .setArchives(newArchives)
-                        case .failure(_):
-                            break // 딱히 오류를 출력해주지는 않는다.
-                        }
+                        // 특별히 액션이 없다.
+                        break
                     case .failure(let err):
                         print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
                     }
                     return .empty
                 }
+        case .refreshLikeData(let index, let isLike):
+            let refreshResult = self.refreshArchivesForIsLike(index: index, isLike: isLike)
+            switch refreshResult {
+            case .success(let newArchives):
+                return .just(.setArchives(newArchives))
+            case .failure(_):
+                break // 딱히 오류를 출력해주지는 않는다.
+            }
+            return .empty()
         }
     }
     
@@ -142,10 +142,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
         var returnValue = self.currentState.archives
         if self.currentState.archives.count > index + 1 {
-            return .failure(.init(.publicArchiveIsRefreshed))
-        } else {
             returnValue[index].isLiked = isLike
             return .success(returnValue)
+        } else {
+            return .failure(.init(.publicArchiveIsRefreshed))
         }
     }
     

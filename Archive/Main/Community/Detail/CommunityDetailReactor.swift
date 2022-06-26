@@ -62,7 +62,7 @@ class CommunityDetailReactor: Reactor, Stepper {
                     .map { [weak self] result in
                         switch result {
                         case .success(let archiveInfo):
-                            self?.usecase.setLastInfo(lastSeenArchiveDateMilli: archiveInfo.last?.dateMilli ?? 0,
+                            self?.communityUsecase.setLastInfo(lastSeenArchiveDateMilli: archiveInfo.last?.dateMilli ?? 0,
                                                       lastSeenArchiveId: archiveInfo.last?.archiveId ?? 0)
                             return .setArchives(archiveInfo)
                         case .failure(let err):
@@ -127,7 +127,7 @@ class CommunityDetailReactor: Reactor, Stepper {
     // MARK: private function
     
     private func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
-        return self.usecase.getPublicArchives(sortBy: sortBy, emotion: emotion)
+        return self.communityUsecase.getPublicArchives(sortBy: sortBy, emotion: emotion)
     }
     
     private func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
