@@ -28,6 +28,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
     
     private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int, reactor: CommunityReactor) {
         let vc = CommunityDetailViewController(reactor: reactor)
+        reactor.action.onNext(.spreadDetailData(infoData: infoData, index: index))
         let navi = UINavigationController(rootViewController: vc)
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController?.present(navi, animated: true)

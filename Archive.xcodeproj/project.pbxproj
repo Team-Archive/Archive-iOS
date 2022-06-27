@@ -122,6 +122,7 @@
 		78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DE927638221003FD959 /* HomeShimmerView.swift */; };
 		78599DED27638241003FD959 /* HomeShimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78599DEC27638241003FD959 /* HomeShimmerView.xib */; };
 		785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */; };
+		786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */; };
 		7874759F281C143D00BA0C15 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7874759E281C143D00BA0C15 /* FirebaseAnalytics */; };
 		787475A1281C143D00BA0C15 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 787475A0281C143D00BA0C15 /* FirebaseAppDistribution-Beta */; };
 		787475A3281C143D00BA0C15 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 787475A2281C143D00BA0C15 /* FirebaseAuth */; };
@@ -335,6 +336,7 @@
 		78599DE927638221003FD959 /* HomeShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeShimmerView.swift; sourceTree = "<group>"; };
 		78599DEC27638241003FD959 /* HomeShimmerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeShimmerView.xib; sourceTree = "<group>"; };
 		785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPaddingCoverView.swift; sourceTree = "<group>"; };
 		7877699E273AA98100519B58 /* PhotoContentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContentsView.swift; sourceTree = "<group>"; };
 		7877699F273AA98100519B58 /* PhotoContentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoContentsView.xib; sourceTree = "<group>"; };
 		7878344827AE3BDE00595A86 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -864,6 +866,7 @@
 				7831CCE1284CB6D700526D11 /* ArchiveSelectEmotionView.swift */,
 				78CA759028634E9C00EA35EA /* ImageButton.swift */,
 				78E8E63828671E6900B18AD8 /* LikeButton.swift */,
+				786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1492,6 +1495,7 @@
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
 				78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */,
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
+				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
 				78E8E63E286739A100B18AD8 /* LikeRepository.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,

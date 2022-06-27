@@ -11,14 +11,14 @@ protocol DetailRepository {
     func getDetailArchiveInfo(id: String) -> Observable<Result<ArchiveDetailInfo, ArchiveError>>
 }
 
-struct ArchiveDetailInfo: CodableWrapper {
+struct ArchiveDetailInfo: CodableWrapper, Equatable {
     typealias selfType = ArchiveDetailInfo
     
     let archiveId: Int
     let authorId: Int
     let name: String
     let watchedOn: String
-    let emotion: String
+    let emotion: Emotion
     let companions: [String]?
     let mainImage: String
     let images: [ArchiveDetailImageInfo]?

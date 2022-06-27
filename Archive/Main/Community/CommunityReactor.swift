@@ -12,13 +12,20 @@ import ReactorKit
 
 class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
+    struct DetailInfo: Equatable {
+        let archiveInfo: ArchiveDetailInfo
+        let index: Int
+    }
+    
     // MARK: private property
     
     private let usecase: CommunityUsecase
     private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
+    
     private var currentDetailIndex: Int = 0
+    private var currentDetailInnerIndex: Int = 0
     
     // MARK: internal property
     
@@ -41,6 +48,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case unlike(archiveId: Int)
         case refreshLikeData(index: Int, isLike: Bool)
         case showDetail(index: Int)
+        case spreadDetailData(infoData: ArchiveDetailInfo, index: Int)
     }
     
     enum Mutation {
@@ -48,12 +56,16 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setIsLoading(Bool)
         case setIsShimmerLoading(Bool)
         case setArchives([PublicArchive])
+        case setDetailArchive(DetailInfo)
     }
     
     struct State {
         var isLoading: Bool = false
         var isShimmerLoading: Bool = false
         var archives: [PublicArchive] = []
+        var detailArchive: DetailInfo = DetailInfo(
+            archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil),
+            index: 0)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -131,6 +143,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 },
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
+        case .spreadDetailData(let infoData, let index):
+            self.currentDetailIndex = index
+            self.currentDetailInnerIndex = 0
+            return .just(.setDetailArchive(DetailInfo(archiveInfo: infoData, index: index)))
         }
     }
     
@@ -145,6 +161,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.isShimmerLoading = isLoading
         case .setArchives(let archives):
             newState.archives = archives
+        case .setDetailArchive(let data):
+            newState.detailArchive = data
         }
         return newState
     }

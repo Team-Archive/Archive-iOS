@@ -11,6 +11,7 @@ import ReactorKit
 import RxCocoa
 import RxSwift
 import Then
+import Kingfisher
 
 class CommunityDetailViewController: UIViewController, View, ActivityIndicatorable {
     
@@ -21,6 +22,84 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     }
     
     private let mainContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let topContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let bottomContentsView = BottomPaddingCoverView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+    }
+    
+    private let leftTriangleView = UIImageView().then {
+        $0.image = Gen.Images.triLeft.image
+    }
+    
+    private let rightTriangleView = UIImageView().then {
+        $0.image = Gen.Images.triRight.image
+    }
+    
+    private lazy var leftButton = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(leftClicked), for: .touchUpInside)
+    }
+    
+    private lazy var rightButton = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(rightClicked), for: .touchUpInside)
+    }
+    
+    // type Cover
+    
+    private let topCoverContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let topCoverImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let topCoverEmotionCoverView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    
+    private let bottomCoverContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let bottomCoverTitleLabel = UILabel().then {
+        $0.font = .fonts(.header2)
+        $0.textColor = Gen.Colors.black.color
+        $0.numberOfLines = 2
+    }
+    
+    private let bottomCoverDateLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray03.color
+        $0.numberOfLines = 1
+    }
+    
+    private let likeBtn = LikeButton().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let likeCntLabel = UILabel().then {
+        $0.font = .fonts(.body)
+        $0.textColor = Gen.Colors.gray03.color
+    }
+    
+//    private let // 친구들 보여줘야할까?
+    
+    // type Photo
+    
+    private let topPhotoContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let bottomPhotoContentsView = UIView().then {
         $0.backgroundColor = .clear
     }
     
@@ -51,7 +130,117 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.view.addSubview(self.mainContentsView)
         let safeGuide = self.view.safeAreaLayoutGuide
         self.mainContentsView.snp.makeConstraints {
-            $0.edges.equalTo(safeGuide)
+            $0.top.equalTo(self.view.snp.top)
+            $0.bottom.equalTo(safeGuide.snp.bottom)
+            $0.leading.equalTo(safeGuide.snp.leading)
+            $0.trailing.equalTo(safeGuide.snp.trailing)
+        }
+        
+        self.mainContentsView.addSubview(self.bottomContentsView)
+        self.bottomContentsView.snp.makeConstraints {
+            $0.bottom.equalTo(self.mainContentsView.snp.bottom)
+            $0.leading.equalTo(self.mainContentsView.snp.leading)
+            $0.trailing.equalTo(self.mainContentsView.snp.trailing)
+            $0.height.equalTo(170)
+        }
+        
+        self.mainContentsView.addSubview(self.topContentsView)
+        self.topContentsView.snp.makeConstraints {
+            $0.bottom.equalTo(self.bottomContentsView.snp.top)
+            $0.top.equalTo(self.mainContentsView.snp.top)
+            $0.leading.equalTo(self.mainContentsView.snp.leading)
+            $0.trailing.equalTo(self.mainContentsView.snp.trailing)
+        }
+        
+        self.topContentsView.addSubview(self.topCoverContentsView)
+        self.topCoverContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.topContentsView)
+        }
+        
+        self.topCoverContentsView.addSubview(self.topCoverImageView)
+        self.topCoverImageView.snp.makeConstraints {
+            $0.leading.equalTo(self.topCoverContentsView.snp.leading)
+            $0.trailing.equalTo(self.topCoverContentsView.snp.trailing)
+            $0.height.equalTo(UIScreen.main.bounds.width)
+            $0.centerY.equalTo(self.topCoverContentsView.snp.centerY)
+        }
+        
+        self.topCoverContentsView.addSubview(self.topCoverEmotionCoverView)
+        self.topCoverEmotionCoverView.snp.makeConstraints {
+            $0.leading.equalTo(self.topCoverContentsView.snp.leading)
+            $0.trailing.equalTo(self.topCoverContentsView.snp.trailing)
+            $0.height.equalTo(UIScreen.main.bounds.width)
+            $0.centerY.equalTo(self.topCoverContentsView.snp.centerY)
+        }
+        
+        self.bottomContentsView.addSubview(self.bottomCoverContentsView)
+        self.bottomCoverContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.bottomContentsView)
+        }
+        self.bottomContentsView.makeBottomCoverView()
+        
+        self.bottomContentsView.addSubview(self.bottomCoverTitleLabel)
+        self.bottomCoverTitleLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.bottomContentsView.snp.leading).offset(32)
+            $0.trailing.equalTo(self.bottomContentsView.snp.trailing).offset(-32)
+            $0.top.equalTo(self.bottomContentsView.snp.top).offset(25)
+        }
+        
+        self.bottomContentsView.addSubview(self.bottomCoverDateLabel)
+        self.bottomCoverDateLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.bottomContentsView.snp.leading).offset(32)
+            $0.top.equalTo(self.bottomContentsView.snp.top).offset(106)
+        }
+        
+        self.bottomContentsView.addSubview(self.likeBtn)
+        self.likeBtn.snp.makeConstraints {
+            $0.trailing.equalTo(self.bottomContentsView.snp.trailing).offset(-32)
+            $0.width.equalTo(40)
+            $0.height.equalTo(40)
+            $0.centerY.equalTo(bottomCoverDateLabel.snp.centerY)
+        }
+        
+        self.bottomContentsView.addSubview(self.likeCntLabel)
+        self.likeCntLabel.snp.makeConstraints {
+            $0.centerX.equalTo(likeBtn.snp.centerX)
+            $0.top.equalTo(self.likeBtn.snp.bottom).offset(5)
+        }
+        
+        
+        
+        
+        
+        
+        self.topContentsView.addSubview(self.leftTriangleView)
+        self.leftTriangleView.snp.makeConstraints {
+            $0.leading.equalTo(self.topCoverContentsView.snp.leading)
+            $0.bottom.equalTo(self.topCoverContentsView.snp.bottom).offset(24)
+            $0.width.equalTo(48)
+            $0.height.equalTo(48)
+        }
+        
+        self.topContentsView.addSubview(self.rightTriangleView)
+        self.rightTriangleView.snp.makeConstraints {
+            $0.trailing.equalTo(self.topCoverContentsView.snp.trailing)
+            $0.bottom.equalTo(self.topCoverContentsView.snp.bottom).offset(24)
+            $0.width.equalTo(48)
+            $0.height.equalTo(48)
+        }
+        
+        self.topContentsView.addSubview(self.leftButton)
+        self.leftButton.snp.makeConstraints {
+            $0.leading.equalTo(self.topContentsView.snp.leading)
+            $0.top.equalTo(self.topContentsView.snp.top)
+            $0.bottom.equalTo(self.topContentsView.snp.bottom)
+            $0.width.equalTo(50)
+        }
+        
+        self.topContentsView.addSubview(self.rightButton)
+        self.rightButton.snp.makeConstraints {
+            $0.trailing.equalTo(self.topContentsView.snp.trailing)
+            $0.top.equalTo(self.topContentsView.snp.top)
+            $0.bottom.equalTo(self.topContentsView.snp.bottom)
+            $0.width.equalTo(50)
         }
         
     }
@@ -83,6 +272,19 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.detailArchive }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0))
+            .drive(onNext: { [weak self] data in
+                if data.index == 0 {
+                    self?.showCover(infoData: data)
+                } else {
+                    
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
     
     deinit {
@@ -90,6 +292,38 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     }
     
     // MARK: private func
+    
+    private func showCover(infoData: CommunityReactor.DetailInfo) {
+        let item = infoData.archiveInfo
+        self.topCoverContentsView.isHidden = false
+        self.bottomCoverContentsView.isHidden = false
+        self.topPhotoContentsView.isHidden = true
+        self.bottomPhotoContentsView.isHidden = true
+        
+        self.mainBackgroundView.backgroundColor = item.emotion.color
+        self.topCoverImageView.kf.setImage(with: URL(string: item.mainImage),
+                                            placeholder: nil,
+                                            options: [.cacheMemoryOnly],
+                                            completionHandler: nil)
+        self.topCoverEmotionCoverView.image = item.emotion.coverAlphaImage
+        self.bottomCoverTitleLabel.text = item.name
+        self.bottomCoverDateLabel.text = item.watchedOn
+        
+//        self.likeBtn.isLike
+//        private let likeCntLabel = UILabel().then {
+//            $0.font = .fonts(.body)
+//            $0.textColor = Gen.Colors.gray03.color
+//        }
+        
+    }
+    
+    @objc private func leftClicked() {
+        print("left")
+    }
+    
+    @objc private func rightClicked() {
+        print("right")
+    }
     
     // MARK: func
 
