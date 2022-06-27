@@ -18,6 +18,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
+    private var currentDetailIndex: Int = 0
     
     // MARK: internal property
     
@@ -116,7 +117,13 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 getDetailArchiveInfo(index: index).map { [weak self] result in
                     switch result {
                     case .success(let detailData):
-                        self?.steps.accept(ArchiveStep.communityDetailIsRequired(data: detailData))
+                        self?.currentDetailIndex = index
+                        self?.steps.accept(ArchiveStep.communityDetailIsRequired(
+                            data: detailData,
+                            currentIndex: index,
+                            reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
+                                                              likeRepository: LikeRepositoryImplement(),
+                                                              detailRepository: DetailRepositoryImplement())))
                     case .failure(let err):
                         self?.err.onNext(err)
                     }

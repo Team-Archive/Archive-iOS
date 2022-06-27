@@ -35,7 +35,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         super.viewDidLoad()
     }
     
-    init(reactor: CommunityDetailReactor) {
+    init(reactor: CommunityReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -60,7 +60,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind(reactor: CommunityDetailReactor) {
+    func bind(reactor: CommunityReactor) {
         
         reactor.err
             .asDriver(onErrorJustReturn: .init(.commonError))

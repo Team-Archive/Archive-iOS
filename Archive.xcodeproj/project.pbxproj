@@ -162,7 +162,6 @@
 		78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */; };
 		78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */; };
 		78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A45427286754480081D17E /* CommunityDetailViewController.swift */; };
-		78A4542A286754620081D17E /* CommunityDetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A45429286754620081D17E /* CommunityDetailReactor.swift */; };
 		78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */; };
 		78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A212868A89300B8DF2F /* DetailRepository.swift */; };
 		78A96A242868A89E00B8DF2F /* DetailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */; };
@@ -371,7 +370,6 @@
 		78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepository.swift; sourceTree = "<group>"; };
 		78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepositoryImplement.swift; sourceTree = "<group>"; };
 		78A45427286754480081D17E /* CommunityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailViewController.swift; sourceTree = "<group>"; };
-		78A45429286754620081D17E /* CommunityDetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailReactor.swift; sourceTree = "<group>"; };
 		78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUsecase.swift; sourceTree = "<group>"; };
 		78A96A212868A89300B8DF2F /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -1071,7 +1069,6 @@
 			isa = PBXGroup;
 			children = (
 				78A45427286754480081D17E /* CommunityDetailViewController.swift */,
-				78A45429286754620081D17E /* CommunityDetailReactor.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -1492,7 +1489,6 @@
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
-				78A4542A286754620081D17E /* CommunityDetailReactor.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
 				78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */,
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
