@@ -103,6 +103,17 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.backgroundColor = .clear
     }
     
+    private let photoImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let photoContentsLabel = UILabel().then {
+        $0.font = .fonts(.body)
+        $0.textColor = Gen.Colors.black.color
+        $0.numberOfLines = 5
+        $0.backgroundColor = .red
+    }
+    
     // MARK: private property
     
     // MARK: property
@@ -179,22 +190,22 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         }
         self.bottomContentsView.makeBottomCoverView()
         
-        self.bottomContentsView.addSubview(self.bottomCoverTitleLabel)
+        self.bottomCoverContentsView.addSubview(self.bottomCoverTitleLabel)
         self.bottomCoverTitleLabel.snp.makeConstraints {
-            $0.leading.equalTo(self.bottomContentsView.snp.leading).offset(32)
-            $0.trailing.equalTo(self.bottomContentsView.snp.trailing).offset(-32)
-            $0.top.equalTo(self.bottomContentsView.snp.top).offset(25)
+            $0.leading.equalTo(self.bottomCoverContentsView.snp.leading).offset(32)
+            $0.trailing.equalTo(self.bottomCoverContentsView.snp.trailing).offset(-32)
+            $0.top.equalTo(self.bottomCoverContentsView.snp.top).offset(25)
         }
         
-        self.bottomContentsView.addSubview(self.bottomCoverDateLabel)
+        self.bottomCoverContentsView.addSubview(self.bottomCoverDateLabel)
         self.bottomCoverDateLabel.snp.makeConstraints {
-            $0.leading.equalTo(self.bottomContentsView.snp.leading).offset(32)
-            $0.top.equalTo(self.bottomContentsView.snp.top).offset(106)
+            $0.leading.equalTo(self.bottomCoverContentsView.snp.leading).offset(32)
+            $0.top.equalTo(self.bottomCoverContentsView.snp.top).offset(106)
         }
         
-        self.bottomContentsView.addSubview(self.likeBtn)
+        self.bottomCoverContentsView.addSubview(self.likeBtn)
         self.likeBtn.snp.makeConstraints {
-            $0.trailing.equalTo(self.bottomContentsView.snp.trailing).offset(-32)
+            $0.trailing.equalTo(self.bottomCoverContentsView.snp.trailing).offset(-32)
             $0.width.equalTo(40)
             $0.height.equalTo(40)
             $0.centerY.equalTo(bottomCoverDateLabel.snp.centerY)
@@ -206,6 +217,27 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.top.equalTo(self.likeBtn.snp.bottom).offset(5)
         }
         
+        self.topContentsView.addSubview(self.topPhotoContentsView)
+        self.topPhotoContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.topContentsView)
+        }
+        
+        self.topPhotoContentsView.addSubview(self.photoImageView)
+        self.photoImageView.snp.makeConstraints {
+            $0.edges.equalTo(self.topPhotoContentsView)
+        }
+        
+        self.bottomContentsView.addSubview(self.bottomPhotoContentsView)
+        self.bottomPhotoContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.bottomContentsView)
+        }
+        
+        self.bottomPhotoContentsView.addSubview(self.photoContentsLabel)
+        self.photoContentsLabel.snp.makeConstraints {
+            $0.top.equalTo(self.bottomPhotoContentsView.snp.top).offset(37)
+            $0.leading.equalTo(self.bottomPhotoContentsView.snp.leading).offset(32)
+            $0.trailing.equalTo(self.bottomPhotoContentsView.snp.trailing).offset(-32)
+        }
         
         
         
@@ -281,7 +313,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                 if data.index == 0 {
                     self?.showCover(infoData: data)
                 } else {
-                    
+                    self?.showPhoto(infoData: data)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -317,12 +349,29 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
     }
     
+    private func showPhoto(infoData: CommunityReactor.DetailInfo) {
+        guard let item = infoData.archiveInfo.images?[infoData.index-1] else { return }
+        self.topCoverContentsView.isHidden = true
+        self.bottomCoverContentsView.isHidden = true
+        self.topPhotoContentsView.isHidden = false
+        self.bottomPhotoContentsView.isHidden = false
+        
+        self.photoImageView.kf.setImage(with: URL(string: item.image),
+                                            placeholder: nil,
+                                            options: [.cacheMemoryOnly],
+                                            completionHandler: nil)
+        self.photoContentsLabel.text = item.review
+        
+    }
+    
     @objc private func leftClicked() {
-        print("left")
+        print("leftClicked")
+        self.reactor?.action.onNext(.showBeforePage)
     }
     
     @objc private func rightClicked() {
-        print("right")
+        print("rightClicked")
+        self.reactor?.action.onNext(.showNextPage)
     }
     
     // MARK: func

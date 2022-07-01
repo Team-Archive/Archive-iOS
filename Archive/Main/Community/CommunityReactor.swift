@@ -49,6 +49,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case refreshLikeData(index: Int, isLike: Bool)
         case showDetail(index: Int)
         case spreadDetailData(infoData: ArchiveDetailInfo, index: Int)
+        case showNextPage
+        case showBeforePage
     }
     
     enum Mutation {
@@ -146,7 +148,41 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .spreadDetailData(let infoData, let index):
             self.currentDetailIndex = index
             self.currentDetailInnerIndex = 0
-            return .just(.setDetailArchive(DetailInfo(archiveInfo: infoData, index: index)))
+            return .just(.setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)))
+        case .showNextPage:
+            self.currentDetailInnerIndex += 1
+            if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
+                if photoImageData.count + 1 <= self.currentDetailInnerIndex { // 인덱스 초과, 다음 데이터로 넘어간다.
+                    print("인덱스 초과 다음 데이터로 넘어간다.")
+                    self.currentDetailInnerIndex = 0
+                } else {
+                    return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
+                                                              index: self.currentDetailInnerIndex)))
+                }
+            } else { // 포토 데이터가 없다면
+                // 다음 데이터로 넘어가본다.
+                print("다음 데이터로 넘어간다.")
+                self.currentDetailInnerIndex = 0
+            }
+            return .empty()
+        case .showBeforePage:
+            if self.currentDetailInnerIndex == 0 {
+                if self.currentDetailIndex == 0 {
+                    return .empty() // 현재 첫 번째 사진의 첫번째 인덱스인경우 아무것도 하지 않는다.
+                } else {
+                    self.currentDetailInnerIndex = 0 // 사진의 인덱스를 0으로 바꿔준다.
+                    self.currentDetailIndex -= 1 // 이전 사진 데이터를 선택한다.
+                    self.currentState.archives[self.currentDetailIndex] // 이 데이터의 디테일 정보를 얻어와야한다.
+//                    self.action.onNext(.spreadDetailData(infoData: ,
+//                                                         index: self.currentDetailInnerIndex))
+                    print("이전 데이터로 넘어간다.")
+                }
+            } else {
+                self.currentDetailInnerIndex -= 1
+                return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
+                                                          index: self.currentDetailInnerIndex)))
+            }
+            return .empty()
         }
     }
     
