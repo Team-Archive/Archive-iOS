@@ -9,6 +9,7 @@ import RxSwift
 import RxRelay
 import RxFlow
 import ReactorKit
+import Kingfisher
 
 class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
@@ -241,6 +242,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     private func getNextUserDetail() -> Observable<Mutation> {
+        ImageCache.default.clearCache()
         if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
             return self.getPublicArchives(sortBy: self.publicArchiveSortBy, emotion: self.filterEmotion)
                 .map { result -> Result<[PublicArchive], ArchiveError> in
