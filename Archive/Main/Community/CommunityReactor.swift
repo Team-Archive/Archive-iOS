@@ -84,8 +84,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     .map { [weak self] result in
                         switch result {
                         case .success(let archiveInfo):
-                            self?.usecase.setLastInfo(lastSeenArchiveDateMilli: archiveInfo.last?.dateMilli ?? 0,
-                                                      lastSeenArchiveId: archiveInfo.last?.archiveId ?? 0)
                             return .setArchives(archiveInfo)
                         case .failure(let err):
                             self?.err.onNext(err)
@@ -152,11 +150,11 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             self.currentDetailInnerIndex = 0
             return .just(.setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)))
         case .showNextPage:
-            self.currentDetailInnerIndex += 1
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
-                if photoImageData.count + 1 <= self.currentDetailInnerIndex { // 인덱스 초과, 다음 데이터로 넘어간다.
+                if photoImageData.count + 1 <= self.currentDetailInnerIndex + 1 { // 인덱스 초과, 다음 데이터로 넘어간다.
                     return getNextUserDetail()
                 } else {
+                    self.currentDetailInnerIndex += 1
                     return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
                                                               index: self.currentDetailInnerIndex)))
                 }
@@ -244,8 +242,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private func getNextUserDetail() -> Observable<Mutation> {
         ImageCache.default.clearCache()
         if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
+            print("얍")
             return self.getPublicArchives(sortBy: self.publicArchiveSortBy, emotion: self.filterEmotion)
-                .map { result -> Result<[PublicArchive], ArchiveError> in
+                .map { [weak self] result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
                     case .success(let archives):
                         return .success(archives)
