@@ -29,7 +29,7 @@ class CommunityUsecase: NSObject {
     
     // MARK: internal function
     
-    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
+    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> { // 호출할때마다 조건이 변하지 않으면 페이징처리된 데이터가 내려온다.
         if sortBy == self.currentSortBy && emotion == self.currentEmotion {
             return self.repository.getPublicArchives(sortBy: sortBy,
                                                      emotion: emotion,

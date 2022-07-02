@@ -23,6 +23,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
+    private var filterEmotion: Emotion?
     
     private var currentDetailIndex: Int = 0
     private var currentDetailInnerIndex: Int = 0
@@ -153,8 +154,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             self.currentDetailInnerIndex += 1
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
                 if photoImageData.count + 1 <= self.currentDetailInnerIndex { // 인덱스 초과, 다음 데이터로 넘어간다.
-                    print("인덱스 초과 다음 데이터로 넘어간다.")
-                    self.currentDetailInnerIndex = 0
+                    return getSome()
                 } else {
                     return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
                                                               index: self.currentDetailInnerIndex)))
@@ -162,9 +162,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             } else { // 포토 데이터가 없다면
                 // 다음 데이터로 넘어가본다.
                 print("다음 데이터로 넘어간다.")
-                self.currentDetailInnerIndex = 0
+                return getSome()
             }
-            return .empty()
         case .showBeforePage:
             if self.currentDetailInnerIndex == 0 {
                 if self.currentDetailIndex == 0 {
@@ -176,10 +175,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                         getDetailArchiveInfo(index: self.currentDetailIndex - 1).map { [weak self] result in
                             switch result {
                             case .success(let detailData):
-                                self?.currentDetailInnerIndex = 0 // 사진의 인덱스를 0으로 바꿔준다.
-                                self?.currentDetailIndex -= 1 // 이전 사진 데이터를 선택한다.
                                 self?.action.onNext(.spreadDetailData(infoData: detailData,
-                                                                      index: 0))
+                                                                      index: (self?.currentDetailIndex ?? 0) - 1))
                             case .failure(let err):
                                 self?.err.onNext(err)
                             }
@@ -229,7 +226,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
         var returnValue = self.currentState.archives
-        if self.currentState.archives.count > index + 1 {
+        if self.currentState.archives.count >= index + 1 {
             returnValue[index].isLiked = isLike
             return .success(returnValue)
         } else {
@@ -238,16 +235,73 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     private func getDetailArchiveInfo(index: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
-        if self.currentState.archives.count > index + 1 {
+        if self.currentState.archives.count >= index + 1 {
             return self.detailUsecase.getDetailArchiveInfo(id: "\(self.currentState.archives[index].archiveId)")
         } else {
             return .just(.failure(.init(.publicArchiveIsRefreshed)))
         }
     }
     
-//    private func getSome() -> Observable<Mutation> {
-//        
-//    }
+    private func getSome() -> Observable<Mutation> {
+        if self.currentDetailIndex + 1 >= self.currentState.archives.count {
+            print("흠")
+            return self.getPublicArchives(sortBy: self.publicArchiveSortBy, emotion: self.filterEmotion)
+                .map { result -> Result<[PublicArchive], ArchiveError> in
+                    switch result {
+                    case .success(let archives):
+                        return .success(archives)
+                    case .failure(let err):
+                        return .failure(err)
+                    }
+                }
+                .flatMap { [weak self] result -> Observable<Mutation> in
+                    print("....")
+                    switch result {
+                    case .success(let archives):
+                        print("뉴 데이터: \(archives)")
+                        return Observable.concat([
+                            Observable.just(.setArchives((self?.currentState.archives ?? []) + archives)),
+                            self!.getSome2()
+                        ])
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                        return .just(.empty)
+                    }
+                }
+        } else {
+            return Observable.concat([
+                Observable.just(Mutation.setIsShimmerLoading(true)),
+                getDetailArchiveInfo(index: self.currentDetailIndex + 1).map { [weak self] result in
+                    switch result {
+                    case .success(let detailData):
+                        self?.action.onNext(.spreadDetailData(infoData: detailData,
+                                                              index: (self?.currentDetailIndex ?? 0) + 1))
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
+                },
+                Observable.just(Mutation.setIsShimmerLoading(false))
+            ])
+        }
+    }
+    
+    private func getSome2() -> Observable<Mutation> {
+        return Observable.concat([
+            Observable.just(Mutation.setIsShimmerLoading(true)),
+            getDetailArchiveInfo(index: self.currentDetailIndex + 1).map { [weak self] result in
+                switch result {
+                case .success(let detailData):
+                    self?.action.onNext(.spreadDetailData(infoData: detailData,
+                                                          index: (self?.currentDetailIndex ?? 0) + 1))
+                case .failure(let err):
+                    self?.err.onNext(err)
+                }
+                return .empty
+            },
+            Observable.just(Mutation.setIsShimmerLoading(false))
+        ])
+    }
     
     // MARK: internal function
     
