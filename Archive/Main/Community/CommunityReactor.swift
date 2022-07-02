@@ -154,22 +154,20 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             self.currentDetailInnerIndex += 1
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
                 if photoImageData.count + 1 <= self.currentDetailInnerIndex { // 인덱스 초과, 다음 데이터로 넘어간다.
-                    return getSome()
+                    return getNextUserDetail()
                 } else {
                     return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
                                                               index: self.currentDetailInnerIndex)))
                 }
             } else { // 포토 데이터가 없다면
                 // 다음 데이터로 넘어가본다.
-                print("다음 데이터로 넘어간다.")
-                return getSome()
+                return getNextUserDetail()
             }
         case .showBeforePage:
             if self.currentDetailInnerIndex == 0 {
                 if self.currentDetailIndex == 0 {
                     return .empty() // 현재 첫 번째 사진의 첫번째 인덱스인경우 아무것도 하지 않는다.
-                } else {
-                    print("이전 데이터로 넘어간다.")
+                } else { // 이전데이터로 넘어간다.
                     return Observable.concat([
                         Observable.just(Mutation.setIsShimmerLoading(true)),
                         getDetailArchiveInfo(index: self.currentDetailIndex - 1).map { [weak self] result in
@@ -242,9 +240,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         }
     }
     
-    private func getSome() -> Observable<Mutation> {
-        if self.currentDetailIndex + 1 >= self.currentState.archives.count {
-            print("흠")
+    private func getNextUserDetail() -> Observable<Mutation> {
+        if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
             return self.getPublicArchives(sortBy: self.publicArchiveSortBy, emotion: self.filterEmotion)
                 .map { result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
@@ -255,20 +252,34 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     }
                 }
                 .flatMap { [weak self] result -> Observable<Mutation> in
-                    print("....")
                     switch result {
                     case .success(let archives):
-                        print("뉴 데이터: \(archives)")
-                        return Observable.concat([
-                            Observable.just(.setArchives((self?.currentState.archives ?? []) + archives)),
-                            self!.getSome2()
-                        ])
+                        if archives.count > 0 {
+                            return Observable.concat([
+                                Observable.just(Mutation.setIsShimmerLoading(true)),
+                                Observable.just(.setArchives((self?.currentState.archives ?? []) + archives)),
+                                self?.detailUsecase.getDetailArchiveInfo(id: "\(archives[0].archiveId)")
+                                    .map { result in
+                                        switch result {
+                                        case .success(let detailData):
+                                            self?.action.onNext(.spreadDetailData(infoData: detailData,
+                                                                                  index: (self?.currentDetailIndex ?? 0) + 1))
+                                        case .failure(let err):
+                                            self?.err.onNext(err)
+                                        }
+                                        return .empty
+                                    } ?? Observable.just(.empty),
+                                Observable.just(Mutation.setIsShimmerLoading(false))
+                            ])
+                        } else { // 새로받은 아카이브 데이터가 [] 인 경우
+                            return .empty()
+                        }
                     case .failure(let err):
                         self?.err.onNext(err)
                         return .just(.empty)
                     }
                 }
-        } else {
+        } else { // 다음 유저 데이터 가져오기
             return Observable.concat([
                 Observable.just(Mutation.setIsShimmerLoading(true)),
                 getDetailArchiveInfo(index: self.currentDetailIndex + 1).map { [weak self] result in
@@ -284,23 +295,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
         }
-    }
-    
-    private func getSome2() -> Observable<Mutation> {
-        return Observable.concat([
-            Observable.just(Mutation.setIsShimmerLoading(true)),
-            getDetailArchiveInfo(index: self.currentDetailIndex + 1).map { [weak self] result in
-                switch result {
-                case .success(let detailData):
-                    self?.action.onNext(.spreadDetailData(infoData: detailData,
-                                                          index: (self?.currentDetailIndex ?? 0) + 1))
-                case .failure(let err):
-                    self?.err.onNext(err)
-                }
-                return .empty
-            },
-            Observable.just(Mutation.setIsShimmerLoading(false))
-        ])
     }
     
     // MARK: internal function
