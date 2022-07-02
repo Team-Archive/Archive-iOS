@@ -170,19 +170,29 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 if self.currentDetailIndex == 0 {
                     return .empty() // 현재 첫 번째 사진의 첫번째 인덱스인경우 아무것도 하지 않는다.
                 } else {
-                    self.currentDetailInnerIndex = 0 // 사진의 인덱스를 0으로 바꿔준다.
-                    self.currentDetailIndex -= 1 // 이전 사진 데이터를 선택한다.
-                    self.currentState.archives[self.currentDetailIndex] // 이 데이터의 디테일 정보를 얻어와야한다.
-//                    self.action.onNext(.spreadDetailData(infoData: ,
-//                                                         index: self.currentDetailInnerIndex))
                     print("이전 데이터로 넘어간다.")
+                    return Observable.concat([
+                        Observable.just(Mutation.setIsShimmerLoading(true)),
+                        getDetailArchiveInfo(index: self.currentDetailIndex - 1).map { [weak self] result in
+                            switch result {
+                            case .success(let detailData):
+                                self?.currentDetailInnerIndex = 0 // 사진의 인덱스를 0으로 바꿔준다.
+                                self?.currentDetailIndex -= 1 // 이전 사진 데이터를 선택한다.
+                                self?.action.onNext(.spreadDetailData(infoData: detailData,
+                                                                      index: 0))
+                            case .failure(let err):
+                                self?.err.onNext(err)
+                            }
+                            return .empty
+                        },
+                        Observable.just(Mutation.setIsShimmerLoading(false))
+                    ])
                 }
             } else {
                 self.currentDetailInnerIndex -= 1
                 return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
                                                           index: self.currentDetailInnerIndex)))
             }
-            return .empty()
         }
     }
     
@@ -234,6 +244,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return .just(.failure(.init(.publicArchiveIsRefreshed)))
         }
     }
+    
+//    private func getSome() -> Observable<Mutation> {
+//        
+//    }
     
     // MARK: internal function
     
