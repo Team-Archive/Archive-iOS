@@ -26,7 +26,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
     private var filterEmotion: Emotion?
     
-    private var currentDetailIndex: Int = 0
+    private(set) var currentDetailIndex: Int = 0
     private var currentDetailInnerIndex: Int = 0
     
     // MARK: internal property
@@ -65,6 +65,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setDetailArchive(DetailInfo)
         case setCurrentDetailUserNickName(String)
         case setCurrentDetailUserImage(String)
+        case setDetailsIsLike(Bool)
     }
     
     struct State {
@@ -76,6 +77,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             index: 0)
         var currentDetailUserNickName: String = ""
         var currentDetailUserImage: String = ""
+        var detailIsLike: Bool = false
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -157,7 +159,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return Observable.from([
                 .setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)),
                 .setCurrentDetailUserImage(self.currentState.archives[index].authorProfileImage),
-                .setCurrentDetailUserImage(self.currentState.archives[index].authorNickname)
+                .setCurrentDetailUserImage(self.currentState.archives[index].authorNickname),
+                .setDetailsIsLike(self.currentState.archives[index].isLiked)
             ])
         case .showNextPage:
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
@@ -208,6 +211,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.currentDetailUserImage = image
         case .setCurrentDetailUserNickName(let nickName):
             newState.currentDetailUserNickName = nickName
+        case .setDetailsIsLike(let isLike):
+            newState.detailIsLike = isLike
         }
         return newState
     }

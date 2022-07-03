@@ -68,6 +68,15 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.backgroundColor = Gen.Colors.white.color
     }
     
+    private let likeBtn = LikeButton().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let likeCntLabel = UILabel().then {
+        $0.font = .fonts(.body)
+        $0.textColor = Gen.Colors.gray03.color
+    }
+    
     private let leftTriangleView = UIImageView().then {
         $0.image = Gen.Images.triLeft.image
     }
@@ -119,15 +128,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.font = .fonts(.subTitle)
         $0.textColor = Gen.Colors.gray03.color
         $0.numberOfLines = 1
-    }
-    
-    private let likeBtn = LikeButton().then {
-        $0.backgroundColor = .clear
-    }
-    
-    private let likeCntLabel = UILabel().then {
-        $0.font = .fonts(.body)
-        $0.textColor = Gen.Colors.gray03.color
     }
     
 //    private let // 친구들 보여줘야할까?
@@ -251,20 +251,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.top.equalTo(self.bottomCoverContentsView.snp.top).offset(106)
         }
         
-        self.bottomCoverContentsView.addSubview(self.likeBtn)
-        self.likeBtn.snp.makeConstraints {
-            $0.trailing.equalTo(self.bottomCoverContentsView.snp.trailing).offset(-32)
-            $0.width.equalTo(40)
-            $0.height.equalTo(40)
-            $0.centerY.equalTo(bottomCoverDateLabel.snp.centerY)
-        }
-        
-        self.bottomContentsView.addSubview(self.likeCntLabel)
-        self.likeCntLabel.snp.makeConstraints {
-            $0.centerX.equalTo(likeBtn.snp.centerX)
-            $0.top.equalTo(self.likeBtn.snp.bottom).offset(5)
-        }
-        
         self.topContentsView.addSubview(self.topPhotoContentsView)
         self.topPhotoContentsView.snp.makeConstraints {
             $0.edges.equalTo(self.topContentsView)
@@ -330,6 +316,19 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.height.equalTo(2)
         }
         
+        self.bottomContentsView.addSubview(self.likeBtn)
+        self.likeBtn.snp.makeConstraints {
+            $0.trailing.equalTo(self.bottomContentsView.snp.trailing).offset(-32)
+            $0.width.equalTo(40)
+            $0.height.equalTo(40)
+            $0.bottom.equalTo(self.bottomContentsView.snp.bottom).offset(-32)
+        }
+        
+        self.bottomContentsView.addSubview(self.likeCntLabel)
+        self.likeCntLabel.snp.makeConstraints {
+            $0.centerX.equalTo(likeBtn.snp.centerX)
+            $0.top.equalTo(self.likeBtn.snp.bottom).offset(5)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -398,6 +397,44 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                 self?.userNameLabel.text = nickName
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.detailIsLike }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] isLike in
+                self?.likeBtn.isLike = isLike
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.likeBtn.rx.likeClicked
+            .map { [weak self] isLike -> (Bool, Bool) in
+                let index = self?.reactor?.currentDetailIndex ?? 0
+                let origin: Bool = self?.reactor?.currentState.archives[index].isLiked ?? false
+                self?.reactor?.action.onNext(.refreshLikeData(index: self?.reactor?.currentDetailIndex ?? 1000000, isLike: isLike))
+                return (isLike, origin)
+            }
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
+            .subscribe(onNext: { [weak self] isLike, isOriginLike in
+                if isLike {
+                    if isOriginLike {
+                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
+                    } else {
+                        guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
+                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
+                    }
+                } else {
+                    if isOriginLike {
+                        guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
+                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
+                    } else {
+                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
+                    }
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {
