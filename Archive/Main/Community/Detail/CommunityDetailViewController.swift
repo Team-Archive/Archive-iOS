@@ -17,6 +17,30 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     
     // MARK: UI property
     
+    // navigation
+    
+    private let userImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+        $0.image = Gen.Images.userImagePlaceHolder.image
+    }
+    
+    private let userNameLabel = UILabel().then {
+        $0.font = .fonts(.button2)
+        $0.textColor = Gen.Colors.white.color
+    }
+    
+    private lazy var moreBtn = UIButton().then {
+        $0.setImageAllState(Gen.Images.more.image)
+        $0.addTarget(self, action: #selector(moreClicked), for: .touchUpInside)
+    }
+    
+    private lazy var closeBtn = UIButton().then {
+        $0.setImageAllState(Gen.Images.closeWhite.image)
+        $0.addTarget(self, action: #selector(closeClicked), for: .touchUpInside)
+    }
+    
+    // navigation end
+    
     private let mainBackgroundView = UIView().then {
         $0.backgroundColor = Gen.Colors.white.color
     }
@@ -128,6 +152,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        makeNavigationItems()
     }
     
     init(reactor: CommunityReactor) {
@@ -356,6 +381,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.topCoverEmotionCoverView.image = item.emotion.coverAlphaImage
         self.bottomCoverTitleLabel.text = item.name
         self.bottomCoverDateLabel.text = item.watchedOn
+//        self.userNameLabel.text = item.authorId
         
 //        self.likeBtn.isLike
 //        private let likeCntLabel = UILabel().then {
@@ -363,6 +389,25 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
 //            $0.textColor = Gen.Colors.gray03.color
 //        }
         
+    }
+    
+    private func makeNavigationItems() {
+        self.userImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        self.userImageView.contentMode = .scaleAspectFit
+        let userImageItem = UIBarButtonItem.init(customView: self.userImageView)
+        let negativeSpacer1 = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        let negativeSpacer2 = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        let userNameItem = UIBarButtonItem.init(customView: self.userNameLabel)
+        let leftItems: [UIBarButtonItem] = [negativeSpacer1, negativeSpacer2, userImageItem, userNameItem]
+        
+        self.userImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        self.userImageView.contentMode = .scaleAspectFit
+        let closeItem = UIBarButtonItem.init(customView: self.closeBtn)
+        let moreItem = UIBarButtonItem.init(customView: self.moreBtn)
+        let rightItems: [UIBarButtonItem] = [closeItem, moreItem]
+        
+        self.navigationController?.navigationBar.topItem?.leftBarButtonItems = leftItems
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItems = rightItems
     }
     
     private func showPhoto(infoData: CommunityReactor.DetailInfo) {
@@ -397,6 +442,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     @objc private func rightClicked() {
         print("rightClicked")
         self.reactor?.action.onNext(.showNextPage)
+    }
+    
+    @objc private func moreClicked() {
+        print("옵션")
+    }
+    
+    @objc private func closeClicked() {
+        self.dismiss(animated: true)
     }
     
     // MARK: func
