@@ -153,6 +153,10 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.numberOfLines = 5
     }
     
+    private let rotatedTitleView = RotatedTitleView().then {
+        $0.backgroundColor = .clear
+    }
+    
     // MARK: private property
     
     // MARK: property
@@ -261,6 +265,22 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.edges.equalTo(self.topPhotoContentsView)
         }
         
+        self.topPhotoContentsView.addSubview(self.rotatedTitleView)
+//        let rotatedOffset: CGFloat = self.rotatedTitleView.getRotatedViewOffset()
+        self.rotatedTitleView.snp.makeConstraints {
+            $0.leading.equalTo(self.topPhotoContentsView.snp.leading)
+            $0.height.equalTo(56)
+            $0.centerY.equalTo(self.topPhotoContentsView.snp.centerY).offset(0)
+        }
+        
+        //                if let rotatedView = self?.makeRotatedTitleView(emotion: self?.emotion ?? .fun, title: self?.name ?? "") {
+        //                    self?.mainImageCoverView.addSubview(rotatedView)
+        //                    guard let self = self else { return }
+        //                    let offset: CGFloat = self.getRotatedViewOffset()
+        //                    rotatedView.snp.makeConstraints {
+        //                    }
+        //                }
+        
         self.bottomContentsView.addSubview(self.bottomPhotoContentsView)
         self.bottomPhotoContentsView.snp.makeConstraints {
             $0.edges.equalTo(self.bottomContentsView)
@@ -368,11 +388,18 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                     self?.showCover(infoData: data)
                 } else {
                     self?.showPhoto(infoData: data)
+                    self?.rotatedTitleView.name = data.archiveInfo.name
+                    self?.rotatedTitleView.emotion = data.archiveInfo.emotion
+                    let rotatedOffset = self?.rotatedTitleView.getRotatedViewOffset() ?? 0
+                    self?.rotatedTitleView.snp.updateConstraints {
+                        $0.leading.equalTo(self?.topPhotoContentsView.snp.leading ?? 0).offset(rotatedOffset + 28)
+                    }
                 }
                 self?.progressBar.setPercent(
                     self?.getProgressPercent(totalPageCnt: (data.archiveInfo.images?.count ?? 0) + 1,
                                              currentIndex: data.index) ?? 0
                 )
+            
             })
             .disposed(by: self.disposeBag)
         
@@ -513,6 +540,8 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             return CGFloat(CGFloat((currentIndex + 1)) / CGFloat(totalPageCnt))
         }
     }
+    
+
     
     @objc private func leftClicked() {
         print("leftClicked")

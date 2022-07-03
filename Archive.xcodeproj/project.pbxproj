@@ -122,6 +122,7 @@
 		78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DE927638221003FD959 /* HomeShimmerView.swift */; };
 		78599DED27638241003FD959 /* HomeShimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78599DEC27638241003FD959 /* HomeShimmerView.xib */; };
 		785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */; };
+		786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A3EE52871E67D00A35112 /* RotatedTitleView.swift */; };
 		786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */; };
 		7874759F281C143D00BA0C15 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7874759E281C143D00BA0C15 /* FirebaseAnalytics */; };
 		787475A1281C143D00BA0C15 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 787475A0281C143D00BA0C15 /* FirebaseAppDistribution-Beta */; };
@@ -337,6 +338,7 @@
 		78599DE927638221003FD959 /* HomeShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeShimmerView.swift; sourceTree = "<group>"; };
 		78599DEC27638241003FD959 /* HomeShimmerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeShimmerView.xib; sourceTree = "<group>"; };
 		785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		786A3EE52871E67D00A35112 /* RotatedTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatedTitleView.swift; sourceTree = "<group>"; };
 		786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPaddingCoverView.swift; sourceTree = "<group>"; };
 		7877699E273AA98100519B58 /* PhotoContentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContentsView.swift; sourceTree = "<group>"; };
 		7877699F273AA98100519B58 /* PhotoContentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoContentsView.xib; sourceTree = "<group>"; };
@@ -870,6 +872,7 @@
 				78E8E63828671E6900B18AD8 /* LikeButton.swift */,
 				786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */,
 				78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */,
+				786A3EE52871E67D00A35112 /* RotatedTitleView.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1591,6 +1594,7 @@
 				788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */,
 				78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */,
 				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
+				786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */,
 				78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */,
 				783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */,
 				782FDF3F272CF9CC004D1B6E /* ImageSelectModel.swift in Sources */,
