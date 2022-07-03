@@ -71,7 +71,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
                 self?.pageControl.numberOfPages = images.count + 1
                 var imageCellArr: [CellModel] = []
                 for imageItem in images {
-                    imageCellArr.append(CellModel.commonImage(imageItem, Emotion.fromString(info.emotion) ?? .fun, info.name))
+                    imageCellArr.append(CellModel.commonImage(imageItem, info.emotion, info.name))
                 }
                 let sections = Observable.just([
                     SectionModel(model: "card", items: [

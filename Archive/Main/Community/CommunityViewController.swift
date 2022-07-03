@@ -144,6 +144,13 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             }
             .disposed(by: self.disposeBag)
         
+        self.collectionView.rx.itemSelected
+            .asDriver()
+            .drive(onNext: { [weak self] index in
+                reactor.action.onNext(.showDetail(index: index.item))
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {

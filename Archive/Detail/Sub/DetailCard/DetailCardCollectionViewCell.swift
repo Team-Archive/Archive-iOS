@@ -37,9 +37,7 @@ class DetailCardCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         didSet {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
-                if let emotion: Emotion = Emotion.fromString(info.emotion) {
-                    self?.setNewEmotion(emotion)
-                }
+                self?.setNewEmotion(info.emotion)
                 self?.mainImageView.kf.setImage(with: URL(string: info.mainImage),
                                                placeholder: nil,
                                                options: [.cacheMemoryOnly],

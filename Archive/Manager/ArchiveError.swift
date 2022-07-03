@@ -8,12 +8,13 @@
 
 import UIKit
 
-enum ArchiveErrorCode: Int, LocalizedError {
+enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case commonError = 10000
     case dataToJsonFail
     case stringToDataFail
     case invaldData // 데이터가 유효하지 않음
     case publicArchiveIsRefreshed // 데이터가 초기화된듯
+    case publicArchiveIsEndOfPage // 페이지의 끝임
     
     case archiveOAuthError = 11000
     case unexpectedAppleSignIn = 11100 // 에러는 발생하지 않았지만 애플로그인 이상함
@@ -95,6 +96,8 @@ class ArchiveError: Error {
             returnValue = "로그인 토큰 오류"
         case .publicArchiveIsRefreshed:
             returnValue = "데이터 오류"
+        case .publicArchiveIsEndOfPage:
+            returnValue = "더 이상 공개된 카드가 없어요 😭"
         }
         return returnValue
     }

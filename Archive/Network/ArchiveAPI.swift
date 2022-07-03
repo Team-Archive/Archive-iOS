@@ -64,7 +64,7 @@ extension ArchiveAPI: TargetType {
         case .getArchives:
             return "/api/v1/archive"
         case .getDetailArchive(let archiveId):
-            return "/api/v1/archive/" + archiveId
+            return "/api/v2/archive/" + archiveId
         case .getCurrentUserInfo:
             return "/api/v1/auth/info"
         case .withdrawal:

@@ -43,6 +43,7 @@ enum ArchiveStep: Step {
     // Community
     case communityIsRequired
     case communityIsComplete
+    case communityDetailIsRequired(data: ArchiveDetailInfo, currentIndex: Int, reactor: CommunityReactor)
     
     // MyPage
     case myPageIsRequired
