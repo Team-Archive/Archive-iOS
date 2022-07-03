@@ -51,6 +51,10 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.addTarget(self, action: #selector(rightClicked), for: .touchUpInside)
     }
     
+    private lazy var progressBar = ArchiveProgressBar().then {
+        $0.backgroundColor = .clear
+    }
+    
     // type Cover
     
     private let topCoverContentsView = UIView().then {
@@ -276,6 +280,13 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.width.equalTo(50)
         }
         
+        self.mainContentsView.addSubview(self.progressBar)
+        self.progressBar.snp.makeConstraints {
+            $0.top.equalTo(safeGuide)
+            $0.leading.trailing.equalTo(self.mainContentsView)
+            $0.height.equalTo(2)
+        }
+        
     }
     
     required init?(coder: NSCoder) {
@@ -316,6 +327,10 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                 } else {
                     self?.showPhoto(infoData: data)
                 }
+                self?.progressBar.setPercent(
+                    self?.getProgressPercent(totalPageCnt: (data.archiveInfo.images?.count ?? 0) + 1,
+                                             currentIndex: data.index) ?? 0
+                )
             })
             .disposed(by: self.disposeBag)
     }
@@ -364,6 +379,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.photoContentsLabel.text = item.review
         self.mainBackgroundView.backgroundColor = item.backgroundColor.colorWithHexString()
         
+    }
+    
+    private func getProgressPercent(totalPageCnt: Int, currentIndex: Int) -> CGFloat {
+        if totalPageCnt == currentIndex + 1 {
+            return 1
+        } else {
+            return CGFloat(CGFloat((currentIndex + 1)) / CGFloat(totalPageCnt))
+        }
     }
     
     @objc private func leftClicked() {
