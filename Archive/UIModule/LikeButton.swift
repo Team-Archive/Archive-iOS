@@ -43,7 +43,7 @@ class LikeButton: UIView {
             let isLike = self.isLike
             DispatchQueue.main.async { [weak self] in
                 if isLike {
-                    self?.likeImageView.image = Gen.Images.addArchive.image // 임시
+                    self?.likeImageView.image = Gen.Images.like.image
                 } else {
                     self?.likeImageView.image = Gen.Images.unlike.image
                 }

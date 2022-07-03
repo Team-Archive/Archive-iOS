@@ -105,6 +105,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     
     private let photoImageView = UIImageView().then {
         $0.backgroundColor = .clear
+        $0.contentMode = .scaleAspectFit
     }
     
     private let photoContentsLabel = UILabel().then {
@@ -361,6 +362,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                                             options: [.cacheMemoryOnly],
                                             completionHandler: nil)
         self.photoContentsLabel.text = item.review
+        self.mainBackgroundView.backgroundColor = item.backgroundColor.colorWithHexString()
         
     }
     

@@ -160,6 +160,7 @@ internal enum Gen {
     internal static let iconMyPage = ImageAsset(name: "icon_my page")
     internal static let iconRightArrow = ImageAsset(name: "icon_right-arrow")
     internal static let kakaotalk = ImageAsset(name: "kakaotalk")
+    internal static let like = ImageAsset(name: "like")
     internal static let moreVertBlack24dp = ImageAsset(name: "more_vert_black_24dp")
     internal static let navigationGradation = ImageAsset(name: "navigation_gradation")
     internal static let ticket = ImageAsset(name: "ticket")
