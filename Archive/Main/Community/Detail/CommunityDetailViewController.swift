@@ -266,20 +266,11 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         }
         
         self.topPhotoContentsView.addSubview(self.rotatedTitleView)
-//        let rotatedOffset: CGFloat = self.rotatedTitleView.getRotatedViewOffset()
         self.rotatedTitleView.snp.makeConstraints {
             $0.leading.equalTo(self.topPhotoContentsView.snp.leading)
             $0.height.equalTo(56)
             $0.centerY.equalTo(self.topPhotoContentsView.snp.centerY).offset(0)
         }
-        
-        //                if let rotatedView = self?.makeRotatedTitleView(emotion: self?.emotion ?? .fun, title: self?.name ?? "") {
-        //                    self?.mainImageCoverView.addSubview(rotatedView)
-        //                    guard let self = self else { return }
-        //                    let offset: CGFloat = self.getRotatedViewOffset()
-        //                    rotatedView.snp.makeConstraints {
-        //                    }
-        //                }
         
         self.bottomContentsView.addSubview(self.bottomPhotoContentsView)
         self.bottomPhotoContentsView.snp.makeConstraints {
