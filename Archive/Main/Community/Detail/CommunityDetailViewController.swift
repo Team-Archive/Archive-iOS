@@ -49,6 +49,11 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.backgroundColor = .clear
     }
     
+    private lazy var topGradationView = UIImageView().then {
+        $0.backgroundColor = .clear
+        $0.image = Gen.Images.navigationGradation.image
+    }
+    
     private let topContentsView = UIView().then {
         $0.backgroundColor = .clear
     }
@@ -140,7 +145,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.font = .fonts(.body)
         $0.textColor = Gen.Colors.black.color
         $0.numberOfLines = 5
-        $0.backgroundColor = .red
     }
     
     // MARK: private property
@@ -191,6 +195,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.top.equalTo(self.mainContentsView.snp.top)
             $0.leading.equalTo(self.mainContentsView.snp.leading)
             $0.trailing.equalTo(self.mainContentsView.snp.trailing)
+        }
+        
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        self.mainContentsView.addSubview(self.topGradationView)
+        self.topGradationView.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(self.mainContentsView)
+            $0.height.equalTo(statusBarHeight + (self.navigationController?.navigationBar.bounds.height ?? 0))
         }
         
         self.topContentsView.addSubview(self.topCoverContentsView)
@@ -358,6 +370,28 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                 )
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.currentDetailUserImage }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] imageUrl in
+                self?.userImageView.kf.setImage(with: URL(string: imageUrl),
+                                                placeholder: Gen.Images.userImagePlaceHolder.image,
+                                                options: [.cacheMemoryOnly],
+                                                completionHandler: nil)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.currentDetailUserNickName }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] nickName in
+                print("nickName: \(nickName)")
+                self?.userNameLabel.text = nickName
+            })
+            .disposed(by: self.disposeBag)
     }
     
     deinit {
@@ -408,6 +442,9 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
         self.navigationController?.navigationBar.topItem?.leftBarButtonItems = leftItems
         self.navigationController?.navigationBar.topItem?.rightBarButtonItems = rightItems
+        
+        self.navigationController?.navigationBar.barStyle = .black
+        self.navigationController?.navigationBar.tintColor = .white
     }
     
     private func showPhoto(infoData: CommunityReactor.DetailInfo) {

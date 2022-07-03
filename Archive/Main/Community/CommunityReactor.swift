@@ -61,6 +61,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setIsShimmerLoading(Bool)
         case setArchives([PublicArchive])
         case setDetailArchive(DetailInfo)
+        case setCurrentDetailUserNickName(String)
+        case setCurrentDetailUserImage(String)
     }
     
     struct State {
@@ -70,6 +72,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         var detailArchive: DetailInfo = DetailInfo(
             archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil),
             index: 0)
+        var currentDetailUserNickName: String = ""
+        var currentDetailUserImage: String = ""
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -148,7 +152,11 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .spreadDetailData(let infoData, let index):
             self.currentDetailIndex = index
             self.currentDetailInnerIndex = 0
-            return .just(.setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)))
+            return Observable.from([
+                .setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)),
+                .setCurrentDetailUserImage(self.currentState.archives[index].authorProfileImage),
+                .setCurrentDetailUserImage(self.currentState.archives[index].authorNickname)
+            ])
         case .showNextPage:
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
                 if photoImageData.count + 1 <= self.currentDetailInnerIndex + 1 { // 인덱스 초과, 다음 데이터로 넘어간다.
@@ -203,6 +211,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.archives = archives
         case .setDetailArchive(let data):
             newState.detailArchive = data
+        case .setCurrentDetailUserImage(let image):
+            newState.currentDetailUserImage = image
+        case .setCurrentDetailUserNickName(let nickName):
+            newState.currentDetailUserNickName = nickName
         }
         return newState
     }
