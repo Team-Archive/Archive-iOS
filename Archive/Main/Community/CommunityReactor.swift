@@ -53,6 +53,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case spreadDetailData(infoData: ArchiveDetailInfo, index: Int)
         case showNextPage
         case showBeforePage
+        case showNextUser
+        case showBeforeUser
     }
     
     enum Mutation {
@@ -175,26 +177,17 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 if self.currentDetailIndex == 0 {
                     return .empty() // 현재 첫 번째 사진의 첫번째 인덱스인경우 아무것도 하지 않는다.
                 } else { // 이전데이터로 넘어간다.
-                    return Observable.concat([
-                        Observable.just(Mutation.setIsShimmerLoading(true)),
-                        getDetailArchiveInfo(index: self.currentDetailIndex - 1).map { [weak self] result in
-                            switch result {
-                            case .success(let detailData):
-                                self?.action.onNext(.spreadDetailData(infoData: detailData,
-                                                                      index: (self?.currentDetailIndex ?? 0) - 1))
-                            case .failure(let err):
-                                self?.err.onNext(err)
-                            }
-                            return .empty
-                        },
-                        Observable.just(Mutation.setIsShimmerLoading(false))
-                    ])
+                    return getBeforeUserDetail()
                 }
             } else {
                 self.currentDetailInnerIndex -= 1
                 return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
                                                           index: self.currentDetailInnerIndex)))
             }
+        case .showNextUser:
+            return getNextUserDetail()
+        case .showBeforeUser:
+            return getBeforeUserDetail()
         }
     }
     
@@ -248,6 +241,27 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return self.detailUsecase.getDetailArchiveInfo(id: "\(self.currentState.archives[index].archiveId)")
         } else {
             return .just(.failure(.init(.publicArchiveIsRefreshed)))
+        }
+    }
+    
+    private func getBeforeUserDetail() -> Observable<Mutation> {
+        if self.currentDetailIndex == 0 {
+            return .empty()
+        } else {
+            return Observable.concat([
+                Observable.just(Mutation.setIsShimmerLoading(true)),
+                getDetailArchiveInfo(index: self.currentDetailIndex - 1).map { [weak self] result in
+                    switch result {
+                    case .success(let detailData):
+                        self?.action.onNext(.spreadDetailData(infoData: detailData,
+                                                              index: (self?.currentDetailIndex ?? 0) - 1))
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
+                },
+                Observable.just(Mutation.setIsShimmerLoading(false))
+            ])
         }
     }
     

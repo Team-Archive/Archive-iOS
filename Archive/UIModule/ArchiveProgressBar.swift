@@ -55,7 +55,6 @@ class ArchiveProgressBar: UIView {
     // MARK: function
     
     func setPercent(_ percent: CGFloat) {
-        print("percent: \(percent)")
         DispatchQueue.main.async { [weak self] in
             self?.progressView.snp.updateConstraints {
                 $0.width.equalTo(UIScreen.main.bounds.width * percent)

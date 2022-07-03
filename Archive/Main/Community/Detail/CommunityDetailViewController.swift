@@ -45,8 +45,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.backgroundColor = Gen.Colors.white.color
     }
     
-    private let mainContentsView = UIView().then {
+    private lazy var mainContentsView = UIView().then {
         $0.backgroundColor = .clear
+        let leftSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        let rightSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipes(_:)))
+        leftSwipeGestureRecognizer.direction = .left
+        rightSwipeGestureRecognizer.direction = .right
+        $0.addGestureRecognizer(leftSwipeGestureRecognizer)
+        $0.addGestureRecognizer(rightSwipeGestureRecognizer)
     }
     
     private lazy var topGradationView = UIImageView().then {
@@ -487,6 +493,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     
     @objc private func closeClicked() {
         self.dismiss(animated: true)
+    }
+    
+    @objc private func handleSwipes(_ sender: UISwipeGestureRecognizer) {
+        if sender.direction == .left {
+            self.reactor?.action.onNext(.showNextUser)
+        } else if sender.direction == .right {
+            self.reactor?.action.onNext(.showBeforeUser)
+        }
     }
     
     // MARK: func
