@@ -14,7 +14,7 @@ class ArchiveProgressBar: UIView {
     // MARK: UI property
     
     private let containerView = UIView().then {
-        $0.backgroundColor = Gen.Colors.gray03.color
+        $0.backgroundColor = Gen.Colors.whiteOpacity.color
     }
     
     private let progressView = UIView().then {
