@@ -206,6 +206,11 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.filterBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] in
+                let filterViewController = FilterViewController()
+                filterViewController.modalPresentationStyle = .overFullScreen
+                self?.present(filterViewController, animated: false, completion: {
+                    filterViewController.showEffect()
+                })
             })
             .disposed(by: self.disposeBag)
         
