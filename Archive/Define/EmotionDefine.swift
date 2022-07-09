@@ -7,22 +7,89 @@
 
 import UIKit
 
-enum Emotion: String, CaseIterable, Codable {
-    case pleasant = "PLEASANT"
-    case fun = "INTERESTING"
-    case splendid = "BEAUTIFUL"
-    case impressive = "IMPRESSIVE"
-    case wonderful = "AMAZING"
-    case interesting = "INTERESTING2"
-    case fresh = "FRESH"
-    case touching = "TOUCHING"
-    case shame = "SHAME"
+@objc enum Emotion: Int, CaseIterable, Codable {
+    case pleasant = 0
+    case fun
+    case splendid
+    case impressive
+    case wonderful
+    case interesting
+    case fresh
+    case touching
+    case shame
+
+    enum CodingKeys: String, CodingKey {
+        case pleasant = "PLEASANT"
+        case fun = "INTERESTING"
+        case splendid = "BEAUTIFUL"
+        case impressive = "IMPRESSIVE"
+        case wonderful = "AMAZING"
+        case interesting = "INTERESTING2"
+        case fresh = "FRESH"
+        case touching = "TOUCHING"
+        case shame = "SHAME"
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+        case .fun:
+            try container.encode(Emotion.fun, forKey: .fun)
+        case .pleasant:
+            try container.encode(Emotion.pleasant, forKey: .pleasant)
+        case .splendid:
+            try container.encode(Emotion.splendid, forKey: .splendid)
+        case .impressive:
+            try container.encode(Emotion.impressive, forKey: .impressive)
+        case .wonderful:
+            try container.encode(Emotion.wonderful, forKey: .wonderful)
+        case .interesting:
+            try container.encode(Emotion.interesting, forKey: .interesting)
+        case .fresh:
+            try container.encode(Emotion.fresh, forKey: .fresh)
+        case .touching:
+            try container.encode(Emotion.touching, forKey: .touching)
+        case .shame:
+            try container.encode(Emotion.shame, forKey: .shame)
+        }
+    }
+    
+    init(from decoder: Decoder) throws {
+        if let rawValue = try? decoder.singleValueContainer().decode(String.self) {
+            self.init(rawValue: Emotion.fromString(rawValue)?.rawValue ?? 0)!
+        } else {
+            self.init(rawValue: 0)!
+        }
+    }
     
     static func fromString(_ str: String) -> Emotion? {
-        for item in Emotion.allCases where item.rawValue == str {
+        for item in Emotion.allCases where item.rawStringValue == str {
             return item
         }
         return nil
+    }
+    
+    var rawStringValue: String {
+        switch self {
+        case .fun:
+            return "INTERESTING"
+        case .impressive:
+            return "IMPRESSIVE"
+        case .pleasant:
+            return "PLEASANT"
+        case .splendid:
+            return "BEAUTIFUL"
+        case .wonderful:
+            return "AMAZING"
+        case .interesting:
+            return "INTERESTING2"
+        case .fresh:
+            return "FRESH"
+        case .touching:
+            return "TOUCHING"
+        case .shame:
+            return "SHAME"
+        }
     }
     
     var toOrderIndex: Int {
@@ -275,6 +342,29 @@ enum Emotion: String, CaseIterable, Codable {
             return Gen.Images.dimTouching.image
         case .shame:
             return Gen.Images.dimShame.image
+        }
+    }
+    
+    var filterImage: UIImage {
+        switch self {
+        case .fun:
+            return Gen.Images.filterFun.image
+        case .impressive:
+            return Gen.Images.filterImpressive.image
+        case .pleasant:
+            return Gen.Images.filterPleasant.image
+        case .splendid:
+            return Gen.Images.filterSplendid.image
+        case .wonderful:
+            return Gen.Images.filterWonderful.image
+        case .interesting:
+            return Gen.Images.filterInteresting.image
+        case .fresh:
+            return Gen.Images.filterFresh.image
+        case .touching:
+            return Gen.Images.filterTouching.image
+        case .shame:
+            return Gen.Images.filterShame.image
         }
     }
 }
