@@ -95,8 +95,12 @@ class ArchiveFilterEmotionView: UIView {
     
     // MARK: function
     
-    func setSelecteEmotion(_ emotion: Emotion) {
-        self.currentSelectedIndex = emotion.toOrderIndex
+    func setSelecteEmotion(_ emotion: Emotion?) {
+        if let emotion = emotion {
+            self.currentSelectedIndex = emotion.toOrderIndex + 1
+        } else {
+            self.currentSelectedIndex = 0
+        }
         self.collectionView.reloadData()
     }
     
@@ -126,8 +130,13 @@ extension ArchiveFilterEmotionView: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.currentSelectedIndex = indexPath.item
         self.feedbackGenerator?.selectionChanged()
-        guard let emotion = Emotion.getEmotionFromIndex(indexPath.item) else { return }
-        self.delegate?.didSelectedItem?(view: self, didSelectedAt: emotion, isSelectedAll: false)
+        
+        if indexPath.item == 0 {
+            self.delegate?.didSelectedItem?(view: self, didSelectedAt: .fun, isSelectedAll: true)
+        } else {
+            guard let emotion = Emotion.getEmotionFromIndex(indexPath.item - 1) else { return }
+            self.delegate?.didSelectedItem?(view: self, didSelectedAt: emotion, isSelectedAll: false)
+        }
     }
     
 }

@@ -12,15 +12,27 @@ import SnapKit
 import Then
 
 protocol TimeFilterRadioButtonDelegate: AnyObject {
-    func selectedSortBy(view: TimeFilterRadioButton, type: TimeFilterRadioButton.sortType)
+    func selectedSortBy(view: TimeFilterRadioButton, type: ArchiveSortType)
+}
+
+@objc enum ArchiveSortType: Int, CaseIterable {
+    case sortByRegist = 0
+    case sortByVisit
+    
+    static func getArchiveSortTypeFromRawValue(_ rawValue: Int) -> ArchiveSortType? {
+        if rawValue + 1 > ArchiveSortType.allCases.count { return nil }
+        var currentIndex: Int = 0
+        for item in ArchiveSortType.allCases {
+            if currentIndex == rawValue {
+                return item
+            }
+            currentIndex += 1
+        }
+        return nil
+    }
 }
 
 class TimeFilterRadioButton: UIView {
-    
-    enum sortType {
-        case sortByRegist
-        case sortByVisit
-    }
     
     // MARK: UI property
     
@@ -151,5 +163,16 @@ class TimeFilterRadioButton: UIView {
     }
     
     // MARK: function
+    
+    func setSelectedRadioButton(_ selectedType: ArchiveSortType) {
+        switch selectedType {
+        case .sortByRegist:
+            self.sortByVisitImageBtn.setImageAllState(Gen.Images.radioUnSelected.image)
+            self.sortByRegistImageBtn.setImageAllState(Gen.Images.radioSelected.image)
+        case .sortByVisit:
+            self.sortByVisitImageBtn.setImageAllState(Gen.Images.radioSelected.image)
+            self.sortByRegistImageBtn.setImageAllState(Gen.Images.radioUnSelected.image)
+        }
+    }
     
 }

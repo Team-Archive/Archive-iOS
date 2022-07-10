@@ -168,12 +168,10 @@ class EmotionSelectViewController: UIViewController, View {
     }
     
     func bind(reactor: EmotionSelectReactor) {
-        
+
         self.selectEmotionView.rx
-            .selectedIndex
-            .subscribe(onNext: { [weak self] index in
-                if index == -1 { return }
-                guard let emotion = Emotion.getEmotionFromIndex(index) else { return }
+            .selectedEmotion
+            .subscribe(onNext: { [weak self] emotion in
                 reactor.action.onNext(.select(emotion))
             })
             .disposed(by: self.disposeBag)

@@ -12,7 +12,7 @@ import SnapKit
 import Then
 
 @objc protocol ArchiveSelectEmotionViewDelegate: AnyObject {
-    @objc optional func didSelectedItem(view: ArchiveSelectEmotionView, didSelectedAt index: Int)
+    @objc optional func didSelectedItem(view: ArchiveSelectEmotionView, didSelectedAt emotion: Emotion)
 }
 
 class ArchiveSelectEmotionView: UIView {
@@ -118,9 +118,8 @@ extension ArchiveSelectEmotionView: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.currentSelectedIndex = indexPath.item
         self.feedbackGenerator?.selectionChanged()
-//        guard let emotion = Emotion.getEmotionFromIndex(indexPath.item) else { return }
-//        self.delegate?.didSelectedItem(view: self, didSelectedAt: emotion)
-        self.delegate?.didSelectedItem?(view: self, didSelectedAt: indexPath.item)
+        guard let emotion = Emotion.getEmotionFromIndex(indexPath.item) else { return }
+        self.delegate?.didSelectedItem?(view: self, didSelectedAt: emotion)
     }
     
 }
@@ -147,18 +146,11 @@ extension Reactive where Base: ArchiveSelectEmotionView {
         return ArchiveSelectEmotionViewDelegateProxy.proxy(for: self.base)
     }
 
-    // TODO: swift struct는 delegate proxy못하나? ㅡ,.ㅡ @objc optional 만 허용하는듯.. ,,,
-//    var selectedEmotion: Observable<Emotion> {
-//        return delegate.methodInvoked(#selector(ArchiveSelectEmotionViewDelegate.didSelectedItem(view:didSelectedAt:)))
-//            .map { result in
-//                return result[1] as! Emotion
-//            }
-//    }
-    
-    var selectedIndex: Observable<Int> {
+    var selectedEmotion: Observable<Emotion> {
         return delegate.methodInvoked(#selector(ArchiveSelectEmotionViewDelegate.didSelectedItem(view:didSelectedAt:)))
             .map { result in
-                return result[1] as? Int ?? -1
+                let rawValue = result[1] as? Int ?? 0
+                return Emotion.init(rawValue: rawValue) ?? .fun
             }
     }
 }

@@ -11,6 +11,10 @@ import RxCocoa
 import RxSwift
 import Then
 
+@objc protocol FilterViewControllerDelegate: AnyObject {
+    @objc optional func filterAccepted(view: FilterViewController, sortBy: ArchiveSortType, emotion: Emotion, isAllEmotionSelected: Bool)
+}
+
 class FilterViewController: UIViewController {
     
     enum showAnimationType {
@@ -70,7 +74,7 @@ class FilterViewController: UIViewController {
     // MARK: private property
     
     private let disposeBag = DisposeBag()
-    private var timeSortBy: TimeFilterRadioButton.sortType
+    private var timeSortBy: ArchiveSortType
     private var emotionSortBy: Emotion?
     
     
@@ -79,12 +83,16 @@ class FilterViewController: UIViewController {
     var showAnimationType: showAnimationType = .present
     var isWillDismissWhenDimTap: Bool = true
     
+    weak var delegate: FilterViewControllerDelegate?
+    
     // MARK: lifeCycle
     
-    init(timeSortBy: TimeFilterRadioButton.sortType, emotionSortBy: Emotion?) {
+    init(timeSortBy: ArchiveSortType, emotionSortBy: Emotion?) {
         self.timeSortBy = timeSortBy
         self.emotionSortBy = emotionSortBy
         super.init(nibName: nil, bundle: nil)
+        self.radioView.setSelectedRadioButton(timeSortBy)
+        self.emotionSelectView.setSelecteEmotion(emotionSortBy)
     }
     
     required init?(coder: NSCoder) {
@@ -208,7 +216,17 @@ class FilterViewController: UIViewController {
     }
     
     @objc private func confirm() {
-        print("얍")
+        if let selectedEmotion = self.emotionSortBy {
+            self.delegate?.filterAccepted?(view: self,
+                                           sortBy: self.timeSortBy,
+                                           emotion: selectedEmotion,
+                                           isAllEmotionSelected: false)
+        } else {
+            self.delegate?.filterAccepted?(view: self,
+                                           sortBy: self.timeSortBy,
+                                           emotion: .fun,
+                                           isAllEmotionSelected: true)
+        }
     }
     
     // MARK: internal function
@@ -228,13 +246,51 @@ class FilterViewController: UIViewController {
 
 extension FilterViewController: TimeFilterRadioButtonDelegate, ArchiveFilterEmotionViewDelegate {
     
-    func selectedSortBy(view: TimeFilterRadioButton, type: TimeFilterRadioButton.sortType) {
+    func selectedSortBy(view: TimeFilterRadioButton, type: ArchiveSortType) {
         self.timeSortBy = type
     }
     
-    
-    func didSelectedItem(view: ArchiveSelectEmotionView, didSelectedAt index: Int) {
-        
+    func didSelectedItem(view: ArchiveFilterEmotionView, didSelectedAt emotion: Emotion, isSelectedAll: Bool) {
+        if isSelectedAll {
+            self.emotionSortBy = nil
+        } else {
+            self.emotionSortBy = emotion
+        }
     }
     
+}
+
+class FilterViewControllerDelegateProxy: DelegateProxy<FilterViewController, FilterViewControllerDelegate>, DelegateProxyType, FilterViewControllerDelegate {
+
+    static func currentDelegate(for object: FilterViewController) -> FilterViewControllerDelegate? {
+        return object.delegate
+    }
+
+    static func setCurrentDelegate(_ delegate: FilterViewControllerDelegate?, to object: FilterViewController) {
+        object.delegate = delegate
+    }
+
+    static func registerKnownImplementations() {
+        self.register { (view) -> FilterViewControllerDelegateProxy in
+            FilterViewControllerDelegateProxy(parentObject: view, delegateProxy: self)
+        }
+    }
+}
+
+extension Reactive where Base: FilterViewController {
+    var delegate: DelegateProxy<FilterViewController, FilterViewControllerDelegate> {
+        return FilterViewControllerDelegateProxy.proxy(for: self.base)
+    }
+
+    var selected: Observable<(ArchiveSortType, Emotion, Bool)> {
+        return delegate.methodInvoked(#selector(FilterViewControllerDelegate.filterAccepted(view:sortBy:emotion:isAllEmotionSelected:)))
+            .map { result in
+                let sortByRawValue = (result[1] as? Int) ?? 0
+                let sortBy = ArchiveSortType.getArchiveSortTypeFromRawValue(sortByRawValue) ?? .sortByRegist
+                let emotionRawValue = (result[2] as? Int) ?? 0
+                let emotion = Emotion.getEmotionFromIndex(emotionRawValue) ?? .fun
+                let isAllEmotionSelected = (result[3] as? Bool) ?? true
+                return (sortBy, emotion, isAllEmotionSelected)
+            }
+    }
 }
