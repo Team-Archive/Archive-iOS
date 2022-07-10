@@ -193,6 +193,7 @@
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
 		78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */; };
 		78D8A67228798B02002E8445 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A67128798B02002E8445 /* FilterViewController.swift */; };
+		78D8A6762879CCF9002E8445 /* ArchiveFilterEmotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */; };
 		78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */; };
 		78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */; };
 		78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */; };
@@ -405,6 +406,7 @@
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
 		78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveProgressBar.swift; sourceTree = "<group>"; };
 		78D8A67128798B02002E8445 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveFilterEmotionView.swift; sourceTree = "<group>"; };
 		78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityUsecase.swift; sourceTree = "<group>"; };
 		78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepository.swift; sourceTree = "<group>"; };
 		78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -876,6 +878,7 @@
 				786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */,
 				78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */,
 				786A3EE52871E67D00A35112 /* RotatedTitleView.swift */,
+				78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1480,6 +1483,7 @@
 				44FB0A09271832E9006E1048 /* OnboardingFlow.swift in Sources */,
 				78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */,
 				780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */,
+				78D8A6762879CCF9002E8445 /* ArchiveFilterEmotionView.swift in Sources */,
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,
 				781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */,
