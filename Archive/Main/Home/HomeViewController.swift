@@ -34,6 +34,9 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     // MARK: private UI property
     
+    private lazy var filterViewController = FilterViewController(timeSortBy: self.reactor?.currentState.archiveTimeSortBy ?? .sortByRegist,
+                                                                 emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
+    
     
     // MARK: private property
     
@@ -206,13 +209,19 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.filterBtn.rx.tap
             .asDriver()
             .drive(onNext: { [weak self] in
-                let filterViewController = FilterViewController()
-                filterViewController.modalPresentationStyle = .overFullScreen
-                self?.present(filterViewController, animated: false, completion: {
-                    filterViewController.showEffect()
+                self?.filterViewController.modalPresentationStyle = .overFullScreen
+                self?.present(self?.filterViewController ?? UIViewController(), animated: false, completion: { [weak self] in
+                    self?.filterViewController.showEffect()
                 })
             })
             .disposed(by: self.disposeBag)
+        
+        self.filterViewController.rx.selected
+            .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
+                print("test: \(sortBy) \(emotion) \(isAllSelected)")
+            })
+            .disposed(by: self.disposeBag)
+            
         
     }
     

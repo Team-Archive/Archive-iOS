@@ -200,6 +200,17 @@ class FilterViewController: UIViewController {
     private func close() {
         self.view.fadeOut(completeHandler: {
             self.dismiss(animated: false)
+            switch self.showAnimationType {
+            case .present:
+                self.bottomView.snp.updateConstraints {
+                    $0.leading.equalTo(self.mainContentsView.snp.leading)
+                    $0.trailing.equalTo(self.mainContentsView.snp.trailing)
+                    $0.bottom.equalTo(self.mainContentsView.snp.bottom).offset(150)
+                }
+            case .fadeIn:
+                break
+            }
+            self.view.alpha = 1
         })
     }
     
