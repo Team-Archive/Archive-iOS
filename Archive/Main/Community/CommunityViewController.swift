@@ -12,6 +12,21 @@ import RxCocoa
 import RxSwift
 import Then
 import RxDataSources
+import RxRelay
+
+struct ArchiveSetction {
+    var items: [PublicArchive]
+    var identity: Int {
+        return 0
+    }
+}
+
+extension ArchiveSetction: AnimatableSectionModelType {
+    init(original: ArchiveSetction, items: [PublicArchive]) {
+        self = original
+        self.items = items
+    }
+}
 
 class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
@@ -48,6 +63,20 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
     // MARK: private property
     
+    typealias ArchiveSectionDataSource = RxCollectionViewSectionedAnimatedDataSource<ArchiveSetction>
+    private lazy var dataSource: ArchiveSectionDataSource = {
+        let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
+        
+        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { datasource, collectionView, indexPath, item in
+            var cell = self.makeArhiveCell(item, from: collectionView, indexPath: indexPath)
+            
+            return cell
+        }
+        
+        return ds
+    }()
+    private var sections = BehaviorRelay<[ArchiveSetction]>(value: [])
+    
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -57,6 +86,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
         self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
+        setupDatasource()
     }
     
     init(reactor: CommunityReactor) {
@@ -137,11 +167,10 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         reactor.state
             .map { $0.archives }
             .distinctUntilChanged()
-            .bind(to: self.collectionView.rx.items(cellIdentifier: CommunityCollectionViewCell.identifier, cellType: CommunityCollectionViewCell.self)) { index, element, cell in
-                cell.infoData = element
-                cell.reactor = self.reactor
-                cell.index = index
-            }
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] archives in
+                self?.sections.accept([ArchiveSetction(items: archives)])
+            })
             .disposed(by: self.disposeBag)
         
         self.collectionView.rx.itemSelected
@@ -158,6 +187,18 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     // MARK: private func
+    
+    private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityCollectionViewCell.identifier, for: indexPath) as? CommunityCollectionViewCell else { return UICollectionViewCell() }
+        cell.infoData = archive
+        return cell
+    }
+    
+    private func setupDatasource() {
+        self.collectionView.dataSource = nil
+        sections.bind(to: self.collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: self.disposeBag)
+    }
     
     // MARK: func
 

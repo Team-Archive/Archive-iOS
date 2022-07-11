@@ -6,6 +6,7 @@
 //
 
 import RxSwift
+import RxDataSources
 
 protocol CommunityRepository {
     func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<[PublicArchive], ArchiveError>>
@@ -45,4 +46,10 @@ struct PublicArchive: CodableWrapper {
         case likeCount
     }
     
+}
+
+extension PublicArchive: IdentifiableType, Equatable {
+    typealias Identity = Int
+
+    var identity: Identity { return self.archiveId }
 }
