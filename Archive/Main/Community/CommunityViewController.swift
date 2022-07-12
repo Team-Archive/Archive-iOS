@@ -14,6 +14,20 @@ import Then
 import RxDataSources
 import RxRelay
 
+struct FilterSection {
+    var items: [Int]
+    var identity: Int {
+        return 0
+    }
+}
+
+extension FilterSection: AnimatableSectionModelType {
+    init(original: FilterSection, items: [Int]) {
+        self = original
+        self.items = items
+    }
+}
+
 struct ArchiveSection {
     var items: [PublicArchive]
     var identity: Int {
@@ -57,6 +71,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         layout.minimumInteritemSpacing = 24
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
+        layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 60)
         $0.collectionViewLayout = layout
     }
     
@@ -77,6 +92,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     }()
     private var sections = BehaviorRelay<[ArchiveSection]>(value: [])
     
+    private lazy var filterViewController = FilterViewController(timeSortBy: self.reactor?.currentState.archiveTimeSortBy ?? .sortByRegist,
+                                                                 emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
+    
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -85,6 +103,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
+        collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
         self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
         setupDatasource()
     }
@@ -201,12 +220,39 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
     private func setupDatasource() {
         self.collectionView.dataSource = nil
+        dataSource.configureSupplementaryView = { (dataSource, collectionView, kind, indexPath) in
+            if kind == UICollectionView.elementKindSectionHeader {
+                if let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommunityFilterHeaderView.identifier, for: indexPath) as? CommunityFilterHeaderView {
+                    section.delegate = self
+                    return section
+                } else {
+                    return UICollectionReusableView()
+                }
+            } else {
+                return UICollectionReusableView()
+            }
+        }
+        
         sections.bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
     }
     
     // MARK: func
 
+}
+
+extension CommunityViewController: CommunityFilterHeaderViewDelegate {
+    func clickedFilterBtn() {
+        self.filterViewController.modalPresentationStyle = .overFullScreen
+        self.present(self.filterViewController, animated: false, completion: { [weak self] in
+            self?.filterViewController.showEffect()
+        })
+        self.filterViewController.rx.selected
+            .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
+                print("test: \(sortBy) \(emotion) \(isAllSelected)")
+            })
+            .disposed(by: self.disposeBag)
+    }
 }
 
 extension CommunityViewController: MajorTabViewController {
