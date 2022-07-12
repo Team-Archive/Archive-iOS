@@ -115,7 +115,7 @@ class RecordFlow: Flow {
             GAModule.sendEventLogToGA(.startEmotionSelect)
             return navigationToEditEmotion(currentEmotion: emotion)
         case .recordEmotionEditIsComplete(let emotion):
-            GAModule.sendEventLogToGA(.completeEmotionSelect(selected: emotion.rawValue))
+            GAModule.sendEventLogToGA(.completeEmotionSelect(selected: emotion.rawStringValue))
             dismissEditEmotion(emotion: emotion)
             return .none
         case .recordImageSelectIsRequired(let emotion):

@@ -78,6 +78,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         var currentDetailUserNickName: String = ""
         var currentDetailUserImage: String = ""
         var detailIsLike: Bool = false
+        var archiveTimeSortBy: ArchiveSortType = .sortByRegist
+        var archiveEmotionSortBy: Emotion?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

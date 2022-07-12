@@ -29,12 +29,10 @@ class BottomPaddingCoverView: UIView { // 노치가 있는 폰에서 하단을 �
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-//        makeBottomCoverView()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-//        makeBottomCoverView()
     }
     
     // MARK: private func

@@ -53,6 +53,8 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         var isLoading: Bool = false
         var isShimmering: Bool = false
         var arvhivesCount: Int = 0
+        var archiveTimeSortBy: ArchiveSortType = .sortByRegist
+        var archiveEmotionSortBy: Emotion?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {

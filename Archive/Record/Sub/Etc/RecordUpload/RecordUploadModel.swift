@@ -98,7 +98,7 @@ class RecordUploadModel: RecordUploadModelProtocol {
                     name: self?.contents.title ?? "",
                     watchedOn: self?.contents.date ?? "",
                     companions: self?.contents.friends ?? nil,
-                    emotion: self?.emotion.rawValue ?? "",
+                    emotion: self?.emotion.rawStringValue ?? "",
                     mainImage: mainImageUrl,
                     images: recordImageDatas,
                     isPublic: true // TODO: 화면에서 조정하기
