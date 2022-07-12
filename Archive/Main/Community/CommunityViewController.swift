@@ -14,15 +14,15 @@ import Then
 import RxDataSources
 import RxRelay
 
-struct ArchiveSetction {
+struct ArchiveSection {
     var items: [PublicArchive]
     var identity: Int {
         return 0
     }
 }
 
-extension ArchiveSetction: AnimatableSectionModelType {
-    init(original: ArchiveSetction, items: [PublicArchive]) {
+extension ArchiveSection: AnimatableSectionModelType {
+    init(original: ArchiveSection, items: [PublicArchive]) {
         self = original
         self.items = items
     }
@@ -63,7 +63,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
     // MARK: private property
     
-    typealias ArchiveSectionDataSource = RxCollectionViewSectionedAnimatedDataSource<ArchiveSetction>
+    typealias ArchiveSectionDataSource = RxCollectionViewSectionedAnimatedDataSource<ArchiveSection>
     private lazy var dataSource: ArchiveSectionDataSource = {
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
@@ -75,7 +75,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         
         return ds
     }()
-    private var sections = BehaviorRelay<[ArchiveSetction]>(value: [])
+    private var sections = BehaviorRelay<[ArchiveSection]>(value: [])
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -169,7 +169,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] archives in
-                self?.sections.accept([ArchiveSetction(items: archives)])
+                self?.sections.accept([ArchiveSection(items: archives)])
             })
             .disposed(by: self.disposeBag)
         
@@ -191,6 +191,11 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityCollectionViewCell.identifier, for: indexPath) as? CommunityCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
+        return cell
+    }
+    
+    private func makeArhiveFilterCell(from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityFilterCollectionViewCell.identifier, for: indexPath) as? CommunityFilterCollectionViewCell else { return UICollectionViewCell() }
         return cell
     }
     

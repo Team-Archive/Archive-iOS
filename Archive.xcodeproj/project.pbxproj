@@ -91,6 +91,7 @@
 		7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
+		78436F26287C77F800013982 /* CommunityFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */; };
 		784377AE273172820005CB51 /* RecordAddImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784377AC273172820005CB51 /* RecordAddImageCollectionViewCell.swift */; };
 		784377AF273172820005CB51 /* RecordAddImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 784377AD273172820005CB51 /* RecordAddImageCollectionViewCell.xib */; };
 		7845765627E3809F00BE6863 /* GAModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7845765527E3809F00BE6863 /* GAModule.swift */; };
@@ -308,6 +309,7 @@
 		7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
+		78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		784377AC273172820005CB51 /* RecordAddImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordAddImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		784377AD273172820005CB51 /* RecordAddImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordAddImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		7845765527E3809F00BE6863 /* GAModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAModule.swift; sourceTree = "<group>"; };
@@ -662,6 +664,7 @@
 				781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */,
 				781C843F282F7D05004A0FB3 /* CommunityReactor.swift */,
 				78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */,
+				78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -1609,6 +1612,7 @@
 				782FDF4C272CFB6E004D1B6E /* PhotoFromAlbumCell.swift in Sources */,
 				788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */,
 				78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */,
+				78436F26287C77F800013982 /* CommunityFilterCollectionViewCell.swift in Sources */,
 				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
 				786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */,
 				78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */,
