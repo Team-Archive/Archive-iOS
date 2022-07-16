@@ -69,7 +69,6 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.topContentsContainerViewHeight)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.layout = layout
-        $0.isAutoScrolling = true
     }
     
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
@@ -233,6 +232,13 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             })
             .disposed(by: self.disposeBag)
         
+        self.collectionView.rx.didScroll
+            .asDriver()
+            .drive(onNext: { [weak self] test in
+                print("tesT: \(test)")
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {
@@ -290,11 +296,17 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
 }
 
 extension CommunityViewController: MajorTabViewController {
+    
     func willTabSeleted() {
         
     }
     
     func didTabSeleted() {
-        
+        self.bannerView.isAutoScrolling = true
     }
+    
+    func willUnselected() {
+        self.bannerView.isAutoScrolling = false
+    }
+    
 }

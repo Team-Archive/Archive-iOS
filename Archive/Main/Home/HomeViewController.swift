@@ -309,6 +309,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
 }
 
 extension HomeViewController: MajorTabViewController {
+    
     func willTabSeleted() {
         
     }
@@ -316,4 +317,9 @@ extension HomeViewController: MajorTabViewController {
     func didTabSeleted() {
         
     }
+    
+    func willUnselected() {
+        
+    }
+    
 }

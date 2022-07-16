@@ -156,7 +156,9 @@ class ArchiveBannerView: UIView {
     }
     
     func moveNextPage(animated: Bool = true) {
-        self.collectionView.scrollToItem(at: IndexPath(item: Int(self.realCurrentPage + 1), section: 0), at: .left, animated: animated)
+        if self.pageControl.numberOfPages > 0 {
+            self.collectionView.scrollToItem(at: IndexPath(item: Int(self.realCurrentPage + 1), section: 0), at: .left, animated: animated)
+        }
     }
     
 }
