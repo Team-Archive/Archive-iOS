@@ -155,11 +155,8 @@ extension ArchiveAPI: TargetType {
                     returnValue["emotion"] = emotion
                 }
                 if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli, let lastSeenArchiveId = lastSeenArchiveId {
-                    returnValue["lastSeenArchiveDateMilli"] = lastSeenArchiveDateMilli
-                    returnValue["lastSeenArchiveId"] = lastSeenArchiveId
-                    returnValue["requestFirstPage"] = false
-                } else {
-                    returnValue["requestFirstPage"] = true
+                    returnValue["lastArchiveDateTime"] = lastSeenArchiveDateMilli
+                    returnValue["lastArchiveId"] = lastSeenArchiveId
                 }
                 return returnValue
             }()
@@ -184,11 +181,8 @@ extension ArchiveAPI: TargetType {
                     returnValue["emotion"] = emotion
                 }
                 if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli, let lastSeenArchiveId = lastSeenArchiveId {
-                    returnValue["lastSeenArchiveDateMilli"] = lastSeenArchiveDateMilli
-                    returnValue["lastSeenArchiveId"] = lastSeenArchiveId
-                    returnValue["requestFirstPage"] = false
-                } else {
-                    returnValue["requestFirstPage"] = true
+                    returnValue["lastArchiveDateTime"] = lastSeenArchiveDateMilli
+                    returnValue["lastArchiveId"] = lastSeenArchiveId
                 }
                 return returnValue
             }()

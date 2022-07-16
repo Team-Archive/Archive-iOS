@@ -13,7 +13,7 @@ class CommunityUsecase: NSObject {
     
     private let repository: CommunityRepository
     private var currentEmotion: Emotion?
-    private var currentSortBy: PublicArchiveSortBy?
+    private var currentSortBy: ArchiveSortType?
     private var lastSeenArchiveDateMilli: Int = 0
     private var lastSeenArchiveId: Int = 0
     private var isEndOfPage: Bool = false
@@ -35,7 +35,7 @@ class CommunityUsecase: NSObject {
     
     // MARK: internal function
 
-    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> { // 호출할때마다 조건이 변하지 않으면 페이징처리된 데이터가 내려온다.
+    func getPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> { // 호출할때마다 조건이 변하지 않으면 페이징처리된 데이터가 내려온다.
         if sortBy == self.currentSortBy && emotion == self.currentEmotion {
             if self.isEndOfPage { // 페이지의 끝이면
                 return .just(.failure(.init(.publicArchiveIsEndOfPage)))

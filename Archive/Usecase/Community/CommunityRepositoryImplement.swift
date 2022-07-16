@@ -21,9 +21,9 @@ class CommunityRepositoryImplement: CommunityRepository {
     
     // MARK: internal function
     
-    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<[PublicArchive], ArchiveError>> {
+    func getPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<[PublicArchive], ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.getPublicArchives(sortBy: sortBy.rawValue,
+        return provider.rx.request(.getPublicArchives(sortBy: sortBy.toAPIRawValue,
                                                       emotion: emotion?.rawStringValue,
                                                       lastSeenArchiveDateMilli: lastSeenArchiveDateMilli,
                                                       lastSeenArchiveId: lastSeenArchiveId),

@@ -34,9 +34,9 @@ protocol TimeFilterRadioButtonDelegate: AnyObject {
     var toAPIRawValue: String {
         switch self {
         case .sortByRegist:
-            return "CreatedAt"
+            return "createdAt"
         case .sortByVisit:
-            return "WatchedOn"
+            return "watchedOn"
         }
     }
 }

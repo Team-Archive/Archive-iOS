@@ -116,7 +116,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
-        self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
+        self.reactor?.action.onNext(.getPublicArchives(sortBy: .sortByRegist, emotion: nil))
         setupDatasource()
         self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)

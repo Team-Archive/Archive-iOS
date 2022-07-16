@@ -9,12 +9,7 @@ import RxSwift
 import RxDataSources
 
 protocol CommunityRepository {
-    func getPublicArchives(sortBy: PublicArchiveSortBy, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<[PublicArchive], ArchiveError>>
-}
-
-enum PublicArchiveSortBy: String {
-    case createdAt = "CreatedAt"
-    case watchedOn = "WatchedOn"
+    func getPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<[PublicArchive], ArchiveError>>
 }
 
 struct PublicArchive: CodableWrapper {
