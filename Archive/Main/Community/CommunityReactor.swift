@@ -21,6 +21,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: private property
     
     private let usecase: CommunityUsecase
+    private let bannerUsecase: BannerUsecase
     private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
     private var publicArchiveSortBy: PublicArchiveSortBy = .createdAt
@@ -37,8 +38,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: CommunityRepository, likeRepository: LikeRepository, detailRepository: DetailRepository) {
+    init(repository: CommunityRepository, bannerRepository: BannerRepository, likeRepository: LikeRepository, detailRepository: DetailRepository) {
         self.usecase = CommunityUsecase(repository: repository)
+        self.bannerUsecase = BannerUsecase(repository: bannerRepository)
         self.likeUsecase = LikeUsecase(repository: likeRepository)
         self.detailUsecase = DetailUsecase(repository: detailRepository)
     }
@@ -146,6 +148,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                             data: detailData,
                             currentIndex: index,
                             reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
+                                                              bannerRepository: BannerRepositoryImplement(),
                                                               likeRepository: LikeRepositoryImplement(),
                                                               detailRepository: DetailRepositoryImplement())))
                     case .failure(let err):

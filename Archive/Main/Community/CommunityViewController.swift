@@ -55,10 +55,13 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     private let topContentsContainerView = UIView().then {
-//        $0.backgroundColor = Gen.Colors.white.color
-        $0.backgroundColor = .brown // 임시
+        $0.backgroundColor = .clear
     }
     private let topContentsContainerViewHeight: CGFloat = 94
+    
+    private lazy var bannerView = ArchiveBannerView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+    }
     
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.delaysContentTouches = false
@@ -106,6 +109,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
         self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
         setupDatasource()
+        self.bannerView.register(CommnunityBannerViewCell.self, forCellWithReuseIdentifier: CommnunityBannerViewCell.identifier)
     }
     
     init(reactor: CommunityReactor) {
@@ -138,6 +142,11 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             $0.leading.equalTo(self.mainContentsView.snp.leading)
             $0.trailing.equalTo(self.mainContentsView.snp.trailing)
             $0.height.equalTo(self.topContentsContainerViewHeight)
+        }
+        
+        self.topContentsContainerView.addSubview(self.bannerView)
+        self.bannerView.snp.makeConstraints {
+            $0.edges.equalTo(self.topContentsContainerView)
         }
         
     }

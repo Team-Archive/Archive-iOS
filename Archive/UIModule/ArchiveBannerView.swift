@@ -142,6 +142,10 @@ class ArchiveBannerView: UIView {
         self.collectionView.register(cellClass, forCellWithReuseIdentifier: forCellWithReuseIdentifier)
     }
     
+    func register(_ cellClass: AnyClass?, forCellWithReuseIdentifier: String) {
+        self.collectionView.register(cellClass, forCellWithReuseIdentifier: forCellWithReuseIdentifier)
+    }
+    
     func dequeueReusableCell(withReuseIdentifier: String, index at: UInt) -> ArchiveBannerViewCell {
         return self.collectionView.dequeueReusableCell(withReuseIdentifier: withReuseIdentifier, for: IndexPath(item: Int(at), section: 0)) as? ArchiveBannerViewCell ?? ArchiveBannerViewCell()
     }
