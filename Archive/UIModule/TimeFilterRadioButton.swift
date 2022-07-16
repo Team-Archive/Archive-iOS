@@ -30,6 +30,15 @@ protocol TimeFilterRadioButtonDelegate: AnyObject {
         }
         return nil
     }
+    
+    var toAPIRawValue: String {
+        switch self {
+        case .sortByRegist:
+            return "CreatedAt"
+        case .sortByVisit:
+            return "WatchedOn"
+        }
+    }
 }
 
 class TimeFilterRadioButton: UIView {

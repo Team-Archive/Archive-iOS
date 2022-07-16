@@ -13,8 +13,8 @@ protocol CommunityRepository {
 }
 
 enum PublicArchiveSortBy: String {
-    case createdAt = "CREATED_AT"
-    case watchedOn = "WATCHED_ON"
+    case createdAt = "CreatedAt"
+    case watchedOn = "WatchedOn"
 }
 
 struct PublicArchive: CodableWrapper {

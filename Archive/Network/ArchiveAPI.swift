@@ -15,7 +15,7 @@ enum ArchiveAPI {
     case logInWithOAuth(logInType: OAuthSignInType, token: String)
     case isDuplicatedEmail(_ eMail: String)
     case deleteArchive(archiveId: String)
-    case getArchives
+    case getArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
     case getDetailArchive(archiveId: String)
     case getCurrentUserInfo
     case withdrawal
@@ -63,7 +63,7 @@ extension ArchiveAPI: TargetType {
         case .deleteArchive(let archiveId):
             return "/api/v1/archive/" + archiveId
         case .getArchives:
-            return "/api/v1/archive"
+            return "/api/v2/archive"
         case .getDetailArchive(let archiveId):
             return "/api/v2/archive/" + archiveId
         case .getCurrentUserInfo:
@@ -147,8 +147,23 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .deleteArchive:
             return .requestPlain
-        case .getArchives:
-            return .requestPlain
+        case .getArchives(let sortBy, let emotion, let lastSeenArchiveDateMilli, let lastSeenArchiveId):
+            let param: [String: Any] = {
+                var returnValue: [String: Any] = [String: Any]()
+                returnValue["sortType"] = sortBy
+                if let emotion = emotion {
+                    returnValue["emotion"] = emotion
+                }
+                if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli, let lastSeenArchiveId = lastSeenArchiveId {
+                    returnValue["lastSeenArchiveDateMilli"] = lastSeenArchiveDateMilli
+                    returnValue["lastSeenArchiveId"] = lastSeenArchiveId
+                    returnValue["requestFirstPage"] = false
+                } else {
+                    returnValue["requestFirstPage"] = true
+                }
+                return returnValue
+            }()
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getDetailArchive:
             return .requestPlain
         case .getCurrentUserInfo:
@@ -168,11 +183,12 @@ extension ArchiveAPI: TargetType {
                 if let emotion = emotion {
                     returnValue["emotion"] = emotion
                 }
-                if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli {
+                if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli, let lastSeenArchiveId = lastSeenArchiveId {
                     returnValue["lastSeenArchiveDateMilli"] = lastSeenArchiveDateMilli
-                }
-                if let lastSeenArchiveId = lastSeenArchiveId {
                     returnValue["lastSeenArchiveId"] = lastSeenArchiveId
+                    returnValue["requestFirstPage"] = false
+                } else {
+                    returnValue["requestFirstPage"] = true
                 }
                 return returnValue
             }()

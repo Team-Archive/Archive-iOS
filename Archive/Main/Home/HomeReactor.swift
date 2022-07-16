@@ -25,6 +25,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private var archives: [ArchiveInfo] = [ArchiveInfo]()
     private var archivesOrderBy: ArchivesOrderBy = .dateToUpload
+    private let usecase: MyArchiveUsecase
     
     // MARK: internal property
     
@@ -32,6 +33,10 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     let initialState: State = State()
     
     // MARK: lifeCycle
+    
+    init(myArchiveRepository: MyArchiveRepository) {
+        self.usecase = MyArchiveUsecase(repository: myArchiveRepository)
+    }
     
     enum Action {
         case endFlow
@@ -65,22 +70,26 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .getMyArchives:
             return Observable.concat([
                 Observable.just(.setIsShimmering(true)),
-                self.getArchives().map { [weak self] result in
-                    switch result {
-                    case .success(let data):
-                        return .setMyArchivesData(data)
-                    case .failure(let err):
-                        print("err: \(err.localizedDescription)")
-                        guard let code = (err as? MoyaError)?.response?.statusCode else { return .setMyArchivesData(nil) }
-                        if code == 403 {
-                            LogInManager.shared.logOut()
-                            self?.steps.accept(ArchiveStep.logout)
-                            return .setMyArchivesData(nil)
-                        } else {
-                            return .setMyArchivesData(nil)
-                        }
-                    }
-                },
+//                self.getArchives().map { [weak self] result in
+//                    switch result {
+//                    case .success(let data):
+//                        return .setMyArchivesData(data)
+//                    case .failure(let err):
+//                        print("err: \(err.localizedDescription)")
+//                        guard let code = (err as? MoyaError)?.response?.statusCode else { return .setMyArchivesData(nil) }
+//                        if code == 403 {
+//                            LogInManager.shared.logOut()
+//                            self?.steps.accept(ArchiveStep.logout)
+//                            return .setMyArchivesData(nil)
+//                        } else {
+//                            return .setMyArchivesData(nil)
+//                        }
+//                    }
+//                },
+                self.getArchives(sortBy: self.currentState.archiveTimeSortBy,
+                                 emotion: self.currentState.archiveEmotionSortBy).map { _ in
+                                     return .setArchives([])
+                                 },
                 Observable.just(.setIsShimmering(false))
             ])
         case .showMyArchives:
@@ -138,16 +147,9 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: private function
     
-    private func getArchives() -> Observable<Result<Data, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.getArchives, callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                return .success(result.data)
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func getArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[ArchiveInfo], ArchiveError>> {
+        return self.usecase.getArchives(sortBy: sortBy,
+                                        emotion: emotion)
     }
     
     private func getDetailArchiveInfo(id: String) -> Observable<Result<Data, Error>> {
