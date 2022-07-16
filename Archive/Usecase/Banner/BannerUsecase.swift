@@ -5,7 +5,7 @@
 //  Created by hanwe on 2022/07/16.
 //
 
-import UIKit
+import RxSwift
 
 class BannerUsecase: NSObject {
     
@@ -24,5 +24,9 @@ class BannerUsecase: NSObject {
     // MARK: private function
     
     // MARK: internal function
+    
+    func getBanner() -> Observable<Result<[BannerInfo], ArchiveError>> {
+        return self.repository.getBanner()
+    }
     
 }
