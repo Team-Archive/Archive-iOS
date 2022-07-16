@@ -81,6 +81,7 @@
 		782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF49272CFB6E004D1B6E /* PhotoFromAlbumModel.swift */; };
 		782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF4A272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift */; };
 		782FDF56272D1D70004D1B6E /* ActivityIndicatorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF55272D1D70004D1B6E /* ActivityIndicatorable.swift */; };
+		7830103528829FDB0031F8CB /* ArchiveBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830103428829FDB0031F8CB /* ArchiveBannerView.swift */; };
 		78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */; };
 		78315E722764EC38001B3342 /* Upload.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E712764EC38001B3342 /* Upload.json */; };
 		78315E742764F2E6001B3342 /* SignUp.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E732764F2E6001B3342 /* SignUp.json */; };
@@ -300,6 +301,7 @@
 		782FDF49272CFB6E004D1B6E /* PhotoFromAlbumModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFromAlbumModel.swift; sourceTree = "<group>"; };
 		782FDF4A272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HWPhotoListFromAlbumView.swift; sourceTree = "<group>"; };
 		782FDF55272D1D70004D1B6E /* ActivityIndicatorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorable.swift; sourceTree = "<group>"; };
+		7830103428829FDB0031F8CB /* ArchiveBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveBannerView.swift; sourceTree = "<group>"; };
 		78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewControllerProtocol.swift; sourceTree = "<group>"; };
 		78315E712764EC38001B3342 /* Upload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Upload.json; sourceTree = "<group>"; };
 		78315E732764F2E6001B3342 /* SignUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SignUp.json; sourceTree = "<group>"; };
@@ -885,6 +887,7 @@
 				78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */,
 				786A3EE52871E67D00A35112 /* RotatedTitleView.swift */,
 				78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */,
+				7830103428829FDB0031F8CB /* ArchiveBannerView.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1466,6 +1469,7 @@
 				78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */,
 				782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */,
 				78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */,
+				7830103528829FDB0031F8CB /* ArchiveBannerView.swift in Sources */,
 				784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */,
 				78239830280C251F0071D874 /* LogInRepository.swift in Sources */,
 				78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */,
