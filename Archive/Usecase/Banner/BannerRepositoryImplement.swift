@@ -26,7 +26,6 @@ class BannerRepositoryImplement: BannerRepository {
         return provider.rx.request(.getBanner, callbackQueue: DispatchQueue.global())
         .asObservable()
         .map { result in
-            print("result: \(result)")
             if result.statusCode == 200 {
                 guard let resultJson: JSON = try? JSON.init(data: result.data) else { return .failure(.init(.invaldData))}
                 let bannerItems: [BannerInfo] = {

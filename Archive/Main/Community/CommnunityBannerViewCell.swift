@@ -6,37 +6,34 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CommnunityBannerViewCell: ArchiveBannerViewCell, ClassIdentifiable {
     // MARK: UI property
     
-    let mainContentsView = UIView().then {
+    private let mainContentsView = UIView().then {
         $0.backgroundColor = Gen.Colors.white.color
     }
+    
+    private let summeryImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
     
     // MARK: private property
     
     // MARK: internal property
     
-//    var infoData: InfoData? {
-//        didSet {
-//            guard let emotion = self.infoData?.emotion else { return }
-//            guard let isSelected = self.infoData?.isSelected else { return }
-//            guard let isAllItem = self.infoData?.isAllItem else { return }
-//            if isSelected {
-//                self.refreshSelectedUI(emotion, isAllSeletedCell: isAllItem)
-//            } else {
-//                self.refreshUnselectedUI(emotion, isAllSeletedCell: isAllItem)
-//            }
-//            if isAllItem {
-//                self.emotionNameLabel.text = "전체"
-//                self.emotionImageView.image = Gen.Images.filterAll.image
-//            } else {
-//                self.emotionNameLabel.text = emotion.localizationTitle
-//                self.emotionImageView.image = emotion.filterImage
-//            }
-//        }
-//    }
+    var infoData: BannerInfo? {
+        didSet {
+            guard let info = self.infoData else { return }
+            DispatchQueue.main.async { [weak self] in
+                if let imageUrl = URL(string: info.summaryImageUrl) {
+                    self?.summeryImageView.kf.setImage(with: imageUrl)
+                }
+            }
+        }
+    }
     
     // MARK: lifeCycle
     
@@ -56,6 +53,11 @@ class CommnunityBannerViewCell: ArchiveBannerViewCell, ClassIdentifiable {
         self.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
             $0.edges.equalTo(self.snp.edges)
+        }
+        
+        self.mainContentsView.addSubview(self.summeryImageView)
+        self.summeryImageView.snp.makeConstraints {
+            $0.edges.equalTo(self.mainContentsView.snp.edges)
         }
         
     }

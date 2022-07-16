@@ -59,7 +59,6 @@ class ArchiveBannerView: UIView {
     var layout: UICollectionViewLayout = UICollectionViewLayout() {
         didSet {
             self.collectionView.collectionViewLayout = layout
-            self.onceMoveWidth = self.bounds.width
         }
     }
     
@@ -86,6 +85,9 @@ class ArchiveBannerView: UIView {
         }
     }
     
+    var onceMoveWidth: CGFloat = UIScreen.main.bounds.width // TODO: 나중에 의미 있게 만들자.
+    var isFirstLoad: Bool = false // 이 뷰가 데이터가 셋 되고 처음 로드되었는지를 나타낸다. 진짜 인덱스를 1번으로 바꾸기위해 필요함.
+    
     // MARK: private Property
     
     fileprivate var numberOfItems: UInt = 0
@@ -95,7 +97,6 @@ class ArchiveBannerView: UIView {
             self.pageControl.currentPage = self.currentPage
         }
     }
-    private lazy var onceMoveWidth: CGFloat = 0 // TODO: 나중에 의미 있게 만들자.
     private var timer: Timer?
     
     // MARK: lifeCycle
@@ -181,6 +182,10 @@ extension ArchiveBannerView: UICollectionViewDelegate {
         self.delegate?.pagerView?(self, didSelectItemAt: self.currentPage)
     }
     
+    func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath) {
+        
+    }
+    
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         if self.isAutoScrolling {
             self.timer?.invalidate()
@@ -217,6 +222,13 @@ extension ArchiveBannerView: UICollectionViewDataSource {
             cell = ds.ArchiveBannerView(self, cellForItemAt: UInt(indexPath.item - 1))
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.item == 0 && self.isFirstLoad {
+            self.isFirstLoad = false
+            self.movePage(page: 0, animated: false)
+        }
     }
     
 }
@@ -273,10 +285,17 @@ extension Reactive where Base == ArchiveBannerView {
                         }
                         return items
                     }()
-                    base.numberOfItems = UInt(items.count - 2)
+                    if items.count == 0 {
+                        base.numberOfItems = 0
+                    } else if items.count == 1 {
+                        base.numberOfItems = 1
+                    } else {
+                        base.numberOfItems = UInt(items.count - 2)
+                    }
                     DispatchQueue.main.async {
                         base.pageControl.numberOfPages = items.count - 2
                     }
+                    base.isFirstLoad = true
                     return items
                 }
             return self.base.collectionView.rx.items(

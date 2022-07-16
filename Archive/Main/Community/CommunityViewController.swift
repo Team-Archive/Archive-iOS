@@ -61,6 +61,15 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     
     private lazy var bannerView = ArchiveBannerView().then {
         $0.backgroundColor = Gen.Colors.white.color
+        $0.onceMoveWidth = UIScreen.main.bounds.width
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.topContentsContainerViewHeight)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.layout = layout
+        $0.isAutoScrolling = true
     }
     
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
@@ -110,6 +119,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
         setupDatasource()
         self.bannerView.register(CommnunityBannerViewCell.self, forCellWithReuseIdentifier: CommnunityBannerViewCell.identifier)
+        self.reactor?.action.onNext(.getBannerInfo)
     }
     
     init(reactor: CommunityReactor) {
@@ -205,6 +215,21 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver()
             .drive(onNext: { [weak self] index in
                 reactor.action.onNext(.showDetail(index: index.item))
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.bannerInfo }
+            .distinctUntilChanged()
+            .bind(to: self.bannerView.rx.items(cellIdentifier: CommnunityBannerViewCell.identifier,
+                                               cellType: CommnunityBannerViewCell.self)) { item, element, cell in
+                cell.infoData = element
+            }
+            .disposed(by: self.disposeBag)
+        
+        self.bannerView.rx.didSelectedItem
+            .subscribe(onNext: { [weak self] didSelected in
+                print("didSelected: \(didSelected)")
             })
             .disposed(by: self.disposeBag)
         

@@ -57,6 +57,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case showBeforePage
         case showNextUser
         case showBeforeUser
+        case getBannerInfo
     }
     
     enum Mutation {
@@ -68,6 +69,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setCurrentDetailUserNickName(String)
         case setCurrentDetailUserImage(String)
         case setDetailsIsLike(Bool)
+        case setBannerInfo([BannerInfo])
     }
     
     struct State {
@@ -82,6 +84,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         var detailIsLike: Bool = false
         var archiveTimeSortBy: ArchiveSortType = .sortByRegist
         var archiveEmotionSortBy: Emotion?
+        var bannerInfo: [BannerInfo] = []
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -196,6 +199,17 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return getNextUserDetail()
         case .showBeforeUser:
             return getBeforeUserDetail()
+        case .getBannerInfo:
+            return self.getBannerInfo()
+                .map { result in
+                    switch result {
+                    case .success(let info):
+                        return .setBannerInfo(info)
+                    case .failure(let err):
+                        print("배너 불러오기 오류: \(err)")
+                        return .empty
+                    }
+                }
         }
     }
     
@@ -218,6 +232,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.currentDetailUserNickName = nickName
         case .setDetailsIsLike(let isLike):
             newState.detailIsLike = isLike
+        case .setBannerInfo(let info):
+            newState.bannerInfo = info
         }
         return newState
     }
@@ -278,7 +294,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private func getNextUserDetail() -> Observable<Mutation> {
         ImageCache.default.clearCache()
         if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
-            print("얍")
             return self.getPublicArchives(sortBy: self.publicArchiveSortBy, emotion: self.filterEmotion)
                 .map { [weak self] result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
@@ -332,6 +347,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
         }
+    }
+    
+    private func getBannerInfo() -> Observable<Result<[BannerInfo], ArchiveError>> {
+        return self.bannerUsecase.getBanner()
     }
     
     // MARK: internal function
