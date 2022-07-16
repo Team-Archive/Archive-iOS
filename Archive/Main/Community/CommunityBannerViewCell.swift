@@ -1,5 +1,5 @@
 //
-//  CommnunityBannerViewCell.swift
+//  CommunityBannerViewCell.swift
 //  Archive
 //
 //  Created by hanwe on 2022/07/16.
@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-class CommnunityBannerViewCell: ArchiveBannerViewCell, ClassIdentifiable {
+class CommunityBannerViewCell: ArchiveBannerViewCell, ClassIdentifiable {
     // MARK: UI property
     
     private let mainContentsView = UIView().then {

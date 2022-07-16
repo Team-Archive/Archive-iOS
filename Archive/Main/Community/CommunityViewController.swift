@@ -118,7 +118,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
         self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
         setupDatasource()
-        self.bannerView.register(CommnunityBannerViewCell.self, forCellWithReuseIdentifier: CommnunityBannerViewCell.identifier)
+        self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)
     }
     
@@ -221,8 +221,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         reactor.state
             .map { $0.bannerInfo }
             .distinctUntilChanged()
-            .bind(to: self.bannerView.rx.items(cellIdentifier: CommnunityBannerViewCell.identifier,
-                                               cellType: CommnunityBannerViewCell.self)) { item, element, cell in
+            .bind(to: self.bannerView.rx.items(cellIdentifier: CommunityBannerViewCell.identifier,
+                                               cellType: CommunityBannerViewCell.self)) { item, element, cell in
                 cell.infoData = element
             }
             .disposed(by: self.disposeBag)
