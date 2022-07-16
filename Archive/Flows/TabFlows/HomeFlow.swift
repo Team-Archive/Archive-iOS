@@ -61,8 +61,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }
         switch step {
-        case .homeIsRequired:
-            return navigationToHomeScreen()
         case .detailIsRequired(let info, let index):
             GAModule.sendEventLogToGA(.showDetail)
             return navigationToDetailScreen(infoData: info, index: index)
@@ -77,19 +75,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         default:
             return .none
         }
-    }
-    
-    private func navigationToHomeScreen() -> FlowContributors {
-        
-        let reactor = HomeReactor()
-        let homeViewController: HomeViewController = homeStoryBoard.instantiateViewController(identifier: HomeViewController.identifier) { corder in
-            return HomeViewController(coder: corder, reactor: reactor)
-        }
-        homeViewController.title = Constants.HomeNavigationTitle
-        self.homeViewControllerPtr = homeViewController
-        rootViewController?.pushViewController(homeViewController, animated: false)
-        
-        return .one(flowContributor: .contribute(withNextPresentable: homeViewController, withNextStepper: reactor, allowStepWhenNotPresented: false, allowStepWhenDismissed: false))
     }
     
     private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int) -> FlowContributors {
