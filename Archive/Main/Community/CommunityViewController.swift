@@ -228,8 +228,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .disposed(by: self.disposeBag)
         
         self.bannerView.rx.didSelectedItem
-            .subscribe(onNext: { [weak self] didSelected in
-                print("didSelected: \(didSelected)")
+            .subscribe(onNext: { [weak self] selectedIndex in
+                reactor.action.onNext(.bannerClicked(index: selectedIndex))
             })
             .disposed(by: self.disposeBag)
         

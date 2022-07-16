@@ -58,6 +58,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case showNextUser
         case showBeforeUser
         case getBannerInfo
+        case bannerClicked(index: Int)
     }
     
     enum Mutation {
@@ -210,6 +211,11 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                         return .empty
                     }
                 }
+        case .bannerClicked(let index):
+            guard let urlStr = self.currentState.bannerInfo[index].contentsImageUrl else { return .empty() }
+            guard let url = URL(string: urlStr) else { return .empty() }
+            self.steps.accept(ArchiveStep.bannerImageIsRequired(imageUrl: url))
+            return .empty()
         }
     }
     

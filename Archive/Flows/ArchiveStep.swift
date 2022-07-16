@@ -68,4 +68,7 @@ enum ArchiveStep: Step {
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)
     
+    // 기타 등등
+    case bannerImageIsRequired(imageUrl: URL)
+    case bannerUrlIsRequired(url: URL)
 }

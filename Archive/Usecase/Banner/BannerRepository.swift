@@ -14,7 +14,7 @@ protocol BannerRepository {
 struct BannerInfo: CodableWrapper {
     typealias selfType = BannerInfo
     
-    let contentsImageUrl: String
+    let contentsImageUrl: String?
     let summaryImageUrl: String
     
     enum CodingKeys: String, CodingKey {

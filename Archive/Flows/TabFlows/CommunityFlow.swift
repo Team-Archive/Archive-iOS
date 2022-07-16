@@ -34,6 +34,13 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
+    private func navigationToBannerImageDetail(url: URL) {
+        let vc = FullImageViewController(url: url)
+        let navi = UINavigationController(rootViewController: vc)
+        navi.modalPresentationStyle = .fullScreen
+        self.rootViewController?.present(navi, animated: true)
+    }
+    
     // MARK: internal function
     
     func makeNavigationItems() {
@@ -45,6 +52,12 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         switch step {
         case .communityDetailIsRequired(let data, let index, let reactor):
             navigationToDetailScreen(infoData: data, index: index, reactor: reactor)
+            return .none
+        case .bannerImageIsRequired(let imageUrl):
+            navigationToBannerImageDetail(url: imageUrl)
+            return .none
+        case .bannerUrlIsRequired(let url):
+            // 언젠간 구현
             return .none
         default:
             return .none
