@@ -81,6 +81,12 @@
 		782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF49272CFB6E004D1B6E /* PhotoFromAlbumModel.swift */; };
 		782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF4A272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift */; };
 		782FDF56272D1D70004D1B6E /* ActivityIndicatorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF55272D1D70004D1B6E /* ActivityIndicatorable.swift */; };
+		7830103528829FDB0031F8CB /* ArchiveBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830103428829FDB0031F8CB /* ArchiveBannerView.swift */; };
+		783010372882A1670031F8CB /* CommnunityBannerViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783010362882A1670031F8CB /* CommnunityBannerViewCell.swift */; };
+		7830103A2882A2850031F8CB /* BannerUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783010392882A2850031F8CB /* BannerUsecase.swift */; };
+		7830103C2882A28F0031F8CB /* BannerRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830103B2882A28F0031F8CB /* BannerRepository.swift */; };
+		7830103E2882A2980031F8CB /* BannerRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830103D2882A2980031F8CB /* BannerRepositoryImplement.swift */; };
+		783010422882D8490031F8CB /* FullImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783010412882D8490031F8CB /* FullImageViewController.swift */; };
 		78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */; };
 		78315E722764EC38001B3342 /* Upload.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E712764EC38001B3342 /* Upload.json */; };
 		78315E742764F2E6001B3342 /* SignUp.json in Resources */ = {isa = PBXBuildFile; fileRef = 78315E732764F2E6001B3342 /* SignUp.json */; };
@@ -300,6 +306,12 @@
 		782FDF49272CFB6E004D1B6E /* PhotoFromAlbumModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFromAlbumModel.swift; sourceTree = "<group>"; };
 		782FDF4A272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HWPhotoListFromAlbumView.swift; sourceTree = "<group>"; };
 		782FDF55272D1D70004D1B6E /* ActivityIndicatorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorable.swift; sourceTree = "<group>"; };
+		7830103428829FDB0031F8CB /* ArchiveBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveBannerView.swift; sourceTree = "<group>"; };
+		783010362882A1670031F8CB /* CommnunityBannerViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommnunityBannerViewCell.swift; sourceTree = "<group>"; };
+		783010392882A2850031F8CB /* BannerUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerUsecase.swift; sourceTree = "<group>"; };
+		7830103B2882A28F0031F8CB /* BannerRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerRepository.swift; sourceTree = "<group>"; };
+		7830103D2882A2980031F8CB /* BannerRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerRepositoryImplement.swift; sourceTree = "<group>"; };
+		783010412882D8490031F8CB /* FullImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullImageViewController.swift; sourceTree = "<group>"; };
 		78315E6C2764AA12001B3342 /* CommonViewControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonViewControllerProtocol.swift; sourceTree = "<group>"; };
 		78315E712764EC38001B3342 /* Upload.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Upload.json; sourceTree = "<group>"; };
 		78315E732764F2E6001B3342 /* SignUp.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SignUp.json; sourceTree = "<group>"; };
@@ -551,6 +563,7 @@
 				789E6195272554E400D6E18F /* Record */,
 				78A32162275B91180078650D /* Detail */,
 				781C8445282F8B6E004A0FB3 /* Splash */,
+				7830103F2882D81D0031F8CB /* ETC */,
 				44F9B0E0270606E7005418F0 /* AppDelegate.swift */,
 				44F9B0E2270606E7005418F0 /* SceneDelegate.swift */,
 				44F9B0EB270606EE005418F0 /* LaunchScreen.storyboard */,
@@ -668,6 +681,7 @@
 				78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */,
 				78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */,
 				783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */,
+				783010362882A1670031F8CB /* CommnunityBannerViewCell.swift */,
 			);
 			path = Community;
 			sourceTree = "<group>";
@@ -769,9 +783,36 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		783010382882A27D0031F8CB /* Banner */ = {
+			isa = PBXGroup;
+			children = (
+				783010392882A2850031F8CB /* BannerUsecase.swift */,
+				7830103B2882A28F0031F8CB /* BannerRepository.swift */,
+				7830103D2882A2980031F8CB /* BannerRepositoryImplement.swift */,
+			);
+			path = Banner;
+			sourceTree = "<group>";
+		};
+		7830103F2882D81D0031F8CB /* ETC */ = {
+			isa = PBXGroup;
+			children = (
+				783010402882D8410031F8CB /* FullImageViewController */,
+			);
+			path = ETC;
+			sourceTree = "<group>";
+		};
+		783010402882D8410031F8CB /* FullImageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				783010412882D8490031F8CB /* FullImageViewController.swift */,
+			);
+			path = FullImageViewController;
+			sourceTree = "<group>";
+		};
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				783010382882A27D0031F8CB /* Banner */,
 				78A96A1E2868A85200B8DF2F /* Detail */,
 				78E8E63A2867399000B18AD8 /* Like */,
 				78E8E62D2866D6C500B18AD8 /* Community */,
@@ -885,6 +926,7 @@
 				78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */,
 				786A3EE52871E67D00A35112 /* RotatedTitleView.swift */,
 				78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */,
+				7830103428829FDB0031F8CB /* ArchiveBannerView.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1454,6 +1496,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */,
+				7830103A2882A2850031F8CB /* BannerUsecase.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
@@ -1466,6 +1509,7 @@
 				78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */,
 				782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */,
 				78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */,
+				7830103528829FDB0031F8CB /* ArchiveBannerView.swift in Sources */,
 				784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */,
 				78239830280C251F0071D874 /* LogInRepository.swift in Sources */,
 				78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */,
@@ -1489,10 +1533,12 @@
 				44FB0A09271832E9006E1048 /* OnboardingFlow.swift in Sources */,
 				78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */,
 				780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */,
+				7830103C2882A28F0031F8CB /* BannerRepository.swift in Sources */,
 				78D8A6762879CCF9002E8445 /* ArchiveFilterEmotionView.swift in Sources */,
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,
 				781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */,
+				7830103E2882A2980031F8CB /* BannerRepositoryImplement.swift in Sources */,
 				78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */,
 				78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */,
 				44FB09FB27183269006E1048 /* ArchiveStep.swift in Sources */,
@@ -1591,6 +1637,7 @@
 				78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */,
 				78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */,
 				783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */,
+				783010372882A1670031F8CB /* CommnunityBannerViewCell.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
 				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
@@ -1609,6 +1656,7 @@
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,
 				781C842E282F621A004A0FB3 /* HomeFlow.swift in Sources */,
+				783010422882D8490031F8CB /* FullImageViewController.swift in Sources */,
 				44FB0A1C27183C9C006E1048 /* SignUpCompletionViewController.swift in Sources */,
 				7821232D273F894B007DEC28 /* RecordUploadCompleteViewController.swift in Sources */,
 				78958E112712A04B003FF724 /* FontDefine.swift in Sources */,

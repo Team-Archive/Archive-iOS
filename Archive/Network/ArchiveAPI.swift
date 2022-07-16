@@ -25,6 +25,7 @@ enum ArchiveAPI {
     case getPublicArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
     case like(archiveId: Int)
     case unlike(archiveId: Int)
+    case getBanner
 }
         
 extension ArchiveAPI: TargetType {
@@ -38,7 +39,7 @@ extension ArchiveAPI: TargetType {
         }
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -81,6 +82,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v2/archive/\(archiveId)/like"
         case .unlike(let archiveId):
             return "/api/v2/archive/\(archiveId)/like"
+        case .getBanner:
+            return "/api/v2/banner"
         }
     }
     
@@ -120,6 +123,8 @@ extension ArchiveAPI: TargetType {
             return .post
         case .unlike:
             return .delete
+        case .getBanner:
+            return .get
         }
     }
     
@@ -176,6 +181,8 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .unlike:
             return .requestPlain
+        case .getBanner:
+            return .requestPlain
         }
     }
     
@@ -218,6 +225,8 @@ extension ArchiveAPI: TargetType {
         case .like:
             return ["Authorization": LogInManager.shared.getLogInToken()]
         case .unlike:
+            return ["Authorization": LogInManager.shared.getLogInToken()]
+        case .getBanner:
             return ["Authorization": LogInManager.shared.getLogInToken()]
         }
     }
