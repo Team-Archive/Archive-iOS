@@ -217,7 +217,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             guard let url = URL(string: urlStr) else { return .empty() }
             switch item.type {
             case .url:
-                break
+                self.steps.accept(ArchiveStep.bannerUrlIsRequired(url: url))
             case .image:
                 self.steps.accept(ArchiveStep.bannerImageIsRequired(imageUrl: url))
             }

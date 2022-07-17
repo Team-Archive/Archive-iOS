@@ -41,6 +41,13 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
+    private func navigationToBannerWebViewDetail(url: URL) {
+        let vc = CommonWebViewController(url: url, title: "")
+        let navi = UINavigationController(rootViewController: vc)
+        navi.modalPresentationStyle = .fullScreen
+        self.rootViewController?.present(navi, animated: true)
+    }
+    
     // MARK: internal function
     
     func makeNavigationItems() {
@@ -57,7 +64,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
             navigationToBannerImageDetail(url: imageUrl)
             return .none
         case .bannerUrlIsRequired(let url):
-            // 언젠간 구현
+            navigationToBannerWebViewDetail(url: url)
             return .none
         default:
             return .none
