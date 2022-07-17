@@ -126,7 +126,6 @@
 		78599DD9276375C2003FD959 /* TicketDescriptionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD1276375C2003FD959 /* TicketDescriptionContentView.swift */; };
 		78599DDA276375C2003FD959 /* HomeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD2276375C2003FD959 /* HomeReactor.swift */; };
 		78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD3276375C2003FD959 /* TicketCollectionViewCellModel.swift */; };
-		78599DE8276381A9003FD959 /* ArchiveInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DE7276381A9003FD959 /* ArchiveInfo.swift */; };
 		78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DE927638221003FD959 /* HomeShimmerView.swift */; };
 		78599DED27638241003FD959 /* HomeShimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78599DEC27638241003FD959 /* HomeShimmerView.xib */; };
 		785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */; };
@@ -355,7 +354,6 @@
 		78599DD1276375C2003FD959 /* TicketDescriptionContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketDescriptionContentView.swift; sourceTree = "<group>"; };
 		78599DD2276375C2003FD959 /* HomeReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeReactor.swift; sourceTree = "<group>"; };
 		78599DD3276375C2003FD959 /* TicketCollectionViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketCollectionViewCellModel.swift; sourceTree = "<group>"; };
-		78599DE7276381A9003FD959 /* ArchiveInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveInfo.swift; sourceTree = "<group>"; };
 		78599DE927638221003FD959 /* HomeShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeShimmerView.swift; sourceTree = "<group>"; };
 		78599DEC27638241003FD959 /* HomeShimmerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeShimmerView.xib; sourceTree = "<group>"; };
 		785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
@@ -959,7 +957,6 @@
 				78599DCE276375C2003FD959 /* TicketCollectionViewCell.swift */,
 				78599DD3276375C2003FD959 /* TicketCollectionViewCellModel.swift */,
 				78599DD1276375C2003FD959 /* TicketDescriptionContentView.swift */,
-				78599DE7276381A9003FD959 /* ArchiveInfo.swift */,
 				78599DE927638221003FD959 /* HomeShimmerView.swift */,
 				78599DEC27638241003FD959 /* HomeShimmerView.xib */,
 			);
@@ -1639,7 +1636,6 @@
 				784CFFD8274BBB770052B1EC /* ArchiveAPI.swift in Sources */,
 				781C8437282F64F7004A0FB3 /* MyPageFlow.swift in Sources */,
 				78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */,
-				78599DE8276381A9003FD959 /* ArchiveInfo.swift in Sources */,
 				78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */,
 				78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */,
 				78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */,

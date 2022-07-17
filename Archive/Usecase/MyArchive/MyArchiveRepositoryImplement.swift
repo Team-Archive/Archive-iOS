@@ -22,18 +22,17 @@ class MyArchiveRepositoryImplement: MyArchiveRepository {
         .map { result in
             if result.statusCode == 200 {
                 guard let resultJson: JSON = try? JSON.init(data: result.data) else { return .failure(.init(.invaldData))}
-//                let result: [PublicArchive] = {
-//                    var returnValue: [PublicArchive] = []
-//                    for item in resultJson {
-//                        guard let data = try? item.1.rawData() else { continue }
-//                        if let newItem = PublicArchive.fromJson(jsonData: data) {
-//                            returnValue.append(newItem)
-//                        }
-//                    }
-//                    return returnValue
-//                }()
-//                return .success(result)
-                return .failure(.init(.archiveOAuthError))
+                let result: [ArchiveInfo] = {
+                    var returnValue: [ArchiveInfo] = []
+                    for item in resultJson {
+                        guard let data = try? item.1.rawData() else { continue }
+                        if let newItem = ArchiveInfo.fromJson(jsonData: data) {
+                            returnValue.append(newItem)
+                        }
+                    }
+                    return returnValue
+                }()
+                return .success(result)
             } else {
                 return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
             }

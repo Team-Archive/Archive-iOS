@@ -47,15 +47,14 @@ class MyArchiveUsecase: NSObject {
                 .flatMap { [weak self] result -> Observable<Result<[ArchiveInfo], ArchiveError>> in
                     switch result {
                     case .success(let archives):
-//                        if archives.count == 0 {
-//                            self?.isEndOfPage = true
-//                        } else {
-//                            self?.isEndOfPage = false
-//                        }
-//                        self?.setLastInfo(lastSeenArchiveDateMilli: archives.last?.dateMilli ?? 0,
-//                                                  lastSeenArchiveId: archives.last?.archiveId ?? 0)
-//                        return .just(.success(archives))
-                        return .just(.failure(.init(.archiveOAuthError)))
+                        if archives.count == 0 {
+                            self?.isEndOfPage = true
+                        } else {
+                            self?.isEndOfPage = false
+                        }
+                        self?.setLastInfo(lastSeenArchiveDateMilli: archives.last?.dateMilli ?? 0,
+                                          lastSeenArchiveId: archives.last?.archiveId ?? 0)
+                        return .just(.success(archives))
                     case .failure(let err):
                         return .just(.failure(err))
                     }
@@ -71,16 +70,14 @@ class MyArchiveUsecase: NSObject {
             .flatMap { [weak self] result -> Observable<Result<[ArchiveInfo], ArchiveError>> in
                 switch result {
                 case .success(let archives):
-//                    if archives.count == 0 {
-//                        self?.isEndOfPage = true
-//                    } else {
-//                        self?.isEndOfPage = false
-//                    }
-//                    self?.setLastInfo(lastSeenArchiveDateMilli: archives.last?.dateMilli ?? 0,
-//                                              lastSeenArchiveId: archives.last?.archiveId ?? 0)
-//                    return .just(.success(archives))
-                    
-                    return .just(.failure(.init(.archiveOAuthError)))
+                    if archives.count == 0 {
+                        self?.isEndOfPage = true
+                    } else {
+                        self?.isEndOfPage = false
+                    }
+                    self?.setLastInfo(lastSeenArchiveDateMilli: archives.last?.dateMilli ?? 0,
+                                              lastSeenArchiveId: archives.last?.archiveId ?? 0)
+                    return .just(.success(archives))
                 case .failure(let err):
                     return .just(.failure(err))
                 }

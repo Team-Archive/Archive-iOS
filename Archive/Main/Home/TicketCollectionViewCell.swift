@@ -53,18 +53,16 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         didSet {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
-                if let emotion: Emotion = Emotion.fromString(info.emotion) {
-                    self?.imageContentView.bgColor = emotion.color
-                    self?.coverImageView.image = emotion.coverAlphaImage
-                    self?.emotionImageView.image = emotion.preImage
-                    self?.emotionTitleLabel.text = emotion.localizationTitle
-                    self?.imageContentView.setNeedsDisplay()
-                }
-                self?.mainImageView.kf.setImage(with: URL(string: info.mainImage),
+                self?.imageContentView.bgColor = info.emotion.color
+                self?.coverImageView.image = info.emotion.coverAlphaImage
+                self?.emotionImageView.image = info.emotion.preImage
+                self?.emotionTitleLabel.text = info.emotion.localizationTitle
+                self?.imageContentView.setNeedsDisplay()
+                self?.mainImageView.kf.setImage(with: URL(string: info.mainImageUrl),
                                                       placeholder: nil,
                                                       options: [.cacheMemoryOnly],
                                                       completionHandler: nil)
-                self?.descriptionView.titleLabel.text = info.name
+                self?.descriptionView.titleLabel.text = info.archiveName
                 self?.descriptionView.dateLabel.text = info.watchedOn
             }
         }

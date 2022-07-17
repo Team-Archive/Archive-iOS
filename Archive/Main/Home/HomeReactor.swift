@@ -47,9 +47,9 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     enum Mutation {
+        case empty
         case setIsLoading(Bool)
         case setIsShimmering(Bool)
-        case setMyArchivesData(Data?)
         case setArchives([ArchiveInfo])
     }
     
@@ -70,26 +70,18 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .getMyArchives:
             return Observable.concat([
                 Observable.just(.setIsShimmering(true)),
-//                self.getArchives().map { [weak self] result in
-//                    switch result {
-//                    case .success(let data):
-//                        return .setMyArchivesData(data)
-//                    case .failure(let err):
-//                        print("err: \(err.localizedDescription)")
-//                        guard let code = (err as? MoyaError)?.response?.statusCode else { return .setMyArchivesData(nil) }
-//                        if code == 403 {
-//                            LogInManager.shared.logOut()
-//                            self?.steps.accept(ArchiveStep.logout)
-//                            return .setMyArchivesData(nil)
-//                        } else {
-//                            return .setMyArchivesData(nil)
-//                        }
-//                    }
-//                },
-                self.getArchives(sortBy: self.currentState.archiveTimeSortBy,
-                                 emotion: self.currentState.archiveEmotionSortBy).map { _ in
-                                     return .setArchives([])
-                                 },
+                self.getArchives(sortBy: self.currentState.archiveTimeSortBy, emotion: self.currentState.archiveEmotionSortBy).map { result in
+                    switch result {
+                    case .success(let info):
+                        return .setArchives(info)
+                    case .failure(let err):
+                        print("err: \(err)")
+                        // 이거 실패하면 로그아웃 처리하자 그냥... 그게 젤 안전할듯.. 안그러면 앱 지웠다 깔아야함
+                        LogInManager.shared.logOut()
+                        self.steps.accept(ArchiveStep.logout)
+                        return .empty
+                    }
+                },
                 Observable.just(.setIsShimmering(false))
             ])
         case .showMyArchives:
@@ -127,18 +119,12 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
+        case .empty:
+            break
         case .setIsShimmering(let isShimmering):
             newState.isShimmering = isShimmering
         case .setIsLoading(let isLoading):
             newState.isLoading = isLoading
-        case .setMyArchivesData(let data):
-            if let data = data {
-                let infosTuple = convertDataToArchivesInfos(data: data)
-                let infos = infosTuple.0
-                let infosTotalCount = infosTuple.1
-                self.archives = infos
-                newState.arvhivesCount = infosTotalCount
-            }
         case .setArchives(let archives):
             newState.archives = archives
         }
