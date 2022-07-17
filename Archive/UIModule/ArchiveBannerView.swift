@@ -98,6 +98,7 @@ class ArchiveBannerView: UIView {
         }
     }
     private var timer: Timer?
+    private var isShowHideAnimationPlaying: Bool = false
     
     // MARK: lifeCycle
     
@@ -159,6 +160,29 @@ class ArchiveBannerView: UIView {
         if self.pageControl.numberOfPages > 0 {
             self.collectionView.scrollToItem(at: IndexPath(item: Int(self.realCurrentPage + 1), section: 0), at: .left, animated: animated)
         }
+    }
+    
+    func hideWithAnimation() {
+        if !self.isShowHideAnimationPlaying && !self.isHidden {
+            self.isShowHideAnimationPlaying = true
+            self.fadeOut(duration: 0.1) { [weak self] in
+                self?.isHidden = true
+                self?.isShowHideAnimationPlaying = false
+            }
+        }
+    }
+    
+    func showWithAnimation() {
+        if !self.isShowHideAnimationPlaying && self.isHidden {
+            self.isShowHideAnimationPlaying = true
+            self.alpha = 0
+            self.isHidden = false
+            self.fadeIn(duration: 0.1, completeHandler: { [weak self] in
+                self?.isShowHideAnimationPlaying = false
+            })
+        }
+        
+
     }
     
 }

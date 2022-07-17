@@ -232,10 +232,14 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             })
             .disposed(by: self.disposeBag)
         
-        self.collectionView.rx.didScroll
+        self.collectionView.rx.contentOffset
             .asDriver()
-            .drive(onNext: { [weak self] test in
-                print("tesT: \(test)")
+            .drive(onNext: { [weak self] offset in
+                if offset.y > 0 {
+                    self?.bannerView.hideWithAnimation()
+                } else {
+                    self?.bannerView.showWithAnimation()
+                }
             })
             .disposed(by: self.disposeBag)
         
