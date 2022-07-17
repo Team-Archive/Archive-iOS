@@ -53,7 +53,7 @@ final class MainFlow: Flow {
     }
     
     private static func makeMainTabs() -> TabViewControllers {
-        let homeReactor: HomeReactor = HomeReactor()
+        let homeReactor: HomeReactor = HomeReactor(myArchiveRepository: MyArchiveRepositoryImplement())
         let homeViewController = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(identifier: HomeViewController.identifier) { coder in
             return HomeViewController(coder: coder, reactor: homeReactor)
         }

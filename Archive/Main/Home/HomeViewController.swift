@@ -35,7 +35,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     // MARK: private UI property
     
     private lazy var filterViewController = FilterViewController(timeSortBy: self.reactor?.currentState.archiveTimeSortBy ?? .sortByRegist,
-                                                                 emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
+     emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
     
     
     // MARK: private property
@@ -309,6 +309,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
 }
 
 extension HomeViewController: MajorTabViewController {
+    
     func willTabSeleted() {
         
     }
@@ -316,4 +317,9 @@ extension HomeViewController: MajorTabViewController {
     func didTabSeleted() {
         
     }
+    
+    func willUnselected() {
+        
+    }
+    
 }

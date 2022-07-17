@@ -130,11 +130,16 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
 }
 
 extension MyPageViewController: MajorTabViewController {
+    
     func willTabSeleted() {
 
     }
 
     func didTabSeleted() {
 
+    }
+    
+    func willUnselected() {
+        
     }
 }

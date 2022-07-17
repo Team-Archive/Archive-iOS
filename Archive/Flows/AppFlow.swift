@@ -36,10 +36,6 @@ final class AppFlow: Flow {
         switch step {
         case .splashIsRequired:
             return navigationToSplashScreen()
-//        case .onboardingIsRequired:
-//            return navigationToOnboardingScreen()
-//        case .mainIsRequired:
-//            return navigationToMainScreen()
         case .onboardingIsComplete:
             return navigationToMainScreen()
         case .logout:

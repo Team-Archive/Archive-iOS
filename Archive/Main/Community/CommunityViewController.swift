@@ -69,7 +69,6 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.topContentsContainerViewHeight)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.layout = layout
-        $0.isAutoScrolling = true
     }
     
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
@@ -116,9 +115,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
-        self.reactor?.action.onNext(.getPublicArchives(sortBy: .createdAt, emotion: nil))
+        self.reactor?.action.onNext(.getPublicArchives(sortBy: .sortByRegist, emotion: nil))
         setupDatasource()
-        self.bannerView.register(CommnunityBannerViewCell.self, forCellWithReuseIdentifier: CommnunityBannerViewCell.identifier)
+        self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)
     }
     
@@ -221,8 +220,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         reactor.state
             .map { $0.bannerInfo }
             .distinctUntilChanged()
-            .bind(to: self.bannerView.rx.items(cellIdentifier: CommnunityBannerViewCell.identifier,
-                                               cellType: CommnunityBannerViewCell.self)) { item, element, cell in
+            .bind(to: self.bannerView.rx.items(cellIdentifier: CommunityBannerViewCell.identifier,
+                                               cellType: CommunityBannerViewCell.self)) { item, element, cell in
                 cell.infoData = element
             }
             .disposed(by: self.disposeBag)
@@ -230,6 +229,17 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         self.bannerView.rx.didSelectedItem
             .subscribe(onNext: { [weak self] selectedIndex in
                 reactor.action.onNext(.bannerClicked(index: selectedIndex))
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.collectionView.rx.contentOffset
+            .asDriver()
+            .drive(onNext: { [weak self] offset in
+                if offset.y > 0 {
+                    self?.bannerView.hideWithAnimation()
+                } else {
+                    self?.bannerView.showWithAnimation()
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -290,11 +300,17 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
 }
 
 extension CommunityViewController: MajorTabViewController {
+    
     func willTabSeleted() {
         
     }
     
     func didTabSeleted() {
-        
+        self.bannerView.isAutoScrolling = true
     }
+    
+    func willUnselected() {
+        self.bannerView.isAutoScrolling = false
+    }
+    
 }

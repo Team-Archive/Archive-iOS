@@ -26,8 +26,22 @@ class MainTabBarViewController: UITabBarController, View {
     private(set) var currentTab: Tab = .none {
         didSet {
             self.reactor?.action.onNext(.moveTo(currentTab))
+            switch currentTab {
+            case .none:
+                self.currentSelectedMajorTabViewController = nil
+            case .home:
+                self.currentSelectedMajorTabViewController = self.tabViewControllers?.homeViewController
+            case .record:
+                break
+            case .community:
+                self.currentSelectedMajorTabViewController = self.tabViewControllers?.communityViewController
+            case .myPage:
+                self.currentSelectedMajorTabViewController = self.tabViewControllers?.myPageViewController
+            }
         }
     }
+    
+    weak var currentSelectedMajorTabViewController: MajorTabViewController?
     
     // MARK: lifeCycle
     
@@ -87,6 +101,7 @@ class MainTabBarViewController: UITabBarController, View {
 extension MainTabBarViewController: UITabBarControllerDelegate {
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        self.currentSelectedMajorTabViewController?.willUnselected()
         switch viewController {
         case self.tabViewControllers?.homeViewController:
             self.tabViewControllers?.homeViewController.willTabSeleted()

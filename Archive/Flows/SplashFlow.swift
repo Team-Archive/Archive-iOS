@@ -53,7 +53,3 @@ final class SplashFlow: Flow {
     }
 
 }
-//            return .mainIsRequired
-//        } else {
-//            print("로그인 안됨")
-//            return ArchiveStep.onboardingIsRequired

@@ -29,9 +29,10 @@ class TabViewControllers {
     }
 }
 
-protocol MajorTabViewController {
+protocol MajorTabViewController where Self: UIViewController {
     func willTabSeleted()
     func didTabSeleted()
+    func willUnselected()
 }
 
 enum Tab {
