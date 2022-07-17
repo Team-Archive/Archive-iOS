@@ -212,9 +212,15 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     }
                 }
         case .bannerClicked(let index):
-            guard let urlStr = self.currentState.bannerInfo[index].contentsImageUrl else { return .empty() }
+            let item = self.currentState.bannerInfo[index]
+            guard let urlStr = item.mainContentUrl else { return .empty() }
             guard let url = URL(string: urlStr) else { return .empty() }
-            self.steps.accept(ArchiveStep.bannerImageIsRequired(imageUrl: url))
+            switch item.type {
+            case .url:
+                break
+            case .image:
+                self.steps.accept(ArchiveStep.bannerImageIsRequired(imageUrl: url))
+            }
             return .empty()
         }
     }
