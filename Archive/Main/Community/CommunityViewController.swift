@@ -293,7 +293,11 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
         })
         self.filterViewController.rx.selected
             .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
-                print("test: \(sortBy) \(emotion) \(isAllSelected)")
+                if isAllSelected {
+                    self?.reactor?.action.onNext(.getPublicArchives(sortBy: sortBy, emotion: nil))
+                } else {
+                    self?.reactor?.action.onNext(.getPublicArchives(sortBy: sortBy, emotion: emotion))
+                }
             })
             .disposed(by: self.disposeBag)
     }

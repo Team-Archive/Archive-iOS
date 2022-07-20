@@ -238,6 +238,7 @@ class FilterViewController: UIViewController {
                                            emotion: .fun,
                                            isAllEmotionSelected: true)
         }
+        close()
     }
     
     // MARK: internal function
