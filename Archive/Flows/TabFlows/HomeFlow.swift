@@ -137,7 +137,7 @@ extension HomeFlow: CommonViewControllerProtocol, DetailViewControllerDelegate {
     }
     
     func deletedArchive() {
-        self.homeViewControllerPtr?.reactor?.action.onNext(.getMyArchives)
+        self.homeViewControllerPtr?.reactor?.action.onNext(.refreshMyArchives)
     }
     
     func closed(from: UIViewController) {
