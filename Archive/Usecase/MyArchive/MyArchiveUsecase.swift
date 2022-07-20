@@ -35,7 +35,7 @@ class MyArchiveUsecase: NSObject {
     
     // MARK: internal function
     
-    func getArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[ArchiveInfo], ArchiveError>> { // 호출할때마다 조건이 변하지 않으면 페이징처리된 데이터가 내려온다.
+    func getArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> { // 호출할때마다 조건이 변하지 않으면 페이징처리된 데이터가 내려온다.
         if sortBy == self.currentSortBy && emotion == self.currentEmotion {
             if self.isEndOfPage { // 페이지의 끝이면
                 return .just(.failure(.init(.publicArchiveIsEndOfPage)))
@@ -44,16 +44,16 @@ class MyArchiveUsecase: NSObject {
                                                          emotion: emotion,
                                                          lastSeenArchiveDateMilli: self.lastSeenArchiveDateMilli,
                                                          lastSeenArchiveId: self.lastSeenArchiveId)
-                .flatMap { [weak self] result -> Observable<Result<[ArchiveInfo], ArchiveError>> in
+                .flatMap { [weak self] result -> Observable<Result<ArchiveInfoFull, ArchiveError>> in
                     switch result {
                     case .success(let archives):
-                        if archives.count == 0 {
+                        if archives.archiveInfoList.count == 0 {
                             self?.isEndOfPage = true
                         } else {
                             self?.isEndOfPage = false
                         }
-                        self?.setLastInfo(lastSeenArchiveDateMilli: archives.last?.dateMilli ?? 0,
-                                          lastSeenArchiveId: archives.last?.archiveId ?? 0)
+                        self?.setLastInfo(lastSeenArchiveDateMilli: archives.archiveInfoList.last?.dateMilli ?? 0,
+                                          lastSeenArchiveId: archives.archiveInfoList.last?.archiveId ?? 0)
                         return .just(.success(archives))
                     case .failure(let err):
                         return .just(.failure(err))
@@ -67,16 +67,16 @@ class MyArchiveUsecase: NSObject {
                                                      emotion: emotion,
                                                      lastSeenArchiveDateMilli: nil,
                                                      lastSeenArchiveId: nil)
-            .flatMap { [weak self] result -> Observable<Result<[ArchiveInfo], ArchiveError>> in
+            .flatMap { [weak self] result -> Observable<Result<ArchiveInfoFull, ArchiveError>> in
                 switch result {
                 case .success(let archives):
-                    if archives.count == 0 {
+                    if archives.archiveInfoList.count == 0 {
                         self?.isEndOfPage = true
                     } else {
                         self?.isEndOfPage = false
                     }
-                    self?.setLastInfo(lastSeenArchiveDateMilli: archives.last?.dateMilli ?? 0,
-                                              lastSeenArchiveId: archives.last?.archiveId ?? 0)
+                    self?.setLastInfo(lastSeenArchiveDateMilli: archives.archiveInfoList.last?.dateMilli ?? 0,
+                                      lastSeenArchiveId: archives.archiveInfoList.last?.archiveId ?? 0)
                     return .just(.success(archives))
                 case .failure(let err):
                     return .just(.failure(err))

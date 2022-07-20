@@ -68,7 +68,7 @@ final class TicketDescriptionContentView: UIView {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(self.snp.top).offset(14)
             $0.leading.equalTo(self.snp.leading).offset(20)
-            $0.trailing.equalTo(self.snp.trailing).offset(20)
+            $0.trailing.equalTo(self.snp.trailing).offset(-20)
         }
         
         self.addSubview(dateLabel)

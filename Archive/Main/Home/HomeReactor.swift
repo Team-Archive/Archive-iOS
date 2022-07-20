@@ -43,6 +43,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setArchives([ArchiveInfo])
         case setCurrentArchiveTimeSortBy(ArchiveSortType)
         case setCurrentArchiveEmotionSortBy(Emotion?)
+        case setArvhivesCount(Int)
     }
     
     struct State {
@@ -62,7 +63,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .getMyArchives(let sortType, let emotion):
             return Observable.concat([
                 Observable.just(.setIsShimmering(true)),
-                self.getArchives(sortBy: sortType, emotion: emotion).map { result -> Result<[ArchiveInfo], ArchiveError> in
+                self.getArchives(sortBy: sortType, emotion: emotion).map { result -> Result<ArchiveInfoFull, ArchiveError> in
                     switch result {
                     case .success(let info):
                         return .success(info)
@@ -72,7 +73,11 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
                 }.flatMap { [weak self] result -> Observable<Mutation> in
                     switch result {
                     case .success(let info):
-                        return .from([.setArchives(info)])
+                        return .from([.setArchives(info.archiveInfoList),
+                                      .setArvhivesCount(info.totalCount),
+                                      .setCurrentArchiveTimeSortBy(sortType),
+                                      .setCurrentArchiveEmotionSortBy(emotion)
+                                     ])
                     case .failure(let err):
                         print("err: \(err)")
                         // 이거 실패하면 로그아웃 처리하자 그냥... 그게 젤 안전할듯.. 안그러면 앱 지웠다 깔아야함
@@ -87,13 +92,22 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
             return Observable.concat([
                 Observable.just(.setIsShimmering(true)),
                 self.getArchives(sortBy: self.currentState.currentArchiveTimeSortBy,
-                                 emotion: self.currentState.currentArchiveEmotionSortBy).map { result in
+                                 emotion: self.currentState.currentArchiveEmotionSortBy).map { result -> Result<ArchiveInfoFull, ArchiveError> in
                     switch result {
                     case .success(let info):
-                        return .setArchives(info)
+                        return .success(info)
+                    case .failure(let err):
+                        return .failure(err)
+                    }
+                }.flatMap { result -> Observable<Mutation> in
+                    switch result {
+                    case .success(let info):
+                        return .from([.setArchives(info.archiveInfoList),
+                                      .setArvhivesCount(info.totalCount)
+                                     ])
                     case .failure(let err):
                         print("err: \(err)")
-                        return .empty
+                        return .empty()
                     }
                 },
                 Observable.just(.setIsShimmering(false))
@@ -129,13 +143,15 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.currentArchiveTimeSortBy = type
         case .setCurrentArchiveEmotionSortBy(let emotion):
             newState.currentArchiveEmotionSortBy = emotion
+        case .setArvhivesCount(let count):
+            newState.arvhivesCount = count
         }
         return newState
     }
     
     // MARK: private function
     
-    private func getArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[ArchiveInfo], ArchiveError>> {
+    private func getArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
         return self.usecase.getArchives(sortBy: sortBy,
                                         emotion: emotion)
     }

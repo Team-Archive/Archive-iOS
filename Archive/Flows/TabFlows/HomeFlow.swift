@@ -98,9 +98,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     
     private func navigationToMyPageScreen() -> FlowContributors {
         let reactor = MyPageReactor()
-//        let myPageViewController: MyPageViewController = myPageStoryBoard.instantiateViewController(identifier: MyPageViewController.identifier) { corder in
-//            return MyPageViewController(coder: corder, reactor: reactor)
-//        }
         let myPageViewController = MyPageViewController(reactor: reactor)
         rootViewController?.pushViewController(myPageViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: myPageViewController,
