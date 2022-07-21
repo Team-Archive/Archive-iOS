@@ -74,7 +74,7 @@ class ArchiveBannerView: UIView {
         }
     }
     
-    var autoScrollingTimeInterval: TimeInterval = 3.5
+    var autoScrollingTimeInterval: TimeInterval = 4.5
     var isHiddenPageControl: Bool = false {
         didSet {
             if self.isHiddenPageControl {
@@ -88,6 +88,18 @@ class ArchiveBannerView: UIView {
     var onceMoveWidth: CGFloat = UIScreen.main.bounds.width // TODO: 나중에 의미 있게 만들자.
     var isFirstLoad: Bool = false // 이 뷰가 데이터가 셋 되고 처음 로드되었는지를 나타낸다. 진짜 인덱스를 1번으로 바꾸기위해 필요함.
     
+    override var isHidden: Bool {
+        didSet {
+            if self.isHidden {
+                self.timer?.invalidate()
+                self.timer = nil
+            } else {
+                if self.isAutoScrolling {
+                    self.isAutoScrolling = true
+                }
+            }
+        }
+    }
     // MARK: private Property
     
     fileprivate var numberOfItems: UInt = 0

@@ -236,7 +236,14 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver()
             .drive(onNext: { [weak self] offset in
                 if offset.y > 0 {
-                    self?.bannerView.hideWithAnimation()
+                    let translation = self?.collectionView.panGestureRecognizer.translation(in: self?.collectionView.superview ?? UIScrollView())
+                    if translation?.y ?? 0 > 0 {
+                        if self?.bannerView.isHidden ?? false {
+                            self?.bannerView.showWithAnimation()
+                        }
+                    } else {
+                        self?.bannerView.hideWithAnimation()
+                    }
                 } else {
                     self?.bannerView.showWithAnimation()
                 }
