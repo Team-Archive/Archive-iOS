@@ -42,7 +42,7 @@ extension ArchiveSection: AnimatableSectionModelType {
     }
 }
 
-class CommunityViewController: UIViewController, View, ActivityIndicatorable {
+class CommunityViewController: UIViewController, View, ActivityIndicatorable, ActivityIndicatorableBasic {
     
     // MARK: UI property
     
@@ -181,9 +181,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] in
                 if $0 {
-                    self?.startIndicatorAnimating()
+                    self?.startBasicIndicatorAnimating()
                 } else {
-                    self?.stopIndicatorAnimating()
+                    self?.stopBasicIndicatorAnimating()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -246,6 +246,16 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
                     }
                 } else {
                     self?.bannerView.showWithAnimation()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.collectionView.rx.contentOffset
+            .asDriver()
+            .drive(onNext: { [weak self] offset in
+                if (offset.y > (self?.collectionView.contentSize.height ?? 1000000000000) - ((UIScreen.main.bounds.width * 1.08)*2)) &&
+                    offset.y > 1 {
+                    reactor.action.onNext(.getMorePublicArchives)
                 }
             })
             .disposed(by: self.disposeBag)

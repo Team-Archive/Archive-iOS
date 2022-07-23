@@ -24,7 +24,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private let bannerUsecase: BannerUsecase
     private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
-    private var ArchiveSortType: ArchiveSortType = .sortByRegist
+    private var archiveSortType: ArchiveSortType = .sortByRegist
     private var filterEmotion: Emotion?
     
     private(set) var currentDetailIndex: Int = 0
@@ -48,6 +48,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     enum Action {
         case endFlow
         case getPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?)
+        case getMorePublicArchives
         case like(archiveId: Int)
         case unlike(archiveId: Int)
         case refreshLikeData(index: Int, isLike: Bool)
@@ -71,6 +72,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setCurrentDetailUserImage(String)
         case setDetailsIsLike(Bool)
         case setBannerInfo([BannerInfo])
+        case appendArchives([PublicArchive])
     }
     
     struct State {
@@ -96,7 +98,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .getPublicArchives(sortBy: let sortBy, emotion: let emotion):
             return Observable.concat([
                 Observable.just(Mutation.setIsShimmerLoading(true)),
-                getPublicArchives(sortBy: sortBy, emotion: emotion)
+                getFirstPublicArchives(sortBy: sortBy, emotion: emotion)
                     .map { [weak self] result in
                         switch result {
                         case .success(let archiveInfo):
@@ -108,6 +110,29 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     },
                 Observable.just(Mutation.setIsShimmerLoading(false))
             ])
+        case .getMorePublicArchives:
+            if !self.usecase.isQuerying && !self.usecase.isEndOfPage {
+                return Observable.concat([
+                    Observable.just(Mutation.setIsLoading(true)),
+                    getMorePublicArchives()
+                        .map { [weak self] result in
+                            switch result {
+                            case .success(let archives):
+                                if (self?.currentState.archives.count ?? 0) == 0 {
+                                    return .empty
+                                } else {
+                                    return .appendArchives(archives)
+                                }
+                            case .failure(let err):
+                                self?.err.onNext(err)
+                                return .empty
+                            }
+                        },
+                    Observable.just(Mutation.setIsLoading(false))
+                ])
+            } else {
+                return .empty()
+            }
         case .like(archiveId: let archiveId):
             return self.like(archiveId: archiveId)
                 .map { [weak self] result in
@@ -246,14 +271,20 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.detailIsLike = isLike
         case .setBannerInfo(let info):
             newState.bannerInfo = info
+        case .appendArchives(let archives):
+            newState.archives = state.archives + archives
         }
         return newState
     }
     
     // MARK: private function
     
-    private func getPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
-        return self.usecase.getPublicArchives(sortBy: sortBy, emotion: emotion)
+    private func getFirstPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
+        return self.usecase.getFirstPublicArchives(sortBy: sortBy, emotion: emotion)
+    }
+    
+    private func getMorePublicArchives() -> Observable<Result<[PublicArchive], ArchiveError>> {
+        return self.usecase.getMorePublicArchives()
     }
     
     private func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
@@ -306,7 +337,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private func getNextUserDetail() -> Observable<Mutation> {
         ImageCache.default.clearCache()
         if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
-            return self.getPublicArchives(sortBy: self.ArchiveSortType, emotion: self.filterEmotion)
+            return self.getFirstPublicArchives(sortBy: self.archiveSortType, emotion: self.filterEmotion)
                 .map { [weak self] result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
                     case .success(let archives):
