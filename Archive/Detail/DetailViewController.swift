@@ -50,6 +50,10 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         initUI()
     }
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     init?(coder: NSCoder, reactor: DetailReactor) {
         super.init(coder: coder)
         self.reactor = reactor
@@ -162,10 +166,6 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
                 }
             })
             .disposed(by: self.disposeBag)
-    }
-    
-    deinit {
-        
     }
     
     // MARK: private function

@@ -30,7 +30,7 @@ class MyArchiveUsecase: NSObject {
     
     // MARK: private function
     
-    private func getPublicArchives(lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
+    private func getArchives(lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
         self.isQuerying = true
         return self.repository.getArchives(sortBy: self.currentSortBy,
                                            emotion: self.currentEmotion,
@@ -57,19 +57,28 @@ class MyArchiveUsecase: NSObject {
     
     // MARK: internal function
     
-    func getFirstPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
+    func getFirstArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
         self.currentSortBy = sortBy
         self.currentEmotion = emotion
         self.lastSeenArchiveDateMilli = nil
         self.lastSeenArchiveId = nil
         self.isEndOfPage = false
         self.isQuerying = false
-        return self.getPublicArchives(lastSeenArchiveDateMilli: self.lastSeenArchiveDateMilli, lastSeenArchiveId: self.lastSeenArchiveId)
+        return self.getArchives(lastSeenArchiveDateMilli: self.lastSeenArchiveDateMilli,
+                                lastSeenArchiveId: self.lastSeenArchiveId)
     }
     
-    func getMorePublicArchives() -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
-        return self.getPublicArchives(lastSeenArchiveDateMilli: self.lastSeenArchiveDateMilli,
-                                      lastSeenArchiveId: self.lastSeenArchiveId)
+    func getMoreArchives() -> Observable<Result<[ArchiveInfo], ArchiveError>> {
+        return self.getArchives(lastSeenArchiveDateMilli: self.lastSeenArchiveDateMilli,
+                                lastSeenArchiveId: self.lastSeenArchiveId).map { result in
+            switch result {
+            case .success(let info):
+                return .success(info.archiveInfoList)
+            case .failure(let err):
+                return .failure(err)
+            }
+            
+        }
     }
     
 }

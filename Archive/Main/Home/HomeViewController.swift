@@ -80,6 +80,15 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     func bind(reactor: HomeReactor) {
         
+        reactor.err
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: "오류", subMessage: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide()
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
         reactor.state.map { $0.archives }
         .distinctUntilChanged()
         .bind(to: self.ticketCollectionView.rx.items(cellIdentifier: TicketCollectionViewCell.identifier, cellType: TicketCollectionViewCell.self)) { index, element, cell in
@@ -106,7 +115,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 } else {
                     self?.emptyTicketImageView.isHidden = true
                     self?.ticketCollectionView.isHidden = false
-                    self?.moveCollectionViewFirstIndex()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -145,6 +153,17 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 let screenWidth: CGFloat = UIScreen.main.bounds.width
                 let currentIndex: Int = Int(xOffset/screenWidth)
                 self?.pageControl?.currentPage = currentIndex
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.ticketCollectionView.rx.contentOffset
+            .map { $0.x }
+            .subscribe(onNext: { [weak self] xOffset in
+                let screenWidth: CGFloat = UIScreen.main.bounds.width
+                let currentIndex: Int = Int(xOffset/screenWidth)
+                if currentIndex != 0 && (reactor.currentState.archives.count - 2) == currentIndex {
+                    reactor.action.onNext(.moreMyArchives)
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -240,6 +259,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     }
     
     @objc private func archiveIsAddedNotificationReceive(notification: Notification) {
+        moveCollectionViewFirstIndex()
         self.reactor?.action.onNext(.refreshMyArchives)
     }
     
