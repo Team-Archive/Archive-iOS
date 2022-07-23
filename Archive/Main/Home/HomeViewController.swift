@@ -224,6 +224,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         
         self.filterViewController.rx.selected
             .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
+                self?.moveCollectionViewFirstIndex()
                 if isAllSelected {
                     self?.reactor?.action.onNext(.getMyArchives(sortType: sortBy, emotion: nil))
                 } else {

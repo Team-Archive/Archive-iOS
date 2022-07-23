@@ -210,7 +210,6 @@ class FilterViewController: UIViewController {
             case .fadeIn:
                 break
             }
-            self.view.alpha = 1
         })
     }
     
@@ -244,6 +243,7 @@ class FilterViewController: UIViewController {
     // MARK: internal function
     
     func showEffect() {
+        self.view.alpha = 1
         self.mainBackgroundView.fadeIn(completeHandler: nil)
         switch self.showAnimationType {
         case .fadeIn:
