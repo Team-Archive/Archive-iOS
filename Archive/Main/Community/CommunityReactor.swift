@@ -47,7 +47,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     enum Action {
         case endFlow
-        case getPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?)
+        case getFirstPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?)
         case getMorePublicArchives
         case like(archiveId: Int)
         case unlike(archiveId: Int)
@@ -95,7 +95,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .endFlow:
             self.steps.accept(ArchiveStep.communityIsComplete)
             return .empty()
-        case .getPublicArchives(sortBy: let sortBy, emotion: let emotion):
+        case .getFirstPublicArchives(sortBy: let sortBy, emotion: let emotion):
             return Observable.concat([
                 Observable.just(Mutation.setIsShimmerLoading(true)),
                 getFirstPublicArchives(sortBy: sortBy, emotion: emotion)
@@ -337,7 +337,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private func getNextUserDetail() -> Observable<Mutation> {
         ImageCache.default.clearCache()
         if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
-            return self.getFirstPublicArchives(sortBy: self.archiveSortType, emotion: self.filterEmotion)
+            return self.getMorePublicArchives()
                 .map { [weak self] result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
                     case .success(let archives):
@@ -351,8 +351,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     case .success(let archives):
                         if archives.count > 0 {
                             return Observable.concat([
-                                Observable.just(Mutation.setIsShimmerLoading(true)),
-                                Observable.just(.setArchives((self?.currentState.archives ?? []) + archives)),
+                                Observable.just(.appendArchives(archives)),
                                 self?.detailUsecase.getDetailArchiveInfo(id: "\(archives[0].archiveId)")
                                     .map { result in
                                         switch result {
@@ -364,7 +363,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                                         }
                                         return .empty
                                     } ?? Observable.just(.empty),
-                                Observable.just(Mutation.setIsShimmerLoading(false))
                             ])
                         } else { // 새로받은 아카이브 데이터가 [] 인 경우
                             return .empty()

@@ -115,7 +115,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
-        self.reactor?.action.onNext(.getPublicArchives(sortBy: .sortByRegist, emotion: nil))
+        self.reactor?.action.onNext(.getFirstPublicArchives(sortBy: .sortByRegist, emotion: nil))
         setupDatasource()
         self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)
@@ -311,9 +311,9 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
         self.filterViewController.rx.selected
             .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
                 if isAllSelected {
-                    self?.reactor?.action.onNext(.getPublicArchives(sortBy: sortBy, emotion: nil))
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: nil))
                 } else {
-                    self?.reactor?.action.onNext(.getPublicArchives(sortBy: sortBy, emotion: emotion))
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: emotion))
                 }
             })
             .disposed(by: self.disposeBag)
