@@ -180,7 +180,7 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
             $0.leading.equalTo(self.cardView.snp.leading)
             $0.trailing.equalTo(self.cardView.snp.trailing)
             $0.bottom.equalTo(self.cardView.snp.bottom)
-            $0.height.equalTo(self.cardView.snp.height).multipliedBy(0.23209877)
+            $0.height.equalTo(self.cardView.snp.height).multipliedBy(0.2)
         }
         
         self.cardBottomView.addSubview(self.archiveTitleLabel)
@@ -197,7 +197,7 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
 
         self.cardBottomView.addSubview(self.likeBtn)
         self.likeBtn.snp.makeConstraints {
-            $0.trailing.equalTo(self.cardBottomView.snp.trailing).offset(5)
+            $0.trailing.equalTo(self.cardBottomView.snp.trailing).offset(-5)
             $0.top.equalTo(self.cardBottomView.snp.top).offset(5)
             $0.width.equalTo(30)
             $0.height.equalTo(30)

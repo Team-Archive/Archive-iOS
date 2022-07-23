@@ -49,6 +49,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case endFlow
         case getFirstPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?)
         case getMorePublicArchives
+        case refreshPublicArchives
         case like(archiveId: Int)
         case unlike(archiveId: Int)
         case refreshLikeData(index: Int, isLike: Bool)
@@ -110,6 +111,21 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                         }
                     },
                 Observable.just(Mutation.setIsShimmerLoading(false))
+            ])
+        case .refreshPublicArchives:
+            return Observable.concat([
+                Observable.just(Mutation.setIsLoading(true)),
+                getFirstPublicArchives(sortBy: self.archiveSortType, emotion: self.filterEmotion)
+                    .map { [weak self] result in
+                        switch result {
+                        case .success(let archiveInfo):
+                            return .setArchives(archiveInfo)
+                        case .failure(let err):
+                            self?.err.onNext(err)
+                            return .empty
+                        }
+                    },
+                Observable.just(Mutation.setIsLoading(false))
             ])
         case .getMorePublicArchives:
             if !self.usecase.isQuerying && !self.usecase.isEndOfPage {

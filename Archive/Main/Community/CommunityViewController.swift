@@ -106,6 +106,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     private lazy var filterViewController = FilterViewController(timeSortBy: self.reactor?.currentState.archiveTimeSortBy ?? .sortByRegist,
                                                                  emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
     
+    private var refresher: UIRefreshControl?
+    
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -158,6 +160,13 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             $0.edges.equalTo(self.topContentsContainerView)
         }
         
+        self.refresher = UIRefreshControl()
+        if let refresher = refresher {
+            refresher.tintColor = Gen.Colors.black.color
+            refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
+            self.collectionView.addSubview(refresher)
+        }
+        
     }
     
     required init?(coder: NSCoder) {
@@ -206,6 +215,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] archives in
+                self?.stopRefresher()
                 self?.sections.accept([ArchiveSection(items: archives)])
             })
             .disposed(by: self.disposeBag)
@@ -296,6 +306,15 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         
         sections.bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
+    }
+    
+    @objc private func refresh() {
+        print("refresh")
+        self.reactor?.action.onNext(.refreshPublicArchives)
+    }
+    
+    private func stopRefresher() {
+        self.refresher?.endRefreshing()
     }
     
     // MARK: func

@@ -65,6 +65,8 @@ class ArchiveBannerView: UIView {
     var isAutoScrolling: Bool = false {
         didSet {
             if self.isAutoScrolling {
+                self.timer?.invalidate()
+                self.timer = nil
                 self.timer = makeTimer()
                 self.timer?.start(runLoop: .current, modes: .default)
             } else {
@@ -233,6 +235,8 @@ extension ArchiveBannerView: UICollectionViewDelegate {
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if self.isAutoScrolling {
+            self.timer?.invalidate()
+            self.timer = nil
             self.timer = makeTimer()
         }
         
