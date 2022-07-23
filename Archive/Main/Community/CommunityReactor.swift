@@ -67,6 +67,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setIsLoading(Bool)
         case setIsShimmerLoading(Bool)
         case setArchives([PublicArchive])
+        case clearDetailArchive
         case setDetailArchive(DetailInfo)
         case setCurrentDetailUserNickName(String)
         case setCurrentDetailUserImage(String)
@@ -168,14 +169,16 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return .empty()
         case .showDetail(let index):
             return Observable.concat([
-                Observable.just(Mutation.setIsShimmerLoading(true)),
+                Observable.just(Mutation.setIsLoading(true)),
+                Observable.just(.clearDetailArchive),
                 getDetailArchiveInfo(index: index).map { [weak self] result in
                     switch result {
                     case .success(let detailData):
+                        self?.currentDetailInnerIndex = 0
                         self?.currentDetailIndex = index
                         self?.steps.accept(ArchiveStep.communityDetailIsRequired(
                             data: detailData,
-                            currentIndex: index,
+                            currentIndex: 0,
                             reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
                                                               bannerRepository: BannerRepositoryImplement(),
                                                               likeRepository: LikeRepositoryImplement(),
@@ -185,7 +188,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     }
                     return .empty
                 },
-                Observable.just(Mutation.setIsShimmerLoading(false))
+                Observable.just(Mutation.setIsLoading(false))
             ])
         case .spreadDetailData(let infoData, let index):
             self.currentDetailIndex = index
@@ -263,6 +266,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.archives = archives
         case .setDetailArchive(let data):
             newState.detailArchive = data
+        case .clearDetailArchive:
+            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0)
         case .setCurrentDetailUserImage(let image):
             newState.currentDetailUserImage = image
         case .setCurrentDetailUserNickName(let nickName):
