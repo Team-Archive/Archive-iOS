@@ -211,12 +211,19 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .map { $0.archives }
+            .map { $0.archives.value }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] archives in
-                self?.stopRefresher()
                 self?.sections.accept([ArchiveSection(items: archives)])
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.archives }
+            .asDriver(onErrorJustReturn: .init(wrappedValue: []))
+            .drive(onNext: { [weak self] _ in
+                self?.stopRefresher()
             })
             .disposed(by: self.disposeBag)
         
@@ -314,6 +321,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     }
     
     private func stopRefresher() {
+        print("stopRefresher")
         self.refresher?.endRefreshing()
     }
     

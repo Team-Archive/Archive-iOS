@@ -80,7 +80,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     struct State {
         var isLoading: Bool = false
         var isShimmerLoading: Bool = false
-        var archives: [PublicArchive] = []
+        var archives: Pulse<[PublicArchive]> = Pulse(wrappedValue: [])
         var detailArchive: DetailInfo = DetailInfo(
             archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil),
             index: 0)
@@ -135,7 +135,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                         .map { [weak self] result in
                             switch result {
                             case .success(let archives):
-                                if (self?.currentState.archives.count ?? 0) == 0 {
+                                if (self?.currentState.archives.value.count ?? 0) == 0 {
                                     return .empty
                                 } else {
                                     return .appendArchives(archives)
@@ -211,9 +211,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             self.currentDetailInnerIndex = 0
             return Observable.from([
                 .setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)),
-                .setCurrentDetailUserImage(self.currentState.archives[index].authorProfileImage),
-                .setCurrentDetailUserImage(self.currentState.archives[index].authorNickname),
-                .setDetailsIsLike(self.currentState.archives[index].isLiked)
+                .setCurrentDetailUserImage(self.currentState.archives.value[index].authorProfileImage),
+                .setCurrentDetailUserImage(self.currentState.archives.value[index].authorNickname),
+                .setDetailsIsLike(self.currentState.archives.value[index].isLiked)
             ])
         case .showNextPage:
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
@@ -279,7 +279,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .setIsShimmerLoading(let isLoading):
             newState.isShimmerLoading = isLoading
         case .setArchives(let archives):
-            newState.archives = archives
+            newState.archives.value = archives
         case .setDetailArchive(let data):
             newState.detailArchive = data
         case .clearDetailArchive:
@@ -293,7 +293,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .setBannerInfo(let info):
             newState.bannerInfo = info
         case .appendArchives(let archives):
-            newState.archives = state.archives + archives
+            newState.archives.value = state.archives.value + archives
         }
         return newState
     }
@@ -318,17 +318,17 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
         var returnValue = self.currentState.archives
-        if self.currentState.archives.count >= index + 1 {
-            returnValue[index].isLiked = isLike
-            return .success(returnValue)
+        if self.currentState.archives.value.count >= index + 1 {
+            returnValue.value[index].isLiked = isLike
+            return .success(returnValue.value)
         } else {
             return .failure(.init(.publicArchiveIsRefreshed))
         }
     }
     
     private func getDetailArchiveInfo(index: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
-        if self.currentState.archives.count >= index + 1 {
-            return self.detailUsecase.getDetailArchiveInfo(id: "\(self.currentState.archives[index].archiveId)")
+        if self.currentState.archives.value.count >= index + 1 {
+            return self.detailUsecase.getDetailArchiveInfo(id: "\(self.currentState.archives.value[index].archiveId)")
         } else {
             return .just(.failure(.init(.publicArchiveIsRefreshed)))
         }
@@ -357,7 +357,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func getNextUserDetail() -> Observable<Mutation> {
         ImageCache.default.clearCache()
-        if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
+        if self.currentDetailIndex + 1 >= self.currentState.archives.value.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
             return self.getMorePublicArchives()
                 .map { result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
