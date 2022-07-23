@@ -338,7 +338,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         ImageCache.default.clearCache()
         if self.currentDetailIndex + 1 >= self.currentState.archives.count { // 아카이브 데이터가 끝나서 또 다음페이지를 받아줘야한다. 그리고 뿌려주자.
             return self.getMorePublicArchives()
-                .map { [weak self] result -> Result<[PublicArchive], ArchiveError> in
+                .map { result -> Result<[PublicArchive], ArchiveError> in
                     switch result {
                     case .success(let archives):
                         return .success(archives)
@@ -362,7 +362,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                                             self?.err.onNext(err)
                                         }
                                         return .empty
-                                    } ?? Observable.just(.empty),
+                                    } ?? Observable.just(.empty)
                             ])
                         } else { // 새로받은 아카이브 데이터가 [] 인 경우
                             return .empty()
