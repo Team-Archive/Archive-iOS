@@ -38,12 +38,12 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     private let modalShareViewController: ModalShareViewController = ModalShareViewController.init(nibName: "ModalShareViewController", bundle: nil)
     private var willDisplayIndex: Int = 0
     
-    private lazy var dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { dataSource, collectionView, indexPath, item in
+    private lazy var dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { [weak self] dataSource, collectionView, indexPath, item in
         switch item {
         case .cover(let infoData):
-            return self.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath)
+            return self?.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
         case .commonImage(let imageInfo, let emotion, let name):
-            return self.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath)
+            return self?.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
         }
     })
     

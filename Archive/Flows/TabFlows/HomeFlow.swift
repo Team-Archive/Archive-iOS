@@ -86,9 +86,7 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         detailViewController.delegate = self
         let navi = UINavigationController(rootViewController: detailViewController)
         navi.modalPresentationStyle = .fullScreen
-        DispatchQueue.main.async {
-            self.rootViewController?.present(navi, animated: true)
-        }
+        self.rootViewController?.present(navi, animated: true)
     }
     
     private func navigationToMyPageScreen() -> FlowContributors {
