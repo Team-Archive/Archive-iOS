@@ -14,36 +14,30 @@ import Foundation
 
 final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     
-    enum ArchivesOrderBy {
-        case dateToUpload
-        case dateToUploadReverse
-        case dateToVisit
-        case dateToVisitReverse
-    }
-    
     // MARK: private property
     
-    private var archives: [ArchiveInfo] = [ArchiveInfo]()
-    private var archivesOrderBy: ArchivesOrderBy = .dateToUpload
     private let usecase: MyArchiveUsecase
+    private let detailUsecase: DetailUsecase
     
     // MARK: internal property
     
     let steps = PublishRelay<Step>()
     let initialState: State = State()
+    let err: PublishSubject<ArchiveError> = .init()
     
     // MARK: lifeCycle
     
-    init(myArchiveRepository: MyArchiveRepository) {
+    init(myArchiveRepository: MyArchiveRepository, detailRepository: DetailRepository) {
         self.usecase = MyArchiveUsecase(repository: myArchiveRepository)
+        self.detailUsecase = DetailUsecase(repository: detailRepository)
     }
     
     enum Action {
         case endFlow
-        case getMyArchives
+        case getMyArchives(sortType: ArchiveSortType, emotion: Emotion?)
         case showDetail(Int)
-        case showMyArchives
-        case setMyArchivesOrderBy(ArchivesOrderBy)
+        case refreshMyArchives
+        case moreMyArchives
     }
     
     enum Mutation {
@@ -51,6 +45,10 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setIsLoading(Bool)
         case setIsShimmering(Bool)
         case setArchives([ArchiveInfo])
+        case setCurrentArchiveTimeSortBy(ArchiveSortType)
+        case setCurrentArchiveEmotionSortBy(Emotion?)
+        case setArvhivesCount(Int)
+        case appendArchives([ArchiveInfo])
     }
     
     struct State {
@@ -58,8 +56,8 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         var isLoading: Bool = false
         var isShimmering: Bool = false
         var arvhivesCount: Int = 0
-        var archiveTimeSortBy: ArchiveSortType = .sortByRegist
-        var archiveEmotionSortBy: Emotion?
+        var currentArchiveTimeSortBy: ArchiveSortType = .sortByRegist
+        var currentArchiveEmotionSortBy: Emotion?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -67,52 +65,91 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .endFlow:
             self.steps.accept(ArchiveStep.homeIsComplete)
             return .empty()
-        case .getMyArchives:
+        case .getMyArchives(let sortType, let emotion):
             return Observable.concat([
                 Observable.just(.setIsShimmering(true)),
-                self.getArchives(sortBy: self.currentState.archiveTimeSortBy, emotion: self.currentState.archiveEmotionSortBy).map { result in
+                self.getFirstArchives(sortBy: sortType, emotion: emotion).map { result -> Result<ArchiveInfoFull, ArchiveError> in
                     switch result {
                     case .success(let info):
-                        return .setArchives(info)
+                        return .success(info)
+                    case .failure(let err):
+                        return .failure(err)
+                    }
+                }.flatMap { [weak self] result -> Observable<Mutation> in
+                    switch result {
+                    case .success(let info):
+                        return .from([.setArchives(info.archiveInfoList),
+                                      .setArvhivesCount(info.totalCount),
+                                      .setCurrentArchiveTimeSortBy(sortType),
+                                      .setCurrentArchiveEmotionSortBy(emotion)
+                        ])
                     case .failure(let err):
                         print("err: \(err)")
                         // 이거 실패하면 로그아웃 처리하자 그냥... 그게 젤 안전할듯.. 안그러면 앱 지웠다 깔아야함
                         LogInManager.shared.logOut()
-                        self.steps.accept(ArchiveStep.logout)
-                        return .empty
+                        self?.steps.accept(ArchiveStep.logout)
+                        return .empty()
                     }
                 },
                 Observable.just(.setIsShimmering(false))
             ])
-        case .showMyArchives:
-            var orderedArchives: [ArchiveInfo] = self.archives
-            switch self.archivesOrderBy {
-            case .dateToUpload:
-                orderedArchives = orderByUploadDateArchives(self.archives)
-            case .dateToUploadReverse:
-                orderedArchives = orderByUploadDateArchives(self.archives).reversed()
-            case .dateToVisit:
-                orderedArchives = orderByVisitDateArhives(self.archives)
-            case .dateToVisitReverse:
-                orderedArchives = orderByVisitDateArhives(self.archives).reversed()
+        case .moreMyArchives:
+            if !usecase.isQuerying && !usecase.isEndOfPage {
+                return Observable.concat([
+                    Observable.just(.setIsLoading(true)),
+                    getMoreArchives().map { [weak self] result in
+                        switch result {
+                        case .success(let archives):
+                            return .appendArchives(archives)
+                        case .failure(let err):
+                            self?.err.onNext(err)
+                            return .empty
+                        }
+                    },
+                    Observable.just(.setIsLoading(false))
+                ])
+            } else {
+                return .empty()
             }
-            return .just(.setArchives(orderedArchives))
+        case .refreshMyArchives:
+            return Observable.concat([
+                Observable.just(.setIsShimmering(true)),
+                self.getFirstArchives(sortBy: self.currentState.currentArchiveTimeSortBy,
+                                      emotion: self.currentState.currentArchiveEmotionSortBy).map { result -> Result<ArchiveInfoFull, ArchiveError> in
+                                          switch result {
+                                          case .success(let info):
+                                              return .success(info)
+                                          case .failure(let err):
+                                              return .failure(err)
+                                          }
+                                      }.flatMap { [weak self] result -> Observable<Mutation> in
+                                          switch result {
+                                          case .success(let info):
+                                              return .from([.setArchives(info.archiveInfoList),
+                                                            .setArvhivesCount(info.totalCount)
+                                              ])
+                                          case .failure(let err):
+                                              self?.err.onNext(err)
+                                              return .empty()
+                                          }
+                                      },
+                Observable.just(.setIsShimmering(false))
+            ])
         case .showDetail(let index):
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
                 self.getDetailArchiveInfo(id: "\(currentState.archives[index].archiveId)").map { [weak self] result in
                     switch result {
-                    case .success(let data):
-                        self?.moveToDetail(data: data, index: index)
+                    case .success(let info):
+                        self?.steps.accept(ArchiveStep.detailIsRequired(info, index))
+                        return .empty
                     case .failure(let err):
-                        print("err: \(err.localizedDescription)")
+                        self?.err.onNext(err)
+                        return .empty
                     }
-                    return .setIsLoading(false)
-                }
+                },
+                Observable.just(.setIsLoading(false))
             ])
-        case .setMyArchivesOrderBy(let orderBy):
-            self.archivesOrderBy = orderBy
-            return .empty()
         }
     }
     
@@ -127,60 +164,31 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.isLoading = isLoading
         case .setArchives(let archives):
             newState.archives = archives
+        case .setCurrentArchiveTimeSortBy(let type):
+            newState.currentArchiveTimeSortBy = type
+        case .setCurrentArchiveEmotionSortBy(let emotion):
+            newState.currentArchiveEmotionSortBy = emotion
+        case .setArvhivesCount(let count):
+            newState.arvhivesCount = count
+        case .appendArchives(let archives):
+            newState.archives = state.archives + archives
         }
         return newState
     }
     
     // MARK: private function
     
-    private func getArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[ArchiveInfo], ArchiveError>> {
-        return self.usecase.getArchives(sortBy: sortBy,
-                                        emotion: emotion)
+    private func getFirstArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<ArchiveInfoFull, ArchiveError>> {
+        return self.usecase.getFirstArchives(sortBy: sortBy,
+                                             emotion: emotion)
     }
     
-    private func getDetailArchiveInfo(id: String) -> Observable<Result<Data, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.getDetailArchive(archiveId: id), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                return .success(result.data)
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func getMoreArchives() -> Observable<Result<[ArchiveInfo], ArchiveError>> {
+        return self.usecase.getMoreArchives()
     }
     
-    private func convertDataToArchivesInfos(data: Data) -> ([ArchiveInfo], Int) {
-        var items: [ArchiveInfo] = [ArchiveInfo]()
-        var itemsCount = 0
-        if let jsonData: JSON = try? JSON.init(data: data) {
-            itemsCount = jsonData["archiveCount"].intValue
-            let archivesJson = jsonData["archives"]
-            for item in archivesJson {
-                if let itemData = try? item.1.rawData() {
-                    if let info = ArchiveInfo.fromJson(jsonData: itemData) {
-                        items.append(info)
-                    }
-                }
-            }
-        }
-        return (items, itemsCount)
-    }
-    
-    private func moveToDetail(data: Data, index: Int) {
-        if let info = ArchiveDetailInfo.fromJson(jsonData: data) {
-            DispatchQueue.main.async { [weak self] in
-                self?.steps.accept(ArchiveStep.detailIsRequired(info, index))
-            }
-        }
-    }
-    
-    private func orderByUploadDateArchives(_ archives: [ArchiveInfo]) -> [ArchiveInfo] {
-        return archives.reversed()
-    }
-    
-    private func orderByVisitDateArhives(_ archives: [ArchiveInfo]) -> [ArchiveInfo] {
-        return archives.sorted(by: { stringDateToDate($0.watchedOn) > stringDateToDate($1.watchedOn) })
+    private func getDetailArchiveInfo(id: String) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
+        return self.detailUsecase.getDetailArchiveInfo(id: id)
     }
     
     private func stringDateToDate(_ str: String) -> Date {
@@ -196,6 +204,4 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         self.action.onNext(.endFlow)
     }
     
-    
-
 }

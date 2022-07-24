@@ -34,8 +34,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     
     // MARK: private UI property
     
-    private lazy var filterViewController = FilterViewController(timeSortBy: self.reactor?.currentState.archiveTimeSortBy ?? .sortByRegist,
-     emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
+    private lazy var filterViewController = FilterViewController(timeSortBy: .sortByRegist, emotionSortBy: nil)
     
     
     // MARK: private property
@@ -63,8 +62,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        self.reactor?.action.onNext(.setMyArchivesOrderBy(.dateToVisit))
-        self.reactor?.action.onNext(.getMyArchives)
+        self.reactor?.action.onNext(.getMyArchives(sortType: .sortByRegist, emotion: nil))
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsAddedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
 
     }
@@ -81,6 +79,15 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     }
     
     func bind(reactor: HomeReactor) {
+        
+        reactor.err
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: "오류", subMessage: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide()
+                })
+            })
+            .disposed(by: self.disposeBag)
         
         reactor.state.map { $0.archives }
         .distinctUntilChanged()
@@ -108,7 +115,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 } else {
                     self?.emptyTicketImageView.isHidden = true
                     self?.ticketCollectionView.isHidden = false
-                    self?.moveCollectionViewFirstIndex()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -123,17 +129,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         .distinctUntilChanged()
         .map { String("\($0)") }
         .bind(to: self.contentsCountLabel.rx.text)
-        .disposed(by: self.disposeBag)
-        
-        reactor.state.map { $0.arvhivesCount }
-        .distinctUntilChanged()
-        .subscribe(onNext: {
-            if $0 > 0 {
-                DispatchQueue.global().async {
-                    reactor.action.onNext(.showMyArchives)
-                }
-            }
-        })
         .disposed(by: self.disposeBag)
         
         reactor.state.map { $0.arvhivesCount }
@@ -158,6 +153,17 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 let screenWidth: CGFloat = UIScreen.main.bounds.width
                 let currentIndex: Int = Int(xOffset/screenWidth)
                 self?.pageControl?.currentPage = currentIndex
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.ticketCollectionView.rx.contentOffset
+            .map { $0.x }
+            .subscribe(onNext: { [weak self] xOffset in
+                let screenWidth: CGFloat = UIScreen.main.bounds.width
+                let currentIndex: Int = Int(xOffset/screenWidth)
+                if currentIndex != 0 && (reactor.currentState.archives.count - 2) == currentIndex {
+                    reactor.action.onNext(.moreMyArchives)
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -218,7 +224,12 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         
         self.filterViewController.rx.selected
             .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
-                print("test: \(sortBy) \(emotion) \(isAllSelected)")
+                self?.moveCollectionViewFirstIndex()
+                if isAllSelected {
+                    self?.reactor?.action.onNext(.getMyArchives(sortType: sortBy, emotion: nil))
+                } else {
+                    self?.reactor?.action.onNext(.getMyArchives(sortType: sortBy, emotion: emotion))
+                }
             })
             .disposed(by: self.disposeBag)
             
@@ -249,7 +260,8 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     }
     
     @objc private func archiveIsAddedNotificationReceive(notification: Notification) {
-        self.reactor?.action.onNext(.getMyArchives)
+        moveCollectionViewFirstIndex()
+        self.reactor?.action.onNext(.refreshMyArchives)
     }
     
     private func moveCollectionViewFirstIndex() {
@@ -261,31 +273,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
             }
         }
     }
-    
-//    private func makeNavigationItems() {
-//        let logoImage = Gen.Images.logo.image
-//        let logoImageView = UIImageView.init(image: logoImage)
-//        logoImageView.frame = CGRect(x: -40, y: 0, width: 98, height: 18)
-//        logoImageView.contentMode = .scaleAspectFit
-//        let imageItem = UIBarButtonItem.init(customView: logoImageView)
-//        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-//        negativeSpacer.width = -25
-//        navigationItem.leftBarButtonItems = [negativeSpacer, imageItem]
-//        
-//        let backImage = Gen.Images.iconMyPage.image // iconmypage
-//        backImage.withRenderingMode(.alwaysTemplate)
-//        let backBarButtonItem = UIBarButtonItem(image: backImage, style: .plain, target: self, action: #selector(myPageAction(_:)))
-//        self.navigationItem.rightBarButtonItem = backBarButtonItem
-//        
-//        self.navigationController?.navigationBar.barStyle = .default
-//        self.navigationController?.navigationBar.tintColor = .black
-//        UINavigationBar.appearance().backIndicatorImage = Gen.Images.back.image
-//        UINavigationBar.appearance().backIndicatorTransitionMaskImage = Gen.Images.back.image
-//    }
-    
-//    @objc private func myPageAction(_ sender: UIButton) {
-//        self.reactor?.action.onNext(.showMyPage(self.reactor?.currentState.arvhivesCount ?? 0))
-//    }
     
     // MARK: internal function
     
@@ -301,10 +288,6 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     }
     
     // MARK: action
-    
-    
-    
-    
     
 }
 

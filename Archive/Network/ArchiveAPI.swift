@@ -209,21 +209,21 @@ extension ArchiveAPI: TargetType {
         case .logInWithOAuth:
             return nil
         case .registArchive:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .registEmail:
             return nil
         case .uploadImage:
             return nil
         case .deleteArchive:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getArchives:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getDetailArchive:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getCurrentUserInfo:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .withdrawal:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getKakaoUserInfo(let kakaoAccessToken):
             return ["Authorization": "Bearer \(kakaoAccessToken)"]
         case .sendTempPassword:
@@ -231,13 +231,13 @@ extension ArchiveAPI: TargetType {
         case .changePassword:
             return nil
         case .getPublicArchives:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .like:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .unlike:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getBanner:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         }
     }
     

@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Kingfisher
 
 class ShareCardView: UIView, NibIdentifiable {
     // MARK: IBOutlet

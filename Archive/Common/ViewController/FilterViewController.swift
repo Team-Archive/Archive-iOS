@@ -210,7 +210,6 @@ class FilterViewController: UIViewController {
             case .fadeIn:
                 break
             }
-            self.view.alpha = 1
         })
     }
     
@@ -238,11 +237,13 @@ class FilterViewController: UIViewController {
                                            emotion: .fun,
                                            isAllEmotionSelected: true)
         }
+        close()
     }
     
     // MARK: internal function
     
     func showEffect() {
+        self.view.alpha = 1
         self.mainBackgroundView.fadeIn(completeHandler: nil)
         switch self.showAnimationType {
         case .fadeIn:

@@ -42,7 +42,7 @@ extension ArchiveSection: AnimatableSectionModelType {
     }
 }
 
-class CommunityViewController: UIViewController, View, ActivityIndicatorable {
+class CommunityViewController: UIViewController, View, ActivityIndicatorable, ActivityIndicatorableBasic {
     
     // MARK: UI property
     
@@ -106,6 +106,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
     private lazy var filterViewController = FilterViewController(timeSortBy: self.reactor?.currentState.archiveTimeSortBy ?? .sortByRegist,
                                                                  emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
     
+    private var refresher: UIRefreshControl?
+    
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -115,7 +117,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
-        self.reactor?.action.onNext(.getPublicArchives(sortBy: .sortByRegist, emotion: nil))
+        self.reactor?.action.onNext(.getFirstPublicArchives(sortBy: .sortByRegist, emotion: nil))
         setupDatasource()
         self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)
@@ -158,6 +160,13 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             $0.edges.equalTo(self.topContentsContainerView)
         }
         
+        self.refresher = UIRefreshControl()
+        if let refresher = refresher {
+            refresher.tintColor = Gen.Colors.black.color
+            refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
+            self.collectionView.addSubview(refresher)
+        }
+        
     }
     
     required init?(coder: NSCoder) {
@@ -181,9 +190,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] in
                 if $0 {
-                    self?.startIndicatorAnimating()
+                    self?.startBasicIndicatorAnimating()
                 } else {
-                    self?.stopIndicatorAnimating()
+                    self?.stopBasicIndicatorAnimating()
                 }
             })
             .disposed(by: self.disposeBag)
@@ -202,11 +211,19 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .map { $0.archives }
+            .map { $0.archives.value }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] archives in
                 self?.sections.accept([ArchiveSection(items: archives)])
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.archives }
+            .asDriver(onErrorJustReturn: .init(wrappedValue: []))
+            .drive(onNext: { [weak self] _ in
+                self?.stopRefresher()
             })
             .disposed(by: self.disposeBag)
         
@@ -236,9 +253,26 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver()
             .drive(onNext: { [weak self] offset in
                 if offset.y > 0 {
-                    self?.bannerView.hideWithAnimation()
+                    let translation = self?.collectionView.panGestureRecognizer.translation(in: self?.collectionView.superview ?? UIScrollView())
+                    if translation?.y ?? 0 > 0 {
+                        if self?.bannerView.isHidden ?? false {
+                            self?.bannerView.showWithAnimation()
+                        }
+                    } else {
+                        self?.bannerView.hideWithAnimation()
+                    }
                 } else {
                     self?.bannerView.showWithAnimation()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.collectionView.rx.contentOffset
+            .asDriver()
+            .drive(onNext: { [weak self] offset in
+                if (offset.y > (self?.collectionView.contentSize.height ?? 1000000000000) - ((UIScreen.main.bounds.width * 1.08)*2)) &&
+                    offset.y > 1 {
+                    reactor.action.onNext(.getMorePublicArchives)
                 }
             })
             .disposed(by: self.disposeBag)
@@ -281,6 +315,16 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable {
             .disposed(by: self.disposeBag)
     }
     
+    @objc private func refresh() {
+        print("refresh")
+        self.reactor?.action.onNext(.refreshPublicArchives)
+    }
+    
+    private func stopRefresher() {
+        print("stopRefresher")
+        self.refresher?.endRefreshing()
+    }
+    
     // MARK: func
 
 }
@@ -293,7 +337,11 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
         })
         self.filterViewController.rx.selected
             .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
-                print("test: \(sortBy) \(emotion) \(isAllSelected)")
+                if isAllSelected {
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: nil))
+                } else {
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: emotion))
+                }
             })
             .disposed(by: self.disposeBag)
     }

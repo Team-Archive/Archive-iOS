@@ -428,7 +428,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.likeBtn.rx.likeClicked
             .map { [weak self] isLike -> (Bool, Bool) in
                 let index = self?.reactor?.currentDetailIndex ?? 0
-                let origin: Bool = self?.reactor?.currentState.archives[index].isLiked ?? false
+                let origin: Bool = self?.reactor?.currentState.archives.value[index].isLiked ?? false
                 self?.reactor?.action.onNext(.refreshLikeData(index: self?.reactor?.currentDetailIndex ?? 1000000, isLike: isLike))
                 return (isLike, origin)
             }

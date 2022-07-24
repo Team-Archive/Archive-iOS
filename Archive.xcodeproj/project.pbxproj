@@ -43,6 +43,7 @@
 		780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */; };
 		780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478212723E83F00FAA1CF /* LoginInformationReactor.swift */; };
 		780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478232723E84900FAA1CF /* LoginInformationModel.swift */; };
+		781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */; };
 		78168A0A282500EB007810DC /* ArchiveStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78168A09282500EB007810DC /* ArchiveStatus.swift */; };
 		78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */; };
 		781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781C842A282F6201004A0FB3 /* MainFlow.swift */; };
@@ -164,7 +165,6 @@
 		78A32164275B91580078650D /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78A32163275B91580078650D /* Detail.storyboard */; };
 		78A32167275B92530078650D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32166275B92530078650D /* DetailViewController.swift */; };
 		78A32169275B92600078650D /* DetailReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32168275B92600078650D /* DetailReactor.swift */; };
-		78A3216B275B92700078650D /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3216A275B92700078650D /* DetailModel.swift */; };
 		78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A3217E275BBEB20078650D /* UIColorExtension.swift */; };
 		78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */; };
 		78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */; };
@@ -270,6 +270,7 @@
 		7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationViewController.swift; sourceTree = "<group>"; };
 		780478212723E83F00FAA1CF /* LoginInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationReactor.swift; sourceTree = "<group>"; };
 		780478232723E84900FAA1CF /* LoginInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationModel.swift; sourceTree = "<group>"; };
+		781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorableBasic.swift; sourceTree = "<group>"; };
 		78168A09282500EB007810DC /* ArchiveStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveStatus.swift; sourceTree = "<group>"; };
 		78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithKakaoRepositoryImplement.swift; sourceTree = "<group>"; };
 		781C842A282F6201004A0FB3 /* MainFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFlow.swift; sourceTree = "<group>"; };
@@ -388,7 +389,6 @@
 		78A32163275B91580078650D /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		78A32166275B92530078650D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		78A32168275B92600078650D /* DetailReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailReactor.swift; sourceTree = "<group>"; };
-		78A3216A275B92700078650D /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		78A3217E275BBEB20078650D /* UIColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		78A38BEF280DB401000C921B /* EMailLogInUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInUsecase.swift; sourceTree = "<group>"; };
@@ -923,6 +923,7 @@
 				78C4B33727244ACB0006EBAD /* CommonAlertView.swift */,
 				784D1E2027088BC0004B1A23 /* HWFlipView.swift */,
 				782FDF55272D1D70004D1B6E /* ActivityIndicatorable.swift */,
+				781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */,
 				783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */,
 				78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */,
 				788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */,
@@ -1109,7 +1110,6 @@
 				78A32163275B91580078650D /* Detail.storyboard */,
 				78A32166275B92530078650D /* DetailViewController.swift */,
 				78A32168275B92600078650D /* DetailReactor.swift */,
-				78A3216A275B92700078650D /* DetailModel.swift */,
 				78A3216F275B96690078650D /* Sub */,
 			);
 			path = Detail;
@@ -1619,6 +1619,7 @@
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
 				78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */,
+				781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				78BA154127218F430078B88E /* MyPageSettingViewController.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,
@@ -1651,7 +1652,6 @@
 				784FCDE9282FEE9E007683D2 /* LoginAccessTokenRepository.swift in Sources */,
 				4FD4F1D4272F869A00BDB4BB /* RecordCardCollectionViewCell.swift in Sources */,
 				78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */,
-				78A3216B275B92700078650D /* DetailModel.swift in Sources */,
 				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,
 				78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */,
 				78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */,
@@ -1832,8 +1832,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Archive/Archive.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = P4ZJYAK634;
 				INFOPLIST_FILE = Archive/Info.plist;
@@ -1899,7 +1899,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.depromeet.Archive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ArchiveDev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1912,8 +1912,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Archive/Archive.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = P4ZJYAK634;
 				INFOPLIST_FILE = Archive/Info.plist;
@@ -1979,7 +1979,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.depromeet.Archive;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = ArchiveDev;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

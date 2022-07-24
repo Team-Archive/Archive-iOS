@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class DetailCardCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
 
@@ -55,6 +56,7 @@ class DetailCardCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     override func awakeFromNib() {
         super.awakeFromNib()
         initUI()
+        ImageCache.default.clearCache()
     }
     
     // MARK: private function

@@ -15,7 +15,7 @@ class LogInManager: NSObject {
     
     // MARK: internal property
     
-    lazy private(set) var isLoggedIn = getLogInToken() == "" ? false : true
+    lazy private(set) var isLoggedIn = accessToken == "" ? false : true
     private(set) var logInType: LoginType = .eMail
     
     static let shared: LogInManager = {
@@ -23,6 +23,10 @@ class LogInManager: NSObject {
         instance.logInType = instance.getLogInTypeFromRepository()
         return instance
     }()
+    
+    var accessToken: String {
+        return self.repository.getLogInToken()
+    }
     
     // MARK: lifeCycle
     
@@ -37,10 +41,6 @@ class LogInManager: NSObject {
     }
     
     // MARK: internal function
-    
-    func getLogInToken() -> String {
-        return self.repository.getLogInToken()
-    }
     
     func logIn(token: String, type: LoginType) {
         setLogInTypeToRepository(type)

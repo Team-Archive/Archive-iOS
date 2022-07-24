@@ -12,7 +12,7 @@ import RxCocoa
 import RxDataSources
 import SnapKit
 
-protocol DetailViewControllerDelegate: CommonViewControllerProtocol {
+protocol DetailViewControllerDelegate: AnyObject {
     func deletedArchive()
     func willDeletedArchive(index: Int)
 }
@@ -38,16 +38,29 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     private let modalShareViewController: ModalShareViewController = ModalShareViewController.init(nibName: "ModalShareViewController", bundle: nil)
     private var willDisplayIndex: Int = 0
     
-    weak var delegate: DetailViewControllerDelegate?
+    private lazy var dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { [weak self] dataSource, collectionView, indexPath, item in
+        switch item {
+        case .cover(let infoData):
+            return self?.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+        case .commonImage(let imageInfo, let emotion, let name):
+            return self?.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+        }
+    })
     
     // MARK: internal property
     var disposeBag: DisposeBag = DisposeBag()
+    
+    weak var delegate: DetailViewControllerDelegate?
     
     // MARK: lifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
+    }
+    
+    deinit {
+        print("\(self) deinit")
     }
     
     init?(coder: NSCoder, reactor: DetailReactor) {
@@ -60,34 +73,28 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     }
     
     func bind(reactor: DetailReactor) {
+        
         reactor.state
             .map { $0.detailData }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
             .drive(onNext: { [weak self] info in
-                self?.collectionView.delegate = nil
-                self?.collectionView.dataSource = nil
                 guard let images = info.images else { return }
                 self?.pageControl.numberOfPages = images.count + 1
-                var imageCellArr: [CellModel] = []
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.detailData }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .map { [weak self] info -> [CellModel] in
+                var returnValue: [CellModel] = []
+                returnValue.append(.cover(info))
+                guard let images = info.images else { return [] }
                 for imageItem in images {
-                    imageCellArr.append(CellModel.commonImage(imageItem, info.emotion, info.name))
+                    returnValue.append(CellModel.commonImage(imageItem, info.emotion, info.name))
                 }
-                let sections = Observable.just([
-                    SectionModel(model: "card", items: [
-                        CellModel.cover(info)
-                    ]),
-                    SectionModel(model: "image", items: imageCellArr)
-                ])
-                guard let self = self else { return }
-                let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { dataSource, collectionView, indexPath, item in
-                    switch item {
-                    case .cover(let infoData):
-                        return self.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath)
-                    case .commonImage(let imageInfo, let emotion, let name):
-                        return self.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath)
-                    }
-                })
                 let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
                 layout.minimumLineSpacing = 0
                 layout.minimumInteritemSpacing = 0
@@ -96,21 +103,19 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
                 let height = UIScreen.main.bounds.height
                 layout.itemSize = CGSize(width: width, height: height)
                 layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                self.collectionView.collectionViewLayout = layout
-                sections
-                    .bind(to: self.collectionView.rx.items(dataSource: dataSource))
-                    .disposed(by: self.disposeBag)
-            })
+                self?.collectionView.collectionViewLayout = layout
+                return returnValue
+            }
+            .flatMap { info -> Observable<[SectionModel]> in
+                return .just([.init(model: "", items: info)])
+            }
+            .bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
         
         self.collectionView.rx.didEndDisplayingCell
             .asDriver()
             .drive(onNext: { [weak self] info in
-                var index: Int = 0
-                if info.at.section != 0 {
-                    index = info.at.item + 1
-                }
-                
+                let index: Int = info.at.item
                 if index != (self?.willDisplayIndex ?? 0) {
                     self?.pageControl.currentPage = self?.willDisplayIndex ?? 0
                 }
@@ -119,11 +124,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         
         self.collectionView.rx.willDisplayCell
             .subscribe(onNext: { [weak self] info in
-                if info.at.section == 0 {
-                    self?.willDisplayIndex = 0
-                } else {
-                    self?.willDisplayIndex = info.at.item + 1
-                }
+                self?.willDisplayIndex = info.at.item
             })
             .disposed(by: self.disposeBag)
         
@@ -162,10 +163,6 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
                 }
             })
             .disposed(by: self.disposeBag)
-    }
-    
-    deinit {
-        
     }
     
     // MARK: private function
@@ -249,9 +246,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     }
     
     @objc private func backButtonClicked(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: { [weak self] in
-            self?.delegate?.closed(from: self ?? UIViewController())
-        })
+        self.dismiss(animated: true)
     }
 
 }
