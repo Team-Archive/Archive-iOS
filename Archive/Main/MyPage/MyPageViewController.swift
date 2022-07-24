@@ -23,18 +23,68 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         $0.backgroundColor = .clear
     }
     
-    private let topContentsContainerView = UIView().then {
-//        $0.backgroundColor = Gen.Colors.white.color
-        $0.backgroundColor = .brown
-    }
-    private let topContentsContainerViewHeight: CGFloat = 220
-    
-    private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
-        $0.delaysContentTouches = false
-        $0.contentInset = UIEdgeInsets(top: self.topContentsContainerViewHeight, left: 0, bottom: 0, right: 0)
-        $0.alwaysBounceVertical = true
+    private let scrollView = UIScrollView().then {
+        $0.backgroundColor = .clear
     }
     
+    private let stackView = UIStackView().then {
+        $0.backgroundColor = .clear
+        $0.axis = .vertical
+        $0.distribution = .fill
+    }
+    
+    // profile
+    
+    private let myProfileContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let profileImageContainerView = UIView().then {
+        $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 31
+        $0.layer.masksToBounds = true
+    }
+    
+    private let profileImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+        $0.image = Gen.Images.userImagePlaceHolder.image
+    }
+    
+    private let nameLabel = UILabel().then {
+        $0.font = .fonts(.header3)
+        $0.textColor = Gen.Colors.gray01.color
+        $0.text = "test"
+    }
+    
+    private lazy var modifyProfileBtn = UIButton().then {
+        $0.titleLabel?.font = .fonts(.button)
+        $0.setTitleAllState("프로필 수정")
+        $0.setTitleColor(Gen.Colors.gray02.color, for: .normal)
+        $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
+        $0.addTarget(self, action: #selector(modifyProfileBtnAction), for: .touchUpInside) 버튼이안눌려
+    }
+    
+    private let modifyProfileBtnUnderlineView = UIView().then {
+        $0.backgroundColor = Gen.Colors.gray02.color
+    }
+    
+    // like
+    
+    private let likeContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    // setting
+    
+    private let settingContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    // about
+    
+    private let aboutContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
     
     // MARK: private property
     
@@ -67,24 +117,90 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
             $0.edges.equalTo(safeGuide)
         }
         
-        self.mainContentsView.addSubview(self.collectionView)
-        self.collectionView.snp.makeConstraints {
+        self.mainContentsView.addSubview(self.scrollView)
+        self.scrollView.addSubview(self.stackView)
+        self.scrollView.snp.makeConstraints {
             $0.edges.equalTo(self.mainContentsView)
+            $0.width.equalTo(self.mainContentsView)
         }
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.itemSize = CGSize(width: 100, height: 100)
-        self.collectionView.collectionViewLayout = layout
         
-        self.mainContentsView.addSubview(self.topContentsContainerView)
-        self.topContentsContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.mainContentsView.snp.top)
-            $0.leading.equalTo(self.mainContentsView.snp.leading)
-            $0.trailing.equalTo(self.mainContentsView.snp.trailing)
-            $0.height.equalTo(self.topContentsContainerViewHeight)
+        self.stackView.snp.makeConstraints {
+            $0.top.bottom.equalTo(self.scrollView)
+            $0.leading.equalTo(self.scrollView).offset(32)
+            $0.trailing.equalTo(self.scrollView).offset(-32)
         }
+        
+//        let testView = UIView().then {
+//            $0.backgroundColor = .brown
+//        }
+//        testView.snp.makeConstraints {
+//            $0.height.equalTo(3300)
+//            $0.width.equalTo(UIScreen.main.bounds.width)
+//        }
+//        let testView2 = UIView().then {
+//            $0.backgroundColor = .blue
+//        }
+//        testView2.snp.makeConstraints {
+//            $0.height.equalTo(3300)
+//            $0.width.equalTo(UIScreen.main.bounds.width)
+//        }
+//        self.stackView.addArrangedSubview(testView)
+//        self.stackView.addArrangedSubview(testView2)
+        
+        self.profileImageContainerView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.height.equalTo(500)
+        }
+        
+        self.myProfileContainerView.addSubview(self.profileImageContainerView)
+        self.profileImageContainerView.snp.makeConstraints {
+            $0.leading.equalTo(self.myProfileContainerView)
+            $0.top.equalTo(self.myProfileContainerView).offset(12)
+            $0.bottom.equalTo(self.myProfileContainerView).offset(-12)
+            $0.width.height.equalTo(62)
+        }
+        
+        self.profileImageContainerView.addSubview(self.profileImageView)
+        self.profileImageView.snp.makeConstraints {
+            $0.edges.equalTo(self.profileImageContainerView)
+        }
+        
+        self.myProfileContainerView.addSubview(self.nameLabel)
+        self.nameLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.profileImageContainerView.snp.trailing).offset(16)
+            $0.top.equalTo(self.profileImageContainerView)
+        }
+        
+        self.myProfileContainerView.addSubview(self.modifyProfileBtnUnderlineView)
+        self.modifyProfileBtnUnderlineView.snp.makeConstraints {
+            $0.bottom.equalTo(self.profileImageContainerView)
+            $0.height.equalTo(1)
+            $0.width.equalTo(64)
+            $0.leading.equalTo(self.profileImageContainerView.snp.trailing).offset(16)
+        }
+        
+        self.myProfileContainerView.addSubview(self.modifyProfileBtn)
+        self.modifyProfileBtn.snp.makeConstraints {
+            $0.bottom.equalTo(self.modifyProfileBtnUnderlineView.snp.top).offset(4)
+            $0.leading.equalTo(self.modifyProfileBtnUnderlineView)
+            $0.width.equalTo(64)
+            $0.height.equalTo(31)
+        }
+        
+        self.stackView.addArrangedSubview(self.myProfileContainerView)
+        
+        
+       
+//        private lazy var modifyProfileBtn = UIButton().then {
+//            $0.setTitleAllState("프로필 수정")
+//            $0.setTitleColor(Gen.Colors.gray02.color, for: .normal)
+//            $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
+//            $0.addTarget(self, action: #selector(modifyProfileBtnAction), for: .touchUpInside)
+//        }
+//
+//        private let  = UIView().then {
+//            $0.backgroundColor = Gen.Colors.gray02.color
+//        }
         
     }
     
@@ -93,24 +209,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     func bind(reactor: MyPageReactor) {
-        self.collectionView.rx.contentOffset
-            .asDriver()
-            .drive(onNext: { [weak self] offset in
-                print("offset: \(offset.y)")
-//                if offset.y >= 0 {
-//
-//                } else {
-//
-//                }
-                guard let strongSelf = self else { return }
-                let translation = strongSelf.collectionView.panGestureRecognizer.translation(in: strongSelf.collectionView.superview)
-                if translation.y > 0 {
-                    print("다운")
-                } else {
-                    print("업")
-                }
-            })
-            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {
@@ -121,6 +220,10 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     
     private func setUp() {
         
+    }
+    
+    @objc private func modifyProfileBtnAction() {
+        print("modify")
     }
     
     // MARK: func
