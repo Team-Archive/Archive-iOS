@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class DetailContentsCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
@@ -67,6 +68,7 @@ class DetailContentsCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
     override func awakeFromNib() {
         super.awakeFromNib()
         initUI()
+        ImageCache.default.clearCache()
     }
     
     // MARK: private function

@@ -26,7 +26,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     private let detailStoryBoard = UIStoryboard(name: Constants.DetailStoryBoardName, bundle: nil)
     private let myPageStoryBoard = UIStoryboard(name: Constants.MyPageStoryBoardName, bundle: nil)
     
-    private var subVCNavi: UINavigationController?
     private weak var homeViewControllerPtr: HomeViewController?
     private weak var recordViewController: RecordViewController?
     private weak var editEmotionViewController: EmotionSelectViewController?
@@ -63,7 +62,8 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         switch step {
         case .detailIsRequired(let info, let index):
             GAModule.sendEventLogToGA(.showDetail)
-            return navigationToDetailScreen(infoData: info, index: index)
+            navigationToDetailScreen(infoData: info, index: index)
+            return .none
         case .myPageIsRequired:
             return navigationToMyPageScreen()
         case .loginInfomationIsRequired(let type, let email, let cardCnt):
@@ -77,23 +77,18 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         }
     }
     
-    private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int) -> FlowContributors {
-        let model: DetailModel = DetailModel(recordData: infoData, index: index)
-        let reactor = DetailReactor(model: model)
+    private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int) {
+        let reactor = DetailReactor(recordData: infoData, index: index)
         let detailViewController: DetailViewController = detailStoryBoard.instantiateViewController(identifier: DetailViewController.identifier) { corder in
             return DetailViewController(coder: corder, reactor: reactor)
         }
         detailViewController.title = Constants.DetailNavigationTitle
         detailViewController.delegate = self
+        let navi = UINavigationController(rootViewController: detailViewController)
+        navi.modalPresentationStyle = .fullScreen
         DispatchQueue.main.async {
-            self.subVCNavi = UINavigationController(rootViewController: detailViewController)
-            if let navi = self.subVCNavi {
-                navi.modalPresentationStyle = .fullScreen
-                self.rootViewController?.present(navi, animated: true, completion: nil)
-            }
+            self.rootViewController?.present(navi, animated: true)
         }
-        return .one(flowContributor: .contribute(withNextPresentable: detailViewController,
-                                                 withNextStepper: reactor))
     }
     
     private func navigationToMyPageScreen() -> FlowContributors {
@@ -128,7 +123,7 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     
 }
 
-extension HomeFlow: CommonViewControllerProtocol, DetailViewControllerDelegate {
+extension HomeFlow: DetailViewControllerDelegate {
     func willDeletedArchive(index: Int) {
         self.homeViewControllerPtr?.willDeletedIndex(index)
     }
@@ -137,8 +132,4 @@ extension HomeFlow: CommonViewControllerProtocol, DetailViewControllerDelegate {
         self.homeViewControllerPtr?.reactor?.action.onNext(.refreshMyArchives)
     }
     
-    func closed(from: UIViewController) {
-        self.subVCNavi?.viewControllers = []
-        self.subVCNavi = nil
-    }
 }
