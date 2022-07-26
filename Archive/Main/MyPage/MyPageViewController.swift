@@ -162,6 +162,81 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         $0.backgroundColor = .clear
     }
     
+    private let aboutTitleContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let aboutTitleLabel = UILabel().then {
+        $0.font = .fonts(.header3)
+        $0.textColor = Gen.Colors.gray01.color
+        $0.text = "About Archive"
+    }
+    
+    private let aboutTitleUnderlineView = UIView().then {
+        $0.backgroundColor = Gen.Colors.gray01.color
+    }
+    
+    private let aboutInfoContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let aboutInfoTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "아카이브 소개"
+    }
+    
+    private lazy var aboutInfoBtn = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(aboutInfoAction), for: .touchUpInside)
+    }
+    
+    private let termsInfoContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let termsInfoTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "이용약관 보기"
+    }
+    
+    private lazy var termsInfoBtn = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(termsInfoAction), for: .touchUpInside)
+    }
+    
+    private let privacyInfoContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let privacyInfoTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "개인정보 처리방침"
+    }
+    
+    private lazy var privacyInfoBtn = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(privacyInfoAction), for: .touchUpInside)
+    }
+    
+    private let versionInfoContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let versionInfoTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray03.color
+        $0.text = "현재 버전"
+    }
+    
+    private lazy var versionInfoLabel = UILabel().then {
+        $0.font = .fonts(.caption)
+        $0.textColor = Gen.Colors.gray03.color
+        $0.text = "v\((Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String) ?? "0")"
+    }
+    
     // MARK: private property
     
     // MARK: property
@@ -292,11 +367,159 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         }
         
         // setting
+        
+        self.settingContainerView.addSubview(self.settingTitleContainerView)
+        self.settingTitleContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.settingContainerView).offset(20)
+            $0.leading.trailing.equalTo(self.settingContainerView)
+            $0.height.equalTo(62)
+        }
+        
+        self.settingTitleContainerView.addSubview(self.settingTitleLabel)
+        self.settingTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(self.settingTitleContainerView)
+            $0.leading.trailing.equalTo(self.settingTitleContainerView)
+        }
+        
+        self.settingTitleContainerView.addSubview(self.settingTitleUnderlineView)
+        self.settingTitleUnderlineView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(self.settingTitleContainerView)
+            $0.height.equalTo(1)
+        }
+        
+        self.settingContainerView.addSubview(self.loginInfoContainerView)
+        self.loginInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.settingTitleContainerView.snp.bottom).offset(12)
+            $0.height.equalTo(48)
+        }
+        
+        self.loginInfoContainerView.addSubview(self.loginInfoTitleLabel)
+        self.loginInfoTitleLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.loginInfoContainerView)
+            $0.centerY.equalTo(self.loginInfoContainerView)
+        }
+        
+        self.loginInfoContainerView.addSubview(self.loginInfoBtn)
+        self.loginInfoBtn.snp.makeConstraints {
+            $0.edges.equalTo(self.loginInfoContainerView)
+        }
+        
+        self.settingContainerView.addSubview(pushNotiContainerView)
+        self.pushNotiContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.loginInfoContainerView.snp.bottom)
+            $0.leading.trailing.equalTo(self.settingContainerView)
+            $0.height.equalTo(87)
+            $0.bottom.equalTo(self.settingContainerView)
+        }
+        
+        self.pushNotiContainerView.addSubview(self.pushNotiTitleLabel)
+        self.pushNotiTitleLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.pushNotiContainerView)
+            $0.top.equalTo(self.pushNotiContainerView).offset(15)
+        }
+        
+        self.pushNotiContainerView.addSubview(self.pushNotiToggleBtn)
+        self.pushNotiToggleBtn.snp.makeConstraints {
+            $0.centerY.equalTo(self.pushNotiTitleLabel)
+            $0.trailing.equalTo(self.pushNotiContainerView).offset(-32)
+        }
+        
+        self.pushNotiContainerView.addSubview(self.pushNotiHelpLabel)
+        self.pushNotiHelpLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.pushNotiContainerView)
+            $0.top.equalTo(self.pushNotiTitleLabel.snp.bottom).offset(13)
+        }
+        
+        // MARK: about
+        
+        self.aboutContainerView.addSubview(self.aboutTitleContainerView)
+        self.aboutTitleContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.aboutContainerView).offset(20)
+            $0.leading.trailing.equalTo(self.aboutContainerView)
+            $0.height.equalTo(62)
+        }
 
+        self.aboutTitleContainerView.addSubview(self.aboutTitleLabel)
+        self.aboutTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(self.aboutTitleContainerView)
+            $0.leading.trailing.equalTo(self.aboutTitleContainerView)
+        }
+
+        self.aboutTitleContainerView.addSubview(self.aboutTitleUnderlineView)
+        self.aboutTitleUnderlineView.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalTo(self.aboutTitleContainerView)
+            $0.height.equalTo(1)
+        }
         
-        
-        
-        
+        self.aboutContainerView.addSubview(self.aboutInfoContainerView)
+        self.aboutInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.aboutTitleContainerView.snp.bottom).offset(12)
+            $0.height.equalTo(48)
+        }
+
+        self.aboutInfoContainerView.addSubview(self.aboutInfoTitleLabel)
+        self.aboutInfoTitleLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.aboutInfoContainerView)
+            $0.centerY.equalTo(self.aboutInfoContainerView)
+        }
+
+        self.aboutInfoContainerView.addSubview(self.aboutInfoBtn)
+        self.aboutInfoBtn.snp.makeConstraints {
+            $0.edges.equalTo(self.aboutInfoContainerView)
+        }
+
+        self.aboutContainerView.addSubview(self.termsInfoContainerView)
+        self.termsInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.aboutInfoContainerView.snp.bottom)
+            $0.height.equalTo(48)
+        }
+
+        self.termsInfoContainerView.addSubview(self.termsInfoTitleLabel)
+        self.termsInfoTitleLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.termsInfoContainerView)
+            $0.centerY.equalTo(self.termsInfoContainerView)
+        }
+
+        self.termsInfoContainerView.addSubview(self.termsInfoBtn)
+        self.termsInfoBtn.snp.makeConstraints {
+            $0.edges.equalTo(self.termsInfoContainerView)
+        }
+
+        self.aboutContainerView.addSubview(self.privacyInfoContainerView)
+        self.privacyInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.termsInfoContainerView.snp.bottom)
+            $0.height.equalTo(48)
+        }
+
+        self.privacyInfoContainerView.addSubview(self.privacyInfoTitleLabel)
+        self.privacyInfoTitleLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.privacyInfoContainerView)
+            $0.centerY.equalTo(self.privacyInfoContainerView)
+        }
+
+        self.privacyInfoContainerView.addSubview(self.privacyInfoBtn)
+        self.privacyInfoBtn.snp.makeConstraints {
+            $0.edges.equalTo(self.privacyInfoContainerView)
+        }
+
+        self.aboutContainerView.addSubview(self.versionInfoContainerView)
+        self.versionInfoContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.privacyInfoContainerView.snp.bottom)
+            $0.height.equalTo(74)
+            $0.bottom.equalTo(aboutContainerView)
+        }
+
+        self.versionInfoContainerView.addSubview(self.versionInfoTitleLabel)
+        self.versionInfoTitleLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.versionInfoContainerView)
+            $0.top.equalTo(self.versionInfoContainerView).offset(14)
+        }
+
+        self.versionInfoContainerView.addSubview(self.versionInfoLabel)
+        self.versionInfoLabel.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.versionInfoContainerView)
+            $0.top.equalTo(self.versionInfoTitleLabel.snp.bottom).offset(4)
+        }
         
         self.stackView.addArrangedSubview(self.myProfileContainerView)
         self.stackView.addArrangedSubview(self.likeContainerView)
@@ -335,6 +558,17 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         print("loginInfoAction")
     }
     
+    @objc private func aboutInfoAction() {
+        print("aboutInfoAction")
+    }
+    
+    @objc private func termsInfoAction() {
+        print("termsInfoAction")
+    }
+    
+    @objc private func privacyInfoAction() {
+        print("privacyInfoAction")
+    }
     
     
     // MARK: func
