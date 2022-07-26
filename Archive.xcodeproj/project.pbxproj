@@ -1284,13 +1284,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 44F9B0F1270606EE005418F0 /* Build configuration list for PBXNativeTarget "Archive" */;
 			buildPhases = (
+				78315E702764C35C001B3342 /* Gen */,
 				0E3F08398E39A88DA3820B45 /* [CP] Check Pods Manifest.lock */,
 				44F9B0D9270606E7005418F0 /* Sources */,
 				44F9B0DA270606E7005418F0 /* Frameworks */,
 				44F9B0DB270606E7005418F0 /* Resources */,
 				D66E2DBAF1C05AE16297D93D /* [CP] Embed Pods Frameworks */,
 				78315E6F2764C349001B3342 /* Lint */,
-				78315E702764C35C001B3342 /* Gen */,
 				789D1D1727AE4708004D7A24 /* Firebase Crashlytics */,
 			);
 			buildRules = (

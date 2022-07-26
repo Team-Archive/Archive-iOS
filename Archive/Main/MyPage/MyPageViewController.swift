@@ -25,6 +25,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     
     private let scrollView = UIScrollView().then {
         $0.backgroundColor = .clear
+        $0.delaysContentTouches = false
     }
     
     private let stackView = UIStackView().then {
@@ -61,7 +62,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         $0.setTitleAllState("프로필 수정")
         $0.setTitleColor(Gen.Colors.gray02.color, for: .normal)
         $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
-        $0.addTarget(self, action: #selector(modifyProfileBtnAction), for: .touchUpInside) 버튼이안눌려
+        $0.addTarget(self, action: #selector(modifyProfileBtnAction), for: .touchUpInside)
     }
     
     private let modifyProfileBtnUnderlineView = UIView().then {
@@ -74,10 +75,85 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         $0.backgroundColor = .clear
     }
     
+    private let likeContentsContainerView = UIView().then {
+        $0.backgroundColor = Gen.Colors.gray06.color
+        $0.layer.cornerRadius = 12
+    }
+    
+    private let likeContentsImageView = UIImageView().then {
+        $0.image = Gen.Images.likeList.image
+    }
+    
+    private let likeContentsLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "좋아요 한 전시기록"
+    }
+    
+    private let likeContentsCntLabel = UILabel().then {
+        $0.font = .fonts(.header3)
+        $0.textColor = Gen.Colors.black.color
+        $0.text = "0"
+    }
+    
+    private lazy var showLikeListBtn = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(showLikeListAction), for: .touchUpInside)
+    }
+    
     // setting
     
     private let settingContainerView = UIView().then {
         $0.backgroundColor = .clear
+    }
+    
+    private let settingTitleContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let settingTitleLabel = UILabel().then {
+        $0.font = .fonts(.header3)
+        $0.textColor = Gen.Colors.gray01.color
+        $0.text = "나의 계정설정"
+    }
+    
+    private let settingTitleUnderlineView = UIView().then {
+        $0.backgroundColor = Gen.Colors.gray01.color
+    }
+    
+    private let loginInfoContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let loginInfoTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "로그인 정보"
+    }
+    
+    private lazy var loginInfoBtn = UIButton().then {
+        $0.backgroundColor = .clear
+        $0.addTarget(self, action: #selector(loginInfoAction), for: .touchUpInside)
+    }
+    
+    private let pushNotiContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let pushNotiTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "푸시 알림 허용"
+    }
+    
+    private let pushNotiToggleBtn = UISwitch().then {
+        $0.onTintColor = Gen.Colors.black.color
+    }
+    
+    private let pushNotiHelpLabel = UILabel().then {
+        $0.font = .fonts(.caption)
+        $0.textColor = Gen.Colors.gray03.color
+        $0.text = "전시회를 다녀오고, 시간이 지나면 알려드립니다."
     }
     
     // about
@@ -130,26 +206,20 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
             $0.trailing.equalTo(self.scrollView).offset(-32)
         }
         
-//        let testView = UIView().then {
-//            $0.backgroundColor = .brown
-//        }
-//        testView.snp.makeConstraints {
-//            $0.height.equalTo(3300)
-//            $0.width.equalTo(UIScreen.main.bounds.width)
-//        }
-//        let testView2 = UIView().then {
-//            $0.backgroundColor = .blue
-//        }
-//        testView2.snp.makeConstraints {
-//            $0.height.equalTo(3300)
-//            $0.width.equalTo(UIScreen.main.bounds.width)
-//        }
-//        self.stackView.addArrangedSubview(testView)
-//        self.stackView.addArrangedSubview(testView2)
+        self.myProfileContainerView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.main.bounds.width - 64)
+        }
         
-        self.profileImageContainerView.snp.makeConstraints {
-            $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.height.equalTo(500)
+        self.likeContainerView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.main.bounds.width - 64)
+        }
+        
+        self.settingContainerView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.main.bounds.width - 64)
+        }
+        
+        self.aboutContainerView.snp.makeConstraints {
+            $0.width.equalTo(UIScreen.main.bounds.width - 64)
         }
         
         self.myProfileContainerView.addSubview(self.profileImageContainerView)
@@ -187,20 +257,51 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
             $0.height.equalTo(31)
         }
         
+        // Like
+        
+        self.likeContainerView.addSubview(self.likeContentsContainerView)
+        self.likeContentsContainerView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(self.likeContainerView)
+            $0.top.bottom.equalTo(self.likeContainerView).offset(20)
+            $0.height.equalTo(60)
+        }
+        
+        self.likeContentsContainerView.addSubview(self.likeContentsImageView)
+        self.likeContentsImageView.snp.makeConstraints {
+            $0.leading.equalTo(self.likeContentsContainerView).offset(20)
+            $0.centerY.equalTo(self.likeContentsContainerView)
+            $0.width.height.equalTo(40)
+        }
+        
+        self.likeContentsContainerView.addSubview(self.likeContentsCntLabel)
+        self.likeContentsCntLabel.snp.makeConstraints {
+            $0.trailing.equalTo(self.likeContentsContainerView.snp.trailing).offset(-20)
+            $0.centerY.equalTo(self.likeContentsContainerView)
+        }
+        
+        self.likeContentsContainerView.addSubview(self.likeContentsLabel)
+        self.likeContentsLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.likeContentsImageView.snp.trailing).offset(4)
+            $0.centerY.equalTo(self.likeContentsContainerView)
+            $0.trailing.lessThanOrEqualTo(self.likeContentsCntLabel.snp.leading).offset(4)
+        }
+        
+        self.likeContainerView.addSubview(self.showLikeListBtn)
+        self.showLikeListBtn.snp.makeConstraints {
+            $0.edges.equalTo(self.likeContainerView)
+        }
+        
+        // setting
+
+        
+        
+        
+        
+        
         self.stackView.addArrangedSubview(self.myProfileContainerView)
-        
-        
-       
-//        private lazy var modifyProfileBtn = UIButton().then {
-//            $0.setTitleAllState("프로필 수정")
-//            $0.setTitleColor(Gen.Colors.gray02.color, for: .normal)
-//            $0.setTitleColor(Gen.Colors.gray03.color, for: .highlighted)
-//            $0.addTarget(self, action: #selector(modifyProfileBtnAction), for: .touchUpInside)
-//        }
-//
-//        private let  = UIView().then {
-//            $0.backgroundColor = Gen.Colors.gray02.color
-//        }
+        self.stackView.addArrangedSubview(self.likeContainerView)
+        self.stackView.addArrangedSubview(self.settingContainerView)
+        self.stackView.addArrangedSubview(self.aboutContainerView)
         
     }
     
@@ -225,6 +326,16 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     @objc private func modifyProfileBtnAction() {
         print("modify")
     }
+    
+    @objc private func showLikeListAction() {
+        print("showLikeListAction")
+    }
+    
+    @objc private func loginInfoAction() {
+        print("loginInfoAction")
+    }
+    
+    
     
     // MARK: func
     
