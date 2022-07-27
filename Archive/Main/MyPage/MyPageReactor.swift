@@ -18,29 +18,28 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: internal property
     
     let steps = PublishRelay<Step>()
-    let initialState = State()
+    let initialState: State
     
     // MARK: lifeCycle
     
     init() {
-        
+        self.initialState = .init()
     }
     
     enum Action {
         case endFlow
-        case cardCnt
         case moveToLoginInfo
         case openTerms
         case openPrivacy
     }
     
     enum Mutation {
-        case setCardCnt(Int)
+        case empty
         case setIsLoading(Bool)
     }
     
     struct State {
-        var cardCnt: Int = 0
+        let cardCnt: Int = 0
         var isLoading: Bool = false
     }
     
@@ -49,8 +48,6 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .endFlow:
             self.steps.accept(ArchiveStep.myPageIsComplete)
             return .empty()
-        case .cardCnt:
-            return .just(.setCardCnt(0))
         case .moveToLoginInfo:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
@@ -68,10 +65,12 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                 }
             ])
         case .openTerms:
-            Util.openUseSafari("https://wise-icicle-d10.notion.site/8ad4c5884b814ff6a6330f1a6143c1e6")
+            guard let url = URL(string: "https://wise-icicle-d10.notion.site/8ad4c5884b814ff6a6330f1a6143c1e6") else { return .empty()}
+            self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "이용약관"))
             return .empty()
         case .openPrivacy:
-            Util.openUseSafari("https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae")
+            guard let url = URL(string: "https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae") else { return .empty()}
+            self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "개인정보 처리방침"))
             return .empty()
         }
     }
@@ -79,8 +78,8 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .setCardCnt(let cardCnt):
-            newState.cardCnt = cardCnt
+        case .empty:
+            break
         case .setIsLoading(let isLoading):
             newState.isLoading = isLoading
         }

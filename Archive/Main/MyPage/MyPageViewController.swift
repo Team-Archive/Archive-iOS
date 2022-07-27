@@ -555,7 +555,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     @objc private func loginInfoAction() {
-        print("loginInfoAction")
+        self.reactor?.action.onNext(.moveToLoginInfo)
     }
     
     @objc private func aboutInfoAction() {
@@ -563,11 +563,11 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     @objc private func termsInfoAction() {
-        print("termsInfoAction")
+        self.reactor?.action.onNext(.openTerms)
     }
     
     @objc private func privacyInfoAction() {
-        print("privacyInfoAction")
+        self.reactor?.action.onNext(.openPrivacy)
     }
     
     

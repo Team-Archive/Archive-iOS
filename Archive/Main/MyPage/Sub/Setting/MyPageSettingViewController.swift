@@ -40,7 +40,6 @@ class MyPageSettingViewController: UIViewController, StoryboardView, ActivityInd
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        self.reactor?.action.onNext(.cardCnt)
     }
     
     init?(coder: NSCoder, reactor: MyPageReactor) {

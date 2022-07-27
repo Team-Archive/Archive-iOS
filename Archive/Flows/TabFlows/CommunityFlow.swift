@@ -41,8 +41,8 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
-    private func navigationToBannerWebViewDetail(url: URL) {
-        let vc = CommonWebViewController(url: url, title: "")
+    private func navigationToBannerWebViewDetail(url: URL, title: String) {
+        let vc = CommonWebViewController(url: url, title: title)
         let navi = UINavigationController(rootViewController: vc)
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController?.present(navi, animated: true)
@@ -63,8 +63,8 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         case .bannerImageIsRequired(let imageUrl):
             navigationToBannerImageDetail(url: imageUrl)
             return .none
-        case .bannerUrlIsRequired(let url):
-            navigationToBannerWebViewDetail(url: url)
+        case .openUrlIsRequired(let url, let title):
+            navigationToBannerWebViewDetail(url: url, title: title)
             return .none
         default:
             return .none
