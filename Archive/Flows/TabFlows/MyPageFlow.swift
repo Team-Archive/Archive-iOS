@@ -49,16 +49,13 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     
     
     
-//    private func navigationToWithdrawalScreen(cardCount: Int) -> FlowContributors {
-//        let model: WithdrawalModel = WithdrawalModel(cardCount: cardCount)
-//        let reactor = WithdrawalReactor(model: model)
-//        let withdrawalViewController: WithdrawalViewController = myPageStoryBoard.instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
-//            return WithdrawalViewController(coder: corder, reactor: reactor)
-//        }
-//        withdrawalViewController.title = Constants.WithdrawalNavigationTitle
-//        rootViewController?.pushViewController(withdrawalViewController, animated: true)
-//        return .one(flowContributor: .contribute(withNextPresentable: withdrawalViewController, withNextStepper: reactor))
-//    }
+    private func navigationToWithdrawalScreen(reactor: LoginInformationReactor) {
+        let withdrawalViewController: WithdrawalViewController = UIStoryboard(name: "MyPage", bundle: nil).instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
+            return WithdrawalViewController(coder: corder, reactor: reactor)
+        }
+        withdrawalViewController.title = "회원탈퇴"
+        rootViewController?.pushViewController(withdrawalViewController, animated: true)
+    }
     
     // MARK: internal function
     
@@ -79,7 +76,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .none
         case .logout:
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
-        case .withdrawalIsRequired(let cnt):
+        case .withdrawalIsRequired(let reactor):
+            navigationToWithdrawalScreen(reactor: reactor)
             return .none
         default:
             return .none

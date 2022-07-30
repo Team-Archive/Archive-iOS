@@ -62,4 +62,21 @@ class FindPasswordRepositoryImplement: FindPasswordRepository {
                     .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
+    
+    func withdrawal() -> Observable<Result<Void, ArchiveError>> {
+        let provider = ArchiveProvider.shared.provider
+        
+        return provider.rx.request(.withdrawal, callbackQueue: DispatchQueue.global())
+            .asObservable()
+            .map { result in
+                if result.statusCode == 200 {
+                    return .success(())
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: ""))
+                }
+            }
+            .catch { err in
+                return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
+            }
+    }
 }

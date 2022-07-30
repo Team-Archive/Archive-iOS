@@ -64,5 +64,9 @@ class FindPasswordUsecase: NSObject {
         return self.repository.changePassword(eMail: eMail, currentPassword: currentPassword, newPassword: newPassword)
     }
     
+    func withdrawal() -> Observable<Result<Void, ArchiveError>> {
+        return self.repository.withdrawal()
+    }
+    
 }
 

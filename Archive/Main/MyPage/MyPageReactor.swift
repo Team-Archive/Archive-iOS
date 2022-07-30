@@ -43,7 +43,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     struct State {
-        let cardCnt: Int = 0
+        let cardCnt: Int = 0 // TODO: 아카이브 갯수만 받아오는 API추가해야할듯
         var isLoading: Bool = false
     }
     

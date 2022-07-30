@@ -189,8 +189,6 @@
 		78BB7E282778970900DF78AF /* DetailFriendsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E262778970900DF78AF /* DetailFriendsCollectionViewCell.xib */; };
 		78C4B328272428AB0006EBAD /* MyPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C4B327272428AB0006EBAD /* MyPage.storyboard */; };
 		78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */; };
-		78C4B32D2724292D0006EBAD /* WithdrawalReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32C2724292D0006EBAD /* WithdrawalReactor.swift */; };
-		78C4B32F272429370006EBAD /* WithdrawalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32E272429370006EBAD /* WithdrawalModel.swift */; };
 		78C4B33527243C660006EBAD /* NSMutableAttributedStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33427243C660006EBAD /* NSMutableAttributedStringExtension.swift */; };
 		78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33727244ACB0006EBAD /* CommonAlertView.swift */; };
 		78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33A27244C000006EBAD /* UIViewExtension.swift */; };
@@ -415,8 +413,6 @@
 		78BB7E262778970900DF78AF /* DetailFriendsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailFriendsCollectionViewCell.xib; sourceTree = "<group>"; };
 		78C4B327272428AB0006EBAD /* MyPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyPage.storyboard; sourceTree = "<group>"; };
 		78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalViewController.swift; sourceTree = "<group>"; };
-		78C4B32C2724292D0006EBAD /* WithdrawalReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalReactor.swift; sourceTree = "<group>"; };
-		78C4B32E272429370006EBAD /* WithdrawalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalModel.swift; sourceTree = "<group>"; };
 		78C4B33427243C660006EBAD /* NSMutableAttributedStringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedStringExtension.swift; sourceTree = "<group>"; };
 		78C4B33727244ACB0006EBAD /* CommonAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAlertView.swift; sourceTree = "<group>"; };
 		78C4B33A27244C000006EBAD /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -1209,8 +1205,6 @@
 			isa = PBXGroup;
 			children = (
 				78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */,
-				78C4B32C2724292D0006EBAD /* WithdrawalReactor.swift */,
-				78C4B32E272429370006EBAD /* WithdrawalModel.swift */,
 			);
 			path = Withdrawal;
 			sourceTree = "<group>";
@@ -1622,7 +1616,6 @@
 				4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */,
 				789E61992725550A00D6E18F /* RecordViewController.swift in Sources */,
 				784D1E2127088BC0004B1A23 /* HWFlipView.swift in Sources */,
-				78C4B32F272429370006EBAD /* WithdrawalModel.swift in Sources */,
 				781C8450282F8B6E004A0FB3 /* FakeSplashView.swift in Sources */,
 				788AB648280A9EAE00182B45 /* FindPasswordUsecase.swift in Sources */,
 				780389E2278988BF00DB1730 /* CardRecordCollectionViewCell.swift in Sources */,
@@ -1678,7 +1671,6 @@
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
-				78C4B32D2724292D0006EBAD /* WithdrawalReactor.swift in Sources */,
 				789E61B227257BD400D6E18F /* ImageRecordModel.swift in Sources */,
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
