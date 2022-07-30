@@ -32,11 +32,5 @@ class CardShareManager: NSObject {
         let imageToShare = [imageData]
         let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
         return activityViewController
-//        activityViewController.popoverPresentationController?.sourceView = self.shareBtn
-//        activityViewController.isModalInPresentation = true
-//
-//        activityViewController.excludedActivityTypes = [.airDrop, .message]
-
-//        self.present(activityViewController, animated: true, completion: nil)
     }
 }
