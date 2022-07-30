@@ -75,9 +75,7 @@ class RecordUploadCompleteViewController: UIViewController, StoryboardView {
                         fakeViewController?.dismiss(animated: false, completion: nil)
                     }
                     if isSaved {
-                        CommonAlertView.shared.show(message: "이미지 저장 완료", btnText: "확인", confirmHandler: {
-                            CommonAlertView.shared.hide()
-                        })
+                        ArchiveToastView.shared.show(message: "이미지 저장 완료", completeHandler: nil)
                     }
                 }
                 self?.present(fakeViewController, animated: true) { [weak fakeViewController] in
