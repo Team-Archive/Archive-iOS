@@ -62,10 +62,25 @@ class RecordUploadCompleteViewController: UIViewController, StoryboardView {
             .map { $0.shareActivityController }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
-            .drive(onNext: { controller in
+            .drive(onNext: { [weak self] controller in
                 controller.isModalInPresentation = true
                 controller.excludedActivityTypes = [.airDrop, .message]
-                self.present(controller, animated: true, completion: nil)
+                let fakeViewController = UIViewController()
+                fakeViewController.modalPresentationStyle = .overFullScreen
+
+                controller.completionWithItemsHandler = { [weak fakeViewController] _, isSaved, _, _ in
+                    if let presentingViewController = fakeViewController?.presentingViewController {
+                        presentingViewController.dismiss(animated: false, completion: nil)
+                    } else {
+                        fakeViewController?.dismiss(animated: false, completion: nil)
+                    }
+                    if isSaved {
+                        ArchiveToastView.shared.show(message: "이미지 저장 완료", completeHandler: nil)
+                    }
+                }
+                self?.present(fakeViewController, animated: true) { [weak fakeViewController] in
+                    fakeViewController?.present(controller, animated: true, completion: nil)
+                }
             })
             .disposed(by: self.disposeBag)
         
