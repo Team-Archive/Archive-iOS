@@ -68,11 +68,16 @@ class RecordUploadCompleteViewController: UIViewController, StoryboardView {
                 let fakeViewController = UIViewController()
                 fakeViewController.modalPresentationStyle = .overFullScreen
 
-                controller.completionWithItemsHandler = { [weak fakeViewController] _, _, _, _ in
+                controller.completionWithItemsHandler = { [weak fakeViewController] _, isSaved, _, _ in
                     if let presentingViewController = fakeViewController?.presentingViewController {
                         presentingViewController.dismiss(animated: false, completion: nil)
                     } else {
                         fakeViewController?.dismiss(animated: false, completion: nil)
+                    }
+                    if isSaved {
+                        CommonAlertView.shared.show(message: "이미지 저장 완료", btnText: "확인", confirmHandler: {
+                            CommonAlertView.shared.hide()
+                        })
                     }
                 }
                 self?.present(fakeViewController, animated: true) { [weak fakeViewController] in
