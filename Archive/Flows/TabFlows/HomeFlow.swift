@@ -15,7 +15,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         static let HomeNavigationTitle = ""
         static let DetailStoryBoardName = "Detail"
         static let DetailNavigationTitle = "나의 아카이브"
-        static let MyPageStoryBoardName = "MyPage"
         static let LoginInfoNavigationTitle = "로그인 정보"
         static let WithdrawalNavigationTitle = "회원탈퇴"
     }
@@ -24,7 +23,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     
     private let homeStoryBoard = UIStoryboard(name: Constants.HomeStoryBoardName, bundle: nil)
     private let detailStoryBoard = UIStoryboard(name: Constants.DetailStoryBoardName, bundle: nil)
-    private let myPageStoryBoard = UIStoryboard(name: Constants.MyPageStoryBoardName, bundle: nil)
     
     private weak var homeViewControllerPtr: HomeViewController?
     private weak var recordViewController: RecordViewController?
@@ -66,10 +64,8 @@ class HomeFlow: Flow, MainTabFlowProtocol {
             return .none
         case .myPageIsRequired:
             return navigationToMyPageScreen()
-        case .loginInfomationIsRequired(let type, let email, let cardCnt):
-            return navigationToLoginInformationScreen(type: type, eMail: email ?? "", cardCnt: cardCnt)
-        case .withdrawalIsRequired(let cnt):
-            return navigationToWithdrawalScreen(cardCount: cnt)
+//        case .withdrawalIsRequired(let cnt):
+//            return navigationToWithdrawalScreen(cardCount: cnt)
         case .logout:
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
         default:
@@ -90,34 +86,23 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     }
     
     private func navigationToMyPageScreen() -> FlowContributors {
-        let reactor = MyPageReactor()
+        let reactor = MyPageReactor(repository: MyPageRepositoryImplement())
         let myPageViewController = MyPageViewController(reactor: reactor)
         rootViewController?.pushViewController(myPageViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: myPageViewController,
                                                  withNextStepper: reactor))
     }
     
-    private func navigationToLoginInformationScreen(type: LoginType, eMail: String, cardCnt: Int) -> FlowContributors {
-        let model: LoginInformationModel = LoginInformationModel(email: eMail, cardCount: cardCnt)
-        let reactor = LoginInformationReactor(model: model, type: type, validator: Validator(), findPasswordUsecase: FindPasswordUsecase(repository: FindPasswordRepositoryImplement()))
-        let loginInfoViewController: LoginInformationViewController = myPageStoryBoard.instantiateViewController(identifier: LoginInformationViewController.identifier) { corder in
-            return LoginInformationViewController(coder: corder, reactor: reactor)
-        }
-        loginInfoViewController.title = Constants.LoginInfoNavigationTitle
-        rootViewController?.pushViewController(loginInfoViewController, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: loginInfoViewController, withNextStepper: reactor))
-    }
-    
-    private func navigationToWithdrawalScreen(cardCount: Int) -> FlowContributors {
-        let model: WithdrawalModel = WithdrawalModel(cardCount: cardCount)
-        let reactor = WithdrawalReactor(model: model)
-        let withdrawalViewController: WithdrawalViewController = myPageStoryBoard.instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
-            return WithdrawalViewController(coder: corder, reactor: reactor)
-        }
-        withdrawalViewController.title = Constants.WithdrawalNavigationTitle
-        rootViewController?.pushViewController(withdrawalViewController, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: withdrawalViewController, withNextStepper: reactor))
-    }
+//    private func navigationToWithdrawalScreen(cardCount: Int) -> FlowContributors {
+//        let model: WithdrawalModel = WithdrawalModel(cardCount: cardCount)
+//        let reactor = WithdrawalReactor(model: model)
+//        let withdrawalViewController: WithdrawalViewController = myPageStoryBoard.instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
+//            return WithdrawalViewController(coder: corder, reactor: reactor)
+//        }
+//        withdrawalViewController.title = Constants.WithdrawalNavigationTitle
+//        rootViewController?.pushViewController(withdrawalViewController, animated: true)
+//        return .one(flowContributor: .contribute(withNextPresentable: withdrawalViewController, withNextStepper: reactor))
+//    }
     
 }
 

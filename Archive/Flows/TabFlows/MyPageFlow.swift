@@ -34,6 +34,31 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
+    private func navigationToLoginInformationScreen(info: MyLoginInfo, cardCnt: Int) {
+        let reactor = LoginInformationReactor(loginInfo: info,
+                                              archiveCnt: cardCnt,
+                                              validator: Validator(),
+                                              findPasswordUsecase: FindPasswordUsecase(repository: FindPasswordRepositoryImplement()))
+        let loginInfoViewController: LoginInformationViewController = UIStoryboard(name: "MyPage", bundle: nil).instantiateViewController(identifier: LoginInformationViewController.identifier) { corder in
+            return LoginInformationViewController(coder: corder, reactor: reactor)
+        }
+        loginInfoViewController.title = "로그인 정보"
+        rootViewController?.pushViewController(loginInfoViewController, animated: true)
+    }
+    
+    
+    
+//    private func navigationToWithdrawalScreen(cardCount: Int) -> FlowContributors {
+//        let model: WithdrawalModel = WithdrawalModel(cardCount: cardCount)
+//        let reactor = WithdrawalReactor(model: model)
+//        let withdrawalViewController: WithdrawalViewController = myPageStoryBoard.instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
+//            return WithdrawalViewController(coder: corder, reactor: reactor)
+//        }
+//        withdrawalViewController.title = Constants.WithdrawalNavigationTitle
+//        rootViewController?.pushViewController(withdrawalViewController, animated: true)
+//        return .one(flowContributor: .contribute(withNextPresentable: withdrawalViewController, withNextStepper: reactor))
+//    }
+    
     // MARK: internal function
     
     func makeNavigationItems() {
@@ -47,6 +72,9 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .none
         case .openUrlIsRequired(let url, let title):
             navigationToWebView(url: url, title: title)
+            return .none
+        case .loginInfomationIsRequired(let info, let archiveCnt):
+            navigationToLoginInformationScreen(info: info, cardCnt: archiveCnt)
             return .none
         default:
             return .none

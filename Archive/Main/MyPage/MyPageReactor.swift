@@ -15,15 +15,19 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: private property
     
+    private let usecase: MyPageUsecase
+    
     // MARK: internal property
     
     let steps = PublishRelay<Step>()
     let initialState: State
+    let err: PublishSubject<ArchiveError> = .init()
     
     // MARK: lifeCycle
     
-    init() {
+    init(repository: MyPageRepository) {
         self.initialState = .init()
+        self.usecase = MyPageUsecase(repository: repository)
     }
     
     enum Action {
@@ -51,18 +55,16 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .moveToLoginInfo:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                self.getMyUserInfo().map { [weak self] result in
+                self.getCurrentUserInfo().map { [weak self] result in
                     switch result {
-                    case .success(let data):
-                        if let jsonData: JSON = try? JSON.init(data: data) {
-                            let mailAddrStr = jsonData["mailAddress"].stringValue
-                            self?.steps.accept(ArchiveStep.loginInfomationIsRequired(LogInManager.shared.logInType, mailAddrStr, self?.currentState.cardCnt ?? 0))
-                        }
+                    case .success(let info):
+                        self?.steps.accept(ArchiveStep.loginInfomationIsRequired(info: info, archiveCnt: self?.currentState.cardCnt ?? 0))
                     case .failure(let err):
-                        print("err: \(err.localizedDescription)")
+                        self?.err.onNext(err)
                     }
-                    return .setIsLoading(false)
-                }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
             ])
         case .openTerms:
             guard let url = URL(string: "https://wise-icicle-d10.notion.site/8ad4c5884b814ff6a6330f1a6143c1e6") else { return .empty()}
@@ -88,18 +90,10 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: private function
     
-    private func getMyUserInfo() -> Observable<Result<Data, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        
-        return provider.rx.request(.getCurrentUserInfo, callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                return .success(result.data)
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func getCurrentUserInfo() -> Observable<Result<MyLoginInfo, ArchiveError>> {
+        return self.usecase.getCurrentUserInfo()
     }
+    
     
     // MARK: internal function
     

@@ -42,7 +42,6 @@
 		780389E727898A0D00DB1730 /* PhotoRecordCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780389E527898A0D00DB1730 /* PhotoRecordCollectionViewCell.xib */; };
 		780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */; };
 		780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478212723E83F00FAA1CF /* LoginInformationReactor.swift */; };
-		780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478232723E84900FAA1CF /* LoginInformationModel.swift */; };
 		781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */; };
 		78168A0A282500EB007810DC /* ArchiveStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78168A09282500EB007810DC /* ArchiveStatus.swift */; };
 		78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */; };
@@ -205,6 +204,9 @@
 		78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D03288307C30018773A /* MyArchiveUsecase.swift */; };
 		78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D04288307C30018773A /* MyArchiveRepositoryImplement.swift */; };
 		78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D05288307C30018773A /* MyArchiveRepository.swift */; };
+		78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E3581F28955EFF00DB1974 /* MyPageUsecase.swift */; };
+		78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E3582128955F0800DB1974 /* MyPageRepository.swift */; };
+		78E3582428955F1200DB1974 /* MyPageRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E3582328955F1200DB1974 /* MyPageRepositoryImplement.swift */; };
 		78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */; };
 		78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */; };
 		78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */; };
@@ -269,7 +271,6 @@
 		780389E527898A0D00DB1730 /* PhotoRecordCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoRecordCollectionViewCell.xib; sourceTree = "<group>"; };
 		7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationViewController.swift; sourceTree = "<group>"; };
 		780478212723E83F00FAA1CF /* LoginInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationReactor.swift; sourceTree = "<group>"; };
-		780478232723E84900FAA1CF /* LoginInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationModel.swift; sourceTree = "<group>"; };
 		781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorableBasic.swift; sourceTree = "<group>"; };
 		78168A09282500EB007810DC /* ArchiveStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveStatus.swift; sourceTree = "<group>"; };
 		78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithKakaoRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -429,6 +430,9 @@
 		78E00D03288307C30018773A /* MyArchiveUsecase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveUsecase.swift; sourceTree = "<group>"; };
 		78E00D04288307C30018773A /* MyArchiveRepositoryImplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveRepositoryImplement.swift; sourceTree = "<group>"; };
 		78E00D05288307C30018773A /* MyArchiveRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveRepository.swift; sourceTree = "<group>"; };
+		78E3581F28955EFF00DB1974 /* MyPageUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageUsecase.swift; sourceTree = "<group>"; };
+		78E3582128955F0800DB1974 /* MyPageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRepository.swift; sourceTree = "<group>"; };
+		78E3582328955F1200DB1974 /* MyPageRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRepositoryImplement.swift; sourceTree = "<group>"; };
 		78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityUsecase.swift; sourceTree = "<group>"; };
 		78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepository.swift; sourceTree = "<group>"; };
 		78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -640,7 +644,6 @@
 			children = (
 				7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */,
 				780478212723E83F00FAA1CF /* LoginInformationReactor.swift */,
-				780478232723E84900FAA1CF /* LoginInformationModel.swift */,
 			);
 			path = LoginInformation;
 			sourceTree = "<group>";
@@ -819,6 +822,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78E3581E28955EF700DB1974 /* MyPage */,
 				78E00D02288307C30018773A /* MyArchive */,
 				783010382882A27D0031F8CB /* Banner */,
 				78A96A1E2868A85200B8DF2F /* Detail */,
@@ -1229,6 +1233,16 @@
 			path = MyArchive;
 			sourceTree = "<group>";
 		};
+		78E3581E28955EF700DB1974 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				78E3581F28955EFF00DB1974 /* MyPageUsecase.swift */,
+				78E3582128955F0800DB1974 /* MyPageRepository.swift */,
+				78E3582328955F1200DB1974 /* MyPageRepositoryImplement.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		78E8E62D2866D6C500B18AD8 /* Community */ = {
 			isa = PBXGroup;
 			children = (
@@ -1284,8 +1298,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 44F9B0F1270606EE005418F0 /* Build configuration list for PBXNativeTarget "Archive" */;
 			buildPhases = (
-				78315E702764C35C001B3342 /* Gen */,
 				0E3F08398E39A88DA3820B45 /* [CP] Check Pods Manifest.lock */,
+				78315E702764C35C001B3342 /* Gen */,
 				44F9B0D9270606E7005418F0 /* Sources */,
 				44F9B0DA270606E7005418F0 /* Frameworks */,
 				44F9B0DB270606E7005418F0 /* Resources */,
@@ -1521,6 +1535,7 @@
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
 				789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */,
 				78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */,
+				78E3582428955F1200DB1974 /* MyPageRepositoryImplement.swift in Sources */,
 				78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */,
 				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
 				78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */,
@@ -1588,6 +1603,7 @@
 				78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */,
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
 				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
+				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
@@ -1663,7 +1679,6 @@
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
 				78C4B32D2724292D0006EBAD /* WithdrawalReactor.swift in Sources */,
-				780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */,
 				789E61B227257BD400D6E18F /* ImageRecordModel.swift in Sources */,
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
@@ -1672,6 +1687,7 @@
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
+				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,

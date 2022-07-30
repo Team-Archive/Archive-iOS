@@ -13,8 +13,9 @@ import RxFlow
 class LoginInformationReactor: Reactor, Stepper {
     // MARK: private property
     
-    private let model: LoginInformationModelProtocol
     private let type: LoginType
+    private let email: String
+    private let archiveCnt: Int
     private let validator: Validator
     private let findPasswordUsecase: FindPasswordUsecase
     
@@ -27,9 +28,10 @@ class LoginInformationReactor: Reactor, Stepper {
     
     // MARK: lifeCycle
     
-    init(model: LoginInformationModelProtocol, type: LoginType, validator: Validator, findPasswordUsecase: FindPasswordUsecase) {
-        self.model = model
-        self.type = type
+    init(loginInfo: MyLoginInfo, archiveCnt: Int, validator: Validator, findPasswordUsecase: FindPasswordUsecase) {
+        self.type = loginInfo.loginType
+        self.email = loginInfo.email
+        self.archiveCnt = archiveCnt
         self.validator = validator
         self.findPasswordUsecase = findPasswordUsecase
         self.error = .init()
@@ -97,14 +99,14 @@ class LoginInformationReactor: Reactor, Stepper {
             let type = self.type
             return .just(.setLoginType(type))
         case .moveWithdrawalPage:
-            steps.accept(ArchiveStep.withdrawalIsRequired(self.model.cardCnt))
+            steps.accept(ArchiveStep.withdrawalIsRequired(self.archiveCnt))
             return .empty()
         case .logout:
             LogInManager.shared.logOut()
             steps.accept(ArchiveStep.logout)
             return .empty()
         case .getEmail:
-            return .just(.setEmail(self.model.email))
+            return .just(.setEmail(self.email))
         case let .changeNewPasswordInput(text):
             let isContainsEnglish = validator.isContainsEnglish(text)
             let isContainsNumber = validator.isContainsNumber(text)
@@ -121,7 +123,7 @@ class LoginInformationReactor: Reactor, Stepper {
         case .changePassword:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                changePassword(email: self.model.email,
+                changePassword(email: self.email,
                                currentPassword: self.currentState.currentPassword,
                                newPassword: self.currentState.changePassword)
                 .map { [weak self] changePasswordResult in
