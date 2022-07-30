@@ -187,6 +187,8 @@ final class MainFlow: Flow {
             } else {
                 return .none
             }
+        case .logout:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
         default:
             return .none
         }

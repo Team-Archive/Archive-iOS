@@ -6,6 +6,7 @@
 //
 
 import RxFlow
+import RxRelay
 
 enum ArchiveStep: Step {
     
@@ -47,7 +48,7 @@ enum ArchiveStep: Step {
     
     // MyPage
     case myPageIsRequired
-    case loginInfomationIsRequired(info: MyLoginInfo, archiveCnt: Int)
+    case loginInfomationIsRequired(stepper: PublishRelay<Step>, info: MyLoginInfo, archiveCnt: Int)
     case withdrawalIsRequired(Int)
     case withdrawalIsComplete
     case logout

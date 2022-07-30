@@ -21,14 +21,15 @@ class LoginInformationReactor: Reactor, Stepper {
     
     // MARK: internal property
     
-    let steps = PublishRelay<Step>()
+    let steps: PublishRelay<Step>
     let initialState = State()
     var error: PublishSubject<String>
     var toastMessage: PublishSubject<String>
     
     // MARK: lifeCycle
     
-    init(loginInfo: MyLoginInfo, archiveCnt: Int, validator: Validator, findPasswordUsecase: FindPasswordUsecase) {
+    init(stepper: PublishRelay<Step>, loginInfo: MyLoginInfo, archiveCnt: Int, validator: Validator, findPasswordUsecase: FindPasswordUsecase) {
+        self.steps = stepper
         self.type = loginInfo.loginType
         self.email = loginInfo.email
         self.archiveCnt = archiveCnt

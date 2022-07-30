@@ -58,7 +58,9 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                 self.getCurrentUserInfo().map { [weak self] result in
                     switch result {
                     case .success(let info):
-                        self?.steps.accept(ArchiveStep.loginInfomationIsRequired(info: info, archiveCnt: self?.currentState.cardCnt ?? 0))
+                        self?.steps.accept(ArchiveStep.loginInfomationIsRequired(stepper: self?.steps ?? .init(),
+                                                                                 info: info,
+                                                                                 archiveCnt: self?.currentState.cardCnt ?? 0))
                     case .failure(let err):
                         self?.err.onNext(err)
                     }

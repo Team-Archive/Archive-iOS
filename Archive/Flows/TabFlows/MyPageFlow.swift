@@ -6,6 +6,7 @@
 //
 
 import RxFlow
+import RxRelay
 
 class MyPageFlow: Flow, MainTabFlowProtocol {
     
@@ -34,8 +35,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
-    private func navigationToLoginInformationScreen(info: MyLoginInfo, cardCnt: Int) {
-        let reactor = LoginInformationReactor(loginInfo: info,
+    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>,info: MyLoginInfo, cardCnt: Int) {
+        let reactor = LoginInformationReactor(stepper: stepper, loginInfo: info,
                                               archiveCnt: cardCnt,
                                               validator: Validator(),
                                               findPasswordUsecase: FindPasswordUsecase(repository: FindPasswordRepositoryImplement()))
@@ -73,8 +74,12 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         case .openUrlIsRequired(let url, let title):
             navigationToWebView(url: url, title: title)
             return .none
-        case .loginInfomationIsRequired(let info, let archiveCnt):
-            navigationToLoginInformationScreen(info: info, cardCnt: archiveCnt)
+        case .loginInfomationIsRequired(let stepper, let info, let archiveCnt):
+            navigationToLoginInformationScreen(stepper: stepper, info: info, cardCnt: archiveCnt)
+            return .none
+        case .logout:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
+        case .withdrawalIsRequired(let cnt):
             return .none
         default:
             return .none
