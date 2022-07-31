@@ -53,6 +53,7 @@ enum ArchiveStep: Step {
     case withdrawalIsComplete
     case logout
     case myPageIsComplete
+    case myLikeListIsRequired(reactor: MyPageReactor)
     
     // Record
     case recordIsRequired

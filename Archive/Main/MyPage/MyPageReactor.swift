@@ -16,6 +16,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: private property
     
     private let usecase: MyPageUsecase
+    private let myLikeUsecase: MyLikeUsecase
     
     // MARK: internal property
     
@@ -25,9 +26,10 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: MyPageRepository) {
+    init(repository: MyPageRepository, myLikeRepository: MyLikeRepository) {
         self.initialState = .init()
         self.usecase = MyPageUsecase(repository: repository)
+        self.myLikeUsecase = MyLikeUsecase(repository: myLikeRepository)
     }
     
     enum Action {
@@ -35,6 +37,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case moveToLoginInfo
         case openTerms
         case openPrivacy
+        case moveToLikeList
     }
     
     enum Mutation {
@@ -51,6 +54,9 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         switch action {
         case .endFlow:
             self.steps.accept(ArchiveStep.myPageIsComplete)
+            return .empty()
+        case .moveToLikeList:
+            self.steps.accept(ArchiveStep.myLikeListIsRequired(reactor: self))
             return .empty()
         case .moveToLoginInfo:
             return Observable.concat([

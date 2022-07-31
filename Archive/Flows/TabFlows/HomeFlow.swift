@@ -62,10 +62,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
             GAModule.sendEventLogToGA(.showDetail)
             navigationToDetailScreen(infoData: info, index: index)
             return .none
-        case .myPageIsRequired:
-            return navigationToMyPageScreen()
-//        case .withdrawalIsRequired(let cnt):
-//            return navigationToWithdrawalScreen(cardCount: cnt)
         case .logout:
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
         default:
@@ -84,25 +80,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController?.present(navi, animated: true)
     }
-    
-    private func navigationToMyPageScreen() -> FlowContributors {
-        let reactor = MyPageReactor(repository: MyPageRepositoryImplement())
-        let myPageViewController = MyPageViewController(reactor: reactor)
-        rootViewController?.pushViewController(myPageViewController, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: myPageViewController,
-                                                 withNextStepper: reactor))
-    }
-    
-//    private func navigationToWithdrawalScreen(cardCount: Int) -> FlowContributors {
-//        let model: WithdrawalModel = WithdrawalModel(cardCount: cardCount)
-//        let reactor = WithdrawalReactor(model: model)
-//        let withdrawalViewController: WithdrawalViewController = myPageStoryBoard.instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
-//            return WithdrawalViewController(coder: corder, reactor: reactor)
-//        }
-//        withdrawalViewController.title = Constants.WithdrawalNavigationTitle
-//        rootViewController?.pushViewController(withdrawalViewController, animated: true)
-//        return .one(flowContributor: .contribute(withNextPresentable: withdrawalViewController, withNextStepper: reactor))
-//    }
     
 }
 

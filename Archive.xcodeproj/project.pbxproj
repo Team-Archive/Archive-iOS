@@ -160,6 +160,11 @@
 		789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */; };
 		789E61C5272584ED00D6E18F /* ContentsRecordReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61C4272584ED00D6E18F /* ContentsRecordReactor.swift */; };
 		789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61C6272584FC00D6E18F /* ContentsRecordModel.swift */; };
+		789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */; };
+		789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */; };
+		789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */; };
+		789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */; };
+		789EAC3428966CDE00DC7F1A /* MyLikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */; };
 		789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789F34BA285D9B9E00733214 /* NotificationDefine.swift */; };
 		78A32164275B91580078650D /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78A32163275B91580078650D /* Detail.storyboard */; };
 		78A32167275B92530078650D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32166275B92530078650D /* DetailViewController.swift */; };
@@ -383,6 +388,11 @@
 		789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassIdentifiable.swift; sourceTree = "<group>"; };
 		789E61C4272584ED00D6E18F /* ContentsRecordReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordReactor.swift; sourceTree = "<group>"; };
 		789E61C6272584FC00D6E18F /* ContentsRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordModel.swift; sourceTree = "<group>"; };
+		789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeListViewController.swift; sourceTree = "<group>"; };
+		789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeUsecase.swift; sourceTree = "<group>"; };
+		789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepository.swift; sourceTree = "<group>"; };
+		789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepositoryStub.swift; sourceTree = "<group>"; };
+		789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		789F34BA285D9B9E00733214 /* NotificationDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDefine.swift; sourceTree = "<group>"; };
 		78A32163275B91580078650D /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		78A32166275B92530078650D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -626,6 +636,7 @@
 		780478152723E79500FAA1CF /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				789EAC2728964F9200DC7F1A /* MyLikeList */,
 				780478182723E7E400FAA1CF /* LoginInformation */,
 				78C4B329272428B40006EBAD /* Withdrawal */,
 			);
@@ -815,6 +826,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				789EAC2A289651BC00DC7F1A /* MyLike */,
 				78E3581E28955EF700DB1974 /* MyPage */,
 				78E00D02288307C30018773A /* MyArchive */,
 				783010382882A27D0031F8CB /* Banner */,
@@ -1099,6 +1111,25 @@
 				7821232B273F893A007DEC28 /* RecordUploadComplete */,
 			);
 			path = Etc;
+			sourceTree = "<group>";
+		};
+		789EAC2728964F9200DC7F1A /* MyLikeList */ = {
+			isa = PBXGroup;
+			children = (
+				789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */,
+				789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */,
+			);
+			path = MyLikeList;
+			sourceTree = "<group>";
+		};
+		789EAC2A289651BC00DC7F1A /* MyLike */ = {
+			isa = PBXGroup;
+			children = (
+				789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */,
+				789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */,
+				789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */,
+			);
+			path = MyLike;
 			sourceTree = "<group>";
 		};
 		78A32162275B91180078650D /* Detail */ = {
@@ -1513,6 +1544,7 @@
 				7830103A2882A2850031F8CB /* BannerUsecase.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */,
+				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
@@ -1559,6 +1591,7 @@
 				44FB09FB27183269006E1048 /* ArchiveStep.swift in Sources */,
 				78D8A67228798B02002E8445 /* FilterViewController.swift in Sources */,
 				7821232A273F83A1007DEC28 /* RecordUploadModel.swift in Sources */,
+				789EAC3428966CDE00DC7F1A /* MyLikeCollectionViewCell.swift in Sources */,
 				78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */,
 				7821233A273F9623007DEC28 /* CodableWrapper.swift in Sources */,
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
@@ -1566,6 +1599,7 @@
 				78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
+				789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
@@ -1668,9 +1702,11 @@
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
+				789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,
+				789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */,
 				781C842E282F621A004A0FB3 /* HomeFlow.swift in Sources */,
 				783010422882D8490031F8CB /* FullImageViewController.swift in Sources */,
 				44FB0A1C27183C9C006E1048 /* SignUpCompletionViewController.swift in Sources */,

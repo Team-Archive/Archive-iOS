@@ -551,7 +551,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     @objc private func showLikeListAction() {
-        print("showLikeListAction")
+        self.reactor?.action.onNext(.moveToLikeList)
     }
     
     @objc private func loginInfoAction() {

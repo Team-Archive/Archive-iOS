@@ -70,7 +70,8 @@ final class MainFlow: Flow {
         communityViewController.tabBarItem = UITabBarItem(title: "전시 소통", image: Gen.Images.communityOff.image, selectedImage: Gen.Images.communityOn.image)
         
         
-        let myPageReactor: MyPageReactor = MyPageReactor(repository: MyPageRepositoryImplement())
+        let myPageReactor: MyPageReactor = MyPageReactor(repository: MyPageRepositoryImplement(),
+                                                         myLikeRepository: MyLikeRepositoryStub())
         let myPageViewController = MyPageViewController(reactor: myPageReactor)
         myPageViewController.tabBarItem = UITabBarItem(title: "내 정보", image: Gen.Images.myPageOff.image, selectedImage: Gen.Images.myPageOn.image)
         

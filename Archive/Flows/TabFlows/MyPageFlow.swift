@@ -47,14 +47,18 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         rootViewController?.pushViewController(loginInfoViewController, animated: true)
     }
     
-    
-    
     private func navigationToWithdrawalScreen(reactor: LoginInformationReactor) {
         let withdrawalViewController: WithdrawalViewController = UIStoryboard(name: "MyPage", bundle: nil).instantiateViewController(identifier: WithdrawalViewController.identifier) { corder in
             return WithdrawalViewController(coder: corder, reactor: reactor)
         }
         withdrawalViewController.title = "회원탈퇴"
         rootViewController?.pushViewController(withdrawalViewController, animated: true)
+    }
+    
+    private func navigationToMyLikeListScreen(reactor: MyPageReactor) {
+        let vc = MyLikeListViewController(reactor: reactor)
+        vc.title = "좋아요 한 전시기록"
+        rootViewController?.pushViewController(vc, animated: true)
     }
     
     // MARK: internal function
@@ -78,6 +82,9 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
         case .withdrawalIsRequired(let reactor):
             navigationToWithdrawalScreen(reactor: reactor)
+            return .none
+        case .myLikeListIsRequired(let reactor):
+            navigationToMyLikeListScreen(reactor: reactor)
             return .none
         default:
             return .none
