@@ -547,7 +547,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     @objc private func modifyProfileBtnAction() {
-        print("modify")
+        self.reactor?.action.onNext(.moveToEditProfile)
     }
     
     @objc private func showLikeListAction() {

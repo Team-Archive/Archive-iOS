@@ -39,6 +39,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case openPrivacy
         case moveToLikeList
         case getMyLikeArchives
+        case moveToEditProfile
     }
     
     enum Mutation {
@@ -99,6 +100,9 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                 },
                 Observable.just(.setIsLoading(false))
             ])
+        case .moveToEditProfile:
+            self.steps.accept(ArchiveStep.editProfileIsRequired(reactor: self))
+            return .empty()
         }
     }
     

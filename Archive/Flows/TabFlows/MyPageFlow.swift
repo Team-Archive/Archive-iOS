@@ -61,6 +61,12 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         rootViewController?.pushViewController(vc, animated: true)
     }
     
+    private func navigationToEditProfile(reactor: MyPageReactor) {
+        let vc = EditProfileViewController(reactor: reactor)
+        vc.title = "프로필 수정"
+        rootViewController?.pushViewController(vc, animated: true)
+    }
+    
     // MARK: internal function
     
     func makeNavigationItems() {
@@ -85,6 +91,9 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .none
         case .myLikeListIsRequired(let reactor):
             navigationToMyLikeListScreen(reactor: reactor)
+            return .none
+        case .editProfileIsRequired(let reactor):
+            navigationToEditProfile(reactor: reactor)
             return .none
         default:
             return .none

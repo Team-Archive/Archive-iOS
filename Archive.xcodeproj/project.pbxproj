@@ -131,6 +131,9 @@
 		785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */; };
 		786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A3EE52871E67D00A35112 /* RotatedTitleView.swift */; };
 		786CE633289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE632289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift */; };
+		786CE638289E469700D24266 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE637289E469700D24266 /* EditProfileViewController.swift */; };
+		786CE63A289E483700D24266 /* ArchiveConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE639289E483700D24266 /* ArchiveConfirmButton.swift */; };
+		786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */; };
 		786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */; };
 		7874759F281C143D00BA0C15 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7874759E281C143D00BA0C15 /* FirebaseAnalytics */; };
 		787475A1281C143D00BA0C15 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 787475A0281C143D00BA0C15 /* FirebaseAppDistribution-Beta */; };
@@ -365,6 +368,9 @@
 		785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		786A3EE52871E67D00A35112 /* RotatedTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatedTitleView.swift; sourceTree = "<group>"; };
 		786CE632289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeListLikeCountHeaderView.swift; sourceTree = "<group>"; };
+		786CE637289E469700D24266 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		786CE639289E483700D24266 /* ArchiveConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveConfirmButton.swift; sourceTree = "<group>"; };
+		786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCheckTextField.swift; sourceTree = "<group>"; };
 		786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPaddingCoverView.swift; sourceTree = "<group>"; };
 		7877699E273AA98100519B58 /* PhotoContentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContentsView.swift; sourceTree = "<group>"; };
 		7877699F273AA98100519B58 /* PhotoContentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoContentsView.xib; sourceTree = "<group>"; };
@@ -638,6 +644,7 @@
 		780478152723E79500FAA1CF /* Sub */ = {
 			isa = PBXGroup;
 			children = (
+				786CE636289E468E00D24266 /* EditProfileViewController */,
 				789EAC2728964F9200DC7F1A /* MyLikeList */,
 				780478182723E7E400FAA1CF /* LoginInformation */,
 				78C4B329272428B40006EBAD /* Withdrawal */,
@@ -947,6 +954,8 @@
 				786A3EE52871E67D00A35112 /* RotatedTitleView.swift */,
 				78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */,
 				7830103428829FDB0031F8CB /* ArchiveBannerView.swift */,
+				786CE639289E483700D24266 /* ArchiveConfirmButton.swift */,
+				786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -976,6 +985,14 @@
 				78599DEC27638241003FD959 /* HomeShimmerView.xib */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		786CE636289E468E00D24266 /* EditProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				786CE637289E469700D24266 /* EditProfileViewController.swift */,
+			);
+			path = EditProfileViewController;
 			sourceTree = "<group>";
 		};
 		7877699D273AA98100519B58 /* Sub */ = {
@@ -1618,6 +1635,7 @@
 				78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */,
 				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
+				786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
@@ -1658,6 +1676,7 @@
 				781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,
+				786CE63A289E483700D24266 /* ArchiveConfirmButton.swift in Sources */,
 				782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */,
 				7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */,
 				780389E627898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift in Sources */,
@@ -1671,6 +1690,7 @@
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
 				78458D2A272C18BB00392B45 /* Util.swift in Sources */,
+				786CE638289E469700D24266 /* EditProfileViewController.swift in Sources */,
 				44922DA72719B89200A5EA2B /* Validator.swift in Sources */,
 				784CFFD8274BBB770052B1EC /* ArchiveAPI.swift in Sources */,
 				781C8437282F64F7004A0FB3 /* MyPageFlow.swift in Sources */,
