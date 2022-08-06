@@ -54,6 +54,9 @@ final class OnboardingFlow: Flow {
             return navigationToFindPasswordScreen()
         case .changePasswordFromFindPassword:
             return navigationToChangePasswordScreen()
+        case .openUrlIsRequired(let url, let title):
+            navigationToWebView(url: url, title: title)
+            return .none
         default:
             return .none
         }
@@ -153,5 +156,12 @@ final class OnboardingFlow: Flow {
         rootViewController.pushViewController(changePasswordViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
                                                  withNextStepper: signInReactor))
+    }
+    
+    private func navigationToWebView(url: URL, title: String) {
+        let vc = CommonWebViewController(url: url, title: title)
+        let navi = UINavigationController(rootViewController: vc)
+        navi.modalPresentationStyle = .fullScreen
+        self.rootViewController.present(navi, animated: true)
     }
 }

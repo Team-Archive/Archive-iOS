@@ -559,7 +559,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     @objc private func aboutInfoAction() {
-        print("aboutInfoAction")
+        self.reactor?.action.onNext(.openAboutInfo)
     }
     
     @objc private func termsInfoAction() {
