@@ -32,7 +32,9 @@ class ArchiveCheckTextField: UIView {
     }
     
     private lazy var checkBtn = UIButton().then {
+        $0.isEnabled = false
         $0.backgroundColor = .clear
+        $0.titleLabel?.font = .fonts(.button)
         $0.setTitleAllState(self.checkBtnTitle)
         $0.setTitleColor(self.disableColor, for: .disabled)
         $0.setTitleColor(self.enableColor, for: .normal)
@@ -40,8 +42,8 @@ class ArchiveCheckTextField: UIView {
         $0.addTarget(self, action: #selector(checkClicked), for: .touchUpInside)
     }
     
-    private let checkBtnUnderlineView = UIView().then {
-        $0.backgroundColor = Gen.Colors.black.color
+    private lazy var checkBtnUnderlineView = UIView().then {
+        $0.backgroundColor = self.disableColor
     }
     
     private lazy var textField = UITextField().then {
@@ -105,8 +107,6 @@ class ArchiveCheckTextField: UIView {
         
         self.containerView.addSubview(self.checkBtnContainerView)
         self.checkBtnContainerView.snp.makeConstraints {
-            $0.width.equalTo(52)
-            $0.height.equalTo(25)
             $0.centerY.equalTo(self.containerView.snp.centerY)
             $0.trailing.equalTo(self.containerView.snp.trailing).offset(-20)
         }
@@ -114,18 +114,20 @@ class ArchiveCheckTextField: UIView {
         self.checkBtnContainerView.addSubview(self.checkBtn)
         self.checkBtn.snp.makeConstraints {
             $0.leading.trailing.top.equalTo(self.checkBtnContainerView)
+            $0.width.equalTo(self.checkBtnTitle.width(withConstrainedHeight: 1, font: self.checkBtn.titleLabel?.font ?? .fonts(.button)))
         }
         
         self.checkBtnContainerView.addSubview(self.checkBtnUnderlineView)
         self.checkBtnUnderlineView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(self.checkBtnContainerView)
             $0.height.equalTo(1)
+            $0.top.equalTo(self.checkBtn.snp.bottom)
         }
         
         self.containerView.addSubview(self.textField)
         self.textField.snp.makeConstraints {
             $0.leading.equalTo(self.containerView).offset(20)
-            $0.trailing.equalTo(self.checkBtnContainerView.snp.leading).offset(12)
+            $0.trailing.equalTo(self.checkBtnContainerView.snp.leading).offset(-12)
             $0.height.equalTo(21)
             $0.centerY.equalTo(self.containerView.snp.centerY)
         }
@@ -155,7 +157,7 @@ class ArchiveCheckTextField: UIView {
     }
     
     private func setInActiveUI() {
-        self.checkBtn.isEnabled = true
+        self.checkBtn.isEnabled = false
         self.containerView.layer.borderColor = self.disableColor.cgColor
         self.checkBtnUnderlineView.backgroundColor = self.disableColor
     }

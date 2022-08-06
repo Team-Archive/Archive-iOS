@@ -25,10 +25,12 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     
     private let profileImageContainerView = UIView().then {
         $0.backgroundColor = .clear
+        $0.layer.cornerRadius = 31
     }
     
     private let profileImageView = UIImageView().then {
         $0.backgroundColor = .clear
+        $0.image = Gen.Images.userImagePlaceHolder.image
     }
     
     private let prifileImageEditImageView = UIImageView().then {
@@ -94,32 +96,34 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             $0.edges.equalTo(self.profileImageContainerView)
         }
         
-        self.profileImageContainerView.addSubview(self.prifileImageEditImageView)
+        self.mainContentsView.addSubview(self.prifileImageEditImageView)
         self.prifileImageEditImageView.snp.makeConstraints {
             $0.width.height.equalTo(20)
             $0.trailing.bottom.equalTo(self.profileImageContainerView)
         }
         
+        self.mainContentsView.addSubview(self.nicknameTextField)
+        self.nicknameTextField.snp.makeConstraints {
+            $0.top.equalTo(self.profileImageContainerView.snp.bottom).offset(20)
+            $0.leading.equalTo(self.mainContentsView).offset(32)
+            $0.trailing.equalTo(self.mainContentsView).offset(-32)
+            $0.height.equalTo(52)
+        }
         
-//        private let  = UIImageView().then {
-//            $0.backgroundColor = .clear
-//        }
-//
-//        private let nicknameTextField = ArchiveCheckTextField(originValue: LogInManager.shared.nickname,
-//                                                              placeHolder: "새로운 닉네임을 설정해보세요!",
-//                                                              checkBtnTitle: "중복 확인").then {
-//            $0.backgroundColor = .white
-//        }
-//
-//        private let duplicatedNicknameWarningLabel = UILabel().then {
-//            $0.font = .fonts(.body)
-//            $0.textColor = Gen.Colors.gray02.color
-//            $0.text = "중복되지 않은 닉네임입니다"
-//        }
-//
-//        private let confirmBtn = ArchiveConfirmButton().then {
-//            $0.setTitleAllState("프로필 변경")
-//        }
+        self.mainContentsView.addSubview(self.duplicatedNicknameWarningLabel)
+        self.duplicatedNicknameWarningLabel.snp.makeConstraints {
+            $0.top.equalTo(self.nicknameTextField.snp.bottom).offset(10)
+            $0.leading.equalTo(self.mainContentsView).offset(32)
+            $0.trailing.equalTo(self.mainContentsView).offset(-32)
+        }
+        
+        self.mainContentsView.addSubview(self.confirmBtn)
+        self.confirmBtn.snp.makeConstraints {
+            $0.top.equalTo(self.duplicatedNicknameWarningLabel.snp.bottom).offset(31)
+            $0.height.equalTo(52)
+            $0.leading.equalTo(self.mainContentsView).offset(32)
+            $0.trailing.equalTo(self.mainContentsView).offset(-32)
+        }
         
     }
     
