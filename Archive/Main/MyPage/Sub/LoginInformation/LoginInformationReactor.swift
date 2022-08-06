@@ -13,23 +13,25 @@ import RxFlow
 class LoginInformationReactor: Reactor, Stepper {
     // MARK: private property
     
-    private let model: LoginInformationModelProtocol
     private let type: LoginType
+    private let email: String
     private let validator: Validator
     private let findPasswordUsecase: FindPasswordUsecase
     
     // MARK: internal property
     
-    let steps = PublishRelay<Step>()
-    let initialState = State()
+    let steps: PublishRelay<Step>
+    let initialState: State
     var error: PublishSubject<String>
     var toastMessage: PublishSubject<String>
     
     // MARK: lifeCycle
     
-    init(model: LoginInformationModelProtocol, type: LoginType, validator: Validator, findPasswordUsecase: FindPasswordUsecase) {
-        self.model = model
-        self.type = type
+    init(stepper: PublishRelay<Step>, loginInfo: MyLoginInfo, archiveCnt: Int, validator: Validator, findPasswordUsecase: FindPasswordUsecase) {
+        self.initialState = .init(archiveCnt: archiveCnt)
+        self.steps = stepper
+        self.type = loginInfo.loginType
+        self.email = loginInfo.email
         self.validator = validator
         self.findPasswordUsecase = findPasswordUsecase
         self.error = .init()
@@ -45,6 +47,7 @@ class LoginInformationReactor: Reactor, Stepper {
         case changeNewPasswordInput(text: String)
         case newPasswordCofirmInput(text: String)
         case changePassword
+        case withrawal
     }
     
     enum Mutation {
@@ -61,6 +64,7 @@ class LoginInformationReactor: Reactor, Stepper {
     }
     
     struct State {
+        let archiveCnt: Int
         var type: LoginType = .kakao
         var eMail: String = ""
         
@@ -97,14 +101,14 @@ class LoginInformationReactor: Reactor, Stepper {
             let type = self.type
             return .just(.setLoginType(type))
         case .moveWithdrawalPage:
-            steps.accept(ArchiveStep.withdrawalIsRequired(self.model.cardCnt))
+            steps.accept(ArchiveStep.withdrawalIsRequired(reactor: self))
             return .empty()
         case .logout:
             LogInManager.shared.logOut()
             steps.accept(ArchiveStep.logout)
             return .empty()
         case .getEmail:
-            return .just(.setEmail(self.model.email))
+            return .just(.setEmail(self.email))
         case let .changeNewPasswordInput(text):
             let isContainsEnglish = validator.isContainsEnglish(text)
             let isContainsNumber = validator.isContainsNumber(text)
@@ -121,13 +125,28 @@ class LoginInformationReactor: Reactor, Stepper {
         case .changePassword:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                changePassword(email: self.model.email,
+                changePassword(email: self.email,
                                currentPassword: self.currentState.currentPassword,
                                newPassword: self.currentState.changePassword)
                 .map { [weak self] changePasswordResult in
                     switch changePasswordResult {
                     case .success(()):
                         self?.toastMessage.onNext("비밀번호 변경 완료.")
+                    case .failure(let err):
+                        self?.error.onNext(err.getMessage())
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
+        case .withrawal:
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                self.withdrawal().map { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        LogInManager.shared.logOut()
+                        self?.steps.accept(ArchiveStep.logout)
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
                     }
@@ -170,6 +189,12 @@ class LoginInformationReactor: Reactor, Stepper {
     private func changePassword(email: String, currentPassword: String, newPassword: String) -> Observable<Result<Void, ArchiveError>> {
         return self.findPasswordUsecase.changePassword(eMail: email, currentPassword: currentPassword, newPassword: newPassword)
     }
+    
+    private func withdrawal() -> Observable<Result<Void, ArchiveError>> {
+        return self.findPasswordUsecase.withdrawal()
+    }
+    
+    
     
     // MARK: internal function
 }

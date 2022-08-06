@@ -33,10 +33,9 @@ class WithdrawalViewController: UIViewController, StoryboardView, ActivityIndica
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        self.reactor?.action.onNext(.cardCnt)
     }
     
-    init?(coder: NSCoder, reactor: WithdrawalReactor) {
+    init?(coder: NSCoder, reactor: LoginInformationReactor) {
         super.init(coder: coder)
         self.reactor = reactor
     }
@@ -45,8 +44,8 @@ class WithdrawalViewController: UIViewController, StoryboardView, ActivityIndica
         super.init(coder: coder)
     }
     
-    func bind(reactor: WithdrawalReactor) {
-        reactor.state.map { $0.cardCnt }
+    func bind(reactor: LoginInformationReactor) {
+        reactor.state.map { $0.archiveCnt }
         .asDriver(onErrorJustReturn: 100)
         .drive(onNext: { [weak self] cnt in
             let sumAttString = NSMutableAttributedString(string: String(format: "그동안 기록했던\n%d개의\n소중한 전시 기록들이\n전부 사라져요\n그래도 탈퇴하시겠어요?", cnt), attributes: [NSAttributedString.Key.font: UIFont.fonts(.subTitle), NSAttributedString.Key.foregroundColor: Gen.Colors.gray01.color])
@@ -80,10 +79,10 @@ class WithdrawalViewController: UIViewController, StoryboardView, ActivityIndica
             })
             .disposed(by: self.disposeBag)
         
-        reactor.err
-            .asDriver(onErrorJustReturn: .init(.commonError))
-            .drive(onNext: { [weak self] err in
-                CommonAlertView.shared.show(message: "[\(err.code)]", subMessage: err.archiveErrMsg, btnText: "확인", hapticType: .error, confirmHandler: {
+        reactor.error
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] errMsg in
+                CommonAlertView.shared.show(message: "오류", subMessage: errMsg, btnText: "확인", hapticType: .error, confirmHandler: {
                     CommonAlertView.shared.hide()
                 })
             })

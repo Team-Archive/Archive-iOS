@@ -42,7 +42,6 @@
 		780389E727898A0D00DB1730 /* PhotoRecordCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 780389E527898A0D00DB1730 /* PhotoRecordCollectionViewCell.xib */; };
 		780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */; };
 		780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478212723E83F00FAA1CF /* LoginInformationReactor.swift */; };
-		780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780478232723E84900FAA1CF /* LoginInformationModel.swift */; };
 		781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */; };
 		78168A0A282500EB007810DC /* ArchiveStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78168A09282500EB007810DC /* ArchiveStatus.swift */; };
 		78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */; };
@@ -131,6 +130,10 @@
 		78599DED27638241003FD959 /* HomeShimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78599DEC27638241003FD959 /* HomeShimmerView.xib */; };
 		785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */; };
 		786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786A3EE52871E67D00A35112 /* RotatedTitleView.swift */; };
+		786CE633289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE632289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift */; };
+		786CE638289E469700D24266 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE637289E469700D24266 /* EditProfileViewController.swift */; };
+		786CE63A289E483700D24266 /* ArchiveConfirmButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE639289E483700D24266 /* ArchiveConfirmButton.swift */; };
+		786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */; };
 		786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */; };
 		7874759F281C143D00BA0C15 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7874759E281C143D00BA0C15 /* FirebaseAnalytics */; };
 		787475A1281C143D00BA0C15 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = 787475A0281C143D00BA0C15 /* FirebaseAppDistribution-Beta */; };
@@ -161,6 +164,11 @@
 		789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */; };
 		789E61C5272584ED00D6E18F /* ContentsRecordReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61C4272584ED00D6E18F /* ContentsRecordReactor.swift */; };
 		789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789E61C6272584FC00D6E18F /* ContentsRecordModel.swift */; };
+		789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */; };
+		789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */; };
+		789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */; };
+		789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */; };
+		789EAC3428966CDE00DC7F1A /* MyLikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */; };
 		789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789F34BA285D9B9E00733214 /* NotificationDefine.swift */; };
 		78A32164275B91580078650D /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78A32163275B91580078650D /* Detail.storyboard */; };
 		78A32167275B92530078650D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A32166275B92530078650D /* DetailViewController.swift */; };
@@ -179,7 +187,6 @@
 		78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E02726C6D1009EFB54 /* EmotionDefine.swift */; };
 		78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E42726E420009EFB54 /* ImageRecordViewController.swift */; };
 		78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */; };
-		78BA154127218F430078B88E /* MyPageSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BA154027218F430078B88E /* MyPageSettingViewController.swift */; };
 		78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0D277843ED00DF78AF /* CommonDefine.swift */; };
 		78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */; };
 		78BB7E142778563700DF78AF /* DetailCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */; };
@@ -190,8 +197,6 @@
 		78BB7E282778970900DF78AF /* DetailFriendsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E262778970900DF78AF /* DetailFriendsCollectionViewCell.xib */; };
 		78C4B328272428AB0006EBAD /* MyPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C4B327272428AB0006EBAD /* MyPage.storyboard */; };
 		78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */; };
-		78C4B32D2724292D0006EBAD /* WithdrawalReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32C2724292D0006EBAD /* WithdrawalReactor.swift */; };
-		78C4B32F272429370006EBAD /* WithdrawalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32E272429370006EBAD /* WithdrawalModel.swift */; };
 		78C4B33527243C660006EBAD /* NSMutableAttributedStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33427243C660006EBAD /* NSMutableAttributedStringExtension.swift */; };
 		78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33727244ACB0006EBAD /* CommonAlertView.swift */; };
 		78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33A27244C000006EBAD /* UIViewExtension.swift */; };
@@ -205,6 +210,9 @@
 		78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D03288307C30018773A /* MyArchiveUsecase.swift */; };
 		78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D04288307C30018773A /* MyArchiveRepositoryImplement.swift */; };
 		78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D05288307C30018773A /* MyArchiveRepository.swift */; };
+		78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E3581F28955EFF00DB1974 /* MyPageUsecase.swift */; };
+		78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E3582128955F0800DB1974 /* MyPageRepository.swift */; };
+		78E3582428955F1200DB1974 /* MyPageRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E3582328955F1200DB1974 /* MyPageRepositoryImplement.swift */; };
 		78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */; };
 		78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */; };
 		78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */; };
@@ -269,7 +277,6 @@
 		780389E527898A0D00DB1730 /* PhotoRecordCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PhotoRecordCollectionViewCell.xib; sourceTree = "<group>"; };
 		7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationViewController.swift; sourceTree = "<group>"; };
 		780478212723E83F00FAA1CF /* LoginInformationReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationReactor.swift; sourceTree = "<group>"; };
-		780478232723E84900FAA1CF /* LoginInformationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInformationModel.swift; sourceTree = "<group>"; };
 		781468FE2889982F00263553 /* ActivityIndicatorableBasic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorableBasic.swift; sourceTree = "<group>"; };
 		78168A09282500EB007810DC /* ArchiveStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveStatus.swift; sourceTree = "<group>"; };
 		78179A5227E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginWithKakaoRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -360,6 +367,10 @@
 		78599DEC27638241003FD959 /* HomeShimmerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeShimmerView.xib; sourceTree = "<group>"; };
 		785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		786A3EE52871E67D00A35112 /* RotatedTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatedTitleView.swift; sourceTree = "<group>"; };
+		786CE632289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeListLikeCountHeaderView.swift; sourceTree = "<group>"; };
+		786CE637289E469700D24266 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		786CE639289E483700D24266 /* ArchiveConfirmButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveConfirmButton.swift; sourceTree = "<group>"; };
+		786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveCheckTextField.swift; sourceTree = "<group>"; };
 		786DEB362869F5E500DAB4C2 /* BottomPaddingCoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomPaddingCoverView.swift; sourceTree = "<group>"; };
 		7877699E273AA98100519B58 /* PhotoContentsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoContentsView.swift; sourceTree = "<group>"; };
 		7877699F273AA98100519B58 /* PhotoContentsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoContentsView.xib; sourceTree = "<group>"; };
@@ -385,6 +396,11 @@
 		789E61BB2725847B00D6E18F /* ClassIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassIdentifiable.swift; sourceTree = "<group>"; };
 		789E61C4272584ED00D6E18F /* ContentsRecordReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordReactor.swift; sourceTree = "<group>"; };
 		789E61C6272584FC00D6E18F /* ContentsRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordModel.swift; sourceTree = "<group>"; };
+		789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeListViewController.swift; sourceTree = "<group>"; };
+		789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeUsecase.swift; sourceTree = "<group>"; };
+		789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepository.swift; sourceTree = "<group>"; };
+		789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepositoryStub.swift; sourceTree = "<group>"; };
+		789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		789F34BA285D9B9E00733214 /* NotificationDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDefine.swift; sourceTree = "<group>"; };
 		78A32163275B91580078650D /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
 		78A32166275B92530078650D /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -403,7 +419,6 @@
 		78B872E02726C6D1009EFB54 /* EmotionDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionDefine.swift; sourceTree = "<group>"; };
 		78B872E42726E420009EFB54 /* ImageRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRecordViewController.swift; sourceTree = "<group>"; };
 		78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordViewController.swift; sourceTree = "<group>"; };
-		78BA154027218F430078B88E /* MyPageSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageSettingViewController.swift; sourceTree = "<group>"; };
 		78BB7E0D277843ED00DF78AF /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
 		78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCardCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -414,8 +429,6 @@
 		78BB7E262778970900DF78AF /* DetailFriendsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailFriendsCollectionViewCell.xib; sourceTree = "<group>"; };
 		78C4B327272428AB0006EBAD /* MyPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyPage.storyboard; sourceTree = "<group>"; };
 		78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalViewController.swift; sourceTree = "<group>"; };
-		78C4B32C2724292D0006EBAD /* WithdrawalReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalReactor.swift; sourceTree = "<group>"; };
-		78C4B32E272429370006EBAD /* WithdrawalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalModel.swift; sourceTree = "<group>"; };
 		78C4B33427243C660006EBAD /* NSMutableAttributedStringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedStringExtension.swift; sourceTree = "<group>"; };
 		78C4B33727244ACB0006EBAD /* CommonAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAlertView.swift; sourceTree = "<group>"; };
 		78C4B33A27244C000006EBAD /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -429,6 +442,9 @@
 		78E00D03288307C30018773A /* MyArchiveUsecase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveUsecase.swift; sourceTree = "<group>"; };
 		78E00D04288307C30018773A /* MyArchiveRepositoryImplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveRepositoryImplement.swift; sourceTree = "<group>"; };
 		78E00D05288307C30018773A /* MyArchiveRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveRepository.swift; sourceTree = "<group>"; };
+		78E3581F28955EFF00DB1974 /* MyPageUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageUsecase.swift; sourceTree = "<group>"; };
+		78E3582128955F0800DB1974 /* MyPageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRepository.swift; sourceTree = "<group>"; };
+		78E3582328955F1200DB1974 /* MyPageRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageRepositoryImplement.swift; sourceTree = "<group>"; };
 		78E8E62E2866D6D000B18AD8 /* CommunityUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityUsecase.swift; sourceTree = "<group>"; };
 		78E8E6302866D6DB00B18AD8 /* CommunityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepository.swift; sourceTree = "<group>"; };
 		78E8E6322866D6E400B18AD8 /* CommunityRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -628,7 +644,8 @@
 		780478152723E79500FAA1CF /* Sub */ = {
 			isa = PBXGroup;
 			children = (
-				78F06C892830C8320033882E /* Setting */,
+				786CE636289E468E00D24266 /* EditProfileViewController */,
+				789EAC2728964F9200DC7F1A /* MyLikeList */,
 				780478182723E7E400FAA1CF /* LoginInformation */,
 				78C4B329272428B40006EBAD /* Withdrawal */,
 			);
@@ -640,7 +657,6 @@
 			children = (
 				7804781F2723E83100FAA1CF /* LoginInformationViewController.swift */,
 				780478212723E83F00FAA1CF /* LoginInformationReactor.swift */,
-				780478232723E84900FAA1CF /* LoginInformationModel.swift */,
 			);
 			path = LoginInformation;
 			sourceTree = "<group>";
@@ -819,6 +835,8 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				789EAC2A289651BC00DC7F1A /* MyLike */,
+				78E3581E28955EF700DB1974 /* MyPage */,
 				78E00D02288307C30018773A /* MyArchive */,
 				783010382882A27D0031F8CB /* Banner */,
 				78A96A1E2868A85200B8DF2F /* Detail */,
@@ -936,6 +954,8 @@
 				786A3EE52871E67D00A35112 /* RotatedTitleView.swift */,
 				78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */,
 				7830103428829FDB0031F8CB /* ArchiveBannerView.swift */,
+				786CE639289E483700D24266 /* ArchiveConfirmButton.swift */,
+				786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -965,6 +985,14 @@
 				78599DEC27638241003FD959 /* HomeShimmerView.xib */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		786CE636289E468E00D24266 /* EditProfileViewController */ = {
+			isa = PBXGroup;
+			children = (
+				786CE637289E469700D24266 /* EditProfileViewController.swift */,
+			);
+			path = EditProfileViewController;
 			sourceTree = "<group>";
 		};
 		7877699D273AA98100519B58 /* Sub */ = {
@@ -1104,6 +1132,26 @@
 			path = Etc;
 			sourceTree = "<group>";
 		};
+		789EAC2728964F9200DC7F1A /* MyLikeList */ = {
+			isa = PBXGroup;
+			children = (
+				789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */,
+				789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */,
+				786CE632289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift */,
+			);
+			path = MyLikeList;
+			sourceTree = "<group>";
+		};
+		789EAC2A289651BC00DC7F1A /* MyLike */ = {
+			isa = PBXGroup;
+			children = (
+				789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */,
+				789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */,
+				789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */,
+			);
+			path = MyLike;
+			sourceTree = "<group>";
+		};
 		78A32162275B91180078650D /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1205,8 +1253,6 @@
 			isa = PBXGroup;
 			children = (
 				78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */,
-				78C4B32C2724292D0006EBAD /* WithdrawalReactor.swift */,
-				78C4B32E272429370006EBAD /* WithdrawalModel.swift */,
 			);
 			path = Withdrawal;
 			sourceTree = "<group>";
@@ -1227,6 +1273,16 @@
 				78E00D05288307C30018773A /* MyArchiveRepository.swift */,
 			);
 			path = MyArchive;
+			sourceTree = "<group>";
+		};
+		78E3581E28955EF700DB1974 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				78E3581F28955EFF00DB1974 /* MyPageUsecase.swift */,
+				78E3582128955F0800DB1974 /* MyPageRepository.swift */,
+				78E3582328955F1200DB1974 /* MyPageRepositoryImplement.swift */,
+			);
+			path = MyPage;
 			sourceTree = "<group>";
 		};
 		78E8E62D2866D6C500B18AD8 /* Community */ = {
@@ -1258,14 +1314,6 @@
 			path = Sub;
 			sourceTree = "<group>";
 		};
-		78F06C892830C8320033882E /* Setting */ = {
-			isa = PBXGroup;
-			children = (
-				78BA154027218F430078B88E /* MyPageSettingViewController.swift */,
-			);
-			path = Setting;
-			sourceTree = "<group>";
-		};
 		7A78CD9881593A0B9DDBF955 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1285,12 +1333,12 @@
 			buildConfigurationList = 44F9B0F1270606EE005418F0 /* Build configuration list for PBXNativeTarget "Archive" */;
 			buildPhases = (
 				0E3F08398E39A88DA3820B45 /* [CP] Check Pods Manifest.lock */,
+				78315E702764C35C001B3342 /* Gen */,
 				44F9B0D9270606E7005418F0 /* Sources */,
 				44F9B0DA270606E7005418F0 /* Frameworks */,
 				44F9B0DB270606E7005418F0 /* Resources */,
 				D66E2DBAF1C05AE16297D93D /* [CP] Embed Pods Frameworks */,
 				78315E6F2764C349001B3342 /* Lint */,
-				78315E702764C35C001B3342 /* Gen */,
 				789D1D1727AE4708004D7A24 /* Firebase Crashlytics */,
 			);
 			buildRules = (
@@ -1516,11 +1564,13 @@
 				7830103A2882A2850031F8CB /* BannerUsecase.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */,
+				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
 				789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */,
 				78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */,
+				78E3582428955F1200DB1974 /* MyPageRepositoryImplement.swift in Sources */,
 				78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */,
 				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
 				78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */,
@@ -1561,6 +1611,7 @@
 				44FB09FB27183269006E1048 /* ArchiveStep.swift in Sources */,
 				78D8A67228798B02002E8445 /* FilterViewController.swift in Sources */,
 				7821232A273F83A1007DEC28 /* RecordUploadModel.swift in Sources */,
+				789EAC3428966CDE00DC7F1A /* MyLikeCollectionViewCell.swift in Sources */,
 				78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */,
 				7821233A273F9623007DEC28 /* CodableWrapper.swift in Sources */,
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
@@ -1568,6 +1619,8 @@
 				78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
+				786CE633289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift in Sources */,
+				789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
@@ -1582,12 +1635,14 @@
 				78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */,
 				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
+				786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
 				78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */,
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
 				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
+				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
@@ -1606,7 +1661,6 @@
 				4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */,
 				789E61992725550A00D6E18F /* RecordViewController.swift in Sources */,
 				784D1E2127088BC0004B1A23 /* HWFlipView.swift in Sources */,
-				78C4B32F272429370006EBAD /* WithdrawalModel.swift in Sources */,
 				781C8450282F8B6E004A0FB3 /* FakeSplashView.swift in Sources */,
 				788AB648280A9EAE00182B45 /* FindPasswordUsecase.swift in Sources */,
 				780389E2278988BF00DB1730 /* CardRecordCollectionViewCell.swift in Sources */,
@@ -1621,8 +1675,8 @@
 				78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */,
 				781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
-				78BA154127218F430078B88E /* MyPageSettingViewController.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,
+				786CE63A289E483700D24266 /* ArchiveConfirmButton.swift in Sources */,
 				782FDF4E272CFB6E004D1B6E /* PhotoFromAlbumModel.swift in Sources */,
 				7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */,
 				780389E627898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift in Sources */,
@@ -1636,6 +1690,7 @@
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
 				78458D2A272C18BB00392B45 /* Util.swift in Sources */,
+				786CE638289E469700D24266 /* EditProfileViewController.swift in Sources */,
 				44922DA72719B89200A5EA2B /* Validator.swift in Sources */,
 				784CFFD8274BBB770052B1EC /* ArchiveAPI.swift in Sources */,
 				781C8437282F64F7004A0FB3 /* MyPageFlow.swift in Sources */,
@@ -1662,8 +1717,6 @@
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
-				78C4B32D2724292D0006EBAD /* WithdrawalReactor.swift in Sources */,
-				780478242723E84900FAA1CF /* LoginInformationModel.swift in Sources */,
 				789E61B227257BD400D6E18F /* ImageRecordModel.swift in Sources */,
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
@@ -1672,9 +1725,12 @@
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
+				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
+				789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,
+				789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */,
 				781C842E282F621A004A0FB3 /* HomeFlow.swift in Sources */,
 				783010422882D8490031F8CB /* FullImageViewController.swift in Sources */,
 				44FB0A1C27183C9C006E1048 /* SignUpCompletionViewController.swift in Sources */,
@@ -1842,7 +1898,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -1922,7 +1978,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0.1;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

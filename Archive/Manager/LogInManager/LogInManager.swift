@@ -28,6 +28,9 @@ class LogInManager: NSObject {
         return self.repository.getLogInToken()
     }
     
+    var profilePhotoUrl: String = ""
+    var nickname: String = ""
+    
     // MARK: lifeCycle
     
     // MARK: private function

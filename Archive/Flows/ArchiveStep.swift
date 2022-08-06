@@ -6,6 +6,7 @@
 //
 
 import RxFlow
+import RxRelay
 
 enum ArchiveStep: Step {
     
@@ -47,11 +48,13 @@ enum ArchiveStep: Step {
     
     // MyPage
     case myPageIsRequired
-    case loginInfomationIsRequired(LoginType, String?, Int)
-    case withdrawalIsRequired(Int)
+    case loginInfomationIsRequired(stepper: PublishRelay<Step>, info: MyLoginInfo, archiveCnt: Int)
+    case withdrawalIsRequired(reactor: LoginInformationReactor)
     case withdrawalIsComplete
     case logout
     case myPageIsComplete
+    case myLikeListIsRequired(reactor: MyPageReactor)
+    case editProfileIsRequired(reactor: MyPageReactor)
     
     // Record
     case recordIsRequired
@@ -70,5 +73,5 @@ enum ArchiveStep: Step {
     
     // 기타 등등
     case bannerImageIsRequired(imageUrl: URL)
-    case bannerUrlIsRequired(url: URL)
+    case openUrlIsRequired(url: URL, title: String)
 }
