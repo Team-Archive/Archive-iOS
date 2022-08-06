@@ -54,26 +54,9 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         $0.backgroundColor = .clear
     }
     
-    private let topContentsContainerView = UIView().then {
-        $0.backgroundColor = .clear
-    }
-    private let topContentsContainerViewHeight: CGFloat = 94
-    
-    private lazy var bannerView = ArchiveBannerView().then {
-        $0.backgroundColor = Gen.Colors.white.color
-        $0.onceMoveWidth = UIScreen.main.bounds.width
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.topContentsContainerViewHeight)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        $0.layout = layout
-    }
-    
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.delaysContentTouches = false
-        $0.contentInset = UIEdgeInsets(top: self.topContentsContainerViewHeight + 10, left: 0, bottom: 0, right: 0)
+        $0.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.alwaysBounceVertical = true
         
         $0.backgroundColor = Gen.Colors.white.color
@@ -113,9 +96,9 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.register(MyLikeCollectionViewCell.self, forCellWithReuseIdentifier: MyLikeCollectionViewCell.identifier)
-        collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
+        collectionView.register(MyLikeListLikeCountHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier)
         setupDatasource()
-        self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
+        self.reactor?.action.onNext(.getMyLikeArchives)
     }
     
     init(reactor: MyPageReactor) {
@@ -140,26 +123,6 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         self.mainContentsView.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints {
             $0.edges.equalTo(self.mainContentsView)
-        }
-        
-        self.mainContentsView.addSubview(self.topContentsContainerView)
-        self.topContentsContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.mainContentsView.snp.top)
-            $0.leading.equalTo(self.mainContentsView.snp.leading)
-            $0.trailing.equalTo(self.mainContentsView.snp.trailing)
-            $0.height.equalTo(self.topContentsContainerViewHeight)
-        }
-        
-        self.topContentsContainerView.addSubview(self.bannerView)
-        self.bannerView.snp.makeConstraints {
-            $0.edges.equalTo(self.topContentsContainerView)
-        }
-        
-        self.refresher = UIRefreshControl()
-        if let refresher = refresher {
-            refresher.tintColor = Gen.Colors.black.color
-            refresher.addTarget(self, action: #selector(refresh), for: .valueChanged)
-            self.collectionView.addSubview(refresher)
         }
         
     }
@@ -205,47 +168,19 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
 //            })
 //            .disposed(by: self.disposeBag)
         
-//        reactor.state
-//            .map { $0.archives.value }
-//            .distinctUntilChanged()
-//            .asDriver(onErrorJustReturn: [])
-//            .drive(onNext: { [weak self] archives in
-//                self?.sections.accept([MyLikeArchiveSection(items: archives)])
-//            })
-//            .disposed(by: self.disposeBag)
-        
-//        reactor.state
-//            .map { $0.archives }
-//            .asDriver(onErrorJustReturn: .init(wrappedValue: []))
-//            .drive(onNext: { [weak self] _ in
-//                self?.stopRefresher()
-//            })
-//            .disposed(by: self.disposeBag)
+        reactor.state
+            .map { $0.myLikeArchives }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] archives in
+                self?.sections.accept([MyLikeArchiveSection(items: archives)])
+            })
+            .disposed(by: self.disposeBag)
         
 //        self.collectionView.rx.itemSelected
 //            .asDriver()
 //            .drive(onNext: { [weak self] index in
 //                reactor.action.onNext(.showDetail(index: index.item))
-//            })
-//            .disposed(by: self.disposeBag)
-        
-        
-        
-//        self.collectionView.rx.contentOffset
-//            .asDriver()
-//            .drive(onNext: { [weak self] offset in
-//                if offset.y > 0 {
-//                    let translation = self?.collectionView.panGestureRecognizer.translation(in: self?.collectionView.superview ?? UIScrollView())
-//                    if translation?.y ?? 0 > 0 {
-//                        if self?.bannerView.isHidden ?? false {
-//                            self?.bannerView.showWithAnimation()
-//                        }
-//                    } else {
-//                        self?.bannerView.hideWithAnimation()
-//                    }
-//                } else {
-//                    self?.bannerView.showWithAnimation()
-//                }
 //            })
 //            .disposed(by: self.disposeBag)
         
@@ -282,7 +217,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         self.collectionView.dataSource = nil
         dataSource.configureSupplementaryView = { (dataSource, collectionView, kind, indexPath) in
             if kind == UICollectionView.elementKindSectionHeader {
-                if let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: CommunityFilterHeaderView.identifier, for: indexPath) as? CommunityFilterHeaderView {
+                if let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier, for: indexPath) as? MyLikeListLikeCountHeaderView {
                     
                     return section
                 } else {
@@ -295,16 +230,6 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         
         sections.bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
-    }
-    
-    @objc private func refresh() {
-        print("refresh")
-//        self.reactor?.action.onNext(.refreshPublicArchives)
-    }
-    
-    private func stopRefresher() {
-        print("stopRefresher")
-        self.refresher?.endRefreshing()
     }
     
     // MARK: func

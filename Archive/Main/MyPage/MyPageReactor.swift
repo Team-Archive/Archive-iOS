@@ -38,16 +38,19 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case openTerms
         case openPrivacy
         case moveToLikeList
+        case getMyLikeArchives
     }
     
     enum Mutation {
         case empty
         case setIsLoading(Bool)
+        case setMyLikeArchives([MyLikeArchive])
     }
     
     struct State {
         let cardCnt: Int = 0 // TODO: 아카이브 갯수만 받아오는 API추가해야할듯
         var isLoading: Bool = false
+        var myLikeArchives: [MyLikeArchive] = []
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -82,6 +85,20 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             guard let url = URL(string: "https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae") else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "개인정보 처리방침"))
             return .empty()
+        case .getMyLikeArchives:
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                self.getMyLikeArchives().map { [weak self] result in
+                    switch result {
+                    case .success(let archives):
+                        return .setMyLikeArchives(archives)
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                        return .empty
+                    }
+                },
+                Observable.just(.setIsLoading(false))
+            ])
         }
     }
     
@@ -92,6 +109,8 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             break
         case .setIsLoading(let isLoading):
             newState.isLoading = isLoading
+        case .setMyLikeArchives(let archives):
+            newState.myLikeArchives = archives
         }
         return newState
     }
@@ -100,6 +119,10 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func getCurrentUserInfo() -> Observable<Result<MyLoginInfo, ArchiveError>> {
         return self.usecase.getCurrentUserInfo()
+    }
+    
+    private func getMyLikeArchives() -> Observable<Result<[MyLikeArchive], ArchiveError>> {
+        return self.myLikeUsecase.getMyLikeArchives()
     }
     
     
