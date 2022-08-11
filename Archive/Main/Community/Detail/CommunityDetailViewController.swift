@@ -159,6 +159,8 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     
     // MARK: private property
     
+    private var isFirstShowCover: Bool = true // 애니메이션 체크용
+    
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -462,6 +464,19 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private func
     
     private func showCover(infoData: CommunityReactor.DetailInfo) {
+        if self.isFirstShowCover {
+            self.isFirstShowCover = false
+            showCoverLogic(infoData: infoData)
+        } else {
+            UIView.transition(with: self.view, duration: 0.75, options: .transitionCurlUp, animations: nil, completion: { [weak self] isEndAnimation in
+                if isEndAnimation {
+                    self?.showCoverLogic(infoData: infoData)
+                }
+            })
+        }
+    }
+    
+    private func showCoverLogic(infoData: CommunityReactor.DetailInfo) {
         let item = infoData.archiveInfo
         self.topCoverContentsView.isHidden = false
         self.bottomCoverContentsView.isHidden = false
@@ -470,20 +485,19 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
         self.mainBackgroundView.backgroundColor = item.emotion.color
         self.topCoverImageView.kf.setImage(with: URL(string: item.mainImage),
-                                            placeholder: nil,
-                                            options: [.cacheMemoryOnly],
-                                            completionHandler: nil)
+                                           placeholder: nil,
+                                           options: [.cacheMemoryOnly],
+                                           completionHandler: nil)
         self.topCoverEmotionCoverView.image = item.emotion.coverAlphaImage
         self.bottomCoverTitleLabel.text = item.name
         self.bottomCoverDateLabel.text = item.watchedOn
-//        self.userNameLabel.text = item.authorId
+        //        self.userNameLabel.text = item.authorId
         
-//        self.likeBtn.isLike
-//        private let likeCntLabel = UILabel().then {
-//            $0.font = .fonts(.body)
-//            $0.textColor = Gen.Colors.gray03.color
-//        }
-        
+        //        self.likeBtn.isLike
+        //        private let likeCntLabel = UILabel().then {
+        //            $0.font = .fonts(.body)
+        //            $0.textColor = Gen.Colors.gray03.color
+        //        }
     }
     
     private func makeNavigationItems() {
