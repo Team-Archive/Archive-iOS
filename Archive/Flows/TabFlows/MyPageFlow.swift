@@ -95,6 +95,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         case .editProfileIsRequired(let reactor):
             navigationToEditProfile(reactor: reactor)
             return .none
+        case .myPageIsComplete:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.myPageIsComplete)
         default:
             return .none
         }
