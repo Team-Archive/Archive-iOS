@@ -204,6 +204,8 @@
 		78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33A27244C000006EBAD /* UIViewExtension.swift */; };
 		78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */; };
 		78C8802E28A9434100922C8D /* RegistEmotionSelectTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8802D28A9434100922C8D /* RegistEmotionSelectTopView.swift */; };
+		78C8803128A945D400922C8D /* RegistForegroundBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8803028A945D400922C8D /* RegistForegroundBottomView.swift */; };
+		78C8803328A94A6C00922C8D /* ForegroundStep1TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */; };
 		78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA759028634E9C00EA35EA /* ImageButton.swift */; };
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
 		78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D31DF0288460CF000D81BE /* CommonWebViewController.swift */; };
@@ -439,6 +441,8 @@
 		78C4B33A27244C000006EBAD /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPageViewControllerExtension.swift; sourceTree = "<group>"; };
 		78C8802D28A9434100922C8D /* RegistEmotionSelectTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistEmotionSelectTopView.swift; sourceTree = "<group>"; };
+		78C8803028A945D400922C8D /* RegistForegroundBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistForegroundBottomView.swift; sourceTree = "<group>"; };
+		78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundStep1TopView.swift; sourceTree = "<group>"; };
 		78CA759028634E9C00EA35EA /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
 		78D31DF0288460CF000D81BE /* CommonWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewController.swift; sourceTree = "<group>"; };
@@ -998,6 +1002,7 @@
 		78657BCA28A5498D00549D12 /* Regist */ = {
 			isa = PBXGroup;
 			children = (
+				78C8802F28A945BA00922C8D /* SubView */,
 				78657BCC28A5498D00549D12 /* RegistViewController.swift */,
 				78657BCB28A5498D00549D12 /* RegistReactor.swift */,
 			);
@@ -1272,6 +1277,15 @@
 				78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */,
 			);
 			path = Withdrawal;
+			sourceTree = "<group>";
+		};
+		78C8802F28A945BA00922C8D /* SubView */ = {
+			isa = PBXGroup;
+			children = (
+				78C8803028A945D400922C8D /* RegistForegroundBottomView.swift */,
+				78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */,
+			);
+			path = SubView;
 			sourceTree = "<group>";
 		};
 		78D8A67028798AF5002E8445 /* ViewController */ = {
@@ -1681,6 +1695,7 @@
 				784D1E2127088BC0004B1A23 /* HWFlipView.swift in Sources */,
 				781C8450282F8B6E004A0FB3 /* FakeSplashView.swift in Sources */,
 				788AB648280A9EAE00182B45 /* FindPasswordUsecase.swift in Sources */,
+				78C8803128A945D400922C8D /* RegistForegroundBottomView.swift in Sources */,
 				780389E2278988BF00DB1730 /* CardRecordCollectionViewCell.swift in Sources */,
 				78168A0A282500EB007810DC /* ArchiveStatus.swift in Sources */,
 				789E61B027257BCB00D6E18F /* ImageRecordReactor.swift in Sources */,
@@ -1720,6 +1735,7 @@
 				78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */,
 				784D1E3527088EC8004B1A23 /* Assets.swift in Sources */,
 				78599DD9276375C2003FD959 /* TicketDescriptionContentView.swift in Sources */,
+				78C8803328A94A6C00922C8D /* ForegroundStep1TopView.swift in Sources */,
 				78599DD6276375C2003FD959 /* TicketCollectionViewCell.swift in Sources */,
 				78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */,
 				784FCDE9282FEE9E007683D2 /* LoginAccessTokenRepository.swift in Sources */,
