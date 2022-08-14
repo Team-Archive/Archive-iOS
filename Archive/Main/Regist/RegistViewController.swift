@@ -16,18 +16,69 @@ class RegistViewController: UIViewController, View {
     
     // MARK: UI Property
     
-    // MARK: private property
-    
     private let mainBackgroundView = UIView().then {
         $0.backgroundColor = Gen.Colors.white.color
+    }
+    
+    private lazy var mainContentsView = HWFlipView(foregroundView: self.foregroundView, behindView: self.behindeView).then {
+        $0.backgroundColor = .clear
     }
     
     // foregroundView
     
     private let foregroundView = UIView().then {
-//        $0.backgroundColor = Gen.Colors.white.color
-        $0.backgroundColor = .brown
+        $0.backgroundColor = Gen.Colors.white.color
     }
+    
+    private let foregroundScrollView = UIScrollView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let foregroundContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private lazy var topGradationView = UIImageView().then {
+        $0.backgroundColor = .clear
+        $0.image = Gen.Images.navigationGradation.image
+    }
+    
+    private let foregroundBottomContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+     
+    private let foregroundBottomHelpTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.black.color
+        $0.text = "무슨 전시를 감상했나요?"
+    }
+    
+    private let foregroundBottomTitlePlaceHolderLabel = UILabel().then {
+        $0.font = .fonts(.header2)
+        $0.textColor = Gen.Colors.gray02.color
+        $0.text = "전시명을 입력해주세요."
+    }
+    
+    private let foregroundBottomTitleLabel = UILabel().then {
+        $0.font = .fonts(.header2)
+        $0.textColor = Gen.Colors.black.color
+    }
+    
+    private let foregroundBottomUnderLineView = UIView().then {
+        $0.backgroundColor = Gen.Colors.gray04.color
+    }
+    
+    private let foregroundTopContentsView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    // step1
+    
+    private let foregroundTopPlaceHolderImgView = UIImageView().then {
+        $0.image = Gen.Images.emptyTicket.image
+    }
+    
+    
     
     private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.isPagingEnabled = true
@@ -48,9 +99,7 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .gray
     }
     
-    private lazy var mainContentsView = HWFlipView(foregroundView: self.foregroundView, behindView: self.behindeView).then {
-        $0.backgroundColor = .clear
-    }
+    // MARK: private property
     
     // MARK: internal property
     
@@ -77,11 +126,10 @@ class RegistViewController: UIViewController, View {
         
         let safeGuide = self.view.safeAreaLayoutGuide
         
-        
-        
         self.view.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
-            $0.edges.equalTo(safeGuide.snp.edges)
+            $0.bottom.leading.trailing.equalTo(safeGuide)
+            $0.top.equalTo(self.view)
         }
     }
     
