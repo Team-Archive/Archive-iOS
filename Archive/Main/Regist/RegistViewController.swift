@@ -74,6 +74,10 @@ class RegistViewController: UIViewController, View {
     
     // step1
     
+    private let foregroundTopStep1View = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
     private let foregroundTopPlaceHolderImgView = UIImageView().then {
         $0.image = Gen.Images.emptyTicket.image
     }
@@ -131,6 +135,74 @@ class RegistViewController: UIViewController, View {
             $0.bottom.leading.trailing.equalTo(safeGuide)
             $0.top.equalTo(self.view)
         }
+        
+        self.foregroundView.addSubview(self.foregroundScrollView)
+        self.foregroundScrollView.snp.makeConstraints {
+            $0.edges.equalTo(self.foregroundView)
+        }
+        
+        self.foregroundScrollView.addSubview(self.foregroundContentsView)
+        self.foregroundContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.foregroundScrollView).priority(750)
+            $0.width.equalTo(self.foregroundScrollView).priority(1000)
+            $0.height.equalTo(1500)
+        }
+        
+        let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+        let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
+        self.foregroundView.addSubview(self.topGradationView)
+        self.topGradationView.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(self.foregroundView)
+            $0.height.equalTo(statusBarHeight + (self.navigationController?.navigationBar.bounds.height ?? 0))
+        }
+        
+//        private let  = UIView().then {
+//            $0.backgroundColor = .clear
+//        }
+//
+//        private lazy var topGradationView = UIImageView().then {
+//            $0.backgroundColor = .clear
+//            $0.image = Gen.Images.navigationGradation.image
+//        }
+//
+//        private let foregroundBottomContentsView = UIView().then {
+//            $0.backgroundColor = .clear
+//        }
+//
+//        private let foregroundBottomHelpTitleLabel = UILabel().then {
+//            $0.font = .fonts(.subTitle)
+//            $0.textColor = Gen.Colors.black.color
+//            $0.text = "무슨 전시를 감상했나요?"
+//        }
+//
+//        private let foregroundBottomTitlePlaceHolderLabel = UILabel().then {
+//            $0.font = .fonts(.header2)
+//            $0.textColor = Gen.Colors.gray02.color
+//            $0.text = "전시명을 입력해주세요."
+//        }
+//
+//        private let foregroundBottomTitleLabel = UILabel().then {
+//            $0.font = .fonts(.header2)
+//            $0.textColor = Gen.Colors.black.color
+//        }
+//
+//        private let foregroundBottomUnderLineView = UIView().then {
+//            $0.backgroundColor = Gen.Colors.gray04.color
+//        }
+//
+//        private let foregroundTopContentsView = UIView().then {
+//            $0.backgroundColor = .clear
+//        }
+//
+//        // step1
+//
+//        private let foregroundTopStep1View = UIView().then {
+//            $0.backgroundColor = .clear
+//        }
+//
+//        private let foregroundTopPlaceHolderImgView = UIImageView().then {
+//            $0.image = Gen.Images.emptyTicket.image
+//        }
     }
     
     override func viewDidLoad() {

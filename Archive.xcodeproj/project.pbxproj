@@ -203,6 +203,7 @@
 		78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33727244ACB0006EBAD /* CommonAlertView.swift */; };
 		78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33A27244C000006EBAD /* UIViewExtension.swift */; };
 		78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */; };
+		78C8802E28A9434100922C8D /* RegistEmotionSelectTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8802D28A9434100922C8D /* RegistEmotionSelectTopView.swift */; };
 		78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA759028634E9C00EA35EA /* ImageButton.swift */; };
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
 		78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D31DF0288460CF000D81BE /* CommonWebViewController.swift */; };
@@ -437,6 +438,7 @@
 		78C4B33727244ACB0006EBAD /* CommonAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonAlertView.swift; sourceTree = "<group>"; };
 		78C4B33A27244C000006EBAD /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		78C62C6D2729759A005BF3DE /* UIPageViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPageViewControllerExtension.swift; sourceTree = "<group>"; };
+		78C8802D28A9434100922C8D /* RegistEmotionSelectTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistEmotionSelectTopView.swift; sourceTree = "<group>"; };
 		78CA759028634E9C00EA35EA /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
 		78D31DF0288460CF000D81BE /* CommonWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewController.swift; sourceTree = "<group>"; };
@@ -961,6 +963,7 @@
 				7830103428829FDB0031F8CB /* ArchiveBannerView.swift */,
 				786CE639289E483700D24266 /* ArchiveConfirmButton.swift */,
 				786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */,
+				78C8802D28A9434100922C8D /* RegistEmotionSelectTopView.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1755,6 +1758,7 @@
 				781C844E282F8B6E004A0FB3 /* FakeSplashViewProtocol.swift in Sources */,
 				782FDF4C272CFB6E004D1B6E /* PhotoFromAlbumCell.swift in Sources */,
 				788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */,
+				78C8802E28A9434100922C8D /* RegistEmotionSelectTopView.swift in Sources */,
 				78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */,
 				78436F26287C77F800013982 /* CommunityFilterCollectionViewCell.swift in Sources */,
 				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
