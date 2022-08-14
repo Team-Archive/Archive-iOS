@@ -62,7 +62,7 @@ class RegistViewController: UIViewController, View {
         super.init(coder: coder)
     }
     
-    init(with reactor: RegistReactor) {
+    init(reactor: RegistReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }

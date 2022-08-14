@@ -132,14 +132,29 @@ final class MainFlow: Flow {
         self.rootViewController.navigationBar.topItem?.rightBarButtonItems = nil
     }
     
+//    private func moveToRecordFlow() -> FlowContributors {
+//        let reactor = RecordReactor(model: RecordModel())
+//        let vc: RecordViewController = recordStoryBoard.instantiateViewController(identifier: RecordViewController.identifier) { corder in
+//            return RecordViewController(coder: corder, reactor: reactor)
+//        }
+//        let navi = UINavigationController(rootViewController: vc)
+//        let recordFlow = RecordFlow(rootViewController: navi, recordViewController: vc)
+//        navi.viewControllers = [vc]
+//        navi.modalPresentationStyle = .fullScreen
+//        self.rootViewController.present(navi, animated: true)
+//        return .one(flowContributor: .contribute(withNextPresentable: recordFlow,
+//                                                 withNextStepper: reactor))
+//    }
+    
     private func moveToRecordFlow() -> FlowContributors {
-        let reactor = RecordReactor(model: RecordModel())
-        let vc: RecordViewController = recordStoryBoard.instantiateViewController(identifier: RecordViewController.identifier) { corder in
-            return RecordViewController(coder: corder, reactor: reactor)
-        }
+//        let reactor = RecordReactor(model: RecordModel())
+        let reactor = RegistReactor()
+//        let vc: RecordViewController = recordStoryBoard.instantiateViewController(identifier: RecordViewController.identifier) { corder in
+//            return RecordViewController(coder: corder, reactor: reactor)
+//        }
+        let vc: RegistViewController = RegistViewController(reactor: reactor)
         let navi = UINavigationController(rootViewController: vc)
-        let recordFlow = RecordFlow(rootViewController: navi, recordViewController: vc)
-        navi.viewControllers = [vc]
+        let recordFlow = RecordFlow(rootViewController: navi, registViewController: vc)
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController.present(navi, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: recordFlow,
