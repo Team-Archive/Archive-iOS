@@ -239,10 +239,15 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.rx.selectImage
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
-                let vc = RegistPhotoViewController(reactor: RegistPhotoReactor())
+                let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(emotion: self?.reactor?.currentState.emotion ?? .pleasant))
                 let navi = UINavigationController(rootViewController: vc)
                 navi.modalPresentationStyle = .fullScreen
                 self?.present(navi, animated: true)
+                guard let strongSelf = self else { return }
+                vc.rx.selectedImages.subscribe(onNext: { [weak self] images in
+                    print("images: \(images)")
+                })
+                .disposed(by: strongSelf.disposeBag)
             })
             .disposed(by: self.disposeBag)
     }

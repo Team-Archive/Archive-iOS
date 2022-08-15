@@ -14,7 +14,11 @@ import Then
 import Photos
 import CropViewController
 
-class RegistPhotoViewController: UIViewController, View {
+@objc protocol RegistPhotoViewControllerDelegate: AnyObject {
+    @objc optional func selectedImages(images: [UIImage])
+}
+
+class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     
     // MARK: UIProperty
     
@@ -47,6 +51,8 @@ class RegistPhotoViewController: UIViewController, View {
     // MARK: internal property
     
     var disposeBag: DisposeBag = DisposeBag()
+    
+    weak var delegate: RegistPhotoViewControllerDelegate?
     
     // MARK: lifeCycle
     
@@ -81,6 +87,37 @@ class RegistPhotoViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: UIImage())
             .drive(onNext: { [weak self] image in
                 self?.thumbnailImageView.image = image
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.selectedImageArr }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] imageArr in
+                if imageArr.count == 0 { return }
+                self?.showImageEditView(image: imageArr[0])
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isLoading }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] in
+                if $0 {
+                    self?.startIndicatorAnimating()
+                } else {
+                    self?.stopIndicatorAnimating()
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.completedImages
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] images in
+                self?.delegate?.selectedImages?(images: images)
+                self?.dismiss(animated: true)
             })
             .disposed(by: self.disposeBag)
     }
@@ -148,7 +185,7 @@ class RegistPhotoViewController: UIViewController, View {
     }
     
     @objc private func confirmAction(_ sender: UIButton) {
-        print("얍")
+        self.reactor?.action.onNext(.confirm)
     }
     
     private func makeCancelBtn() {
@@ -160,6 +197,32 @@ class RegistPhotoViewController: UIViewController, View {
     
     @objc private func cancelAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
+    }
+    
+    private func showImageEditView(image: UIImage) {
+        let cropViewController: CropViewController = CropViewController(croppingStyle: .default, image: image)
+        cropViewController.delegate = self
+        cropViewController.doneButtonTitle = "확인"
+        cropViewController.doneButtonColor = Gen.Colors.white.color
+        cropViewController.cancelButtonTitle = "취소"
+        cropViewController.cancelButtonColor = Gen.Colors.white.color
+        cropViewController.aspectRatioLockEnabled = true
+        cropViewController.resetButtonHidden = true
+        cropViewController.customAspectRatio = CGSize(width: 300, height: 300)
+        cropViewController.aspectRatioPickerButtonHidden = true
+        let emotionCoverImage = (self.reactor?.emotion ?? .fun).dimImage
+        let emotionCoverImageView: UIImageView = UIImageView()
+        emotionCoverImageView.contentMode = .scaleToFill
+        emotionCoverImageView.image = emotionCoverImage
+        cropViewController.cropView.insertSubview(emotionCoverImageView, belowSubview: cropViewController.cropView.gridOverlayView)
+        emotionCoverImageView.snp.makeConstraints { (make) in
+            let offset: CGFloat = UIDevice.current.hasNotch ? 24 : 0
+            make.centerY.equalTo(cropViewController.cropView.snp.centerY).offset(offset)
+            make.leading.equalTo(cropViewController.cropView.snp.leading).offset(12)
+            make.trailing.equalTo(cropViewController.cropView.snp.trailing).offset(-12)
+            make.height.equalTo(UIScreen.main.bounds.width - 24)
+        }
+        self.present(cropViewController, animated: true, completion: nil)
     }
     
     // MARK: internal function
@@ -181,5 +244,47 @@ extension RegistPhotoViewController: HWPhotoListFromAlbumViewDelegate {
         }
         self.reactor?.action.onNext(.setImageInfos(selectedImg))
         self.reactor?.action.onNext(.setThumbnailImage(focusIndexAsset))
+    }
+}
+
+extension RegistPhotoViewController: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        DispatchQueue.main.async { [weak self] in
+            cropViewController.dismiss(animated: true, completion: { [weak self] in
+                self?.reactor?.action.onNext(.setCropedImage(image))
+            })
+        }
+    }
+}
+
+
+class RegistPhotoViewControllerDelegateProxy: DelegateProxy<RegistPhotoViewController, RegistPhotoViewControllerDelegate>, DelegateProxyType, RegistPhotoViewControllerDelegate {
+    
+    
+    static func currentDelegate(for object: RegistPhotoViewController) -> RegistPhotoViewControllerDelegate? {
+        return object.delegate
+    }
+    
+    static func setCurrentDelegate(_ delegate: RegistPhotoViewControllerDelegate?, to object: RegistPhotoViewController) {
+        object.delegate = delegate
+    }
+    
+    static func registerKnownImplementations() {
+        self.register { (view) -> RegistPhotoViewControllerDelegateProxy in
+            RegistPhotoViewControllerDelegateProxy(parentObject: view, delegateProxy: self)
+        }
+    }
+}
+
+extension Reactive where Base: RegistPhotoViewController {
+    var delegate: DelegateProxy<RegistPhotoViewController, RegistPhotoViewControllerDelegate> {
+        return RegistPhotoViewControllerDelegateProxy.proxy(for: self.base)
+    }
+    
+    var selectedImages: Observable<[UIImage]> {
+        return delegate.methodInvoked(#selector(RegistPhotoViewControllerDelegate.selectedImages(images:)))
+            .map { result in
+                return result[0] as? [UIImage] ?? []
+            }
     }
 }

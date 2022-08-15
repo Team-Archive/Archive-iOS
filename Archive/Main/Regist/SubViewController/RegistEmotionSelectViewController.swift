@@ -11,6 +11,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Then
+import CropViewController
 
 @objc protocol RegistEmotionSelectViewControllerDelegate: AnyObject {
     @objc optional func selectedEmotion(emotion: Emotion)

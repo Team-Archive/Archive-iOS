@@ -28,14 +28,14 @@ class PhotoUsecase: NSObject {
 //        phAssetToImages(assets, ImageSize: self.recordImageSize, completion: comletion)
 //    }
         
-    func phAssetToImages(_ assets: [PHAsset], ImageSize: CGSize) -> Observable<Result<[UIImage], ArchiveError>> {
+    func phAssetToImages(assets: [PHAsset], imageSize: CGSize) -> Observable<Result<[UIImage], ArchiveError>> {
         return Observable.create { [weak self] emitter in
             let manager = PHImageManager.default()
             let option = PHImageRequestOptions()
             option.isSynchronous = true
             var resultImages: [UIImage] = [UIImage]()
             for item in assets {
-                manager.requestImage(for: item, targetSize: ImageSize, contentMode: .aspectFit, options: option, resultHandler: {(result, info) -> Void in
+                manager.requestImage(for: item, targetSize: imageSize, contentMode: .aspectFit, options: option, resultHandler: {(result, info) -> Void in
                     if result != nil {
                         resultImages.append(result!)
                     }
