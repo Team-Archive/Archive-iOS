@@ -67,6 +67,10 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
+    private let foregroundStep2TopView = ForegroundStep2TopView().then {
+        $0.backgroundColor = .clear
+    }
+    
     private let emotionSelectViewController = RegistEmotionSelectViewController(emotion: .pleasant).then {
         $0.modalPresentationStyle = .overFullScreen
     }
@@ -180,6 +184,14 @@ class RegistViewController: UIViewController, View {
             $0.edges.equalTo(self.foregroundTopContentsView)
         }
         
+        self.foregroundTopContentsView.addSubview(self.foregroundStep2TopView)
+        self.foregroundStep2TopView.snp.makeConstraints {
+            $0.edges.equalTo(self.foregroundTopContentsView)
+        }
+        self.foregroundStep2TopView.isHidden = true
+        
+        
+        
     }
     
     override func viewDidLoad() {
@@ -219,6 +231,15 @@ class RegistViewController: UIViewController, View {
                 self?.emotionSelectView.emotion = selectedEmotion
                 self?.foregroundTopStep1View.isHidden = true
                 reactor.action.onNext(.setEmotion(selectedEmotion))
+                self?.foregroundStep2TopView.isHidden = false
+                self?.foregroundStep2TopView.emotion = selectedEmotion
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.selectImage
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in 
+                print("얍")
             })
             .disposed(by: self.disposeBag)
     }
