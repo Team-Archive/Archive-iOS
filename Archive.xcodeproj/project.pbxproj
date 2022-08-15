@@ -191,6 +191,9 @@
 		78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */; };
 		78BAF74C28AA169000641250 /* RegistEmotionSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF74B28AA169000641250 /* RegistEmotionSelectViewController.swift */; };
 		78BAF75028AA1FF000641250 /* ForegroundStep2TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF74F28AA1FEF00641250 /* ForegroundStep2TopView.swift */; };
+		78BAF75328AA279100641250 /* RegistPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75228AA279100641250 /* RegistPhotoViewController.swift */; };
+		78BAF75728AA382C00641250 /* PhotoUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75628AA382C00641250 /* PhotoUsecase.swift */; };
+		78BAF75928AA396000641250 /* RegistPhotoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75828AA396000641250 /* RegistPhotoReactor.swift */; };
 		78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0D277843ED00DF78AF /* CommonDefine.swift */; };
 		78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */; };
 		78BB7E142778563700DF78AF /* DetailCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */; };
@@ -430,6 +433,9 @@
 		78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordViewController.swift; sourceTree = "<group>"; };
 		78BAF74B28AA169000641250 /* RegistEmotionSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistEmotionSelectViewController.swift; sourceTree = "<group>"; };
 		78BAF74F28AA1FEF00641250 /* ForegroundStep2TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundStep2TopView.swift; sourceTree = "<group>"; };
+		78BAF75228AA279100641250 /* RegistPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistPhotoViewController.swift; sourceTree = "<group>"; };
+		78BAF75628AA382C00641250 /* PhotoUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUsecase.swift; sourceTree = "<group>"; };
+		78BAF75828AA396000641250 /* RegistPhotoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistPhotoReactor.swift; sourceTree = "<group>"; };
 		78BB7E0D277843ED00DF78AF /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
 		78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCardCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -850,6 +856,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78BAF75428AA381A00641250 /* Photo */,
 				789EAC2A289651BC00DC7F1A /* MyLike */,
 				78E3581E28955EF700DB1974 /* MyPage */,
 				78E00D02288307C30018773A /* MyArchive */,
@@ -1251,9 +1258,27 @@
 		78BAF74A28AA169000641250 /* SubViewController */ = {
 			isa = PBXGroup;
 			children = (
+				78BAF75128AA278600641250 /* RegistPhotoViewController */,
 				78BAF74B28AA169000641250 /* RegistEmotionSelectViewController.swift */,
 			);
 			path = SubViewController;
+			sourceTree = "<group>";
+		};
+		78BAF75128AA278600641250 /* RegistPhotoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				78BAF75228AA279100641250 /* RegistPhotoViewController.swift */,
+				78BAF75828AA396000641250 /* RegistPhotoReactor.swift */,
+			);
+			path = RegistPhotoViewController;
+			sourceTree = "<group>";
+		};
+		78BAF75428AA381A00641250 /* Photo */ = {
+			isa = PBXGroup;
+			children = (
+				78BAF75628AA382C00641250 /* PhotoUsecase.swift */,
+			);
+			path = Photo;
 			sourceTree = "<group>";
 		};
 		78BB7E102778562700DF78AF /* DetailCard */ = {
@@ -1774,6 +1799,7 @@
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
+				78BAF75328AA279100641250 /* RegistPhotoViewController.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
 				789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */,
@@ -1793,6 +1819,8 @@
 				78C8802E28A9434100922C8D /* RegistEmotionSelectTopView.swift in Sources */,
 				78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */,
 				78436F26287C77F800013982 /* CommunityFilterCollectionViewCell.swift in Sources */,
+				78BAF75928AA396000641250 /* RegistPhotoReactor.swift in Sources */,
+				78BAF75728AA382C00641250 /* PhotoUsecase.swift in Sources */,
 				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
 				786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */,
 				78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */,
