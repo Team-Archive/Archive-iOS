@@ -51,11 +51,21 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
-    private let foregroundTopStep1View = ForegroundStep1TopView().then {
+    private let leftTriImgView = UIImageView().then {
+        $0.image = Gen.Images.triLeft.image
+    }
+    
+    private let rightTriImgView = UIImageView().then {
+        $0.image = Gen.Images.triRight.image
+    }
+    
+    private let emotionSelectView = RegistEmotionSelectTopView().then {
         $0.backgroundColor = .clear
     }
     
-    
+    private let foregroundTopStep1View = ForegroundStep1TopView().then {
+        $0.backgroundColor = .clear
+    }
     
     private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.isPagingEnabled = true
@@ -141,6 +151,26 @@ class RegistViewController: UIViewController, View {
             $0.bottom.equalTo(self.foregroundBottomContentsView.snp.top)
         }
         
+        self.foregroundContentsView.addSubview(self.leftTriImgView)
+        self.leftTriImgView.snp.makeConstraints {
+            $0.width.height.equalTo(44)
+            $0.leading.equalTo(self.foregroundTopContentsView)
+            $0.bottom.equalTo(self.foregroundTopContentsView).offset(22)
+        }
+        
+        self.foregroundContentsView.addSubview(self.rightTriImgView)
+        self.rightTriImgView.snp.makeConstraints {
+            $0.width.height.equalTo(44)
+            $0.trailing.equalTo(self.foregroundTopContentsView)
+            $0.bottom.equalTo(self.foregroundTopContentsView).offset(22)
+        }
+        
+        self.foregroundContentsView.addSubview(self.emotionSelectView)
+        self.emotionSelectView.snp.makeConstraints {
+            $0.top.equalTo(safeGuide.snp.top).offset(32)
+            $0.centerX.equalTo(foregroundContentsView)
+        }
+        
         self.foregroundTopContentsView.addSubview(self.foregroundTopStep1View)
         self.foregroundTopStep1View.snp.makeConstraints {
             $0.edges.equalTo(self.foregroundTopContentsView)
@@ -150,13 +180,44 @@ class RegistViewController: UIViewController, View {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        makeNavigationItems()
+    }
+    
+    deinit {
+        print("\(self) deinit")
     }
     
     func bind(reactor: RegistReactor) {
+        self.foregroundBottomContentsView.rx.clickedRegistTitle
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.mainContentsView.flip(complition: nil)
+            })
+            .disposed(by: self.disposeBag)
         
+        self.emotionSelectView.rx.clickedSelectEmotion
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                print("얍")
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private func
+    
+    private func makeNavigationItems() {
+        let closeImage = Gen.Images.closeWhite.image
+        closeImage.withRenderingMode(.alwaysTemplate)
+        let backBarButtonItem = UIBarButtonItem(image: closeImage, style: .plain, target: self, action: #selector(closeButtonClicked(_:)))
+        backBarButtonItem.tintColor = Gen.Colors.white.color
+        self.navigationItem.leftBarButtonItem = backBarButtonItem
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Gen.Colors.white.color]
+        self.title = "전시기록"
+    }
+    
+    @objc private func closeButtonClicked(_ sender: UIButton) {
+        self.dismiss(animated: true)
+    }
     
     // MARK: internal func
     

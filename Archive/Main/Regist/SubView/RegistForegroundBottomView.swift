@@ -110,7 +110,7 @@ class RegistForegroundBottomView: UIView {
     }
     
     @objc private func regist(_ recognizer: UITapGestureRecognizer) {
-        
+        self.delegate?.clickedRegistTitle?()
     }
     
     // MARK: func

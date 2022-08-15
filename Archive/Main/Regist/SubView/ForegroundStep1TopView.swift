@@ -14,7 +14,7 @@ class ForegroundStep1TopView: UIView {
     // MARK: private UI property
     
     private let mainContentsView = UIView().then {
-        $0.backgroundColor = Gen.Colors.gray04.color
+        $0.backgroundColor = Gen.Colors.gray05.color
     }
     
     private let foregroundTopPlaceHolderImgView = UIImageView().then {
