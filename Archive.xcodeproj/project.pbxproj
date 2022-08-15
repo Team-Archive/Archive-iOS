@@ -189,6 +189,7 @@
 		78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E02726C6D1009EFB54 /* EmotionDefine.swift */; };
 		78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E42726E420009EFB54 /* ImageRecordViewController.swift */; };
 		78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */; };
+		78BAF74C28AA169000641250 /* RegistEmotionSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF74B28AA169000641250 /* RegistEmotionSelectViewController.swift */; };
 		78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0D277843ED00DF78AF /* CommonDefine.swift */; };
 		78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */; };
 		78BB7E142778563700DF78AF /* DetailCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */; };
@@ -426,6 +427,7 @@
 		78B872E02726C6D1009EFB54 /* EmotionDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionDefine.swift; sourceTree = "<group>"; };
 		78B872E42726E420009EFB54 /* ImageRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRecordViewController.swift; sourceTree = "<group>"; };
 		78B872EB2726F32E009EFB54 /* ContentsRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsRecordViewController.swift; sourceTree = "<group>"; };
+		78BAF74B28AA169000641250 /* RegistEmotionSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistEmotionSelectViewController.swift; sourceTree = "<group>"; };
 		78BB7E0D277843ED00DF78AF /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
 		78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCardCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1002,6 +1004,7 @@
 		78657BCA28A5498D00549D12 /* Regist */ = {
 			isa = PBXGroup;
 			children = (
+				78BAF74A28AA169000641250 /* SubViewController */,
 				78C8802F28A945BA00922C8D /* SubView */,
 				78657BCC28A5498D00549D12 /* RegistViewController.swift */,
 				78657BCB28A5498D00549D12 /* RegistReactor.swift */,
@@ -1241,6 +1244,14 @@
 				780478152723E79500FAA1CF /* Sub */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
+		78BAF74A28AA169000641250 /* SubViewController */ = {
+			isa = PBXGroup;
+			children = (
+				78BAF74B28AA169000641250 /* RegistEmotionSelectViewController.swift */,
+			);
+			path = SubViewController;
 			sourceTree = "<group>";
 		};
 		78BB7E102778562700DF78AF /* DetailCard */ = {
@@ -1669,6 +1680,7 @@
 				786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
+				78BAF74C28AA169000641250 /* RegistEmotionSelectViewController.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
 				78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */,
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,

@@ -22,15 +22,16 @@ class RegistReactor: Reactor, Stepper {
     var err: PublishSubject<ArchiveError> = .init()
     
     enum Action {
-        
+        case setEmotion(Emotion)
     }
     
     enum Mutation {
         case empty
+        case setEmotion(Emotion)
     }
     
     struct State {
-        
+        var emotion: Emotion?
     }
     
     // MARK: life cycle
@@ -41,7 +42,10 @@ class RegistReactor: Reactor, Stepper {
     
     
     func mutate(action: Action) -> Observable<Mutation> {
-        return .empty()
+        switch action {
+        case .setEmotion(let emotion):
+            return .just(.setEmotion(emotion))
+        }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
@@ -49,6 +53,8 @@ class RegistReactor: Reactor, Stepper {
         switch mutation {
         case .empty:
             break
+        case .setEmotion(let emotion):
+            newState.emotion = emotion
         }
         return newState
     }

@@ -67,6 +67,10 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
+    private let emotionSelectViewController = RegistEmotionSelectViewController(emotion: .pleasant).then {
+        $0.modalPresentationStyle = .overFullScreen
+    }
+    
     private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.isPagingEnabled = true
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -198,7 +202,23 @@ class RegistViewController: UIViewController, View {
         self.emotionSelectView.rx.clickedSelectEmotion
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
-                print("얍")
+                self?.navigationController?
+                    .present(self?.emotionSelectViewController ?? UIViewController(),
+                             animated: false,
+                             completion: { [weak self] in
+                        self?.foregroundContentsView.isHidden = true
+                        self?.emotionSelectViewController.fadeInAnimation()
+                    })
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.emotionSelectViewController.rx.selectedEmotion
+            .asDriver(onErrorJustReturn: .pleasant)
+            .drive(onNext: { [weak self] selectedEmotion in
+                self?.foregroundContentsView.isHidden = false
+                self?.emotionSelectView.emotion = selectedEmotion
+                self?.foregroundTopStep1View.isHidden = true
+                reactor.action.onNext(.setEmotion(selectedEmotion))
             })
             .disposed(by: self.disposeBag)
     }
