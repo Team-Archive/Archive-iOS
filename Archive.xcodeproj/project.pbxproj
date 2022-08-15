@@ -194,6 +194,7 @@
 		78BAF75328AA279100641250 /* RegistPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75228AA279100641250 /* RegistPhotoViewController.swift */; };
 		78BAF75728AA382C00641250 /* PhotoUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75628AA382C00641250 /* PhotoUsecase.swift */; };
 		78BAF75928AA396000641250 /* RegistPhotoReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75828AA396000641250 /* RegistPhotoReactor.swift */; };
+		78BAF75D28AA6B8E00641250 /* ForegroundStep3TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BAF75C28AA6B8E00641250 /* ForegroundStep3TopView.swift */; };
 		78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E0D277843ED00DF78AF /* CommonDefine.swift */; };
 		78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */; };
 		78BB7E142778563700DF78AF /* DetailCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */; };
@@ -436,6 +437,7 @@
 		78BAF75228AA279100641250 /* RegistPhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistPhotoViewController.swift; sourceTree = "<group>"; };
 		78BAF75628AA382C00641250 /* PhotoUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoUsecase.swift; sourceTree = "<group>"; };
 		78BAF75828AA396000641250 /* RegistPhotoReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistPhotoReactor.swift; sourceTree = "<group>"; };
+		78BAF75C28AA6B8E00641250 /* ForegroundStep3TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundStep3TopView.swift; sourceTree = "<group>"; };
 		78BB7E0D277843ED00DF78AF /* CommonDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonDefine.swift; sourceTree = "<group>"; };
 		78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailCardCollectionViewCell.xib; sourceTree = "<group>"; };
@@ -1323,6 +1325,7 @@
 				78C8803028A945D400922C8D /* RegistForegroundBottomView.swift */,
 				78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */,
 				78BAF74F28AA1FEF00641250 /* ForegroundStep2TopView.swift */,
+				78BAF75C28AA6B8E00641250 /* ForegroundStep3TopView.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -1672,6 +1675,7 @@
 				78E8E62F2866D6D000B18AD8 /* CommunityUsecase.swift in Sources */,
 				780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */,
 				7830103C2882A28F0031F8CB /* BannerRepository.swift in Sources */,
+				78BAF75D28AA6B8E00641250 /* ForegroundStep3TopView.swift in Sources */,
 				78D8A6762879CCF9002E8445 /* ArchiveFilterEmotionView.swift in Sources */,
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,

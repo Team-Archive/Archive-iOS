@@ -23,15 +23,18 @@ class RegistReactor: Reactor, Stepper {
     
     enum Action {
         case setEmotion(Emotion)
+        case setImages([UIImage])
     }
     
     enum Mutation {
         case empty
         case setEmotion(Emotion)
+        case setImages([UIImage])
     }
     
     struct State {
         var emotion: Emotion?
+        var images: [UIImage] = []
     }
     
     // MARK: life cycle
@@ -45,6 +48,8 @@ class RegistReactor: Reactor, Stepper {
         switch action {
         case .setEmotion(let emotion):
             return .just(.setEmotion(emotion))
+        case .setImages(let images):
+            return .just(.setImages(images))
         }
     }
     
@@ -55,6 +60,8 @@ class RegistReactor: Reactor, Stepper {
             break
         case .setEmotion(let emotion):
             newState.emotion = emotion
+        case .setImages(let images):
+            newState.images = images
         }
         return newState
     }

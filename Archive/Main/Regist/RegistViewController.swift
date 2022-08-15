@@ -71,20 +71,12 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
-    private let emotionSelectViewController = RegistEmotionSelectViewController(emotion: .pleasant).then {
-        $0.modalPresentationStyle = .overFullScreen
+    private lazy var foregroundStep3TopView = ForegroundStep3TopView().then {
+        $0.backgroundColor = .clear
     }
     
-    private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
-        $0.isPagingEnabled = true
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.scrollDirection = .horizontal
-        let bottomPaddding = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? 0
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - bottomPaddding)
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        $0.collectionViewLayout = layout
+    private let emotionSelectViewController = RegistEmotionSelectViewController(emotion: .pleasant).then {
+        $0.modalPresentationStyle = .overFullScreen
     }
     
     // behindeView
@@ -190,6 +182,14 @@ class RegistViewController: UIViewController, View {
         }
         self.foregroundStep2TopView.isHidden = true
         
+        self.foregroundTopContentsView.addSubview(self.foregroundStep3TopView)
+        self.foregroundStep3TopView.snp.makeConstraints {
+            $0.edges.equalTo(self.foregroundTopContentsView)
+        }
+        self.foregroundStep3TopView.isHidden = true
+        self.foregroundStep3TopView.reactor = self.reactor
+        self.foregroundStep3TopView.bind()
+        
         
         
     }
@@ -245,7 +245,9 @@ class RegistViewController: UIViewController, View {
                 self?.present(navi, animated: true)
                 guard let strongSelf = self else { return }
                 vc.rx.selectedImages.subscribe(onNext: { [weak self] images in
-                    print("images: \(images)")
+                    self?.foregroundStep2TopView.isHidden = true
+                    self?.foregroundStep3TopView.isHidden = false
+                    self?.reactor?.action.onNext(.setImages(images))
                 })
                 .disposed(by: strongSelf.disposeBag)
             })
