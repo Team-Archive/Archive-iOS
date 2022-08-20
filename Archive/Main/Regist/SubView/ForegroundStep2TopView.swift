@@ -10,18 +10,52 @@ import Then
 import SnapKit
 import RxCocoa
 import RxSwift
+import RxDataSources
 
 @objc protocol ForegroundStep2TopViewDelegate: AnyObject {
     @objc optional func selectImage()
 }
 
-class ForegroundStep2TopView: UIView {
+struct RegistCellData: Equatable {
+    let index: Int
+    let image: UIImage?
+    let type: RegistCellType
     
-    enum CellModel {
-        case cover(UIImage)
-        case commonImage(ImageInfo)
-        case addImage(Void)
+    static func == (lhs: RegistCellData, rhs: RegistCellData) -> Bool {
+        return lhs.index == rhs.index
     }
+}
+
+extension RegistCellData: IdentifiableType {
+    typealias Identity = Int
+    
+    var identity: Identity {
+        return Int.random(in: 0..<20000)
+    }
+}
+
+enum RegistCellType: Int {
+    case cover
+    case image
+    case addImage
+}
+
+struct RegistSetction: Equatable {
+    let type: RegistCellType
+    var items: [RegistCellData]
+    var identity: Int {
+        return type.rawValue
+    }
+}
+
+extension RegistSetction: AnimatableSectionModelType {
+    init(original: RegistSetction, items: [RegistCellData]) {
+        self = original
+        self.items = items
+    }
+}
+
+class ForegroundStep2TopView: UIView {
 
     // MARK: private UI property
     
@@ -59,6 +93,7 @@ class ForegroundStep2TopView: UIView {
         layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.621333333)
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         $0.collectionViewLayout = layout
+        $0.showsHorizontalScrollIndicator = false
     }
     
     private let upIconImgView = UIImageView().then {
@@ -78,10 +113,43 @@ class ForegroundStep2TopView: UIView {
         }
     }
     
+    weak var delegate: ForegroundStep2TopViewDelegate?
+    
     // MARK: private Property
     
-    weak var delegate: ForegroundStep2TopViewDelegate?
-    let reactor: RegistReactor
+    private let reactor: RegistReactor
+    private let disposeBag = DisposeBag()
+    
+    
+    typealias RegistSectionDataSource = RxCollectionViewSectionedReloadDataSource<RegistSetction>
+    private lazy var dataSource: RegistSectionDataSource = {
+        let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
+        
+        let ds = RegistSectionDataSource { datasource, collectionView, indexPath, item in
+            var cell: UICollectionViewCell?
+            switch item.type {
+            case .cover:
+                cell = self.makeCoverCell(emotion: self.emotion,
+                                          image: item.image ?? UIImage(),
+                                          from: collectionView,
+                                          indexPath: indexPath)
+            case .image:
+                cell = self.makeCardCell(image: item.image ?? UIImage(),
+                                         from: collectionView,
+                                         indexPath: indexPath)
+            case .addImage:
+                cell = self.makeAddCell(from: collectionView,
+                                        indexPath: indexPath)
+            }
+            if let cell = cell {
+                return cell
+            } else {
+                return UICollectionViewCell()
+            }
+        }
+        return ds
+    }()
+    private var sections = BehaviorRelay<[RegistSetction]>(value: [])
     
     // MARK: lifeCycle
     
@@ -89,6 +157,13 @@ class ForegroundStep2TopView: UIView {
         self.reactor = reactor
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setup()
+        self.collectionView.register(RegistImageCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: RegistImageCollectionViewCell.identifier)
+        self.collectionView.register(RegistImageAddCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: RegistImageAddCollectionViewCell.identifier)
+        self.collectionView.register(RegistImageCoverCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: RegistImageCoverCollectionViewCell.identifier)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -100,17 +175,14 @@ class ForegroundStep2TopView: UIView {
     private func setup() {
         self.backgroundColor = .clear
         
-        self.addSubview(self.mainContentsView)
-        self.mainContentsView.snp.makeConstraints {
+        self.addSubview(self.collectionView)
+        self.collectionView.snp.makeConstraints {
             $0.edges.equalTo(self)
         }
         
-        self.mainContentsView.addSubview(self.collectionView)
-        self.collectionView.snp.makeConstraints {
-            $0.leading.equalTo(self.mainContentsView).offset(32)
-            $0.trailing.equalTo(self.mainContentsView).offset(-32)
-            $0.height.equalTo(UIScreen.main.bounds.width - 64)
-            $0.bottom.equalTo(self.mainContentsView).offset(-75)
+        self.addSubview(self.mainContentsView)
+        self.mainContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self)
         }
         
         self.mainContentsView.addSubview(self.emptyView)
@@ -154,62 +226,55 @@ class ForegroundStep2TopView: UIView {
         self.delegate?.selectImage?()
     }
     
+    private func makeCardCell(image: UIImage, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCollectionViewCell.identifier, for: indexPath) as? RegistImageCollectionViewCell else { return UICollectionViewCell() }
+        cell.image = image
+        return cell
+    }
+    
+    private func makeAddCell(from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageAddCollectionViewCell.identifier, for: indexPath) as? RegistImageAddCollectionViewCell else { return UICollectionViewCell() }
+        return cell
+    }
+    
+    private func makeCoverCell(emotion: Emotion?, image: UIImage, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCoverCollectionViewCell.identifier, for: indexPath) as? RegistImageCoverCollectionViewCell else { return UICollectionViewCell() }
+        cell.emotion = emotion
+        cell.image = image
+        return cell
+    }
+    
     // MARK: func
     
     func bind() {
-        guard let reactor = reactor else { return }
         
-//        reactor.state.map { $0.images }
-//            .distinctUntilChanged()
-//            .asDriver(onErrorJustReturn: [])
-//            .drive(onNext: { [weak self] images in
-//                print("images: \(images)")
-//                self?.imagesCollectionView.delegate = nil
-//                self?.imagesCollectionView.dataSource = nil
-//                let cardImage = images[0]
-//                let images = images
-////                self?.pageControl.numberOfPages = images.count + 2
-////                self?.defaultImageContainerView.isHidden = true
-////                self?.imagesCollectionView.isHidden = false
-////                self?.topContentsContainerView.backgroundColor = .clear
-//                var imageCellArr: [CellModel] = []
-//                for imageItem in images {
-//                    imageCellArr.append(CellModel.commonImage(imageItem))
-//                }
-//                let sections = Observable.just([
-//                    SectionModel(model: "card", items: [
-//                        CellModel.cover(cardImage)
-//                    ]),
-//                    SectionModel(model: "image", items: imageCellArr),
-//                    SectionModel(model: "addImage", items: [CellModel.addImage(())])
-//                ])
-//                guard let self = self else { return }
-//                let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { dataSource, collectionView, indexPath, item in
-//                    switch item {
-//                    case .cover(let image):
-//                        return self.makeCardCell(emotion: reactor.currentState.emotion, with: image, from: collectionView, indexPath: indexPath)
-//                    case .commonImage(let imageInfo):
-//                        return self.makeImageCell(emotion: reactor.currentState.emotion, with: imageInfo, from: collectionView, indexPath: indexPath)
-//                    case .addImage:
-//                        return self.makeAddImageCell(from: collectionView, indexPath: indexPath)
-//                    }
-//                })
-//                let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//                layout.minimumLineSpacing = 0
-//                layout.minimumInteritemSpacing = 0
-//                layout.scrollDirection = .horizontal
-//                layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.imagesCollectionView.bounds.height)
-//                layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-//                self.imagesCollectionView.collectionViewLayout = layout
-//                sections
-//                    .bind(to: self.imagesCollectionView.rx.items(dataSource: dataSource))
-//                    .disposed(by: self.disposeBag)
-//            })
-//            .disposed(by: self.disposeBag)
+        self.collectionView.dataSource = nil
+        
+        sections.bind(to: self.collectionView.rx.items(dataSource: dataSource))
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.images }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] images in
+                var arr: [RegistCellData] = []
+                for i in 0..<images.count {
+                    let item = images[i]
+                    if i == 0 {
+                        arr.append(RegistCellData(index: 0, image: item, type: .cover))
+                    } else {
+                        arr.append(RegistCellData(index: i - 1, image: item, type: .image))
+                    }
+                }
+                arr.append(RegistCellData(index: 0, image: nil, type: .addImage))
+                self?.sections.accept([RegistSetction(type: .image, items: arr)])
+            })
+            .disposed(by: self.disposeBag)
     }
     
     func hideEmptyView() {
-        self.emptyView.isHidden = true
+        self.mainContentsView.isHidden = true
     }
 
 }

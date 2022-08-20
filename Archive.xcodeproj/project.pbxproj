@@ -72,6 +72,9 @@
 		7823982E280C23E80071D874 /* LogInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823982D280C23E80071D874 /* LogInManager.swift */; };
 		78239830280C251F0071D874 /* LogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823982F280C251F0071D874 /* LogInRepository.swift */; };
 		78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78239831280C252D0071D874 /* LogInRepositoryImplement.swift */; };
+		7824796228B09F0C003E71A2 /* RegistImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */; };
+		7824796428B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */; };
+		7824796628B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */; };
 		782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */; };
 		782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */; };
 		782FDF3F272CF9CC004D1B6E /* ImageSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */; };
@@ -318,6 +321,9 @@
 		7823982D280C23E80071D874 /* LogInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInManager.swift; sourceTree = "<group>"; };
 		7823982F280C251F0071D874 /* LogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRepository.swift; sourceTree = "<group>"; };
 		78239831280C252D0071D874 /* LogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRepositoryImplement.swift; sourceTree = "<group>"; };
+		7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageAddCollectionViewCell.swift; sourceTree = "<group>"; };
+		7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCoverCollectionViewCell.swift; sourceTree = "<group>"; };
 		782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectViewController.swift; sourceTree = "<group>"; };
 		782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectReactor.swift; sourceTree = "<group>"; };
 		782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectModel.swift; sourceTree = "<group>"; };
@@ -1323,6 +1329,9 @@
 				78C8803028A945D400922C8D /* RegistForegroundBottomView.swift */,
 				78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */,
 				78BAF74F28AA1FEF00641250 /* ForegroundStep2TopView.swift */,
+				7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */,
+				7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */,
+				7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -1697,6 +1706,7 @@
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
 				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
 				781C8452282F8B6E004A0FB3 /* MainSplashReactor.swift in Sources */,
+				7824796228B09F0C003E71A2 /* RegistImageCollectionViewCell.swift in Sources */,
 				782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */,
 				78C62C6E2729759A005BF3DE /* UIPageViewControllerExtension.swift in Sources */,
 				788AB64E280AAC6E00182B45 /* ArchiveToastView.swift in Sources */,
@@ -1786,6 +1796,7 @@
 				78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */,
 				78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */,
 				783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */,
+				7824796628B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift in Sources */,
 				783010372882A1670031F8CB /* CommunityBannerViewCell.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
 				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
@@ -1815,6 +1826,7 @@
 				78958E112712A04B003FF724 /* FontDefine.swift in Sources */,
 				781C844E282F8B6E004A0FB3 /* FakeSplashViewProtocol.swift in Sources */,
 				782FDF4C272CFB6E004D1B6E /* PhotoFromAlbumCell.swift in Sources */,
+				7824796428B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift in Sources */,
 				788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */,
 				78C8802E28A9434100922C8D /* RegistEmotionSelectTopView.swift in Sources */,
 				78BB7E0E277843ED00DF78AF /* CommonDefine.swift in Sources */,
