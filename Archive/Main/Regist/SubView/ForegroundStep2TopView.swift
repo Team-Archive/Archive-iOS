@@ -16,6 +16,12 @@ import RxSwift
 }
 
 class ForegroundStep2TopView: UIView {
+    
+    enum CellModel {
+        case cover(UIImage)
+        case commonImage(ImageInfo)
+        case addImage(Void)
+    }
 
     // MARK: private UI property
     
@@ -26,6 +32,8 @@ class ForegroundStep2TopView: UIView {
     private let emotionCoverView = UIImageView().then {
         $0.image = Emotion.pleasant.coverAlphaImage
     }
+    
+    // empty
     
     private let emptyView = UIView().then {
         $0.backgroundColor = Gen.Colors.gray05.color
@@ -38,6 +46,19 @@ class ForegroundStep2TopView: UIView {
     private lazy var btn = UIButton().then {
         $0.backgroundColor = .clear
         $0.addTarget(self, action: #selector(clickedSelectImage), for: .touchUpInside)
+    }
+    
+    // empty end
+    
+    private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
+        $0.isPagingEnabled = true
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.621333333)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.collectionViewLayout = layout
     }
     
     private let upIconImgView = UIImageView().then {
@@ -60,17 +81,18 @@ class ForegroundStep2TopView: UIView {
     // MARK: private Property
     
     weak var delegate: ForegroundStep2TopViewDelegate?
+    let reactor: RegistReactor
     
     // MARK: lifeCycle
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    init(reactor: RegistReactor) {
+        self.reactor = reactor
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setup()
     }
     
-    init() {
-        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
-        setup()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: private func
@@ -81,6 +103,14 @@ class ForegroundStep2TopView: UIView {
         self.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
             $0.edges.equalTo(self)
+        }
+        
+        self.mainContentsView.addSubview(self.collectionView)
+        self.collectionView.snp.makeConstraints {
+            $0.leading.equalTo(self.mainContentsView).offset(32)
+            $0.trailing.equalTo(self.mainContentsView).offset(-32)
+            $0.height.equalTo(UIScreen.main.bounds.width - 64)
+            $0.bottom.equalTo(self.mainContentsView).offset(-75)
         }
         
         self.mainContentsView.addSubview(self.emptyView)
@@ -125,6 +155,62 @@ class ForegroundStep2TopView: UIView {
     }
     
     // MARK: func
+    
+    func bind() {
+        guard let reactor = reactor else { return }
+        
+//        reactor.state.map { $0.images }
+//            .distinctUntilChanged()
+//            .asDriver(onErrorJustReturn: [])
+//            .drive(onNext: { [weak self] images in
+//                print("images: \(images)")
+//                self?.imagesCollectionView.delegate = nil
+//                self?.imagesCollectionView.dataSource = nil
+//                let cardImage = images[0]
+//                let images = images
+////                self?.pageControl.numberOfPages = images.count + 2
+////                self?.defaultImageContainerView.isHidden = true
+////                self?.imagesCollectionView.isHidden = false
+////                self?.topContentsContainerView.backgroundColor = .clear
+//                var imageCellArr: [CellModel] = []
+//                for imageItem in images {
+//                    imageCellArr.append(CellModel.commonImage(imageItem))
+//                }
+//                let sections = Observable.just([
+//                    SectionModel(model: "card", items: [
+//                        CellModel.cover(cardImage)
+//                    ]),
+//                    SectionModel(model: "image", items: imageCellArr),
+//                    SectionModel(model: "addImage", items: [CellModel.addImage(())])
+//                ])
+//                guard let self = self else { return }
+//                let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { dataSource, collectionView, indexPath, item in
+//                    switch item {
+//                    case .cover(let image):
+//                        return self.makeCardCell(emotion: reactor.currentState.emotion, with: image, from: collectionView, indexPath: indexPath)
+//                    case .commonImage(let imageInfo):
+//                        return self.makeImageCell(emotion: reactor.currentState.emotion, with: imageInfo, from: collectionView, indexPath: indexPath)
+//                    case .addImage:
+//                        return self.makeAddImageCell(from: collectionView, indexPath: indexPath)
+//                    }
+//                })
+//                let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//                layout.minimumLineSpacing = 0
+//                layout.minimumInteritemSpacing = 0
+//                layout.scrollDirection = .horizontal
+//                layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.imagesCollectionView.bounds.height)
+//                layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+//                self.imagesCollectionView.collectionViewLayout = layout
+//                sections
+//                    .bind(to: self.imagesCollectionView.rx.items(dataSource: dataSource))
+//                    .disposed(by: self.disposeBag)
+//            })
+//            .disposed(by: self.disposeBag)
+    }
+    
+    func hideEmptyView() {
+        self.emptyView.isHidden = true
+    }
 
 }
 

@@ -67,11 +67,7 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
-    private let foregroundStep2TopView = ForegroundStep2TopView().then {
-        $0.backgroundColor = .clear
-    }
-    
-    private lazy var foregroundStep3TopView = ForegroundStep3TopView().then {
+    private lazy var foregroundStep2TopView = ForegroundStep2TopView(reactor: self.reactor ?? RegistReactor()).then {
         $0.backgroundColor = .clear
     }
     
@@ -181,16 +177,7 @@ class RegistViewController: UIViewController, View {
             $0.edges.equalTo(self.foregroundTopContentsView)
         }
         self.foregroundStep2TopView.isHidden = true
-        
-        self.foregroundTopContentsView.addSubview(self.foregroundStep3TopView)
-        self.foregroundStep3TopView.snp.makeConstraints {
-            $0.edges.equalTo(self.foregroundTopContentsView)
-        }
-        self.foregroundStep3TopView.isHidden = true
-        self.foregroundStep3TopView.reactor = self.reactor
-        self.foregroundStep3TopView.bind()
-        
-        
+        self.foregroundStep2TopView.bind()
         
     }
     
@@ -245,8 +232,7 @@ class RegistViewController: UIViewController, View {
                 self?.present(navi, animated: true)
                 guard let strongSelf = self else { return }
                 vc.rx.selectedImages.subscribe(onNext: { [weak self] images in
-                    self?.foregroundStep2TopView.isHidden = true
-                    self?.foregroundStep3TopView.isHidden = false
+                    self?.foregroundStep2TopView.hideEmptyView()
                     self?.reactor?.action.onNext(.setImages(images))
                 })
                 .disposed(by: strongSelf.disposeBag)
