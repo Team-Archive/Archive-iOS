@@ -250,24 +250,19 @@ class RegistViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
                 let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(emotion: self?.reactor?.currentState.emotion ?? .pleasant))
+                vc.delegate = self
                 let navi = UINavigationController(rootViewController: vc)
                 navi.modalPresentationStyle = .fullScreen
                 self?.present(navi, animated: true)
-                guard let strongSelf = self else { return }
-                vc.rx.selectedImages.subscribe(onNext: { [weak self] images in
-                    self?.foregroundStep2TopView.hideEmptyView()
-                    self?.reactor?.action.onNext(.setImageInfo(RegistImagesInfo(images: images, isMoveFirstIndex: true)))
-                })
-                .disposed(by: strongSelf.disposeBag)
             })
             .disposed(by: self.disposeBag)
         
         self.foregroundStep2TopView.rx.editImage
             .asDriver(onErrorJustReturn: IndexPath(row: 0, section: 0))
             .drive(onNext: { [weak self] indexPath in
-                guard let image = self?.reactor?.currentState.imageInfo.images[indexPath.row] else { return }
+                guard let imageInfo = self?.reactor?.currentState.imageInfo.images[indexPath.row] else { return }
                 self?.currentEditImageIndex = indexPath.row
-                self?.showImageEditView(image: image)
+                self?.showImageEditView(image: imageInfo.image)
             })
             .disposed(by: self.disposeBag)
         
@@ -364,15 +359,20 @@ class RegistViewController: UIViewController, View {
     
 }
 
+extension RegistViewController: RegistPhotoViewControllerDelegate {
+    func selectedImages(images: [RegistImageInfo]) {
+        DispatchQueue.main.async { [weak self] in
+            self?.foregroundStep2TopView.hideEmptyView()
+            self?.reactor?.action.onNext(.setImageInfo(RegistImagesInfo(images: images, isMoveFirstIndex: true)))
+        }
+    }
+}
+
 extension RegistViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         DispatchQueue.main.async { [weak self] in
             cropViewController.dismiss(animated: true, completion: { [weak self] in
-                guard var images = self?.reactor?.currentState.imageInfo.images else { return }
-                images.insert(image, at: self?.currentEditImageIndex ?? 0)
-                images.remove(at: (self?.currentEditImageIndex ?? 0) + 1)
-                self?.reactor?.action.onNext(.setImageInfo(RegistImagesInfo(images: images,
-                                                                         isMoveFirstIndex: false)))
+                self?.reactor?.action.onNext(.cropedImage(cropedimage: image, index: self?.currentEditImageIndex ?? 0))
             })
         }
     }

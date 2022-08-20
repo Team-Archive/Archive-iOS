@@ -15,12 +15,13 @@ class RegistPhotoReactor: Reactor {
     // MARK: private property
     
     private let useacase: PhotoUsecase = PhotoUsecase()
+    private let imageColorUsecase = ImageColorUsecase()
     
     // MARK: internal property
     
     let initialState: State = State()
     var err: PublishSubject<ArchiveError> = .init()
-    var completedImages: PublishSubject<[UIImage]> = .init()
+    var completedImages: PublishSubject<[RegistImageInfo]> = .init()
     let emotion: Emotion
     
     enum Action {
@@ -88,8 +89,20 @@ class RegistPhotoReactor: Reactor {
             ])
         case .setCropedImage(let image):
             let completedImages = makeCompletedImages(image)
-            self.completedImages.onNext(completedImages)
-            return .empty()
+            return Observable.concat([
+                Observable.just(Mutation.setIsLoading(true)),
+                self.imageColorUsecase.extractColor(images: completedImages)
+                    .map { [weak self] result in
+                        switch result {
+                        case .success(let infos):
+                            self?.completedImages.onNext(infos)
+                        case .failure(let err):
+                            self?.err.onNext(err)
+                        }
+                        return .empty
+                    },
+                Observable.just(Mutation.setIsLoading(false))
+            ])
         }
     }
     

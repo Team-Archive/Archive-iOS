@@ -20,7 +20,7 @@ import RxDataSources
 
 struct RegistCellData: Equatable {
     let index: Int
-    let image: UIImage?
+    let imageInfo: RegistImageInfo?
     let type: RegistCellType
     
     static func == (lhs: RegistCellData, rhs: RegistCellData) -> Bool {
@@ -133,11 +133,11 @@ class ForegroundStep2TopView: UIView {
             switch item.type {
             case .cover:
                 cell = self.makeCoverCell(emotion: self.emotion,
-                                          image: item.image ?? UIImage(),
+                                          imageInfo: item.imageInfo ?? RegistImageInfo(image: UIImage(), color: .white),
                                           from: collectionView,
                                           indexPath: indexPath)
             case .image:
-                cell = self.makeCardCell(image: item.image ?? UIImage(),
+                cell = self.makeCardCell(imageInfo: item.imageInfo ?? RegistImageInfo(image: UIImage(), color: .white),
                                          from: collectionView,
                                          indexPath: indexPath)
             case .addImage:
@@ -237,9 +237,9 @@ class ForegroundStep2TopView: UIView {
         self.delegate?.selectImage?()
     }
     
-    private func makeCardCell(image: UIImage, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeCardCell(imageInfo: RegistImageInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCollectionViewCell.identifier, for: indexPath) as? RegistImageCollectionViewCell else { return UICollectionViewCell() }
-        cell.image = image
+        cell.imageInfo = imageInfo
         cell.indexPath = indexPath
         cell.delegate = self
         return cell
@@ -252,10 +252,10 @@ class ForegroundStep2TopView: UIView {
         return cell
     }
     
-    private func makeCoverCell(emotion: Emotion?, image: UIImage, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeCoverCell(emotion: Emotion?, imageInfo: RegistImageInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCoverCollectionViewCell.identifier, for: indexPath) as? RegistImageCoverCollectionViewCell else { return UICollectionViewCell() }
         cell.emotion = emotion
-        cell.image = image
+        cell.image = imageInfo.image
         return cell
     }
     
@@ -278,12 +278,12 @@ class ForegroundStep2TopView: UIView {
                 for i in 0..<images.count {
                     let item = images[i]
                     if i == 0 {
-                        arr.append(RegistCellData(index: 0, image: item, type: .cover))
+                        arr.append(RegistCellData(index: 0, imageInfo: item, type: .cover))
                     } else {
-                        arr.append(RegistCellData(index: i - 1, image: item, type: .image))
+                        arr.append(RegistCellData(index: i - 1, imageInfo: item, type: .image))
                     }
                 }
-                arr.append(RegistCellData(index: 0, image: nil, type: .addImage))
+                arr.append(RegistCellData(index: 0, imageInfo: nil, type: .addImage))
                 self?.sections.accept([RegistSetction(type: .image, items: arr)])
                 if info.isMoveFirstIndex {
                     self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)

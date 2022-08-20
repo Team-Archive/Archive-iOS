@@ -14,8 +14,8 @@ import Then
 import Photos
 import CropViewController
 
-@objc protocol RegistPhotoViewControllerDelegate: AnyObject {
-    @objc optional func selectedImages(images: [UIImage])
+protocol RegistPhotoViewControllerDelegate: AnyObject {
+    func selectedImages(images: [RegistImageInfo])
 }
 
 class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
@@ -115,8 +115,8 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         
         reactor.completedImages
             .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { [weak self] images in
-                self?.delegate?.selectedImages?(images: images)
+            .drive(onNext: { [weak self] imageInfos in
+                self?.delegate?.selectedImages(images: imageInfos)
                 self?.dismiss(animated: true)
             })
             .disposed(by: self.disposeBag)
@@ -254,37 +254,5 @@ extension RegistPhotoViewController: CropViewControllerDelegate {
                 self?.reactor?.action.onNext(.setCropedImage(image))
             })
         }
-    }
-}
-
-
-class RegistPhotoViewControllerDelegateProxy: DelegateProxy<RegistPhotoViewController, RegistPhotoViewControllerDelegate>, DelegateProxyType, RegistPhotoViewControllerDelegate {
-    
-    
-    static func currentDelegate(for object: RegistPhotoViewController) -> RegistPhotoViewControllerDelegate? {
-        return object.delegate
-    }
-    
-    static func setCurrentDelegate(_ delegate: RegistPhotoViewControllerDelegate?, to object: RegistPhotoViewController) {
-        object.delegate = delegate
-    }
-    
-    static func registerKnownImplementations() {
-        self.register { (view) -> RegistPhotoViewControllerDelegateProxy in
-            RegistPhotoViewControllerDelegateProxy(parentObject: view, delegateProxy: self)
-        }
-    }
-}
-
-extension Reactive where Base: RegistPhotoViewController {
-    var delegate: DelegateProxy<RegistPhotoViewController, RegistPhotoViewControllerDelegate> {
-        return RegistPhotoViewControllerDelegateProxy.proxy(for: self.base)
-    }
-    
-    var selectedImages: Observable<[UIImage]> {
-        return delegate.methodInvoked(#selector(RegistPhotoViewControllerDelegate.selectedImages(images:)))
-            .map { result in
-                return result[0] as? [UIImage] ?? []
-            }
     }
 }

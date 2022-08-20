@@ -218,6 +218,8 @@
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
 		78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D31DF0288460CF000D81BE /* CommonWebViewController.swift */; };
 		78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */; };
+		78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */; };
+		78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */; };
 		78D8A67228798B02002E8445 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A67128798B02002E8445 /* FilterViewController.swift */; };
 		78D8A6762879CCF9002E8445 /* ArchiveFilterEmotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */; };
 		78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D03288307C30018773A /* MyArchiveUsecase.swift */; };
@@ -463,6 +465,8 @@
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
 		78D31DF0288460CF000D81BE /* CommonWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewController.swift; sourceTree = "<group>"; };
 		78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveProgressBar.swift; sourceTree = "<group>"; };
+		78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorUsecase.swift; sourceTree = "<group>"; };
+		78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThemeColorExtraction.swift; sourceTree = "<group>"; };
 		78D8A67128798B02002E8445 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveFilterEmotionView.swift; sourceTree = "<group>"; };
 		78E00D03288307C30018773A /* MyArchiveUsecase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveUsecase.swift; sourceTree = "<group>"; };
@@ -602,6 +606,7 @@
 				78958E122712A094003FF724 /* Extension */,
 				78958E0F2712A03C003FF724 /* Define */,
 				783A61DD273BEAE3004D848F /* Manager */,
+				78D5F50028B1194600C2B271 /* Entity */,
 				7831D51927E58FA800E3FA57 /* Usecase */,
 				784D1E1F27088BB0004B1A23 /* UIModule */,
 				784D1E1E27088BB0004B1A23 /* Module */,
@@ -862,6 +867,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78D5F4FD28B118E500C2B271 /* ImageColorUsecase */,
 				78BAF75428AA381A00641250 /* Photo */,
 				789EAC2A289651BC00DC7F1A /* MyLike */,
 				78E3581E28955EF700DB1974 /* MyPage */,
@@ -1336,6 +1342,22 @@
 			path = SubView;
 			sourceTree = "<group>";
 		};
+		78D5F4FD28B118E500C2B271 /* ImageColorUsecase */ = {
+			isa = PBXGroup;
+			children = (
+				78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */,
+			);
+			path = ImageColorUsecase;
+			sourceTree = "<group>";
+		};
+		78D5F50028B1194600C2B271 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		78D8A67028798AF5002E8445 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1662,6 +1684,7 @@
 				78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */,
 				78599DD8276375C2003FD959 /* HomeViewController.swift in Sources */,
 				789E61C5272584ED00D6E18F /* ContentsRecordReactor.swift in Sources */,
+				78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */,
 				787C2861275CC04B00C1FB17 /* ModalShareViewController.swift in Sources */,
 				780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */,
 				781C8451282F8B6E004A0FB3 /* MainSplashViewController.swift in Sources */,
@@ -1757,6 +1780,7 @@
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
 				78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */,
+				78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */,
 				781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,

@@ -35,11 +35,12 @@ class RegistImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     // MARK: internal property
     
-    var image: UIImage? {
+    var imageInfo: RegistImageInfo? {
         didSet {
-            guard let image = image else { return }
+            guard let imageInfo = imageInfo else { return }
             DispatchQueue.main.async { [weak self] in
-                self?.imageView.image = image
+                self?.imageView.image = imageInfo.image
+                self?.mainContentsView.backgroundColor = imageInfo.color
             }
         }
     }
