@@ -76,6 +76,13 @@ class RegistViewController: UIViewController, View {
         $0.modalPresentationStyle = .overFullScreen
     }
     
+    private let pageControl = UIPageControl().then {
+        $0.backgroundColor = .clear
+        $0.pageIndicatorTintColor = Gen.Colors.gray03.color
+        $0.currentPageIndicatorTintColor = Gen.Colors.black.color
+        $0.isUserInteractionEnabled = false
+    }
+    
     // behindeView
     
     private let behindeView = UIView().then {
@@ -104,6 +111,9 @@ class RegistViewController: UIViewController, View {
     
     override func loadView() {
         super.loadView()
+        
+        self.navigationController?.navigationBar.barStyle = .black
+        self.navigationController?.navigationBar.tintColor = .white
         
         self.view.addSubview(self.mainBackgroundView)
         self.mainBackgroundView.snp.makeConstraints {
@@ -183,6 +193,15 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.isHidden = true
         self.foregroundStep2TopView.bind()
         
+        self.foregroundContentsView.addSubview(self.pageControl)
+        self.pageControl.snp.makeConstraints {
+            $0.centerX.equalTo(self.foregroundContentsView)
+            $0.width.equalTo(165)
+            $0.height.equalTo(32)
+            $0.bottom.equalTo(self.foregroundContentsView)
+        }
+        self.pageControl.isHidden = true
+        
     }
     
     override func viewDidLoad() {
@@ -249,6 +268,63 @@ class RegistViewController: UIViewController, View {
                 guard let image = self?.reactor?.currentState.images.images[indexPath.row] else { return }
                 self?.currentEditImageIndex = indexPath.row
                 self?.showImageEditView(image: image)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.didShownIndex
+            .asDriver(onErrorJustReturn: 0)
+            .drive(onNext: { [weak self] index in
+                if index == 0 {
+                    self?.emotionSelectView.isHidden = false
+                } else {
+                    self?.emotionSelectView.isHidden = true
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.didShownIndex
+            .asDriver(onErrorJustReturn: 0)
+            .drive(onNext: { [weak self] index in
+                if (index == reactor.currentState.images.images.count) && reactor.currentState.images.images.count != 0 {
+                    self?.foregroundBottomContentsView.isHidden = true
+                } else {
+                    self?.foregroundBottomContentsView.isHidden = false
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.didShownIndex
+            .asDriver(onErrorJustReturn: 0)
+            .drive(onNext: { [weak self] index in
+                if (index != reactor.currentState.images.images.count) &&
+                    reactor.currentState.images.images.count != 0 &&
+                    index != 0 {
+                    // 내용 기입하기
+                } else {
+                    
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.didShownIndex
+            .asDriver(onErrorJustReturn: 0)
+            .drive(onNext: { [weak self] index in
+                self?.pageControl.currentPage = index
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.images.images }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: nil)
+            .compactMap { $0 }
+            .drive(onNext: { [weak self] images in
+                if images.count != 0 {
+                    self?.pageControl.isHidden = false
+                    self?.pageControl.numberOfPages = images.count + 1
+                } else {
+                    self?.pageControl.isHidden = true
+                }
             })
             .disposed(by: self.disposeBag)
     }

@@ -23,6 +23,7 @@ class RegistImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     private let imageView = UIImageView().then {
         $0.backgroundColor = .clear
+        $0.contentMode = .scaleAspectFit
     }
     
     private lazy var editBtn = UIButton().then {

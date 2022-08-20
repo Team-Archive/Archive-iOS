@@ -15,6 +15,7 @@ import RxDataSources
 @objc protocol ForegroundStep2TopViewDelegate: AnyObject {
     @objc optional func selectImage()
     @objc optional func editImage(indexPath: IndexPath)
+    @objc optional func didShownItem(index: Int)
 }
 
 struct RegistCellData: Equatable {
@@ -153,6 +154,13 @@ class ForegroundStep2TopView: UIView {
     }()
     private var sections = BehaviorRelay<[RegistSetction]>(value: [])
     
+    private var currentIndex: Int = 0 {
+        didSet {
+            self.delegate?.didShownItem?(index: currentIndex)
+        }
+    }
+    private var willDisplayIndex: Int = -1
+    
     // MARK: lifeCycle
     
     init(reactor: RegistReactor) {
@@ -279,7 +287,23 @@ class ForegroundStep2TopView: UIView {
                 self?.sections.accept([RegistSetction(type: .image, items: arr)])
                 if info.isMoveFirstIndex {
                     self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+                    self?.currentIndex = 0
+                    self?.willDisplayIndex = -1
                 }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.collectionView.rx.didEndDisplayingCell
+            .subscribe(onNext: { [weak self] cell, indexPath in
+                if indexPath.item == self?.currentIndex ?? -1 {
+                    self?.currentIndex = self?.willDisplayIndex ?? 0
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.collectionView.rx.willDisplayCell
+            .subscribe(onNext: { [weak self] cell, indexPath in
+                self?.willDisplayIndex = indexPath.item
             })
             .disposed(by: self.disposeBag)
     }
@@ -335,6 +359,13 @@ extension Reactive where Base: ForegroundStep2TopView {
         return delegate.methodInvoked(#selector(ForegroundStep2TopViewDelegate.editImage(indexPath:)))
             .map { result in
                 return result[0] as? IndexPath ?? IndexPath(item: 0, section: 0)
+            }
+    }
+    
+    var didShownIndex: Observable<Int> {
+        return delegate.methodInvoked(#selector(ForegroundStep2TopViewDelegate.didShownItem(index:)))
+            .map { result in
+                return result[0] as? Int ?? 0
             }
     }
 }
