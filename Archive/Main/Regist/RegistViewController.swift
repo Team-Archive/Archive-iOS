@@ -11,6 +11,7 @@ import SnapKit
 import RxCocoa
 import RxSwift
 import ReactorKit
+import CropViewController
 
 class RegistViewController: UIViewController, View {
     
@@ -83,6 +84,8 @@ class RegistViewController: UIViewController, View {
     }
     
     // MARK: private property
+    
+    private var currentEditImageIndex: Int = 0
     
     // MARK: internal property
     
@@ -239,6 +242,15 @@ class RegistViewController: UIViewController, View {
                 .disposed(by: strongSelf.disposeBag)
             })
             .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.editImage
+            .asDriver(onErrorJustReturn: IndexPath(row: 0, section: 0))
+            .drive(onNext: { [weak self] indexPath in
+                guard let image = self?.reactor?.currentState.images[indexPath.row] else { return }
+                self?.currentEditImageIndex = indexPath.row
+                self?.showImageEditView(image: image)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private func
@@ -257,7 +269,34 @@ class RegistViewController: UIViewController, View {
         self.dismiss(animated: true)
     }
     
+    private func showImageEditView(image: UIImage) {
+        let cropViewController: CropViewController = CropViewController(croppingStyle: .default, image: image)
+        cropViewController.delegate = self
+        cropViewController.doneButtonTitle = "확인"
+        cropViewController.doneButtonColor = Gen.Colors.white.color
+        cropViewController.cancelButtonTitle = "취소"
+        cropViewController.cancelButtonColor = Gen.Colors.white.color
+        cropViewController.aspectRatioLockEnabled = true
+        cropViewController.resetButtonHidden = true
+        cropViewController.customAspectRatio = CGSize(width: 300, height: 300)
+        cropViewController.aspectRatioPickerButtonHidden = true
+        self.present(cropViewController, animated: true, completion: nil)
+    }
+    
     // MARK: internal func
     
     
+}
+
+extension RegistViewController: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        DispatchQueue.main.async { [weak self] in
+            cropViewController.dismiss(animated: true, completion: { [weak self] in
+                guard var images = self?.reactor?.currentState.images else { return }
+                images.insert(image, at: self?.currentEditImageIndex ?? 0)
+                images.remove(at: (self?.currentEditImageIndex ?? 0) + 1)
+                self?.reactor?.action.onNext(.setImages(images))
+            })
+        }
+    }
 }

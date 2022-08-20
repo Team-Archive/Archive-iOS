@@ -14,6 +14,7 @@ import RxDataSources
 
 @objc protocol ForegroundStep2TopViewDelegate: AnyObject {
     @objc optional func selectImage()
+    @objc optional func editImage(indexPath: IndexPath)
 }
 
 struct RegistCellData: Equatable {
@@ -231,6 +232,8 @@ class ForegroundStep2TopView: UIView {
     private func makeCardCell(image: UIImage, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCollectionViewCell.identifier, for: indexPath) as? RegistImageCollectionViewCell else { return UICollectionViewCell() }
         cell.image = image
+        cell.indexPath = indexPath
+        cell.delegate = self
         return cell
     }
     
@@ -284,9 +287,14 @@ class ForegroundStep2TopView: UIView {
 
 }
 
-extension ForegroundStep2TopView: RegistImageAddCollectionViewCellDelegate {
+extension ForegroundStep2TopView: RegistImageAddCollectionViewCellDelegate, RegistImageCollectionViewCellDelegate {
     func addPhoto() {
         self.delegate?.selectImage?()
+    }
+    
+    func editPhoto(indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        self.delegate?.editImage?(indexPath: indexPath)
     }
 }
 
@@ -317,6 +325,13 @@ extension Reactive where Base: ForegroundStep2TopView {
         return delegate.methodInvoked(#selector(ForegroundStep2TopViewDelegate.selectImage))
             .map { result in
                 return ()
+            }
+    }
+    
+    var editImage: Observable<IndexPath> {
+        return delegate.methodInvoked(#selector(ForegroundStep2TopViewDelegate.editImage(indexPath:)))
+            .map { result in
+                return result[0] as? IndexPath ?? IndexPath(item: 0, section: 0)
             }
     }
 }
