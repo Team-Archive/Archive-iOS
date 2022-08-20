@@ -269,7 +269,7 @@ class ForegroundStep2TopView: UIView {
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .map { $0.images }
+            .map { $0.imageInfo }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: RegistImagesInfo(images: [], isMoveFirstIndex: false))
             .drive(onNext: { [weak self] info in

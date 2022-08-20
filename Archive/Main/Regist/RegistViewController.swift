@@ -256,7 +256,7 @@ class RegistViewController: UIViewController, View {
                 guard let strongSelf = self else { return }
                 vc.rx.selectedImages.subscribe(onNext: { [weak self] images in
                     self?.foregroundStep2TopView.hideEmptyView()
-                    self?.reactor?.action.onNext(.setImages(RegistImagesInfo(images: images, isMoveFirstIndex: true)))
+                    self?.reactor?.action.onNext(.setImageInfo(RegistImagesInfo(images: images, isMoveFirstIndex: true)))
                 })
                 .disposed(by: strongSelf.disposeBag)
             })
@@ -265,7 +265,7 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.rx.editImage
             .asDriver(onErrorJustReturn: IndexPath(row: 0, section: 0))
             .drive(onNext: { [weak self] indexPath in
-                guard let image = self?.reactor?.currentState.images.images[indexPath.row] else { return }
+                guard let image = self?.reactor?.currentState.imageInfo.images[indexPath.row] else { return }
                 self?.currentEditImageIndex = indexPath.row
                 self?.showImageEditView(image: image)
             })
@@ -285,7 +285,7 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.rx.didShownIndex
             .asDriver(onErrorJustReturn: 0)
             .drive(onNext: { [weak self] index in
-                if (index == reactor.currentState.images.images.count) && reactor.currentState.images.images.count != 0 {
+                if (index == reactor.currentState.imageInfo.images.count) && reactor.currentState.imageInfo.images.count != 0 {
                     self?.foregroundBottomContentsView.isHidden = true
                 } else {
                     self?.foregroundBottomContentsView.isHidden = false
@@ -296,8 +296,8 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.rx.didShownIndex
             .asDriver(onErrorJustReturn: 0)
             .drive(onNext: { [weak self] index in
-                if (index != reactor.currentState.images.images.count) &&
-                    reactor.currentState.images.images.count != 0 &&
+                if (index != reactor.currentState.imageInfo.images.count) &&
+                    reactor.currentState.imageInfo.images.count != 0 &&
                     index != 0 {
                     // 내용 기입하기
                 } else {
@@ -314,7 +314,7 @@ class RegistViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .map { $0.images.images }
+            .map { $0.imageInfo.images }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
@@ -368,10 +368,10 @@ extension RegistViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         DispatchQueue.main.async { [weak self] in
             cropViewController.dismiss(animated: true, completion: { [weak self] in
-                guard var images = self?.reactor?.currentState.images.images else { return }
+                guard var images = self?.reactor?.currentState.imageInfo.images else { return }
                 images.insert(image, at: self?.currentEditImageIndex ?? 0)
                 images.remove(at: (self?.currentEditImageIndex ?? 0) + 1)
-                self?.reactor?.action.onNext(.setImages(RegistImagesInfo(images: images,
+                self?.reactor?.action.onNext(.setImageInfo(RegistImagesInfo(images: images,
                                                                          isMoveFirstIndex: false)))
             })
         }
