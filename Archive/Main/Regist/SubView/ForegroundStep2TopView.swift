@@ -114,6 +114,7 @@ class ForegroundStep2TopView: UIView {
     }
     
     weak var delegate: ForegroundStep2TopViewDelegate?
+    var topBarHeight: CGFloat = 0
     
     // MARK: private Property
     
@@ -220,6 +221,7 @@ class ForegroundStep2TopView: UIView {
     private func refreshEmotionUI(emotion: Emotion) {
         self.mainContentsView.backgroundColor = emotion.color
         self.emotionCoverView.image = emotion.coverAlphaImage
+        self.collectionView.reloadData()
     }
     
     @objc private func clickedSelectImage() {
@@ -234,6 +236,7 @@ class ForegroundStep2TopView: UIView {
     
     private func makeAddCell(from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageAddCollectionViewCell.identifier, for: indexPath) as? RegistImageAddCollectionViewCell else { return UICollectionViewCell() }
+        cell.topBarHeight = self.topBarHeight
         return cell
     }
     

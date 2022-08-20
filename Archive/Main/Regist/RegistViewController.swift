@@ -176,6 +176,7 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.snp.makeConstraints {
             $0.edges.equalTo(self.foregroundTopContentsView)
         }
+        self.foregroundStep2TopView.topBarHeight = self.topbarHeight
         self.foregroundStep2TopView.isHidden = true
         self.foregroundStep2TopView.bind()
         
