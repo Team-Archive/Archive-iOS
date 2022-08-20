@@ -237,6 +237,7 @@ class ForegroundStep2TopView: UIView {
     private func makeAddCell(from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageAddCollectionViewCell.identifier, for: indexPath) as? RegistImageAddCollectionViewCell else { return UICollectionViewCell() }
         cell.topBarHeight = self.topBarHeight
+        cell.delegate = self
         return cell
     }
     
@@ -272,6 +273,7 @@ class ForegroundStep2TopView: UIView {
                 }
                 arr.append(RegistCellData(index: 0, image: nil, type: .addImage))
                 self?.sections.accept([RegistSetction(type: .image, items: arr)])
+                self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
             })
             .disposed(by: self.disposeBag)
     }
@@ -280,6 +282,12 @@ class ForegroundStep2TopView: UIView {
         self.mainContentsView.isHidden = true
     }
 
+}
+
+extension ForegroundStep2TopView: RegistImageAddCollectionViewCellDelegate {
+    func addPhoto() {
+        self.delegate?.selectImage?()
+    }
 }
 
 class ForegroundStep2TopViewDelegateProxy: DelegateProxy<ForegroundStep2TopView, ForegroundStep2TopViewDelegate>, DelegateProxyType, ForegroundStep2TopViewDelegate {

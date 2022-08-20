@@ -41,7 +41,7 @@ class PhotoUsecase: NSObject {
                     }
                 })
             }
-            emitter.onNext(.success(resultImages))
+            emitter.onNext(.success(resultImages.reversed()))
             emitter.onCompleted()
             return Disposables.create()
         }

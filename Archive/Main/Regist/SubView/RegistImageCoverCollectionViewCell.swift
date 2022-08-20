@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Then
 
 class RegistImageCoverCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
