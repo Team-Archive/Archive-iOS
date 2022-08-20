@@ -23,18 +23,18 @@ class RegistReactor: Reactor, Stepper {
     
     enum Action {
         case setEmotion(Emotion)
-        case setImages([UIImage])
+        case setImages(RegistImagesInfo)
     }
     
     enum Mutation {
         case empty
         case setEmotion(Emotion)
-        case setImages([UIImage])
+        case setImages(RegistImagesInfo)
     }
     
     struct State {
         var emotion: Emotion?
-        var images: [UIImage] = []
+        var images: RegistImagesInfo = RegistImagesInfo(images: [], isMoveFirstIndex: false)
     }
     
     // MARK: life cycle
@@ -70,4 +70,9 @@ class RegistReactor: Reactor, Stepper {
     
     // MARK: internal func
     
+}
+
+struct RegistImagesInfo: Equatable {
+    var images: [UIImage]
+    let isMoveFirstIndex: Bool // 스크롤 처음으로 돌아갈지 여부를 Bool로 표기
 }

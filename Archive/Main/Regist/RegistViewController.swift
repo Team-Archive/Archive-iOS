@@ -237,7 +237,7 @@ class RegistViewController: UIViewController, View {
                 guard let strongSelf = self else { return }
                 vc.rx.selectedImages.subscribe(onNext: { [weak self] images in
                     self?.foregroundStep2TopView.hideEmptyView()
-                    self?.reactor?.action.onNext(.setImages(images))
+                    self?.reactor?.action.onNext(.setImages(RegistImagesInfo(images: images, isMoveFirstIndex: true)))
                 })
                 .disposed(by: strongSelf.disposeBag)
             })
@@ -246,7 +246,7 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.rx.editImage
             .asDriver(onErrorJustReturn: IndexPath(row: 0, section: 0))
             .drive(onNext: { [weak self] indexPath in
-                guard let image = self?.reactor?.currentState.images[indexPath.row] else { return }
+                guard let image = self?.reactor?.currentState.images.images[indexPath.row] else { return }
                 self?.currentEditImageIndex = indexPath.row
                 self?.showImageEditView(image: image)
             })
@@ -292,10 +292,11 @@ extension RegistViewController: CropViewControllerDelegate {
     func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
         DispatchQueue.main.async { [weak self] in
             cropViewController.dismiss(animated: true, completion: { [weak self] in
-                guard var images = self?.reactor?.currentState.images else { return }
+                guard var images = self?.reactor?.currentState.images.images else { return }
                 images.insert(image, at: self?.currentEditImageIndex ?? 0)
                 images.remove(at: (self?.currentEditImageIndex ?? 0) + 1)
-                self?.reactor?.action.onNext(.setImages(images))
+                self?.reactor?.action.onNext(.setImages(RegistImagesInfo(images: images,
+                                                                         isMoveFirstIndex: false)))
             })
         }
     }

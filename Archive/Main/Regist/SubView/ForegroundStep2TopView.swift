@@ -263,9 +263,10 @@ class ForegroundStep2TopView: UIView {
         reactor.state
             .map { $0.images }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: [])
-            .drive(onNext: { [weak self] images in
+            .asDriver(onErrorJustReturn: RegistImagesInfo(images: [], isMoveFirstIndex: false))
+            .drive(onNext: { [weak self] info in
                 var arr: [RegistCellData] = []
+                let images = info.images
                 for i in 0..<images.count {
                     let item = images[i]
                     if i == 0 {
@@ -276,7 +277,9 @@ class ForegroundStep2TopView: UIView {
                 }
                 arr.append(RegistCellData(index: 0, image: nil, type: .addImage))
                 self?.sections.accept([RegistSetction(type: .image, items: arr)])
-                self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+                if info.isMoveFirstIndex {
+                    self?.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .left, animated: false)
+                }
             })
             .disposed(by: self.disposeBag)
     }
