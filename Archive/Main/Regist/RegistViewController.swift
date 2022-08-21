@@ -83,6 +83,10 @@ class RegistViewController: UIViewController, View {
         $0.isUserInteractionEnabled = false
     }
     
+    private let contentsBottomView = RegistContentsBottomView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+    }
+    
     // behindeView
     
     private let behindeView = UIView().then {
@@ -93,6 +97,7 @@ class RegistViewController: UIViewController, View {
     // MARK: private property
     
     private var currentEditImageIndex: Int = 0
+    private static var isFirst: Bool = true
     
     // MARK: internal property
     
@@ -124,7 +129,8 @@ class RegistViewController: UIViewController, View {
         
         self.view.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
-            $0.bottom.leading.trailing.equalTo(safeGuide)
+            $0.leading.trailing.equalTo(safeGuide)
+            $0.bottom.equalTo(safeGuide)
             $0.top.equalTo(self.view)
         }
         
@@ -193,6 +199,12 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.isHidden = true
         self.foregroundStep2TopView.bind()
         
+        self.foregroundBottomContentsView.addSubview(self.contentsBottomView)
+        self.contentsBottomView.snp.makeConstraints {
+            $0.edges.equalTo(self.foregroundBottomContentsView)
+        }
+        self.contentsBottomView.isHidden = true
+        
         self.foregroundContentsView.addSubview(self.pageControl)
         self.pageControl.snp.makeConstraints {
             $0.centerX.equalTo(self.foregroundContentsView)
@@ -200,6 +212,7 @@ class RegistViewController: UIViewController, View {
             $0.height.equalTo(32)
             $0.bottom.equalTo(self.foregroundContentsView)
         }
+        
         self.pageControl.isHidden = true
         
     }
@@ -207,6 +220,8 @@ class RegistViewController: UIViewController, View {
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavigationItems()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
     }
     
     deinit {
@@ -294,9 +309,9 @@ class RegistViewController: UIViewController, View {
                 if (index != reactor.currentState.imageInfo.images.count) &&
                     reactor.currentState.imageInfo.images.count != 0 &&
                     index != 0 {
-                    // 내용 기입하기
+                    self?.contentsBottomView.isHidden = false
                 } else {
-                    
+                    self?.contentsBottomView.isHidden = true
                 }
             })
             .disposed(by: self.disposeBag)
@@ -320,6 +335,14 @@ class RegistViewController: UIViewController, View {
                 } else {
                     self?.pageControl.isHidden = true
                 }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.contentsBottomView.rx.confirmed
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] text in
+                self?.view.endEditing(true)
+                print("test: \(text)")
             })
             .disposed(by: self.disposeBag)
     }
@@ -352,6 +375,41 @@ class RegistViewController: UIViewController, View {
         cropViewController.customAspectRatio = CGSize(width: 300, height: 300)
         cropViewController.aspectRatioPickerButtonHidden = true
         self.present(cropViewController, animated: true, completion: nil)
+    }
+    
+    @objc private func keyboardWillShowNotification(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            let safeGuide = self.view.safeAreaLayoutGuide
+            let paddding = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? 0
+            if RegistViewController.isFirst { // 오토레이아웃 버그 임시방편 수정 ㅠㅠ
+                RegistViewController.isFirst = false
+                self.mainContentsView.snp.updateConstraints {
+                    $0.bottom.equalTo(safeGuide).offset(-(keyboardSize.height - paddding))
+                    $0.top.equalTo(self.view).offset(-self.topbarHeight)
+                }
+            } else {
+                self.mainContentsView.snp.updateConstraints {
+                    $0.bottom.equalTo(safeGuide).offset(-(keyboardSize.height + self.topbarHeight + 23))
+                    $0.top.equalTo(self.view).offset(-self.topbarHeight)
+                }
+            }
+
+            self.foregroundScrollView.setContentOffset(CGPoint(x: 0, y: keyboardSize.height - paddding), animated: false)
+            UIView.animate(withDuration: 1.0, animations: { [weak self] in
+                self?.view.layoutIfNeeded()
+            })
+        }
+    }
+    
+    @objc private func keyboardWillHideNotification(_ notification: Notification) {
+        let safeGuide = self.view.safeAreaLayoutGuide
+        self.mainContentsView.snp.updateConstraints {
+            $0.bottom.equalTo(safeGuide)
+            $0.top.equalTo(self.view)
+        }
+        UIView.animate(withDuration: 1.0, animations: { [weak self] in
+            self?.view.layoutIfNeeded()
+        })
     }
     
     // MARK: internal func
