@@ -34,6 +34,8 @@
 		4FD4F1DB272F86B800BDB4BB /* RecordImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FD4F1D9272F86B800BDB4BB /* RecordImageCollectionViewCell.xib */; };
 		780161D42751FD5200F77193 /* CardShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780161D32751FD5200F77193 /* CardShareManager.swift */; };
 		780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780189BF279BD08C006C82CB /* ServerErrorUtil.swift */; };
+		78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78027CEE28B4FC450096B400 /* RegistBehindView.swift */; };
+		78027CF128B4FCC40096B400 /* ClearTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78027CF028B4FCC40096B400 /* ClearTextField.swift */; };
 		780389D3278956AF00DB1730 /* Splash.json in Resources */ = {isa = PBXBuildFile; fileRef = 780389D2278956AF00DB1730 /* Splash.json */; };
 		780389DB27895AC200DB1730 /* AppConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389DA27895AC200DB1730 /* AppConfigManager.swift */; };
 		780389E2278988BF00DB1730 /* CardRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389E0278988BF00DB1730 /* CardRecordCollectionViewCell.swift */; };
@@ -286,6 +288,8 @@
 		72C4423C0F1934D8C0AFE14D /* Pods-Archive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive.release.xcconfig"; path = "Target Support Files/Pods-Archive/Pods-Archive.release.xcconfig"; sourceTree = "<group>"; };
 		780161D32751FD5200F77193 /* CardShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardShareManager.swift; sourceTree = "<group>"; };
 		780189BF279BD08C006C82CB /* ServerErrorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerErrorUtil.swift; sourceTree = "<group>"; };
+		78027CEE28B4FC450096B400 /* RegistBehindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistBehindView.swift; sourceTree = "<group>"; };
+		78027CF028B4FCC40096B400 /* ClearTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTextField.swift; sourceTree = "<group>"; };
 		780389D2278956AF00DB1730 /* Splash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Splash.json; sourceTree = "<group>"; };
 		780389DA27895AC200DB1730 /* AppConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigManager.swift; sourceTree = "<group>"; };
 		780389E0278988BF00DB1730 /* CardRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRecordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -996,6 +1000,7 @@
 				786CE63B289E490A00D24266 /* ArchiveCheckTextField.swift */,
 				78C8802D28A9434100922C8D /* RegistEmotionSelectTopView.swift */,
 				78D5F50528B1249F00C2B271 /* PlaceHolderTextView.swift */,
+				78027CF028B4FCC40096B400 /* ClearTextField.swift */,
 			);
 			path = UIModule;
 			sourceTree = "<group>";
@@ -1344,6 +1349,7 @@
 				7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */,
 				7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */,
 				78D5F50328B1241D00C2B271 /* RegistContentsBottomView.swift */,
+				78027CEE28B4FC450096B400 /* RegistBehindView.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -1693,6 +1699,7 @@
 				789E61C5272584ED00D6E18F /* ContentsRecordReactor.swift in Sources */,
 				78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */,
 				787C2861275CC04B00C1FB17 /* ModalShareViewController.swift in Sources */,
+				78027CF128B4FCC40096B400 /* ClearTextField.swift in Sources */,
 				780478202723E83100FAA1CF /* LoginInformationViewController.swift in Sources */,
 				781C8451282F8B6E004A0FB3 /* MainSplashViewController.swift in Sources */,
 				784FCDEB282FEEAA007683D2 /* LoginAccessTokenRepositoryImplement.swift in Sources */,
@@ -1839,6 +1846,7 @@
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
+				78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
