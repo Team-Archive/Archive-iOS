@@ -89,9 +89,8 @@ class RegistViewController: UIViewController, View {
     
     // behindeView
     
-    private let behindeView = UIView().then {
-//        $0.backgroundColor = Gen.Colors.white.color
-        $0.backgroundColor = .gray
+    private lazy var behindeView = RegistBehindView(navigationHeight: self.navigationController?.navigationBar.bounds.height ?? 0).then {
+        $0.backgroundColor = Gen.Colors.white.color
     }
     
     // MARK: private property
@@ -343,6 +342,16 @@ class RegistViewController: UIViewController, View {
             .drive(onNext: { [weak self] text in
                 self?.view.endEditing(true)
                 print("test: \(text)")
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.emotion }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: .pleasant)
+            .compactMap { $0 }
+            .drive(onNext: { [weak self] emotion in
+                self?.behindeView.emotion = emotion
             })
             .disposed(by: self.disposeBag)
     }
