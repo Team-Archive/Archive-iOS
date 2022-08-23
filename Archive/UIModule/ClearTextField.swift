@@ -21,7 +21,6 @@ class ClearTextField: UIView {
         $0.backgroundColor = .clear
         $0.font = .fonts(.header2)
         $0.textColor = self.selectedColor
-        $0.placeholder = "전시명을 입력해주세요."
         $0.delegate = self
         $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
@@ -47,6 +46,12 @@ class ClearTextField: UIView {
     private let disposeBag = DisposeBag()
 
     // MARK: internal property
+    
+    var placeholder: String = "" {
+        didSet {
+            self.textField.placeholder = self.placeholder
+        }
+    }
     
     // MARK: lifeCycle
     
