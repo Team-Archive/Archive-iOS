@@ -64,6 +64,8 @@ class HomeFlow: Flow, MainTabFlowProtocol {
             return .none
         case .logout:
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
+        case .homeIsComplete:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.homeIsComplete)
         default:
             return .none
         }

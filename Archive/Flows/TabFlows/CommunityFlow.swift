@@ -66,6 +66,8 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         case .openUrlIsRequired(let url, let title):
             navigationToBannerWebViewDetail(url: url, title: title)
             return .none
+        case .communityIsComplete:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.communityIsComplete)
         default:
             return .none
         }

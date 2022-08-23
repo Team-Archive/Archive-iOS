@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SnapKit
 
 public protocol HWFlipViewDelegate: AnyObject {
     func flipViewWillFliped(flipView: HWFlipView, foregroundView: UIView, behindeView: UIView, willShow: HWFlipView.FlipType)
@@ -20,62 +21,85 @@ public class HWFlipView: UIView {
     }
     
     // MARK: private property
-    private var foregroundView: UIView?
-    private var behindView: UIView?
+    private let foregroundView: UIView
+    private let behindView: UIView
     private(set) var currentFlipType: FlipType = .foreground
     private let containerView: UIView = UIView()
+    private var feedbackGenerator: UIImpactFeedbackGenerator?
     
     // MARK: internal property
     public weak var delegate: HWFlipViewDelegate?
     
     // MARK: lifeCycle
     
-    public override func awakeFromNib() {
-        super.awakeFromNib()
-        initUI()
+    override init(frame: CGRect) {
+        fatalError("init(frame:) has not been implemented")
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init(foregroundView: UIView, behindView: UIView) {
+        self.foregroundView = foregroundView
+        self.behindView = behindView
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
+        setup()
+        setGenerator()
+    }
+    
+    deinit {
+        print("\(self) deinit")
     }
     
     // MARK: private function
     
-    private func initUI() {
-        DispatchQueue.main.async {
-            self.addSubview(self.containerView)
-            self.containerView.translatesAutoresizingMaskIntoConstraints = false
-            let constraint1 = NSLayoutConstraint(item: self.containerView, attribute: .leading, relatedBy: .equal,
-                                                 toItem: self, attribute: .leading,
-                                                 multiplier: 1.0, constant: 0)
-            let constraint2 = NSLayoutConstraint(item: self.containerView, attribute: .trailing, relatedBy: .equal,
-                                                 toItem: self, attribute: .trailing,
-                                                 multiplier: 1.0, constant: 0)
-            let constraint3 = NSLayoutConstraint(item: self.containerView, attribute: .top, relatedBy: .equal,
-                                                 toItem: self, attribute: .top,
-                                                 multiplier: 1.0, constant: 0)
-            let constraint4 = NSLayoutConstraint(item: self.containerView, attribute: .bottom, relatedBy: .equal,
-                                                 toItem: self, attribute: .bottom,
-                                                 multiplier: 1.0, constant: 0)
-            self.addConstraints([constraint1, constraint2, constraint3, constraint4])
+    private func setGenerator() {
+        self.feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        self.feedbackGenerator?.prepare()
+    }
+    
+    private func setup() {
+        self.addSubview(self.containerView)
+        self.containerView.snp.makeConstraints {
+            $0.edges.equalTo(self)
         }
+        
+        self.containerView.addSubview(foregroundView)
+        self.foregroundView.snp.makeConstraints {
+            $0.edges.equalTo(self.containerView)
+        }
+        
+        self.containerView.addSubview(behindView)
+        behindView.snp.makeConstraints {
+            $0.edges.equalTo(self.containerView)
+        }
+        self.behindView.isHidden = true
+        
+        self.containerView.backgroundColor = .white
     }
     
     private func flip(type: FlipType, complition: (() -> Void)?) {
-        guard let foregroundView = self.foregroundView else { return }
-        guard let behindView = self.behindView else { return }
         let willtransType: FlipType = type == .behind ? .foreground : .behind
         
         self.delegate?.flipViewWillFliped(flipView: self, foregroundView: foregroundView, behindeView: behindView, willShow: willtransType)
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            UIView.transition(with: self.containerView, duration: 0.35, options: .transitionFlipFromLeft, animations: nil, completion: { [weak self] isEndAnimation in
-                if isEndAnimation {
-                    guard let self = self else { return }
-                    self.foregroundView?.isHidden = true
-                    self.behindView?.isHidden = false
-                    self.delegate?.flipViewDidFliped(flipView: self, foregroundView: self.foregroundView ?? UIView(), behindeView: self.behindView ?? UIView(), didShow: willtransType)
-                    self.currentFlipType = willtransType
-                    complition?()
-                }
-            })
+        
+        switch willtransType {
+        case .foreground:
+            self.foregroundView.isHidden = false
+            self.behindView.isHidden = true
+        case .behind:
+            self.foregroundView.isHidden = true
+            self.behindView.isHidden = false
         }
+        UIView.transition(with: self.containerView, duration: 0.5, options: .transitionFlipFromLeft, animations: nil, completion: { [weak self] isEndAnimation in
+            if isEndAnimation {
+                guard let self = self else { return }
+                self.delegate?.flipViewDidFliped(flipView: self, foregroundView: self.foregroundView, behindeView: self.behindView, didShow: willtransType)
+                self.currentFlipType = willtransType
+                complition?()
+            }
+        })
     }
     
     // MARK: internal function
@@ -84,72 +108,4 @@ public class HWFlipView: UIView {
         flip(type: self.currentFlipType, complition: complition)
     }
     
-    public func setForegroundView(_ foregroundView: UIView) {
-        if let view = self.behindView {
-            view.clearConstraintsForFlipView()
-        }
-        self.foregroundView = foregroundView
-        DispatchQueue.main.async {
-            self.containerView.addSubview(foregroundView)
-            foregroundView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let constraint1 = NSLayoutConstraint(item: foregroundView, attribute: .leading, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .leading,
-                                                 multiplier: 1.0, constant: 0)
-            
-            let constraint2 = NSLayoutConstraint(item: foregroundView, attribute: .trailing, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .trailing,
-                                                 multiplier: 1.0, constant: 0)
-            
-            let constraint3 = NSLayoutConstraint(item: foregroundView, attribute: .top, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .top,
-                                                 multiplier: 1.0, constant: 0)
-            
-            let constraint4 = NSLayoutConstraint(item: foregroundView, attribute: .bottom, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .bottom,
-                                                 multiplier: 1.0, constant: 0)
-                    
-            self.addConstraints([constraint1, constraint2, constraint3, constraint4])
-        }
-    }
-    
-    public func setBehindViewView(_ behindView: UIView) {
-        if let view = self.behindView {
-            view.clearConstraintsForFlipView()
-        }
-        self.behindView = behindView
-        DispatchQueue.main.async {
-            self.containerView.addSubview(behindView)
-            behindView.translatesAutoresizingMaskIntoConstraints = false
-            
-            let constraint1 = NSLayoutConstraint(item: behindView, attribute: .leading, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .leading,
-                                                 multiplier: 1.0, constant: 0)
-            
-            let constraint2 = NSLayoutConstraint(item: behindView, attribute: .trailing, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .trailing,
-                                                 multiplier: 1.0, constant: 0)
-            
-            let constraint3 = NSLayoutConstraint(item: behindView, attribute: .top, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .top,
-                                                 multiplier: 1.0, constant: 0)
-            
-            let constraint4 = NSLayoutConstraint(item: behindView, attribute: .bottom, relatedBy: .equal,
-                                                 toItem: self.containerView, attribute: .bottom,
-                                                 multiplier: 1.0, constant: 0)
-                    
-            self.addConstraints([constraint1, constraint2, constraint3, constraint4])
-            self.behindView?.isHidden = true
-        }
-    }
-    
-}
-
-extension UIView {
-    func clearConstraintsForFlipView() {
-        for subview in self.subviews {
-            subview.clearConstraintsForFlipView()
-        }
-        self.removeConstraints(self.constraints)
-    }
 }

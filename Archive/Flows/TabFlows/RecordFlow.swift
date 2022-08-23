@@ -18,6 +18,7 @@ class RecordFlow: Flow {
     
     private weak var recordViewController: RecordViewController?
     private weak var imageSelectViewControllerNavi: UINavigationController?
+    private weak var registViewController: RegistViewController?
     
     // MARK: internal property
     
@@ -32,6 +33,11 @@ class RecordFlow: Flow {
     init(rootViewController: UINavigationController, recordViewController: RecordViewController) {
         self.rootViewController = rootViewController
         self.recordViewController = recordViewController
+    }
+    
+    init(rootViewController: UINavigationController, registViewController: RegistViewController) {
+        self.rootViewController = rootViewController
+        self.registViewController = registViewController
     }
     
     // MARK: private function
