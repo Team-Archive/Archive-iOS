@@ -92,7 +92,7 @@ public class HWFlipView: UIView {
             self.foregroundView.isHidden = true
             self.behindView.isHidden = false
         }
-        UIView.transition(with: self.containerView, duration: 0.5, options: .transitionFlipFromLeft, animations: nil, completion: { [weak self] isEndAnimation in
+        UIView.transition(with: self.containerView, duration: 0.5, options: .transitionFlipFromTop, animations: nil, completion: { [weak self] isEndAnimation in
             if isEndAnimation {
                 guard let self = self else { return }
                 self.delegate?.flipViewDidFliped(flipView: self, foregroundView: self.foregroundView, behindeView: self.behindView, didShow: willtransType)

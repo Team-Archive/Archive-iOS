@@ -83,7 +83,7 @@ class ClearTextField: UIView {
     private func setup() {
         self.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
-            $0.edges.equalTo(self.mainContentsView)
+            $0.edges.equalTo(self)
         }
         
         self.mainContentsView.addSubview(self.unselectedUnderlineView)
