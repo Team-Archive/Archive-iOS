@@ -99,6 +99,9 @@ class RegistViewController: UIViewController, View {
     private static var isFirst: Bool = true
     private var isKeyboardShown: Bool = false
     
+    private var confirmForegroundBtn: UIBarButtonItem?
+    private var confirmBackgroundBtn: UIBarButtonItem?
+    
     // MARK: internal property
     
     var disposeBag: DisposeBag = DisposeBag()
@@ -222,6 +225,8 @@ class RegistViewController: UIViewController, View {
         makeNavigationItems()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowNotification(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+        makeConfirmBtn()
+        setForegroundConfirmBtn()
     }
     
     deinit {
@@ -359,6 +364,18 @@ class RegistViewController: UIViewController, View {
                 self?.behindeView.emotion = emotion
             })
             .disposed(by: self.disposeBag)
+        
+        self.mainContentsView.rx.didFliped
+            .asDriver(onErrorJustReturn: .foreground)
+            .drive(onNext: { [weak self] type in
+                switch type {
+                case .foreground:
+                    self?.setForegroundConfirmBtn()
+                case .behind:
+                    self?.setBackgroundConfirmBtn()
+                }
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private func
@@ -428,6 +445,40 @@ class RegistViewController: UIViewController, View {
         UIView.animate(withDuration: 1.0, animations: { [weak self] in
             self?.view.layoutIfNeeded()
         })
+    }
+    
+    private func makeConfirmBtn() {
+        self.confirmForegroundBtn = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(confirmAction(_:)))
+        self.confirmForegroundBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button2), NSAttributedString.Key.foregroundColor: Gen.Colors.white.color], for: .normal)
+        self.confirmForegroundBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button2), NSAttributedString.Key.foregroundColor: Gen.Colors.white.color], for: .highlighted)
+        self.confirmForegroundBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button2), NSAttributedString.Key.foregroundColor: Gen.Colors.gray05.color], for: .disabled)
+        self.confirmForegroundBtn?.isEnabled = false
+        
+        self.confirmBackgroundBtn = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(confirmAction(_:)))
+        self.confirmBackgroundBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button2), NSAttributedString.Key.foregroundColor: Gen.Colors.white.color], for: .normal)
+        self.confirmBackgroundBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button2), NSAttributedString.Key.foregroundColor: Gen.Colors.white.color], for: .highlighted)
+        self.confirmBackgroundBtn?.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button2), NSAttributedString.Key.foregroundColor: Gen.Colors.gray05.color], for: .disabled)
+        self.confirmBackgroundBtn?.isEnabled = false
+    }
+    
+    private func setForegroundConfirmBtn() {
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = confirmForegroundBtn
+    }
+    
+    private func setBackgroundConfirmBtn() {
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItem = confirmBackgroundBtn
+    }
+    
+    @objc private func confirmAction(_ sender: UIButton) {
+        if self.mainContentsView.currentFlipType == .foreground {
+            // TODO: 등록하기
+        } else {
+            self.mainContentsView.flip(complition: { [weak self] in
+                self?.view.endEditing(true)
+            })
+        }
     }
     
     // MARK: internal func

@@ -7,17 +7,27 @@
 
 import UIKit
 import SnapKit
+import RxCocoa
+import RxSwift
 
-public protocol HWFlipViewDelegate: AnyObject {
-    func flipViewWillFliped(flipView: HWFlipView, foregroundView: UIView, behindeView: UIView, willShow: HWFlipView.FlipType)
-    func flipViewDidFliped(flipView: HWFlipView, foregroundView: UIView, behindeView: UIView, didShow: HWFlipView.FlipType)
+@objc public protocol HWFlipViewDelegate: AnyObject {
+    @objc optional func flipViewWillFliped(flipView: HWFlipView, foregroundView: UIView, behindeView: UIView, willShow: HWFlipView.FlipType)
+    @objc optional func flipViewDidFliped(flipView: HWFlipView, foregroundView: UIView, behindeView: UIView, didShow: HWFlipView.FlipType)
 }
 
 public class HWFlipView: UIView {
     
-    public enum FlipType {
-        case foreground
+    @objc public enum FlipType: Int {
+        case foreground = 0
         case behind
+        
+        static func getFromRawValue(_ value: Int) -> FlipType {
+            var returnValue: FlipType = .foreground
+            if value == 1 {
+                returnValue = .behind
+            }
+            return returnValue
+        }
     }
     
     // MARK: private property
@@ -82,7 +92,7 @@ public class HWFlipView: UIView {
     private func flip(type: FlipType, complition: (() -> Void)?) {
         let willtransType: FlipType = type == .behind ? .foreground : .behind
         
-        self.delegate?.flipViewWillFliped(flipView: self, foregroundView: foregroundView, behindeView: behindView, willShow: willtransType)
+        self.delegate?.flipViewWillFliped?(flipView: self, foregroundView: foregroundView, behindeView: behindView, willShow: willtransType)
         
         switch willtransType {
         case .foreground:
@@ -95,7 +105,7 @@ public class HWFlipView: UIView {
         UIView.transition(with: self.containerView, duration: 0.5, options: .transitionFlipFromTop, animations: nil, completion: { [weak self] isEndAnimation in
             if isEndAnimation {
                 guard let self = self else { return }
-                self.delegate?.flipViewDidFliped(flipView: self, foregroundView: self.foregroundView, behindeView: self.behindView, didShow: willtransType)
+                self.delegate?.flipViewDidFliped?(flipView: self, foregroundView: self.foregroundView, behindeView: self.behindView, didShow: willtransType)
                 self.currentFlipType = willtransType
                 complition?()
             }
@@ -108,4 +118,36 @@ public class HWFlipView: UIView {
         flip(type: self.currentFlipType, complition: complition)
     }
     
+}
+
+class HWFlipViewDelegateProxy: DelegateProxy<HWFlipView, HWFlipViewDelegate>, DelegateProxyType, HWFlipViewDelegate {
+    
+    
+    static func currentDelegate(for object: HWFlipView) -> HWFlipViewDelegate? {
+        return object.delegate
+    }
+    
+    static func setCurrentDelegate(_ delegate: HWFlipViewDelegate?, to object: HWFlipView) {
+        object.delegate = delegate
+    }
+    
+    static func registerKnownImplementations() {
+        self.register { (view) -> HWFlipViewDelegateProxy in
+            HWFlipViewDelegateProxy(parentObject: view, delegateProxy: self)
+        }
+    }
+}
+
+extension Reactive where Base: HWFlipView {
+    var delegate: DelegateProxy<HWFlipView, HWFlipViewDelegate> {
+        return HWFlipViewDelegateProxy.proxy(for: self.base)
+    }
+    
+    var didFliped: Observable<HWFlipView.FlipType> {
+        return delegate.methodInvoked(#selector(HWFlipViewDelegate.flipViewDidFliped(flipView:foregroundView:behindeView:didShow:)))
+            .map { result in
+                let rawValue = result[3] as? Int ?? 0
+                return HWFlipView.FlipType.getFromRawValue(rawValue)
+            }
+    }
 }
