@@ -13,6 +13,7 @@ import RxCocoa
 
 @objc protocol ClearTextFieldDelegate: AnyObject {
     @objc optional func didSelecteDate(_ view: ClearTextField, date: Date)
+    @objc optional func doneClicked(_view: ClearTextField, text: String)
 }
 
 class ClearTextField: UIView {
@@ -26,6 +27,7 @@ class ClearTextField: UIView {
         $0.font = .fonts(.header2)
         $0.textColor = self.selectedColor
         $0.delegate = self
+        $0.returnKeyType = .done
         $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
     }
     
@@ -158,6 +160,11 @@ class ClearTextField: UIView {
     
     // MARK: internal function
     
+    override func becomeFirstResponder() -> Bool {
+        self.textField.becomeFirstResponder()
+        return true
+    }
+    
 
 }
 
@@ -168,6 +175,12 @@ extension ClearTextField: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         refreshUnfocusUI()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.endEditing(true)
+        self.delegate?.doneClicked?(_view: self, text: textField.text ?? "")
+        return false
     }
 }
 
@@ -198,6 +211,13 @@ extension Reactive where Base: ClearTextField {
         return delegate.methodInvoked(#selector(ClearTextFieldDelegate.didSelecteDate(_:date:)))
             .map { result in
                 return result[1] as? Date ?? Date()
+            }
+    }
+    
+    var doneButtonClicked: Observable<String> {
+        return delegate.methodInvoked(#selector(ClearTextFieldDelegate.doneClicked(_view:text:)))
+            .map { result in
+                return result[1] as? String ?? ""
             }
     }
 }

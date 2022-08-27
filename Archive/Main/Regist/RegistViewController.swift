@@ -97,6 +97,7 @@ class RegistViewController: UIViewController, View {
     
     private var currentEditImageIndex: Int = 0
     private static var isFirst: Bool = true
+    private var isKeyboardShown: Bool = false
     
     // MARK: internal property
     
@@ -231,7 +232,11 @@ class RegistViewController: UIViewController, View {
         self.foregroundBottomContentsView.rx.clickedRegistTitle
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
-                self?.mainContentsView.flip(complition: nil)
+                self?.mainContentsView.flip(complition: { [weak self] in
+                    if self?.mainContentsView.currentFlipType == .behind {
+                        self?.behindeView.selectArchiveNameTextField()
+                    }
+                })
             })
             .disposed(by: self.disposeBag)
         
@@ -387,30 +392,34 @@ class RegistViewController: UIViewController, View {
     }
     
     @objc private func keyboardWillShowNotification(_ notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            let safeGuide = self.view.safeAreaLayoutGuide
-            let paddding = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? 0
-            if RegistViewController.isFirst { // 오토레이아웃 버그 임시방편 수정 ㅠㅠ
-                RegistViewController.isFirst = false
-                self.mainContentsView.snp.updateConstraints {
-                    $0.bottom.equalTo(safeGuide).offset(-(keyboardSize.height - paddding))
-                    $0.top.equalTo(self.view).offset(-self.topbarHeight)
+        if !isKeyboardShown { // 키보드가 안올라와있을 때만 실행...
+            self.isKeyboardShown = true
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                let safeGuide = self.view.safeAreaLayoutGuide
+                let paddding = UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.bottom ?? 0
+                if RegistViewController.isFirst { // 오토레이아웃 버그 임시방편 수정 ㅠㅠ
+                    RegistViewController.isFirst = false
+                    self.mainContentsView.snp.updateConstraints {
+                        $0.bottom.equalTo(safeGuide).offset(-(keyboardSize.height - paddding))
+                        $0.top.equalTo(self.view).offset(-self.topbarHeight)
+                    }
+                } else {
+                    self.mainContentsView.snp.updateConstraints {
+                        $0.bottom.equalTo(safeGuide).offset(-(keyboardSize.height + self.topbarHeight + 23))
+                        $0.top.equalTo(self.view).offset(-self.topbarHeight)
+                    }
                 }
-            } else {
-                self.mainContentsView.snp.updateConstraints {
-                    $0.bottom.equalTo(safeGuide).offset(-(keyboardSize.height + self.topbarHeight + 23))
-                    $0.top.equalTo(self.view).offset(-self.topbarHeight)
-                }
-            }
 
-            self.foregroundScrollView.setContentOffset(CGPoint(x: 0, y: keyboardSize.height - paddding), animated: false)
-            UIView.animate(withDuration: 1.0, animations: { [weak self] in
-                self?.view.layoutIfNeeded()
-            })
+                self.foregroundScrollView.setContentOffset(CGPoint(x: 0, y: keyboardSize.height - paddding), animated: false)
+                UIView.animate(withDuration: 1.0, animations: { [weak self] in
+                    self?.view.layoutIfNeeded()
+                })
+            }
         }
     }
     
     @objc private func keyboardWillHideNotification(_ notification: Notification) {
+        self.isKeyboardShown = false
         let safeGuide = self.view.safeAreaLayoutGuide
         self.mainContentsView.snp.updateConstraints {
             $0.bottom.equalTo(safeGuide)

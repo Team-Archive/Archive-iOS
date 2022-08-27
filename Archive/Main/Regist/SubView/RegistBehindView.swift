@@ -230,5 +230,10 @@ class RegistBehindView: UIView {
     
     // MARK: internal function
     
+    func selectArchiveNameTextField() {
+        DispatchQueue.main.async { [weak self] in
+            self?.archiveNameTextField.becomeFirstResponder()
+        }
+    }
 
 }
