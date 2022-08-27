@@ -396,6 +396,13 @@ class RegistViewController: UIViewController, View {
                 self?.confirmBackgroundBtn?.isEnabled = isEnable
             })
             .disposed(by: self.disposeBag)
+        
+        self.behindeView.rx.requestFlip
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.mainContentsView.flip(complition: nil)
+            })
+            .disposed(by: self.disposeBag)
 
     }
     

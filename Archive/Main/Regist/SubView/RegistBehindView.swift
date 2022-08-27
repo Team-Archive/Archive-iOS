@@ -11,6 +11,10 @@ import Then
 import RxSwift
 import RxCocoa
 
+@objc protocol RegistBehindViewDelegate: AnyObject {
+    @objc optional func requestFlip()
+}
+
 class RegistBehindView: UIView {
     
     // MARK: UIProperty
@@ -40,8 +44,11 @@ class RegistBehindView: UIView {
         $0.backgroundColor = Emotion.pleasant.color
     }
     
-    private let topImageView = UIImageView().then {
+    private lazy var topImageView = UIImageView().then {
         $0.image = Gen.Images.iconDropDown.image
+        $0.isUserInteractionEnabled = true
+        let taps = UITapGestureRecognizer(target: self, action: #selector(self.flip(_:)))
+        $0.addGestureRecognizer(taps)
     }
     
     private let leftTriImgView = UIImageView().then {
@@ -105,6 +112,8 @@ class RegistBehindView: UIView {
             }
         }
     }
+    
+    weak var delegate: RegistBehindViewDelegate?
     
     // MARK: lifeCycle
     
@@ -258,6 +267,10 @@ class RegistBehindView: UIView {
             .disposed(by: self.disposeBag)
     }
     
+    @objc private func flip(_ recognizer: UITapGestureRecognizer) {
+        self.delegate?.requestFlip?()
+    }
+    
     // MARK: internal function
     
     func selectArchiveNameTextField() {
@@ -266,4 +279,35 @@ class RegistBehindView: UIView {
         }
     }
 
+}
+
+class RegistBehindViewDelegateProxy: DelegateProxy<RegistBehindView, RegistBehindViewDelegate>, DelegateProxyType, RegistBehindViewDelegate {
+    
+    
+    static func currentDelegate(for object: RegistBehindView) -> RegistBehindViewDelegate? {
+        return object.delegate
+    }
+    
+    static func setCurrentDelegate(_ delegate: RegistBehindViewDelegate?, to object: RegistBehindView) {
+        object.delegate = delegate
+    }
+    
+    static func registerKnownImplementations() {
+        self.register { (view) -> RegistBehindViewDelegateProxy in
+            RegistBehindViewDelegateProxy(parentObject: view, delegateProxy: self)
+        }
+    }
+}
+
+extension Reactive where Base: RegistBehindView {
+    var delegate: DelegateProxy<RegistBehindView, RegistBehindViewDelegate> {
+        return RegistBehindViewDelegateProxy.proxy(for: self.base)
+    }
+    
+    var requestFlip: Observable<Void> {
+        return delegate.methodInvoked(#selector(RegistBehindViewDelegate.requestFlip))
+            .map { _ in
+                return ()
+            }
+    }
 }
