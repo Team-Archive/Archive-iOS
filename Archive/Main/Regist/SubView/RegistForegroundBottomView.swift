@@ -22,7 +22,7 @@ class RegistForegroundBottomView: UIView {
     private let helpTitleLabel = UILabel().then {
         $0.font = .fonts(.subTitle)
         $0.textColor = Gen.Colors.black.color
-        $0.text = "무슨 전시를 감상했나요?"
+        $0.text = "무슨 전시를 감상했나요?*"
     }
     
     private lazy var titlePlaceHolderLabel = UILabel().then {

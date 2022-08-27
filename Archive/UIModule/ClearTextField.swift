@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 @objc protocol ClearTextFieldDelegate: AnyObject {
-    @objc optional func didSelecteDate(_ view: ClearTextField, date: Date)
+    @objc optional func didSelecteDate(_ view: ClearTextField, date: String)
     @objc optional func doneClicked(_view: ClearTextField, text: String)
 }
 
@@ -153,8 +153,8 @@ class ClearTextField: UIView {
     @objc private func datePickerDone() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yy/MM/dd"
-        self.delegate?.didSelecteDate?(self, date: datePicker.date)
         self.textField.text = dateFormatter.string(from: datePicker.date)
+        self.delegate?.didSelecteDate?(self, date: dateFormatter.string(from: datePicker.date))
         self.textField.resignFirstResponder()
     }
     
@@ -207,10 +207,10 @@ extension Reactive where Base: ClearTextField {
         return ClearTextFieldDelegateProxy.proxy(for: self.base)
     }
     
-    var didSelectedDate: Observable<Date> {
+    var didSelectedDate: Observable<String> {
         return delegate.methodInvoked(#selector(ClearTextFieldDelegate.didSelecteDate(_:date:)))
             .map { result in
-                return result[1] as? Date ?? Date()
+                return result[1] as? String ?? ""
             }
     }
     

@@ -27,6 +27,10 @@ class RegistReactor: Reactor, Stepper {
         case setEmotion(Emotion)
         case setImageInfo(RegistImagesInfo)
         case cropedImage(cropedimage: UIImage, index: Int)
+        case setArchiveName(String)
+        case setVisitDate(String)
+        case setFriends(String)
+        case setIsPublic(Bool)
     }
     
     enum Mutation {
@@ -34,12 +38,22 @@ class RegistReactor: Reactor, Stepper {
         case setEmotion(Emotion)
         case setImageInfo(RegistImagesInfo)
         case setIsLoading(Bool)
+        case setArchiveName(String?)
+        case setVisitDate(String?)
+        case setFriends(String?)
+        case setIsPublic(Bool)
+        case setBehineViewConfirmIsEnable(Bool)
     }
     
     struct State {
         var emotion: Emotion?
         var imageInfo: RegistImagesInfo = RegistImagesInfo(images: [], isMoveFirstIndex: false)
         var isLoading: Bool = false
+        var archiveName: String?
+        var visitDate: String?
+        var friends: String?
+        var isPublic: Bool = false
+        var isBehineViewConfirmIsEnable: Bool = false
     }
     
     // MARK: life cycle
@@ -75,6 +89,40 @@ class RegistReactor: Reactor, Stepper {
                     },
                 Observable.just(Mutation.setIsLoading(false))
             ])
+        case .setArchiveName(let name):
+            if name == "" {
+                return .from([
+                    .setArchiveName(nil),
+                    .setBehineViewConfirmIsEnable(false)
+                ])
+            } else {
+                let isEnable: Bool = self.currentState.visitDate == nil ? false : true
+                return .from([
+                    .setArchiveName(name),
+                    .setBehineViewConfirmIsEnable(isEnable)
+                ])
+            }
+        case .setVisitDate(let date):
+            if date == "" {
+                return .from([
+                    .setVisitDate(nil),
+                    .setBehineViewConfirmIsEnable(false)
+                ])
+            } else {
+                let isEnable: Bool = self.currentState.archiveName == nil ? false : true
+                return .from([
+                    .setVisitDate(date),
+                    .setBehineViewConfirmIsEnable(isEnable)
+                ])
+            }
+        case .setFriends(let friends):
+            if friends == "" {
+                return .just(.setFriends(nil))
+            } else {
+                return .just(.setFriends(friends))
+            }
+        case .setIsPublic(let isPublic):
+            return .just(.setIsPublic(isPublic))
         }
     }
     
@@ -89,6 +137,16 @@ class RegistReactor: Reactor, Stepper {
             newState.imageInfo = info
         case .setIsLoading(let isLoading):
             newState.isLoading = isLoading
+        case .setArchiveName(let name):
+            newState.archiveName = name
+        case .setVisitDate(let date):
+            newState.visitDate = date
+        case .setFriends(let friends):
+            newState.friends = friends
+        case .setIsPublic(let isPublic):
+            newState.isPublic = isPublic
+        case .setBehineViewConfirmIsEnable(let isEnable):
+            newState.isBehineViewConfirmIsEnable = isEnable
         }
         return newState
     }

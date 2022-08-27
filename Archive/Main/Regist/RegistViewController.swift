@@ -89,7 +89,7 @@ class RegistViewController: UIViewController, View {
     
     // behindeView
     
-    private lazy var behindeView = RegistBehindView(navigationHeight: self.navigationController?.navigationBar.bounds.height ?? 0).then {
+    private lazy var behindeView = RegistBehindView(navigationHeight: self.navigationController?.navigationBar.bounds.height ?? 0, reactor: self.reactor).then {
         $0.backgroundColor = Gen.Colors.white.color
     }
     
@@ -376,6 +376,27 @@ class RegistViewController: UIViewController, View {
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.archiveName }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: "")
+            .compactMap { $0 }
+            .drive(onNext: { [weak self] name in
+                self?.foregroundBottomContentsView.setRegistTitle(name)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isBehineViewConfirmIsEnable }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: true)
+            .compactMap { $0 }
+            .drive(onNext: { [weak self] isEnable in
+                self?.confirmBackgroundBtn?.isEnabled = isEnable
+            })
+            .disposed(by: self.disposeBag)
+
     }
     
     // MARK: private func

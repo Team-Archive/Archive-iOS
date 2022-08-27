@@ -8,6 +8,8 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 class RegistBehindView: UIView {
     
@@ -90,6 +92,8 @@ class RegistBehindView: UIView {
     // MARK: private property
     
     private let navigationHeight: CGFloat
+    private let disposeBag = DisposeBag()
+    private weak var reactor: RegistReactor?
     
     // MARK: internal property
     
@@ -104,10 +108,12 @@ class RegistBehindView: UIView {
     
     // MARK: lifeCycle
     
-    init(navigationHeight: CGFloat) {
+    init(navigationHeight: CGFloat, reactor: RegistReactor?) {
         self.navigationHeight = navigationHeight
+        self.reactor = reactor
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         setup()
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -224,15 +230,39 @@ class RegistBehindView: UIView {
             $0.top.equalTo(self.friendsTextField.snp.bottom).offset(28)
             $0.bottom.equalTo(self.mainContentsView).offset(-10)
         }
+    }
+    
+    private func bind() {
+        self.archiveNameTextField.rx.doneButtonClicked
+            .subscribe(onNext: { [weak self] text in
+                self?.reactor?.action.onNext(.setArchiveName(text))
+            })
+            .disposed(by: self.disposeBag)
         
+        self.whenTextField.rx.didSelectedDate
+            .subscribe(onNext: { [weak self] text in
+                self?.reactor?.action.onNext(.setVisitDate(text))
+            })
+            .disposed(by: self.disposeBag)
         
+        self.friendsTextField.rx.doneButtonClicked
+            .subscribe(onNext: { [weak self] text in
+                self?.reactor?.action.onNext(.setFriends(text))
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.toggleView.rx.toggleState
+            .subscribe(onNext: { [weak self] isOn in
+                self?.reactor?.action.onNext(.setIsPublic(isOn))
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: internal function
     
     func selectArchiveNameTextField() {
         DispatchQueue.main.async { [weak self] in
-            self?.archiveNameTextField.becomeFirstResponder()
+            _ = self?.archiveNameTextField.becomeFirstResponder()
         }
     }
 
