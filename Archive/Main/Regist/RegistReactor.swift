@@ -17,6 +17,8 @@ class RegistReactor: Reactor, Stepper {
     // MARK: private property
     
     private let imageColorUsecase = ImageColorUsecase()
+    private let uploadImageUsecase: UploadImageUsecase
+    private lazy var registUsecase = RegistUsecase(repository: RegistRepositoryImplement(uploadImageUsecase: self.uploadImageUsecase))
     
     // MARK: internal property
     
@@ -70,8 +72,9 @@ class RegistReactor: Reactor, Stepper {
     
     // MARK: life cycle
     
-    init() {
+    init(uploadImageRepository: UploadImageRepository) {
         self.steps = PublishRelay<Step>()
+        self.uploadImageUsecase = UploadImageUsecase(repository: uploadImageRepository)
     }
     
     
@@ -154,7 +157,11 @@ class RegistReactor: Reactor, Stepper {
             return .empty()
         case .regist:
             self.steps.accept(ArchiveStep.registUploadIsRequired)
-            return .empty()
+            return self.registUsecase.uploadImages(self.currentState.imageInfo.images)
+                .map { [weak self] result in
+                    print("result")
+                    return .empty
+                }
         }
     }
     

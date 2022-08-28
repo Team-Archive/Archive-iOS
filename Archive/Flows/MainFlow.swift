@@ -133,7 +133,7 @@ final class MainFlow: Flow {
     }
     
     private func moveToRegistFlow() -> FlowContributors {
-        let reactor = RegistReactor()
+        let reactor = RegistReactor(uploadImageRepository: UploadImageRepositoryImplement())
         let vc: RegistViewController = RegistViewController(reactor: reactor)
         let navi = UINavigationController(rootViewController: vc)
         let registFlow = RegistFlow(rootViewController: navi, reacoter: reactor)

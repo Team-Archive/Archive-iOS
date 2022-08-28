@@ -223,6 +223,12 @@
 		78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */; };
 		78D58B0E28BB4ADF00AF3191 /* RegistFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */; };
 		78D58B1128BB51BF00AF3191 /* RegistUploadCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1028BB51BF00AF3191 /* RegistUploadCompleteViewController.swift */; };
+		78D58B1428BB573800AF3191 /* UploadImageUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1328BB573800AF3191 /* UploadImageUsecase.swift */; };
+		78D58B1628BB574700AF3191 /* UploadImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1528BB574700AF3191 /* UploadImageRepository.swift */; };
+		78D58B1828BB575200AF3191 /* UploadImageRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1728BB575200AF3191 /* UploadImageRepositoryImplement.swift */; };
+		78D58B1B28BB59AD00AF3191 /* RegistUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1A28BB59AD00AF3191 /* RegistUsecase.swift */; };
+		78D58B1D28BB5ABE00AF3191 /* RegistRepositoty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1C28BB5ABE00AF3191 /* RegistRepositoty.swift */; };
+		78D58B1F28BB5ACD00AF3191 /* RegistRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1E28BB5ACD00AF3191 /* RegistRepositoryImplement.swift */; };
 		78D5B96D28B6732700E7C2D4 /* ExplainToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */; };
 		78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */; };
 		78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */; };
@@ -478,6 +484,12 @@
 		78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUploadViewController.swift; sourceTree = "<group>"; };
 		78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistFlow.swift; sourceTree = "<group>"; };
 		78D58B1028BB51BF00AF3191 /* RegistUploadCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUploadCompleteViewController.swift; sourceTree = "<group>"; };
+		78D58B1328BB573800AF3191 /* UploadImageUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageUsecase.swift; sourceTree = "<group>"; };
+		78D58B1528BB574700AF3191 /* UploadImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageRepository.swift; sourceTree = "<group>"; };
+		78D58B1728BB575200AF3191 /* UploadImageRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadImageRepositoryImplement.swift; sourceTree = "<group>"; };
+		78D58B1A28BB59AD00AF3191 /* RegistUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUsecase.swift; sourceTree = "<group>"; };
+		78D58B1C28BB5ABE00AF3191 /* RegistRepositoty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistRepositoty.swift; sourceTree = "<group>"; };
+		78D58B1E28BB5ACD00AF3191 /* RegistRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistRepositoryImplement.swift; sourceTree = "<group>"; };
 		78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainToggleView.swift; sourceTree = "<group>"; };
 		78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorUsecase.swift; sourceTree = "<group>"; };
 		78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThemeColorExtraction.swift; sourceTree = "<group>"; };
@@ -884,6 +896,8 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78D58B1928BB59A600AF3191 /* RegistUsecase */,
+				78D58B1228BB572E00AF3191 /* UploadImage */,
 				78D5F4FD28B118E500C2B271 /* ImageColorUsecase */,
 				78BAF75428AA381A00641250 /* Photo */,
 				789EAC2A289651BC00DC7F1A /* MyLike */,
@@ -1382,6 +1396,26 @@
 			path = UploadComplete;
 			sourceTree = "<group>";
 		};
+		78D58B1228BB572E00AF3191 /* UploadImage */ = {
+			isa = PBXGroup;
+			children = (
+				78D58B1328BB573800AF3191 /* UploadImageUsecase.swift */,
+				78D58B1528BB574700AF3191 /* UploadImageRepository.swift */,
+				78D58B1728BB575200AF3191 /* UploadImageRepositoryImplement.swift */,
+			);
+			path = UploadImage;
+			sourceTree = "<group>";
+		};
+		78D58B1928BB59A600AF3191 /* RegistUsecase */ = {
+			isa = PBXGroup;
+			children = (
+				78D58B1A28BB59AD00AF3191 /* RegistUsecase.swift */,
+				78D58B1C28BB5ABE00AF3191 /* RegistRepositoty.swift */,
+				78D58B1E28BB5ACD00AF3191 /* RegistRepositoryImplement.swift */,
+			);
+			path = RegistUsecase;
+			sourceTree = "<group>";
+		};
 		78D5F4FD28B118E500C2B271 /* ImageColorUsecase */ = {
 			isa = PBXGroup;
 			children = (
@@ -1717,10 +1751,12 @@
 				78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */,
 				78486D6A27E6C62A008448A7 /* ArchiveError.swift in Sources */,
 				78A38BF0280DB401000C921B /* EMailLogInUsecase.swift in Sources */,
+				78D58B1628BB574700AF3191 /* UploadImageRepository.swift in Sources */,
 				78BAF75028AA1FF000641250 /* ForegroundStep2TopView.swift in Sources */,
 				78D5B96D28B6732700E7C2D4 /* ExplainToggleView.swift in Sources */,
 				782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */,
 				78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */,
+				78D58B1F28BB5ACD00AF3191 /* RegistRepositoryImplement.swift in Sources */,
 				7830103528829FDB0031F8CB /* ArchiveBannerView.swift in Sources */,
 				784CFFDB274BBFF10052B1EC /* ProviderProtocol.swift in Sources */,
 				78239830280C251F0071D874 /* LogInRepository.swift in Sources */,
@@ -1864,17 +1900,20 @@
 				4FD4F1D4272F869A00BDB4BB /* RecordCardCollectionViewCell.swift in Sources */,
 				78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */,
 				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,
+				78D58B1B28BB59AD00AF3191 /* RegistUsecase.swift in Sources */,
 				78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */,
 				78212331273F895B007DEC28 /* RecordUploadCompleteModel.swift in Sources */,
 				783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */,
 				7824796628B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift in Sources */,
 				783010372882A1670031F8CB /* CommunityBannerViewCell.swift in Sources */,
+				78D58B1428BB573800AF3191 /* UploadImageUsecase.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
 				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
 				789E61B227257BD400D6E18F /* ImageRecordModel.swift in Sources */,
+				78D58B1828BB575200AF3191 /* UploadImageRepositoryImplement.swift in Sources */,
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
@@ -1882,6 +1921,7 @@
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
+				78D58B1D28BB5ABE00AF3191 /* RegistRepositoty.swift in Sources */,
 				78BAF75328AA279100641250 /* RegistPhotoViewController.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,

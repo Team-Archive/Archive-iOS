@@ -68,7 +68,7 @@ class RegistViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
-    private lazy var foregroundStep2TopView = ForegroundStep2TopView(reactor: self.reactor ?? RegistReactor()).then {
+    private lazy var foregroundStep2TopView = ForegroundStep2TopView(reactor: self.reactor ?? RegistReactor(uploadImageRepository: UploadImageRepositoryImplement())).then {
         $0.backgroundColor = .clear
     }
     

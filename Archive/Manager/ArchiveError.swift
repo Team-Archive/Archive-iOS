@@ -26,6 +26,9 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
     case responseHeaderIsNull // 헤더 존재하지 않음
     case loginTokenIsNull // 로그인 토큰이 존재하지않음
+    
+    case imageUploadCntFail // 이미지가 다 업로드 되지 않은듯
+    case imageUploadFail // 이미지 Url이 없음
 }
 
 enum ErrorFrom {
@@ -101,6 +104,10 @@ class ArchiveError: Error {
             returnValue = "더 이상 공개된 카드가 없어요 😭"
         case .photoAuth:
             returnValue = "티켓 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다."
+        case .imageUploadCntFail:
+            returnValue = "이미지 업로드 오류"
+        case .imageUploadFail:
+            returnValue = "이미지 업로드 오류"
         }
         return returnValue
     }
