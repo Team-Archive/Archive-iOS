@@ -362,12 +362,14 @@ class RegistViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         reactor.state
-            .map { $0.imageInfo.images }
+            .map { $0.imageInfo }
             .distinctUntilChanged()
             .compactMap { $0 }
             .observe(on: ConcurrentDispatchQueueScheduler(queue: .global()))
-            .subscribe(onNext: { _ in
-                reactor.action.onNext(.clearPhotoContents)
+            .subscribe(onNext: { info in
+                if info.isMoveFirstIndex {
+                    reactor.action.onNext(.clearPhotoContents)
+                }
             })
             .disposed(by: self.disposeBag)
         

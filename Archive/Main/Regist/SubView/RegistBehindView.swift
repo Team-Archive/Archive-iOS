@@ -248,6 +248,14 @@ class RegistBehindView: UIView {
             })
             .disposed(by: self.disposeBag)
         
+        self.archiveNameTextField.rx.didEndEditing
+            .subscribe(onNext: { [weak self] text in
+                if text != "" {
+                    self?.reactor?.action.onNext(.setArchiveName(text))
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
         self.whenTextField.rx.didSelectedDate
             .subscribe(onNext: { [weak self] text in
                 self?.reactor?.action.onNext(.setVisitDate(text))
@@ -257,6 +265,14 @@ class RegistBehindView: UIView {
         self.friendsTextField.rx.doneButtonClicked
             .subscribe(onNext: { [weak self] text in
                 self?.reactor?.action.onNext(.setFriends(text))
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.friendsTextField.rx.didEndEditing
+            .subscribe(onNext: { [weak self] text in
+                if text != "" {
+                    self?.reactor?.action.onNext(.setFriends(text))
+                }
             })
             .disposed(by: self.disposeBag)
         

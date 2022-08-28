@@ -13,7 +13,8 @@ import RxCocoa
 
 @objc protocol ClearTextFieldDelegate: AnyObject {
     @objc optional func didSelecteDate(_ view: ClearTextField, date: String)
-    @objc optional func doneClicked(_view: ClearTextField, text: String)
+    @objc optional func doneClicked(_ view: ClearTextField, text: String)
+    @objc optional func didEndEditing(_ view: ClearTextField, text: String)
 }
 
 class ClearTextField: UIView {
@@ -179,8 +180,12 @@ extension ClearTextField: UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.endEditing(true)
-        self.delegate?.doneClicked?(_view: self, text: textField.text ?? "")
+        self.delegate?.doneClicked?(self, text: textField.text ?? "")
         return false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        self.delegate?.didEndEditing?(self, text: textField.text ?? "")
     }
 }
 
@@ -215,7 +220,14 @@ extension Reactive where Base: ClearTextField {
     }
     
     var doneButtonClicked: Observable<String> {
-        return delegate.methodInvoked(#selector(ClearTextFieldDelegate.doneClicked(_view:text:)))
+        return delegate.methodInvoked(#selector(ClearTextFieldDelegate.doneClicked(_:text:)))
+            .map { result in
+                return result[1] as? String ?? ""
+            }
+    }
+    
+    var didEndEditing: Observable<String> {
+        return delegate.methodInvoked(#selector(ClearTextFieldDelegate.didEndEditing(_:text:)))
             .map { result in
                 return result[1] as? String ?? ""
             }
