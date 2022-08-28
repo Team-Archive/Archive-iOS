@@ -47,6 +47,7 @@ class RegistReactor: Reactor, Stepper {
         case setBehineViewConfirmIsEnable(Bool)
         case setPhotoContents(index: Int, contents: String)
         case clearPhotoContents
+        case setIsForegroundViewConfirmIsEnable(Bool)
     }
     
     struct State {
@@ -59,6 +60,7 @@ class RegistReactor: Reactor, Stepper {
         var isPublic: Bool = false
         var isBehineViewConfirmIsEnable: Bool = false
         var photoContents: [Int: String] = [:]
+        var isForegroundViewConfirmIsEnable: Bool = false
     }
     
     // MARK: life cycle
@@ -73,7 +75,11 @@ class RegistReactor: Reactor, Stepper {
         case .setEmotion(let emotion):
             return .just(.setEmotion(emotion))
         case .setImageInfo(let info):
-            return .just(.setImageInfo(info))
+            let isEnableForegroundConfirm: Bool = info.images.count > 0 && self.currentState.isBehineViewConfirmIsEnable && self.currentState.emotion != nil
+            return .from([
+                .setIsForegroundViewConfirmIsEnable(isEnableForegroundConfirm),
+                .setImageInfo(info)
+            ])
         case .cropedImage(let cropedimage, let index):
             return Observable.concat([
                 Observable.just(Mutation.setIsLoading(true)),
@@ -101,10 +107,12 @@ class RegistReactor: Reactor, Stepper {
                     .setBehineViewConfirmIsEnable(false)
                 ])
             } else {
-                let isEnable: Bool = self.currentState.visitDate == nil ? false : true
+                let isEnableBehindConfirm: Bool = self.currentState.visitDate == nil ? false : true
+                let isEnableForegroundConfirm: Bool = isEnableBehindConfirm && self.currentState.imageInfo.images.count > 0
                 return .from([
                     .setArchiveName(name),
-                    .setBehineViewConfirmIsEnable(isEnable)
+                    .setBehineViewConfirmIsEnable(isEnableBehindConfirm),
+                    .setIsForegroundViewConfirmIsEnable(isEnableForegroundConfirm)
                 ])
             }
         case .setVisitDate(let date):
@@ -114,10 +122,12 @@ class RegistReactor: Reactor, Stepper {
                     .setBehineViewConfirmIsEnable(false)
                 ])
             } else {
-                let isEnable: Bool = self.currentState.archiveName == nil ? false : true
+                let isEnableBehindConfirm: Bool = self.currentState.archiveName == nil ? false : true
+                let isEnableForegroundConfirm: Bool = isEnableBehindConfirm && self.currentState.imageInfo.images.count > 0
                 return .from([
                     .setVisitDate(date),
-                    .setBehineViewConfirmIsEnable(isEnable)
+                    .setBehineViewConfirmIsEnable(isEnableBehindConfirm),
+                    .setIsForegroundViewConfirmIsEnable(isEnableForegroundConfirm)
                 ])
             }
         case .setFriends(let friends):
@@ -160,6 +170,8 @@ class RegistReactor: Reactor, Stepper {
             newState.photoContents[index] = contents
         case .clearPhotoContents:
             newState.photoContents.removeAll()
+        case .setIsForegroundViewConfirmIsEnable(let isEnable):
+            newState.isForegroundViewConfirmIsEnable = isEnable
         }
         return newState
     }

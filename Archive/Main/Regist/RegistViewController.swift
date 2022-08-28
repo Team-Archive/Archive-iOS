@@ -422,6 +422,16 @@ class RegistViewController: UIViewController, View {
             })
             .disposed(by: self.disposeBag)
         
+        reactor.state
+            .map { $0.isForegroundViewConfirmIsEnable }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: true)
+            .compactMap { $0 }
+            .drive(onNext: { [weak self] isEnable in
+                self?.confirmForegroundBtn?.isEnabled = isEnable
+            })
+            .disposed(by: self.disposeBag)
+        
         self.behindeView.rx.requestFlip
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
@@ -527,6 +537,7 @@ class RegistViewController: UIViewController, View {
     @objc private func confirmAction(_ sender: UIButton) {
         if self.mainContentsView.currentFlipType == .foreground {
             // TODO: 등록하기
+            print("test")
         } else {
             self.mainContentsView.flip(complition: { [weak self] in
                 self?.view.endEditing(true)
