@@ -248,6 +248,7 @@ class RegistViewController: UIViewController, View {
         self.emotionSelectView.rx.clickedSelectEmotion
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
+                GAModule.sendEventLogToGA(.startEmotionSelect)
                 self?.navigationController?
                     .present(self?.emotionSelectViewController ?? UIViewController(),
                              animated: false,
@@ -261,6 +262,7 @@ class RegistViewController: UIViewController, View {
         self.emotionSelectViewController.rx.selectedEmotion
             .asDriver(onErrorJustReturn: .pleasant)
             .drive(onNext: { [weak self] selectedEmotion in
+                GAModule.sendEventLogToGA(.completeEmotionSelect(selected: selectedEmotion.rawStringValue))
                 self?.foregroundContentsView.isHidden = false
                 self?.emotionSelectView.emotion = selectedEmotion
                 self?.foregroundTopStep1View.isHidden = true
@@ -280,6 +282,7 @@ class RegistViewController: UIViewController, View {
         reactor.photoAccessAuthSuccess
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
+                GAModule.sendEventLogToGA(.startPhotoSelect)
                 let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(emotion: self?.reactor?.currentState.emotion ?? .pleasant))
                 vc.delegate = self
                 let navi = UINavigationController(rootViewController: vc)
@@ -375,6 +378,7 @@ class RegistViewController: UIViewController, View {
             .observe(on: ConcurrentDispatchQueueScheduler(queue: .global()))
             .subscribe(onNext: { info in
                 if info.isMoveFirstIndex {
+                    GAModule.sendEventLogToGA(.completePhotoSelect)
                     reactor.action.onNext(.clearPhotoContents)
                 }
             })

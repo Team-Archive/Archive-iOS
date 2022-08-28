@@ -49,7 +49,6 @@ class RegistFlow: Flow {
                 vc.modalPresentationStyle = .fullScreen
                 self?.rootViewController.present(vc, animated: false)
             })
-            print("얍")
         } else {
             let vc = RegistUploadViewController(reactor: self.reactor)
             vc.modalPresentationStyle = .fullScreen
@@ -70,6 +69,9 @@ class RegistFlow: Flow {
         case .registCompleteIsRequired(let cnt):
             registCompleteShow(thisMonthRegistCnt: cnt)
             return .none
+        case .registIsComplete:
+            self.rootViewController.dismiss(animated: false)
+            return .end(forwardToParentFlowWithStep: ArchiveStep.registIsComplete)
         default:
             return .none
         }

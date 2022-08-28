@@ -40,8 +40,6 @@ class RegistReactor: Reactor, Stepper {
         case clearPhotoContents
         case requestPhotoAccessAuth
         case regist
-        case shareInstagram
-        case savaImageToAlbum
         case registIsComplete
     }
     
@@ -199,14 +197,12 @@ class RegistReactor: Reactor, Stepper {
                 case .failure(_): // 오류처리 안함
                     break
                 }
+                GAModule.sendEventLogToGA(.completeRegistArchive)
                 self?.steps.accept(ArchiveStep.registCompleteIsRequired(thisMonthRegistCnt: thisMonthRegistCnt))
                 return .empty
             }
-        case .shareInstagram:
-            return .empty()
-        case .savaImageToAlbum:
-            return .empty()
         case .registIsComplete:
+            self.steps.accept(ArchiveStep.registIsComplete)
             return .empty()
         }
     }

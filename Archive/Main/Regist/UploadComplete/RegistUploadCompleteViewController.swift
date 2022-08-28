@@ -193,15 +193,54 @@ class RegistUploadCompleteViewController: UIViewController, View {
     // MARK: private func
     
     @objc private func close() {
-        self.reactor?.action.onNext(.registIsComplete)
+        self.dismiss(animated: false, completion: { [weak self] in
+            self?.reactor?.action.onNext(.registIsComplete)
+        })
     }
     
     @objc private func shareInstagramAction() {
-        self.reactor?.action.onNext(.shareInstagram)
+        GAModule.sendEventLogToGA(.shareInstagramFromRegist)
+        DispatchQueue.main.async { [weak self] in
+            guard let cardView: ShareCardView = self?.makeCardView() else { return }
+            InstagramStoryShareManager.shared.share(view: cardView, backgroundTopColor: cardView.topBackgroundColor, backgroundBottomColor: cardView.bottomBackgroundColor, completion: { _ in
+                
+            }, failure: { err in
+                ArchiveToastView.shared.show(message: err, completeHandler: nil)
+            })
+        }
     }
     
     @objc private func saveImageAction() {
-        self.reactor?.action.onNext(.savaImageToAlbum)
+        guard let cardView: ShareCardView = self.makeCardView() else { return }
+        guard let activityViewController = CardShareManager.shared.share(view: cardView) else { return }
+        activityViewController.isModalInPresentation = true
+        activityViewController.excludedActivityTypes = [.airDrop, .message]
+        let fakeViewController = UIViewController()
+        fakeViewController.modalPresentationStyle = .overFullScreen
+
+        activityViewController.completionWithItemsHandler = { [weak fakeViewController] _, isSaved, _, _ in
+            if let presentingViewController = fakeViewController?.presentingViewController {
+                presentingViewController.dismiss(animated: false, completion: nil)
+            } else {
+                fakeViewController?.dismiss(animated: false, completion: nil)
+            }
+            if isSaved {
+                ArchiveToastView.shared.show(message: "이미지 저장 완료", completeHandler: nil)
+            }
+        }
+        self.present(fakeViewController, animated: true) { [weak fakeViewController] in
+            fakeViewController?.present(activityViewController, animated: true, completion: nil)
+        }
+    }
+    
+    private func makeCardView() -> ShareCardView? {
+        guard let cardView: ShareCardView = ShareCardView.instance() else { return nil }
+        cardView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.73)
+        cardView.setInfoData(emotion: self.reactor?.currentState.emotion ?? .pleasant,
+                             thumbnailImage: self.reactor?.currentState.imageInfo.images[0].image ?? UIImage(),
+                             eventName: self.reactor?.currentState.archiveName ?? "",
+                             date: self.reactor?.currentState.visitDate ?? "")
+        return cardView
     }
     
     // MARK: internal func
