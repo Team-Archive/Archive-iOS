@@ -328,7 +328,21 @@ class RegistViewController: UIViewController, View {
         self.foregroundStep2TopView.rx.didShownIndex
             .asDriver(onErrorJustReturn: 0)
             .drive(onNext: { [weak self] index in
+                if index >= 1 {
+                    if let contents = reactor.currentState.photoContents[index] {
+                        self?.contentsBottomView.setContents(contents)
+                    } else {
+                        self?.contentsBottomView.setContents("")
+                    }
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.foregroundStep2TopView.rx.didShownIndex
+            .asDriver(onErrorJustReturn: 0)
+            .drive(onNext: { [weak self] index in
                 self?.pageControl.currentPage = index
+                self?.contentsBottomView.index = index
             })
             .disposed(by: self.disposeBag)
         
@@ -347,11 +361,22 @@ class RegistViewController: UIViewController, View {
             })
             .disposed(by: self.disposeBag)
         
+        reactor.state
+            .map { $0.imageInfo.images }
+            .distinctUntilChanged()
+            .compactMap { $0 }
+            .observe(on: ConcurrentDispatchQueueScheduler(queue: .global()))
+            .subscribe(onNext: { _ in
+                reactor.action.onNext(.clearPhotoContents)
+            })
+            .disposed(by: self.disposeBag)
+        
         self.contentsBottomView.rx.confirmed
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] text in
+            .asDriver(onErrorJustReturn: ("", 1))
+            .drive(onNext: { [weak self] text, index in
                 self?.view.endEditing(true)
-                print("test: \(text)")
+                print("text: \(text) index: \(index)")
+                reactor.action.onNext(.setPhotoContents(index: index, contents: text))
             })
             .disposed(by: self.disposeBag)
         

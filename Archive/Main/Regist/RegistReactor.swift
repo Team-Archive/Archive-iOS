@@ -31,6 +31,8 @@ class RegistReactor: Reactor, Stepper {
         case setVisitDate(String)
         case setFriends(String)
         case setIsPublic(Bool)
+        case setPhotoContents(index: Int, contents: String)
+        case clearPhotoContents
     }
     
     enum Mutation {
@@ -43,6 +45,8 @@ class RegistReactor: Reactor, Stepper {
         case setFriends(String?)
         case setIsPublic(Bool)
         case setBehineViewConfirmIsEnable(Bool)
+        case setPhotoContents(index: Int, contents: String)
+        case clearPhotoContents
     }
     
     struct State {
@@ -54,6 +58,7 @@ class RegistReactor: Reactor, Stepper {
         var friends: String?
         var isPublic: Bool = false
         var isBehineViewConfirmIsEnable: Bool = false
+        var photoContents: [Int: String] = [:]
     }
     
     // MARK: life cycle
@@ -123,6 +128,10 @@ class RegistReactor: Reactor, Stepper {
             }
         case .setIsPublic(let isPublic):
             return .just(.setIsPublic(isPublic))
+        case .setPhotoContents(let index, let contents):
+            return .just(.setPhotoContents(index: index, contents: contents))
+        case .clearPhotoContents:
+            return .just(.clearPhotoContents)
         }
     }
     
@@ -147,6 +156,10 @@ class RegistReactor: Reactor, Stepper {
             newState.isPublic = isPublic
         case .setBehineViewConfirmIsEnable(let isEnable):
             newState.isBehineViewConfirmIsEnable = isEnable
+        case .setPhotoContents(let index, let contents):
+            newState.photoContents[index] = contents
+        case .clearPhotoContents:
+            newState.photoContents.removeAll()
         }
         return newState
     }

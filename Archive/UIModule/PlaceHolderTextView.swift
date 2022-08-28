@@ -60,8 +60,6 @@ class PlaceHolderTextView: UIView {
             DispatchQueue.main.async { [weak self] in
                 if text != "" {
                     self?.textView.text = text
-                } else {
-                    print("use clearText method")
                 }
             }
         }
