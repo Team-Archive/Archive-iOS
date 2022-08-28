@@ -87,6 +87,7 @@ class RegistUploadCompleteViewController: UIViewController, View {
     
     override func loadView() {
         super.loadView()
+        
         self.view.addSubview(self.mainBackgroundView)
         self.mainBackgroundView.snp.makeConstraints {
             $0.edges.equalTo(self.view)
@@ -106,7 +107,8 @@ class RegistUploadCompleteViewController: UIViewController, View {
         
         self.scrollView.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(self.scrollView)
+            $0.edges.equalTo(self.scrollView).priority(750)
+            $0.width.equalTo(self.scrollView).priority(1000)
         }
         
         self.mainContentsView.addSubview(self.titleLabel)
@@ -121,40 +123,40 @@ class RegistUploadCompleteViewController: UIViewController, View {
             $0.leading.trailing.equalTo(self.mainContentsView)
         }
         
-        self.mainContentsView.addSubview(self.buttonContainerView)
-        self.buttonContainerView.snp.makeConstraints {
-            $0.top.equalTo(self.subTitleLabel.snp.bottom).offset(28)
-            $0.centerX.equalTo(self.mainContentsView)
-        }
-        
-        self.buttonContainerView.addSubview(self.saveToAlbumBtn)
-        self.saveToAlbumBtn.snp.makeConstraints {
-            $0.top.leading.bottom.equalTo(self.buttonContainerView)
-            $0.width.height.equalTo(56)
-        }
-        
-        self.buttonContainerView.addSubview(self.shareInstagramBtn)
-        self.shareInstagramBtn.snp.makeConstraints {
-            $0.centerY.equalTo(self.saveToAlbumBtn)
-            $0.leading.equalTo(self.saveToAlbumBtn.snp.trailing).offset(20)
-            $0.trailing.equalTo(self.buttonContainerView)
-        }
-        
-        self.mainContentsView.addSubview(self.lineImageView)
-        self.lineImageView.snp.makeConstraints {
-            $0.top.equalTo(self.buttonContainerView.snp.bottom).offset(55)
-            $0.leading.trailing.equalTo(self.mainContentsView)
-            $0.height.equalTo(1)
-        }
-        
-        self.mainContentsView.addSubview(self.ticketImageView)
-        self.ticketImageView.snp.makeConstraints {
-            $0.top.equalTo(self.lineImageView.snp.bottom).offset(49)
-            $0.centerY.equalTo(self.mainContentsView)
-            $0.width.equalTo(175)
-            $0.height.equalTo(294)
-            $0.bottom.equalTo(self.mainContentsView.snp.bottom).offset(20)
-        }
+//        self.mainContentsView.addSubview(self.buttonContainerView)
+//        self.buttonContainerView.snp.makeConstraints {
+//            $0.top.equalTo(self.subTitleLabel.snp.bottom).offset(28)
+//            $0.centerX.equalTo(self.mainContentsView)
+//        }
+//        
+//        self.buttonContainerView.addSubview(self.saveToAlbumBtn)
+//        self.saveToAlbumBtn.snp.makeConstraints {
+//            $0.top.leading.bottom.equalTo(self.buttonContainerView)
+//            $0.width.height.equalTo(56)
+//        }
+//        
+//        self.buttonContainerView.addSubview(self.shareInstagramBtn)
+//        self.shareInstagramBtn.snp.makeConstraints {
+//            $0.centerY.equalTo(self.saveToAlbumBtn)
+//            $0.leading.equalTo(self.saveToAlbumBtn.snp.trailing).offset(20)
+//            $0.trailing.equalTo(self.buttonContainerView)
+//        }
+//        
+//        self.mainContentsView.addSubview(self.lineImageView)
+//        self.lineImageView.snp.makeConstraints {
+//            $0.top.equalTo(self.buttonContainerView.snp.bottom).offset(55)
+//            $0.leading.trailing.equalTo(self.mainContentsView)
+//            $0.height.equalTo(1)
+//        }
+//        
+//        self.mainContentsView.addSubview(self.ticketImageView)
+//        self.ticketImageView.snp.makeConstraints {
+//            $0.top.equalTo(self.lineImageView.snp.bottom).offset(49)
+//            $0.centerY.equalTo(self.mainContentsView)
+//            $0.width.equalTo(175)
+//            $0.height.equalTo(294)
+//            $0.bottom.equalTo(self.mainContentsView.snp.bottom).offset(20)
+//        }
         
     }
     

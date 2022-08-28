@@ -171,7 +171,12 @@ class RegistReactor: Reactor, Stepper {
                                              imageContents: self.currentState.photoContents,
                                              isPublic: self.currentState.isPublic)
             .map { [weak self] result in
-                print("result: \(result)")
+                switch result {
+                case .success(_):
+                    self?.steps.accept(ArchiveStep.registCompleteIsRequired)
+                case .failure(let err):
+                    self?.err.onNext(err)
+                }
                 return .empty
             }
         }

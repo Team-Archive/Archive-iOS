@@ -93,7 +93,7 @@ class RegistUsecase: NSObject {
                             }
                             return returnValue
                         } else {
-                            return nil
+                            return []
                         }
                     }()
                     let recordData: RecordData = RecordData(name: name,

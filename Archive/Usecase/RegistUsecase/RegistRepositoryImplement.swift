@@ -55,12 +55,8 @@ class RegistRepositoryImplement: RegistRepositoty {
         return provider.rx.request(.registArchive(info))
             .asObservable()
             .map { result in
-                if result.statusCode == 200 { 201이 떨어지네 ..
-                    guard let resultJson: JSON = try? JSON.init(data: result.data) else { return .failure(.init(.invaldData))}
-//                    guard let url = resultJson["imageUrl"].string else { return .failure(.init(.imageUploadFail))}
-//                    return .success(url)
-                    
-                    return .failure(.init(.photoAuth))
+                if 200..<300 ~= result.statusCode {
+                    return .success(())
                 } else {
                     return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
                 }

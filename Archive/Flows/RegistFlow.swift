@@ -21,7 +21,7 @@ class RegistFlow: Flow {
     let rootViewController: UINavigationController
     let reactor: RegistReactor
     
-    weak var currentPresentedViewController: UIViewController?
+    weak var registUploadViewController: RegistUploadViewController?
     
     // MARK: lifeCycle
     
@@ -35,26 +35,24 @@ class RegistFlow: Flow {
     private func registUploadShow() {
         let vc = RegistUploadViewController(reactor: self.reactor)
         vc.modalPresentationStyle = .fullScreen
-        self.currentPresentedViewController = vc
+        self.registUploadViewController = vc
         self.rootViewController.present(vc, animated: false)
     }
     
     private func registCompleteShow() {
-        if let currentPresentedViewController = currentPresentedViewController {
+        if let registUploadViewController = registUploadViewController {
             let reactor = self.reactor
-            currentPresentedViewController.dismiss(animated: false, completion: { [weak self] in
-                let vc = RegistUploadViewController(reactor: reactor)
+            registUploadViewController.stopAnimation()
+            registUploadViewController.dismiss(animated: false, completion: { [weak self] in
+                let vc = RegistUploadCompleteViewController(reactor: reactor)
                 vc.modalPresentationStyle = .fullScreen
-                self?.currentPresentedViewController = vc
                 self?.rootViewController.present(vc, animated: false)
-                self?.currentPresentedViewController = vc
             })
+            print("얍")
         } else {
             let vc = RegistUploadViewController(reactor: self.reactor)
             vc.modalPresentationStyle = .fullScreen
-            self.currentPresentedViewController = vc
             self.rootViewController.present(vc, animated: false)
-            self.currentPresentedViewController = vc
         }
     }
     

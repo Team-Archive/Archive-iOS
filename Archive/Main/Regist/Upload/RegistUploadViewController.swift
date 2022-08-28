@@ -115,5 +115,9 @@ class RegistUploadViewController: UIViewController, View {
     
     // MARK: internal func
     
+    func stopAnimation() {
+        self.lottieView.stop()
+    }
+    
     
 }
