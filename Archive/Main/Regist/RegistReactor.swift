@@ -10,6 +10,7 @@ import RxSwift
 import RxRelay
 import RxFlow
 import ReactorKit
+import Photos
 
 class RegistReactor: Reactor, Stepper {
     
@@ -22,6 +23,8 @@ class RegistReactor: Reactor, Stepper {
     let initialState: State = State()
     var steps: PublishRelay<Step>
     var err: PublishSubject<ArchiveError> = .init()
+    var moveToConfig: PublishSubject<Void> = .init()
+    var photoAccessAuthSuccess: PublishSubject<Void> = .init()
     
     enum Action {
         case setEmotion(Emotion)
@@ -33,6 +36,7 @@ class RegistReactor: Reactor, Stepper {
         case setIsPublic(Bool)
         case setPhotoContents(index: Int, contents: String)
         case clearPhotoContents
+        case requestPhotoAccessAuth
     }
     
     enum Mutation {
@@ -142,6 +146,11 @@ class RegistReactor: Reactor, Stepper {
             return .just(.setPhotoContents(index: index, contents: contents))
         case .clearPhotoContents:
             return .just(.clearPhotoContents)
+        case .requestPhotoAccessAuth:
+            self.checkPhotoAuth(completion: { [weak self] in
+                self?.photoAccessAuthSuccess.onNext(())
+            })
+            return .empty()
         }
     }
     
@@ -177,6 +186,48 @@ class RegistReactor: Reactor, Stepper {
     }
     
     // MARK: private func
+    
+    private func checkPhotoAuth(completion: (() -> Void)?) {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized:
+            completion?()
+        case .denied, .restricted :
+            self.moveToConfig.onNext(())
+        case .notDetermined:
+            requestPhotoAuth(completion: completion)
+        case .limited:
+            break
+        @unknown default:
+            break
+        }
+    }
+    
+    private func requestPhotoAuth(completion: (() -> Void)?) {
+        if #available(iOS 14, *) {
+            PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] (status) in
+                switch status {
+                case .authorized:
+                    completion?()
+                case .denied, .restricted, .notDetermined, .limited:
+                    self?.err.onNext(.init(.photoAuth))
+                @unknown default:
+                    break
+                }
+            }
+        } else {
+            PHPhotoLibrary.requestAuthorization { [weak self] status in
+                switch status {
+                case .authorized:
+                    completion?()
+                case .denied, .restricted, .notDetermined, .limited:
+                    self?.err.onNext(.init(.photoAuth))
+                @unknown default:
+                    break
+                }
+            }
+        }
+    }
     
     // MARK: internal func
     

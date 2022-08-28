@@ -271,6 +271,13 @@ class RegistViewController: UIViewController, View {
             .disposed(by: self.disposeBag)
         
         self.foregroundStep2TopView.rx.selectImage
+            .observe(on: ConcurrentDispatchQueueScheduler(queue: .global()))
+            .subscribe(onNext: {
+                reactor.action.onNext(.requestPhotoAccessAuth)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.photoAccessAuthSuccess
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
                 let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(emotion: self?.reactor?.currentState.emotion ?? .pleasant))
@@ -438,6 +445,16 @@ class RegistViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
                 self?.mainContentsView.flip(complition: nil)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.moveToConfig
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                CommonAlertView.shared.show(message: "티켓 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다.", subMessage: nil, btnText: "확인", hapticType: .warning, confirmHandler: {
+                    Util.moveToSetting()
+                    CommonAlertView.shared.hide(nil)
+                })
             })
             .disposed(by: self.disposeBag)
 
