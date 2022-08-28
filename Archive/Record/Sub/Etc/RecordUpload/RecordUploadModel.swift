@@ -118,25 +118,3 @@ class RecordUploadModel: RecordUploadModelProtocol {
     }
     
 }
-
-
-struct RecordData: CodableWrapper {
-    typealias selfType = RecordData
-    
-    let name: String
-    let watchedOn: String
-    let companions: [String]?
-    let emotion: String
-    let mainImage: String
-    let images: [RecordImageData]?
-    let isPublic: Bool
-    
-}
-
-struct RecordImageData: CodableWrapper {
-    typealias selfType = RecordImageData
-    
-    let image: String
-    let review: String
-    let backgroundColor: String
-}

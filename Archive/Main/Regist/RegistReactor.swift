@@ -157,11 +157,23 @@ class RegistReactor: Reactor, Stepper {
             return .empty()
         case .regist:
             self.steps.accept(ArchiveStep.registUploadIsRequired)
-            return self.registUsecase.uploadImages(self.currentState.imageInfo.images)
-                .map { [weak self] result in
-                    print("result")
-                    return .empty
-                }
+            guard let name = self.currentState.archiveName,
+                  let visitDate = self.currentState.visitDate,
+                  let emotion = self.currentState.emotion else {
+                err.onNext(.init(.archiveDataIsInvalue))
+                return .just(.empty)
+            }
+            return self.registUsecase.regist(name: name,
+                                             watchedOn: visitDate,
+                                             companions: friendsToFriendsArr(self.currentState.friends),
+                                             emotion: emotion.rawStringValue,
+                                             images: self.currentState.imageInfo.images,
+                                             imageContents: self.currentState.photoContents,
+                                             isPublic: self.currentState.isPublic)
+            .map { [weak self] result in
+                print("result: \(result)")
+                return .empty
+            }
         }
     }
     
@@ -238,6 +250,19 @@ class RegistReactor: Reactor, Stepper {
                 }
             }
         }
+    }
+    
+    private func friendsToFriendsArr(_ friendsString: String?) -> [String]? {
+        guard let friendsString = friendsString else { return nil }
+        let tmpValue = friendsString.split(separator: ",")
+        let returnValue: [String] = {
+            var returnValue: [String] = []
+            for item in tmpValue {
+                returnValue.append(String(item))
+            }
+            return returnValue
+        }()
+        return returnValue
     }
     
     // MARK: internal func

@@ -6,6 +6,7 @@
 //
 
 import RxSwift
+import SwiftyJSON
 
 class RegistRepositoryImplement: RegistRepositoty {
     
@@ -46,6 +47,26 @@ class RegistRepositoryImplement: RegistRepositoty {
                     }
                 }
                 return .success(returnValue)
+            }
+    }
+    
+    func regist(info: RecordData) -> Observable<Result<Void, ArchiveError>> {
+        let provider = ArchiveProvider.shared.provider
+        return provider.rx.request(.registArchive(info))
+            .asObservable()
+            .map { result in
+                if result.statusCode == 200 { 201이 떨어지네 ..
+                    guard let resultJson: JSON = try? JSON.init(data: result.data) else { return .failure(.init(.invaldData))}
+//                    guard let url = resultJson["imageUrl"].string else { return .failure(.init(.imageUploadFail))}
+//                    return .success(url)
+                    
+                    return .failure(.init(.photoAuth))
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
+            }
+            .catch { err in
+                return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
             }
     }
     

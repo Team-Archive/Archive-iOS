@@ -24,9 +24,7 @@ class RegistUsecase: NSObject {
     
     // MARK: private function
     
-    // MARK: internal function
-    
-    func uploadImages(_ images: [RegistImageInfo]) -> Observable<Result<[UploadImageInfo], ArchiveError>> {
+    private func uploadImages(_ images: [RegistImageInfo]) -> Observable<Result<[UploadImageInfo], ArchiveError>> {
         let realImages: [UIImage] = {
             var returnValue: [UIImage] = []
             for item in images {
@@ -65,4 +63,52 @@ class RegistUsecase: NSObject {
                 }
             }
     }
+    
+    // MARK: internal function
+    
+    func regist(name: String, watchedOn: String, companions: [String]?, emotion: String, images: [RegistImageInfo], imageContents: [Int: String], isPublic: Bool) -> Observable<Result<Void, ArchiveError>> {
+        return self.uploadImages(images)
+            .map { result -> Result<[UploadImageInfo], ArchiveError> in
+                switch result {
+                case .success(let infoArr):
+                    return .success(infoArr)
+                case .failure(let err):
+                    return .failure(err)
+                }
+            }
+            .flatMap { [weak self] result -> Observable<Result<Void, ArchiveError>> in
+                switch result {
+                case .success(let infoArr):
+                    let mainImage = infoArr[0].imageUrl
+                    let recordImageDataArr: [RecordImageData]? = {
+                        if infoArr.count > 1 {
+                            var returnValue: [RecordImageData] = []
+                            for i in 1..<infoArr.count {
+                                let index = i - 1
+                                let review = imageContents[index]
+                                let newElement = RecordImageData(image: infoArr[i].imageUrl,
+                                                                 review: review ?? "",
+                                                                 backgroundColor: infoArr[i].themeColor)
+                                returnValue.append(newElement)
+                            }
+                            return returnValue
+                        } else {
+                            return nil
+                        }
+                    }()
+                    let recordData: RecordData = RecordData(name: name,
+                                                            watchedOn: watchedOn,
+                                                            companions: companions,
+                                                            emotion: emotion,
+                                                            mainImage: mainImage,
+                                                            images: recordImageDataArr,
+                                                            isPublic: isPublic)
+                    return self?.repository.regist(info: recordData) ?? .just(.failure(.init(.selfIsNull)))
+                case .failure(let err):
+                    return .just(.failure(err))
+                }
+            }
+    }
+    
+    
 }
