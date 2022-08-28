@@ -202,6 +202,7 @@ class RegistReactor: Reactor, Stepper {
                 return .empty
             }
         case .registIsComplete:
+            NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
             self.steps.accept(ArchiveStep.registIsComplete)
             return .empty()
         }

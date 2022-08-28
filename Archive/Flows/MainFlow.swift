@@ -162,11 +162,6 @@ final class MainFlow: Flow {
         case .registIsRequired:
             GAModule.sendEventLogToGA(.startRegistArchive)
             return moveToRegistFlow()
-        case .recordClose:
-            return .none
-        case .recordComplete:
-            NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
-            return .none
         case .communityIsRequired:
             if self.currentTabFlow != .community {
                 print("communityIsRequired")
