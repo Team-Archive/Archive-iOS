@@ -32,11 +32,16 @@ class RegistUploadCompleteViewController: UIViewController, View {
         $0.backgroundColor = .clear
     }
     
-    private let titleLabel = UILabel().then {
+    private lazy var closeBtn = UIButton().then {
+        $0.setImageAllState(Gen.Images.xIcon.image)
+        $0.addTarget(self, action: #selector(close), for: .touchUpInside)
+    }
+    
+    private lazy var titleLabel = UILabel().then {
         $0.font = .fonts(.header2)
         $0.textColor = Gen.Colors.gray01.color
         $0.numberOfLines = 2
-//        $0.text = 이번 달에 2개의 전시를\n기록하셨네요!
+        $0.text = "이번 달에 \(self.thisMonthRegistCnt)개의 전시를\n기록하셨네요!"
         $0.textAlignment = .center
     }
     
@@ -53,11 +58,13 @@ class RegistUploadCompleteViewController: UIViewController, View {
     }
     
     private lazy var shareInstagramBtn = UIButton().then {
-        $0.imageView?.image = Gen.Images.instaShare.image
+        $0.setImageAllState(Gen.Images.instaShare.image)
+        $0.addTarget(self, action: #selector(shareInstagramAction), for: .touchUpInside)
     }
     
     private lazy var saveToAlbumBtn = UIButton().then {
-        $0.imageView?.image = Gen.Images.download.image
+        $0.setImageAllState(Gen.Images.download.image)
+        $0.addTarget(self, action: #selector(saveImageAction), for: .touchUpInside)
     }
     
     private let lineImageView = UIImageView().then {
@@ -70,19 +77,22 @@ class RegistUploadCompleteViewController: UIViewController, View {
     
     // MARK: private property
     
+    private let thisMonthRegistCnt: Int
+    
     // MARK: internal property
     
     var disposeBag: DisposeBag = DisposeBag()
     
     // MARK: life cycle
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    init(reactor: RegistReactor) {
+    init(reactor: RegistReactor, thisMonthRegistCnt: Int) {
+        self.thisMonthRegistCnt = thisMonthRegistCnt
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -111,9 +121,16 @@ class RegistUploadCompleteViewController: UIViewController, View {
             $0.width.equalTo(self.scrollView).priority(1000)
         }
         
+        self.mainContentsView.addSubview(self.closeBtn)
+        self.closeBtn.snp.makeConstraints {
+            $0.top.equalTo(self.mainContentsView)
+            $0.trailing.equalTo(self.mainContentsView).offset(-20)
+            $0.width.height.equalTo(36)
+        }
+        
         self.mainContentsView.addSubview(self.titleLabel)
         self.titleLabel.snp.makeConstraints {
-            $0.top.equalTo(self.mainContentsView).offset(14)
+            $0.top.equalTo(self.closeBtn.snp.bottom).offset(14)
             $0.leading.trailing.equalTo(self.mainContentsView)
         }
         
@@ -123,40 +140,41 @@ class RegistUploadCompleteViewController: UIViewController, View {
             $0.leading.trailing.equalTo(self.mainContentsView)
         }
         
-//        self.mainContentsView.addSubview(self.buttonContainerView)
-//        self.buttonContainerView.snp.makeConstraints {
-//            $0.top.equalTo(self.subTitleLabel.snp.bottom).offset(28)
-//            $0.centerX.equalTo(self.mainContentsView)
-//        }
-//        
-//        self.buttonContainerView.addSubview(self.saveToAlbumBtn)
-//        self.saveToAlbumBtn.snp.makeConstraints {
-//            $0.top.leading.bottom.equalTo(self.buttonContainerView)
-//            $0.width.height.equalTo(56)
-//        }
-//        
-//        self.buttonContainerView.addSubview(self.shareInstagramBtn)
-//        self.shareInstagramBtn.snp.makeConstraints {
-//            $0.centerY.equalTo(self.saveToAlbumBtn)
-//            $0.leading.equalTo(self.saveToAlbumBtn.snp.trailing).offset(20)
-//            $0.trailing.equalTo(self.buttonContainerView)
-//        }
-//        
-//        self.mainContentsView.addSubview(self.lineImageView)
-//        self.lineImageView.snp.makeConstraints {
-//            $0.top.equalTo(self.buttonContainerView.snp.bottom).offset(55)
-//            $0.leading.trailing.equalTo(self.mainContentsView)
-//            $0.height.equalTo(1)
-//        }
-//        
-//        self.mainContentsView.addSubview(self.ticketImageView)
-//        self.ticketImageView.snp.makeConstraints {
-//            $0.top.equalTo(self.lineImageView.snp.bottom).offset(49)
-//            $0.centerY.equalTo(self.mainContentsView)
-//            $0.width.equalTo(175)
-//            $0.height.equalTo(294)
-//            $0.bottom.equalTo(self.mainContentsView.snp.bottom).offset(20)
-//        }
+        self.mainContentsView.addSubview(self.buttonContainerView)
+        self.buttonContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.subTitleLabel.snp.bottom).offset(28)
+            $0.centerX.equalTo(self.mainContentsView)
+        }
+        
+        self.buttonContainerView.addSubview(self.saveToAlbumBtn)
+        self.saveToAlbumBtn.snp.makeConstraints {
+            $0.top.leading.bottom.equalTo(self.buttonContainerView)
+            $0.width.height.equalTo(56)
+        }
+        
+        self.buttonContainerView.addSubview(self.shareInstagramBtn)
+        self.shareInstagramBtn.snp.makeConstraints {
+            $0.centerY.equalTo(self.saveToAlbumBtn)
+            $0.leading.equalTo(self.saveToAlbumBtn.snp.trailing).offset(20)
+            $0.trailing.equalTo(self.buttonContainerView)
+            $0.width.height.equalTo(56)
+        }
+        
+        self.mainContentsView.addSubview(self.lineImageView)
+        self.lineImageView.snp.makeConstraints {
+            $0.top.equalTo(self.buttonContainerView.snp.bottom).offset(55)
+            $0.leading.trailing.equalTo(self.mainContentsView)
+            $0.height.equalTo(1)
+        }
+        
+        self.mainContentsView.addSubview(self.ticketImageView)
+        self.ticketImageView.snp.makeConstraints {
+            $0.top.equalTo(self.lineImageView.snp.bottom).offset(49)
+            $0.centerX.equalTo(self.mainContentsView)
+            $0.width.equalTo(175)
+            $0.height.equalTo(294)
+            $0.bottom.equalTo(self.mainContentsView.snp.bottom).offset(-20)
+        }
         
     }
     
@@ -173,6 +191,18 @@ class RegistUploadCompleteViewController: UIViewController, View {
     }
     
     // MARK: private func
+    
+    @objc private func close() {
+        self.reactor?.action.onNext(.registIsComplete)
+    }
+    
+    @objc private func shareInstagramAction() {
+        self.reactor?.action.onNext(.shareInstagram)
+    }
+    
+    @objc private func saveImageAction() {
+        self.reactor?.action.onNext(.savaImageToAlbum)
+    }
     
     // MARK: internal func
     

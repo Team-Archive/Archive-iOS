@@ -110,5 +110,9 @@ class RegistUsecase: NSObject {
             }
     }
     
+    func getThisMonthRegistCnt() -> Observable<Result<Int, ArchiveError>> {
+        return self.repository.getThisMonthRegistCnt()
+    }
+    
     
 }

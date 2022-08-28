@@ -66,4 +66,8 @@ class RegistRepositoryImplement: RegistRepositoty {
             }
     }
     
+    func getThisMonthRegistCnt() -> Observable<Result<Int, ArchiveError>> {
+        return .just(.success(3))
+    }
+    
 }

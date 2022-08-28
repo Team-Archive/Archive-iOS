@@ -39,12 +39,13 @@ class RegistFlow: Flow {
         self.rootViewController.present(vc, animated: false)
     }
     
-    private func registCompleteShow() {
+    private func registCompleteShow(thisMonthRegistCnt: Int) {
         if let registUploadViewController = registUploadViewController {
             let reactor = self.reactor
             registUploadViewController.stopAnimation()
             registUploadViewController.dismiss(animated: false, completion: { [weak self] in
-                let vc = RegistUploadCompleteViewController(reactor: reactor)
+                let vc = RegistUploadCompleteViewController(reactor: reactor,
+                                                            thisMonthRegistCnt: thisMonthRegistCnt)
                 vc.modalPresentationStyle = .fullScreen
                 self?.rootViewController.present(vc, animated: false)
             })
@@ -66,8 +67,8 @@ class RegistFlow: Flow {
         case .registUploadIsRequired:
             registUploadShow()
             return .none
-        case .registCompleteIsRequired:
-            registCompleteShow()
+        case .registCompleteIsRequired(let cnt):
+            registCompleteShow(thisMonthRegistCnt: cnt)
             return .none
         default:
             return .none

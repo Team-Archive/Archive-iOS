@@ -60,7 +60,7 @@ enum ArchiveStep: Step {
     case registIsRequired
     case registUploadIsRequired
     case registUploadIsComplete
-    case registCompleteIsRequired
+    case registCompleteIsRequired(thisMonthRegistCnt: Int)
     case registIsComplete
     
     // Record

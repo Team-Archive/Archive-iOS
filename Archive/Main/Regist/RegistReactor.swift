@@ -40,6 +40,9 @@ class RegistReactor: Reactor, Stepper {
         case clearPhotoContents
         case requestPhotoAccessAuth
         case regist
+        case shareInstagram
+        case savaImageToAlbum
+        case registIsComplete
     }
     
     enum Mutation {
@@ -163,22 +166,48 @@ class RegistReactor: Reactor, Stepper {
                 err.onNext(.init(.archiveDataIsInvalue))
                 return .just(.empty)
             }
-            return self.registUsecase.regist(name: name,
-                                             watchedOn: visitDate,
-                                             companions: friendsToFriendsArr(self.currentState.friends),
-                                             emotion: emotion.rawStringValue,
-                                             images: self.currentState.imageInfo.images,
-                                             imageContents: self.currentState.photoContents,
-                                             isPublic: self.currentState.isPublic)
-            .map { [weak self] result in
-                switch result {
-                case .success(_):
-                    self?.steps.accept(ArchiveStep.registCompleteIsRequired)
-                case .failure(let err):
-                    self?.err.onNext(err)
+            let registObservable = self.registUsecase.regist(name: name,
+                                                             watchedOn: visitDate,
+                                                             companions: friendsToFriendsArr(self.currentState.friends),
+                                                             emotion: emotion.rawStringValue,
+                                                             images: self.currentState.imageInfo.images,
+                                                             imageContents: self.currentState.photoContents,
+                                                             isPublic: self.currentState.isPublic)
+                .map { [weak self] result -> RegistReactor.Mutation in
+                    switch result {
+                    case .success(_):
+                        break
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
                 }
+            let getThisMonthRegistCountObservable = self.registUsecase.getThisMonthRegistCnt()
+                .map { result -> Result<Int, ArchiveError> in
+                    switch result {
+                    case .success(let cnt):
+                        return .success(cnt)
+                    case .failure(let err):
+                        return .failure(err)
+                    }
+                }
+            return Observable.zip(registObservable, getThisMonthRegistCountObservable).map { [weak self] result -> RegistReactor.Mutation in
+                var thisMonthRegistCnt: Int = 0
+                switch result.1 {
+                case .success(let cnt):
+                    thisMonthRegistCnt = cnt
+                case .failure(_): // 오류처리 안함
+                    break
+                }
+                self?.steps.accept(ArchiveStep.registCompleteIsRequired(thisMonthRegistCnt: thisMonthRegistCnt))
                 return .empty
             }
+        case .shareInstagram:
+            return .empty()
+        case .savaImageToAlbum:
+            return .empty()
+        case .registIsComplete:
+            return .empty()
         }
     }
     

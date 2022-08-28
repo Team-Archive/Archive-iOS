@@ -10,6 +10,7 @@ import RxSwift
 protocol RegistRepositoty {
     func uploadImages(_ images: [UIImage]) -> Observable<Result<[String], ArchiveError>>
     func regist(info: RecordData) -> Observable<Result<Void, ArchiveError>>
+    func getThisMonthRegistCnt() -> Observable<Result<Int, ArchiveError>>
 }
 
 struct UploadImageInfo {
