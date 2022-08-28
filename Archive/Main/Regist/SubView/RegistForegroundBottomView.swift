@@ -22,7 +22,7 @@ class RegistForegroundBottomView: UIView {
     private let helpTitleLabel = UILabel().then {
         $0.font = .fonts(.subTitle)
         $0.textColor = Gen.Colors.black.color
-        $0.text = "무슨 전시를 감상했나요?"
+        $0.text = "무슨 전시를 감상했나요?*"
     }
     
     private lazy var titlePlaceHolderLabel = UILabel().then {
@@ -34,10 +34,13 @@ class RegistForegroundBottomView: UIView {
         $0.addGestureRecognizer(taps)
     }
     
-    private let titleLabel = UILabel().then {
+    private lazy var titleLabel = UILabel().then {
         $0.font = .fonts(.header2)
         $0.textColor = Gen.Colors.black.color
         $0.numberOfLines = 2
+        $0.isUserInteractionEnabled = true
+        let taps = UITapGestureRecognizer(target: self, action: #selector(self.regist(_:)))
+        $0.addGestureRecognizer(taps)
     }
     
     private let underLineView = UIView().then {

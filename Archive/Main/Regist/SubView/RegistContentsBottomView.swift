@@ -12,7 +12,7 @@ import RxSwift
 import RxCocoa
 
 @objc protocol RegistContentsBottomViewDelegate: AnyObject {
-    @objc optional func confrimedRegistContents(text: String)
+    @objc optional func confrimedRegistContents(text: String, index: Int)
 }
 
 class RegistContentsBottomView: UIView {
@@ -33,6 +33,7 @@ class RegistContentsBottomView: UIView {
     // MARK: property
     
     weak var delegate: RegistContentsBottomViewDelegate?
+    var index: Int = 1
     
     // MARK: private Property
     
@@ -73,10 +74,18 @@ class RegistContentsBottomView: UIView {
     }
     
     @objc private func titleTextViewDone() {
-        self.delegate?.confrimedRegistContents?(text: self.textView.text)
+        self.delegate?.confrimedRegistContents?(text: self.textView.text, index: self.index)
     }
     
     // MARK: func
+    
+    func setContents(_ text: String) {
+        if text != "" {
+            self.textView.text = text
+        } else {
+            self.textView.clearText()
+        }
+    }
 
 }
 
@@ -103,10 +112,12 @@ extension Reactive where Base: RegistContentsBottomView {
         return RegistContentsBottomViewDelegateProxy.proxy(for: self.base)
     }
     
-    var confirmed: Observable<String> {
-        return delegate.methodInvoked(#selector(RegistContentsBottomViewDelegate.confrimedRegistContents(text:)))
+    var confirmed: Observable<(String, Int)> {
+        return delegate.methodInvoked(#selector(RegistContentsBottomViewDelegate.confrimedRegistContents(text:index:)))
             .map { result in
-                return result[0] as? String ?? ""
+                let contents = result[0] as? String ?? ""
+                let index = result[1] as? Int ?? 1
+                return (contents, index)
             }
     }
 }

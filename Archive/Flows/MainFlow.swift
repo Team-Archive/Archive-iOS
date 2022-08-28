@@ -132,28 +132,14 @@ final class MainFlow: Flow {
         self.rootViewController.navigationBar.topItem?.rightBarButtonItems = nil
     }
     
-//    private func moveToRecordFlow() -> FlowContributors {
-//        let reactor = RecordReactor(model: RecordModel())
-//        let vc: RecordViewController = recordStoryBoard.instantiateViewController(identifier: RecordViewController.identifier) { corder in
-//            return RecordViewController(coder: corder, reactor: reactor)
-//        }
-//        let navi = UINavigationController(rootViewController: vc)
-//        let recordFlow = RecordFlow(rootViewController: navi, recordViewController: vc)
-//        navi.viewControllers = [vc]
-//        navi.modalPresentationStyle = .fullScreen
-//        self.rootViewController.present(navi, animated: true)
-//        return .one(flowContributor: .contribute(withNextPresentable: recordFlow,
-//                                                 withNextStepper: reactor))
-//    }
-    
-    private func moveToRecordFlow() -> FlowContributors {
-        let reactor = RegistReactor()
+    private func moveToRegistFlow() -> FlowContributors {
+        let reactor = RegistReactor(uploadImageRepository: UploadImageRepositoryImplement())
         let vc: RegistViewController = RegistViewController(reactor: reactor)
         let navi = UINavigationController(rootViewController: vc)
-        let recordFlow = RecordFlow(rootViewController: navi, registViewController: vc)
+        let registFlow = RegistFlow(rootViewController: navi, reacoter: reactor)
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController.present(navi, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: recordFlow,
+        return .one(flowContributor: .contribute(withNextPresentable: registFlow,
                                                  withNextStepper: reactor))
     }
     
@@ -173,14 +159,9 @@ final class MainFlow: Flow {
             } else {
                 return .none
             }
-        case .recordIsRequired:
+        case .registIsRequired:
             GAModule.sendEventLogToGA(.startRegistArchive)
-            return moveToRecordFlow()
-        case .recordClose:
-            return .none
-        case .recordComplete:
-            NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
-            return .none
+            return moveToRegistFlow()
         case .communityIsRequired:
             if self.currentTabFlow != .community {
                 print("communityIsRequired")

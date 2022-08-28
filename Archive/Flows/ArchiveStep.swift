@@ -56,6 +56,13 @@ enum ArchiveStep: Step {
     case myLikeListIsRequired(reactor: MyPageReactor)
     case editProfileIsRequired(reactor: MyPageReactor)
     
+    // Regist
+    case registIsRequired
+    case registUploadIsRequired
+    case registUploadIsComplete
+    case registCompleteIsRequired(thisMonthRegistCnt: Int)
+    case registIsComplete
+    
     // Record
     case recordIsRequired
     case recordEmotionEditIsRequired(Emotion?)

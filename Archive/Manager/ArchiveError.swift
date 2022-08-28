@@ -15,6 +15,8 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case invaldData // 데이터가 유효하지 않음
     case publicArchiveIsRefreshed // 데이터가 초기화된듯
     case publicArchiveIsEndOfPage // 페이지의 끝임
+    case photoAuth // 사진접근권한이 없음
+    case selfIsNull // self == null
     
     case archiveOAuthError = 11000
     case unexpectedAppleSignIn = 11100 // 에러는 발생하지 않았지만 애플로그인 이상함
@@ -25,6 +27,10 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
     case responseHeaderIsNull // 헤더 존재하지 않음
     case loginTokenIsNull // 로그인 토큰이 존재하지않음
+    
+    case imageUploadCntFail // 이미지가 다 업로드 되지 않은듯
+    case imageUploadFail // 이미지 Url이 없음
+    case archiveDataIsInvalue // 아카이브 등록 데이터 이상함.. 버그인듯
 }
 
 enum ErrorFrom {
@@ -98,6 +104,16 @@ class ArchiveError: Error {
             returnValue = "데이터 오류"
         case .publicArchiveIsEndOfPage:
             returnValue = "더 이상 공개된 카드가 없어요 😭"
+        case .photoAuth:
+            returnValue = "티켓 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다."
+        case .imageUploadCntFail:
+            returnValue = "이미지 업로드 오류"
+        case .imageUploadFail:
+            returnValue = "이미지 업로드 오류"
+        case .selfIsNull:
+            returnValue = "오류"
+        case .archiveDataIsInvalue:
+            returnValue = "오류"
         }
         return returnValue
     }
