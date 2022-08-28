@@ -222,6 +222,7 @@
 		78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */; };
 		78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */; };
 		78D58B0E28BB4ADF00AF3191 /* RegistFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */; };
+		78D58B1128BB51BF00AF3191 /* RegistUploadCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1028BB51BF00AF3191 /* RegistUploadCompleteViewController.swift */; };
 		78D5B96D28B6732700E7C2D4 /* ExplainToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */; };
 		78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */; };
 		78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */; };
@@ -476,6 +477,7 @@
 		78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveProgressBar.swift; sourceTree = "<group>"; };
 		78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUploadViewController.swift; sourceTree = "<group>"; };
 		78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistFlow.swift; sourceTree = "<group>"; };
+		78D58B1028BB51BF00AF3191 /* RegistUploadCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUploadCompleteViewController.swift; sourceTree = "<group>"; };
 		78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainToggleView.swift; sourceTree = "<group>"; };
 		78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorUsecase.swift; sourceTree = "<group>"; };
 		78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThemeColorExtraction.swift; sourceTree = "<group>"; };
@@ -1046,6 +1048,7 @@
 				78BAF74A28AA169000641250 /* SubViewController */,
 				78C8802F28A945BA00922C8D /* SubView */,
 				78D58B0A28BB498A00AF3191 /* Upload */,
+				78D58B0F28BB517E00AF3191 /* UploadComplete */,
 				78657BCC28A5498D00549D12 /* RegistViewController.swift */,
 				78657BCB28A5498D00549D12 /* RegistReactor.swift */,
 			);
@@ -1369,6 +1372,14 @@
 				78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */,
 			);
 			path = Upload;
+			sourceTree = "<group>";
+		};
+		78D58B0F28BB517E00AF3191 /* UploadComplete */ = {
+			isa = PBXGroup;
+			children = (
+				78D58B1028BB51BF00AF3191 /* RegistUploadCompleteViewController.swift */,
+			);
+			path = UploadComplete;
 			sourceTree = "<group>";
 		};
 		78D5F4FD28B118E500C2B271 /* ImageColorUsecase */ = {
@@ -1792,6 +1803,7 @@
 				78657BCE28A5498D00549D12 /* RegistViewController.swift in Sources */,
 				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
+				78D58B1128BB51BF00AF3191 /* RegistUploadCompleteViewController.swift in Sources */,
 				78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */,
 				448936AA2708401500EA423A /* SignInReactor.swift in Sources */,
 				44F9B0E1270606E7005418F0 /* AppDelegate.swift in Sources */,
