@@ -220,6 +220,8 @@
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
 		78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D31DF0288460CF000D81BE /* CommonWebViewController.swift */; };
 		78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */; };
+		78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */; };
+		78D58B0E28BB4ADF00AF3191 /* RegistFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */; };
 		78D5B96D28B6732700E7C2D4 /* ExplainToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */; };
 		78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */; };
 		78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */; };
@@ -472,6 +474,8 @@
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
 		78D31DF0288460CF000D81BE /* CommonWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewController.swift; sourceTree = "<group>"; };
 		78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveProgressBar.swift; sourceTree = "<group>"; };
+		78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUploadViewController.swift; sourceTree = "<group>"; };
+		78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistFlow.swift; sourceTree = "<group>"; };
 		78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainToggleView.swift; sourceTree = "<group>"; };
 		78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorUsecase.swift; sourceTree = "<group>"; };
 		78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThemeColorExtraction.swift; sourceTree = "<group>"; };
@@ -645,6 +649,7 @@
 				781C8443282F8B2E004A0FB3 /* SplashFlow.swift */,
 				44FB0A08271832E9006E1048 /* OnboardingFlow.swift */,
 				781C842A282F6201004A0FB3 /* MainFlow.swift */,
+				78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */,
 				781C842C282F621A004A0FB3 /* TabFlows */,
 			);
 			path = Flows;
@@ -1040,6 +1045,7 @@
 			children = (
 				78BAF74A28AA169000641250 /* SubViewController */,
 				78C8802F28A945BA00922C8D /* SubView */,
+				78D58B0A28BB498A00AF3191 /* Upload */,
 				78657BCC28A5498D00549D12 /* RegistViewController.swift */,
 				78657BCB28A5498D00549D12 /* RegistReactor.swift */,
 			);
@@ -1355,6 +1361,14 @@
 				78027CEE28B4FC450096B400 /* RegistBehindView.swift */,
 			);
 			path = SubView;
+			sourceTree = "<group>";
+		};
+		78D58B0A28BB498A00AF3191 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */,
+			);
+			path = Upload;
 			sourceTree = "<group>";
 		};
 		78D5F4FD28B118E500C2B271 /* ImageColorUsecase */ = {
@@ -1685,6 +1699,7 @@
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
 				789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */,
+				78D58B0E28BB4ADF00AF3191 /* RegistFlow.swift in Sources */,
 				78D5F50628B1249F00C2B271 /* PlaceHolderTextView.swift in Sources */,
 				78B872EC2726F32E009EFB54 /* ContentsRecordViewController.swift in Sources */,
 				78E3582428955F1200DB1974 /* MyPageRepositoryImplement.swift in Sources */,
@@ -1809,6 +1824,7 @@
 				780389E627898A0D00DB1730 /* PhotoRecordCollectionViewCell.swift in Sources */,
 				78212326273F838A007DEC28 /* RecordUploadViewController.swift in Sources */,
 				44922DCA2719E64200A5EA2B /* DefaultButton.swift in Sources */,
+				78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */,
 				78557A2A272ECFC800C5BD62 /* UIDeviceExtension.swift in Sources */,
 				78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */,
 				789E61B92725817900D6E18F /* NibIdentifiable.swift in Sources */,

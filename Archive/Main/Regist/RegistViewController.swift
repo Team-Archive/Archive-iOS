@@ -555,8 +555,7 @@ class RegistViewController: UIViewController, View {
     
     @objc private func confirmAction(_ sender: UIButton) {
         if self.mainContentsView.currentFlipType == .foreground {
-            // TODO: 등록하기
-            print("test")
+            self.reactor?.action.onNext(.regist)
         } else {
             self.mainContentsView.flip(complition: { [weak self] in
                 self?.view.endEditing(true)

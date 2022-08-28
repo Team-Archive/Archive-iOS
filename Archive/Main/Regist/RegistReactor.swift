@@ -37,6 +37,7 @@ class RegistReactor: Reactor, Stepper {
         case setPhotoContents(index: Int, contents: String)
         case clearPhotoContents
         case requestPhotoAccessAuth
+        case regist
     }
     
     enum Mutation {
@@ -150,6 +151,9 @@ class RegistReactor: Reactor, Stepper {
             self.checkPhotoAuth(completion: { [weak self] in
                 self?.photoAccessAuthSuccess.onNext(())
             })
+            return .empty()
+        case .regist:
+            self.steps.accept(ArchiveStep.registUploadIsRequired)
             return .empty()
         }
     }
