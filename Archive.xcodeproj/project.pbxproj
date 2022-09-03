@@ -77,6 +77,7 @@
 		7824796228B09F0C003E71A2 /* RegistImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */; };
 		7824796428B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */; };
 		7824796628B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */; };
+		7825934B28C3145200BB9814 /* Spring in Frameworks */ = {isa = PBXBuildFile; productRef = 7825934A28C3145200BB9814 /* Spring */; };
 		782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */; };
 		782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */; };
 		782FDF3F272CF9CC004D1B6E /* ImageSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */; };
@@ -531,6 +532,7 @@
 				787475A7281C143D00BA0C15 /* FirebaseMessaging in Frameworks */,
 				7874759F281C143D00BA0C15 /* FirebaseAnalytics in Frameworks */,
 				A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */,
+				7825934B28C3145200BB9814 /* Spring in Frameworks */,
 				787475A5281C143D00BA0C15 /* FirebaseCrashlytics in Frameworks */,
 				787475A1281C143D00BA0C15 /* FirebaseAppDistribution-Beta in Frameworks */,
 				787475A3281C143D00BA0C15 /* FirebaseAuth in Frameworks */,
@@ -1527,6 +1529,7 @@
 				787475A2281C143D00BA0C15 /* FirebaseAuth */,
 				787475A4281C143D00BA0C15 /* FirebaseCrashlytics */,
 				787475A6281C143D00BA0C15 /* FirebaseMessaging */,
+				7825934A28C3145200BB9814 /* Spring */,
 			);
 			productName = Archive;
 			productReference = 44F9B0DD270606E7005418F0 /* Archive.app */;
@@ -1584,6 +1587,7 @@
 			mainGroup = 44F9B0D4270606E7005418F0;
 			packageReferences = (
 				7874759D281C143D00BA0C15 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				7825934928C3145100BB9814 /* XCRemoteSwiftPackageReference "Spring" */,
 			);
 			productRefGroup = 44F9B0DE270606E7005418F0 /* Products */;
 			projectDirPath = "";
@@ -2269,6 +2273,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7825934928C3145100BB9814 /* XCRemoteSwiftPackageReference "Spring" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/HanweeeeLee/Spring";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		7874759D281C143D00BA0C15 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -2280,6 +2292,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7825934A28C3145200BB9814 /* Spring */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7825934928C3145100BB9814 /* XCRemoteSwiftPackageReference "Spring" */;
+			productName = Spring;
+		};
 		7874759E281C143D00BA0C15 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7874759D281C143D00BA0C15 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
