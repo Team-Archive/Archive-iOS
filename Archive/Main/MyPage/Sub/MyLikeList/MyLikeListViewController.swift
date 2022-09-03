@@ -42,6 +42,10 @@ extension MyLikeArchiveSection: AnimatableSectionModelType {
     }
 }
 
+protocol MyLikeListViewControllerDelegate: MyLikeEmptyViewDelegate {
+    
+}
+
 class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, ActivityIndicatorableBasic {
     
     // MARK: UI property
@@ -69,6 +73,10 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         $0.collectionViewLayout = layout
     }
     
+    private lazy var emptyView = MyLikeEmptyView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+        $0.delegate = self
+    }
     
     // MARK: private property
     
@@ -87,9 +95,11 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     private var sections = BehaviorRelay<[MyLikeArchiveSection]>(value: [])
     
     private var refresher: UIRefreshControl?
+    private weak var headerView: MyLikeListLikeCountHeaderView?
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
+    weak var delegate: MyLikeListViewControllerDelegate?
     
     // MARK: lifeCycle
 
@@ -99,6 +109,10 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         collectionView.register(MyLikeListLikeCountHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier)
         setupDatasource()
         self.reactor?.action.onNext(.getMyLikeArchives)
+    }
+    
+    deinit {
+        print("\(self) deinit")
     }
     
     init(reactor: MyPageReactor) {
@@ -123,6 +137,12 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         self.mainContentsView.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints {
             $0.edges.equalTo(self.mainContentsView)
+        }
+        
+        self.mainContentsView.addSubview(self.emptyView)
+        self.emptyView.snp.makeConstraints {
+            $0.top.equalTo(self.mainContentsView).offset(60)
+            $0.leading.trailing.bottom.equalTo(self.mainContentsView)
         }
         
     }
@@ -173,7 +193,16 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] archives in
-                self?.sections.accept([MyLikeArchiveSection(items: archives)])
+                if archives.count > 0 {
+                    self?.collectionView.isUserInteractionEnabled = true
+                    self?.emptyView.isHidden = true
+                    self?.headerView?.totalCnt = archives.count
+                } else {
+                    self?.collectionView.isUserInteractionEnabled = false
+                    self?.emptyView.isHidden = false
+                    self?.sections.accept([MyLikeArchiveSection(items: archives)])
+                    self?.headerView?.totalCnt = 0
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -196,10 +225,6 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         
     }
     
-    deinit {
-        print("\(self) deinit")
-    }
-    
     // MARK: private func
     
     private func makeArhiveCell(_ archive: MyLikeArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
@@ -218,7 +243,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         dataSource.configureSupplementaryView = { (dataSource, collectionView, kind, indexPath) in
             if kind == UICollectionView.elementKindSectionHeader {
                 if let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier, for: indexPath) as? MyLikeListLikeCountHeaderView {
-                    
+                    self.headerView = section
                     return section
                 } else {
                     return UICollectionReusableView()
@@ -234,4 +259,12 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     // MARK: func
 
+}
+
+extension MyLikeListViewController: MyLikeEmptyViewDelegate {
+    func goToCommunity() {
+        self.navigationController?.popViewController(animated: true, completion: { [weak self] in
+            self?.delegate?.goToCommunity()
+        })
+    }
 }

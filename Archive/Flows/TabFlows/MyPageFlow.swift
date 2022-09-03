@@ -57,6 +57,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     
     private func navigationToMyLikeListScreen(reactor: MyPageReactor) {
         let vc = MyLikeListViewController(reactor: reactor)
+        vc.delegate = self
         vc.title = "좋아요 한 전시기록"
         rootViewController?.pushViewController(vc, animated: true)
     }
@@ -102,4 +103,10 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         }
     }
     
+}
+
+extension MyPageFlow: MyLikeListViewControllerDelegate { // 없어질지도?
+    func goToCommunity() {
+        print("dd")
+    }
 }

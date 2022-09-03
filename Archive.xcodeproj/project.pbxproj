@@ -240,6 +240,8 @@
 		78D5F50628B1249F00C2B271 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50528B1249F00C2B271 /* PlaceHolderTextView.swift */; };
 		78D8A67228798B02002E8445 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A67128798B02002E8445 /* FilterViewController.swift */; };
 		78D8A6762879CCF9002E8445 /* ArchiveFilterEmotionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */; };
+		78DB247C28C374D800CF5726 /* MyLikeEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB247B28C374D800CF5726 /* MyLikeEmptyView.swift */; };
+		78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DB247D28C37BD500CF5726 /* UINavigationControllerExtension.swift */; };
 		78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D03288307C30018773A /* MyArchiveUsecase.swift */; };
 		78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D04288307C30018773A /* MyArchiveRepositoryImplement.swift */; };
 		78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E00D05288307C30018773A /* MyArchiveRepository.swift */; };
@@ -502,6 +504,8 @@
 		78D5F50528B1249F00C2B271 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		78D8A67128798B02002E8445 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		78D8A6752879CCF9002E8445 /* ArchiveFilterEmotionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveFilterEmotionView.swift; sourceTree = "<group>"; };
+		78DB247B28C374D800CF5726 /* MyLikeEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeEmptyView.swift; sourceTree = "<group>"; };
+		78DB247D28C37BD500CF5726 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		78E00D03288307C30018773A /* MyArchiveUsecase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveUsecase.swift; sourceTree = "<group>"; };
 		78E00D04288307C30018773A /* MyArchiveRepositoryImplement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveRepositoryImplement.swift; sourceTree = "<group>"; };
 		78E00D05288307C30018773A /* MyArchiveRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyArchiveRepository.swift; sourceTree = "<group>"; };
@@ -1160,6 +1164,7 @@
 				78BB7E1D27788D8300DF78AF /* UIViewControllerExtension.swift */,
 				78486D6B27E6C974008448A7 /* ErrorExtension.swift */,
 				78E8E6362866FD3A00B18AD8 /* IntExtension.swift */,
+				78DB247D28C37BD500CF5726 /* UINavigationControllerExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1225,6 +1230,7 @@
 				789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */,
 				789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */,
 				786CE632289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift */,
+				78DB247B28C374D800CF5726 /* MyLikeEmptyView.swift */,
 			);
 			path = MyLikeList;
 			sourceTree = "<group>";
@@ -1837,6 +1843,7 @@
 				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
 				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
+				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,
@@ -1889,6 +1896,7 @@
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
 				78458D2A272C18BB00392B45 /* Util.swift in Sources */,
+				78DB247C28C374D800CF5726 /* MyLikeEmptyView.swift in Sources */,
 				786CE638289E469700D24266 /* EditProfileViewController.swift in Sources */,
 				44922DA72719B89200A5EA2B /* Validator.swift in Sources */,
 				784CFFD8274BBB770052B1EC /* ArchiveAPI.swift in Sources */,

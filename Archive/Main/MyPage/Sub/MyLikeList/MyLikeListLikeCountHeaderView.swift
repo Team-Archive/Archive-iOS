@@ -13,10 +13,12 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
     
     // MARK: UI property
     
-    private let contentsLabel = UILabel().then {
-        $0.font = .fonts(.header3)
-        $0.textColor = Gen.Colors.gray02.color
-        $0.text = "좋아요 한 전시기록"
+    private lazy var contentsLabel = UILabel().then {
+        $0.attributedText = "좋아요 한 전시기록  \(self.totalCnt)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
+                                                                           frontFont: .fonts(.header3),
+                                                                           frontTextColor: Gen.Colors.gray02.color,
+                                                                           rearFont: .fonts(.subTitle),
+                                                                           rearTextColor: Gen.Colors.gray01.color)
     }
     
     // MARK: private property
@@ -26,10 +28,10 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
     var totalCnt: Int = LikeManager.shared.likeList.count {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.contentsLabel.attributedText = "좋아요 한 전시기록 \(self?.totalCnt ?? 0)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
-                                                                                                          frontFont: .fonts(.subTitle),
+                self?.contentsLabel.attributedText = "좋아요 한 전시기록  \(self?.totalCnt ?? 0)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
+                                                                                                          frontFont: .fonts(.header3),
                                                                                                           frontTextColor: Gen.Colors.gray02.color,
-                                                                                                          rearFont: .fonts(.header3),
+                                                                                                          rearFont: .fonts(.subTitle),
                                                                                                           rearTextColor: Gen.Colors.gray01.color)
             }
         }
