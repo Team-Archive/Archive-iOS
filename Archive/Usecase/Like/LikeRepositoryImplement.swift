@@ -9,37 +9,36 @@ import RxSwift
 
 class LikeRepositoryImplement: LikeRepository {
     
-    func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        print("좋아요 API 호출")
+    func like(idList: [String]) -> Observable<Result<Void, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.like(archiveId: archiveId), callbackQueue: DispatchQueue.global())
-        .asObservable()
-        .map { result in
-            if result.statusCode == 200 {
-                return .success(())
-            } else {
-                return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+        return provider.rx.request(.like(archiveIdList: idList), callbackQueue: DispatchQueue.global())
+            .asObservable()
+            .map { result in
+                if result.statusCode == 200 {
+                    return .success(())
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
             }
-        }
-        .catch { err in
-            return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
-        }
+            .catch { err in
+                return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
+            }
     }
     
-    func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        print("좋아요 취소 API 호출")
+    func likeCancel(idList: [String]) -> Observable<Result<Void, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.unlike(archiveId: archiveId), callbackQueue: DispatchQueue.global())
-        .asObservable()
-        .map { result in
-            if result.statusCode == 200 {
-                return .success(())
-            } else {
-                return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+        return provider.rx.request(.unlike(archiveIdList: idList), callbackQueue: DispatchQueue.global())
+            .asObservable()
+            .map { result in
+                if result.statusCode == 200 {
+                    return .success(())
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
             }
-        }
-        .catch { err in
-            return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
-        }
+            .catch { err in
+                return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
+            }
     }
+    
 }

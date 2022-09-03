@@ -78,6 +78,9 @@
 		7824796428B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */; };
 		7824796628B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */; };
 		7825934B28C3145200BB9814 /* Spring in Frameworks */ = {isa = PBXBuildFile; productRef = 7825934A28C3145200BB9814 /* Spring */; };
+		7825935128C3189500BB9814 /* LikeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7825934D28C3189500BB9814 /* LikeManager.swift */; };
+		7825935628C3193300BB9814 /* LikeUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7825935428C3193300BB9814 /* LikeUsecase.swift */; };
+		7825935728C3193300BB9814 /* LikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7825935528C3193300BB9814 /* LikeRepository.swift */; };
 		782FDF3B272CF9B6004D1B6E /* ImageSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */; };
 		782FDF3D272CF9C3004D1B6E /* ImageSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */; };
 		782FDF3F272CF9CC004D1B6E /* ImageSelectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */; };
@@ -249,8 +252,6 @@
 		78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */; };
 		78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E6362866FD3A00B18AD8 /* IntExtension.swift */; };
 		78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63828671E6900B18AD8 /* LikeButton.swift */; };
-		78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63B2867399A00B18AD8 /* LikeUsecase.swift */; };
-		78E8E63E286739A100B18AD8 /* LikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63D286739A100B18AD8 /* LikeRepository.swift */; };
 		78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E8E63F286739AA00B18AD8 /* LikeRepositoryImplement.swift */; };
 		78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */; };
 		78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */; };
@@ -343,6 +344,9 @@
 		7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageAddCollectionViewCell.swift; sourceTree = "<group>"; };
 		7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCoverCollectionViewCell.swift; sourceTree = "<group>"; };
+		7825934D28C3189500BB9814 /* LikeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeManager.swift; sourceTree = "<group>"; };
+		7825935428C3193300BB9814 /* LikeUsecase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeUsecase.swift; sourceTree = "<group>"; };
+		7825935528C3193300BB9814 /* LikeRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikeRepository.swift; sourceTree = "<group>"; };
 		782FDF3A272CF9B6004D1B6E /* ImageSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectViewController.swift; sourceTree = "<group>"; };
 		782FDF3C272CF9C3004D1B6E /* ImageSelectReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectReactor.swift; sourceTree = "<group>"; };
 		782FDF3E272CF9CC004D1B6E /* ImageSelectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSelectModel.swift; sourceTree = "<group>"; };
@@ -510,8 +514,6 @@
 		78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityCollectionViewCell.swift; sourceTree = "<group>"; };
 		78E8E6362866FD3A00B18AD8 /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
 		78E8E63828671E6900B18AD8 /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
-		78E8E63B2867399A00B18AD8 /* LikeUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeUsecase.swift; sourceTree = "<group>"; };
-		78E8E63D286739A100B18AD8 /* LikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeRepository.swift; sourceTree = "<group>"; };
 		78E8E63F286739AA00B18AD8 /* LikeRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeRepositoryImplement.swift; sourceTree = "<group>"; };
 		78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBtn.swift; sourceTree = "<group>"; };
@@ -956,6 +958,7 @@
 				78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */,
 				780389DA27895AC200DB1730 /* AppConfigManager.swift */,
 				78486D6927E6C62A008448A7 /* ArchiveError.swift */,
+				7825934D28C3189500BB9814 /* LikeManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1475,8 +1478,8 @@
 		78E8E63A2867399000B18AD8 /* Like */ = {
 			isa = PBXGroup;
 			children = (
-				78E8E63B2867399A00B18AD8 /* LikeUsecase.swift */,
-				78E8E63D286739A100B18AD8 /* LikeRepository.swift */,
+				7825935428C3193300BB9814 /* LikeUsecase.swift */,
+				7825935528C3193300BB9814 /* LikeRepository.swift */,
 				78E8E63F286739AA00B18AD8 /* LikeRepositoryImplement.swift */,
 			);
 			path = Like;
@@ -1742,9 +1745,9 @@
 				78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */,
 				7830103A2882A2850031F8CB /* BannerUsecase.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
-				78E8E63C2867399A00B18AD8 /* LikeUsecase.swift in Sources */,
 				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
+				7825935628C3193300BB9814 /* LikeUsecase.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
 				789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */,
@@ -1836,12 +1839,12 @@
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
-				78E8E63E286739A100B18AD8 /* LikeRepository.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,
 				44BE6F07271144BF00E74A7D /* SignUpReactor.swift in Sources */,
 				782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */,
 				78657BCE28A5498D00549D12 /* RegistViewController.swift in Sources */,
 				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
+				7825935128C3189500BB9814 /* LikeManager.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
 				78D58B1128BB51BF00AF3191 /* RegistUploadCompleteViewController.swift in Sources */,
 				78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */,
@@ -1882,6 +1885,7 @@
 				789E61B92725817900D6E18F /* NibIdentifiable.swift in Sources */,
 				78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */,
 				7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */,
+				7825935728C3193300BB9814 /* LikeRepository.swift in Sources */,
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
 				78458D2A272C18BB00392B45 /* Util.swift in Sources */,

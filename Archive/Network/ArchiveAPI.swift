@@ -23,8 +23,8 @@ enum ArchiveAPI {
     case sendTempPassword(email: String)
     case changePassword(eMail: String, beforePassword: String, newPassword: String)
     case getPublicArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
-    case like(archiveId: Int)
-    case unlike(archiveId: Int)
+    case like(archiveIdList: [String])
+    case unlike(archiveIdList: [String])
     case getBanner
     case getThisMonthRegistArchiveCnt
 }
@@ -79,10 +79,10 @@ extension ArchiveAPI: TargetType {
             return "api/v1/auth/password/reset"
         case .getPublicArchives:
             return "/api/v2/archive/community"
-        case .like(let archiveId):
-            return "/api/v2/archive/\(archiveId)/like"
-        case .unlike(let archiveId):
-            return "/api/v2/archive/\(archiveId)/like"
+        case .like:
+            return "/api/v2/archive/like"
+        case .unlike:
+            return "/api/v2/archive/like"
         case .getBanner:
             return "/api/v2/banner"
         case .getThisMonthRegistArchiveCnt:
@@ -192,10 +192,10 @@ extension ArchiveAPI: TargetType {
                 return returnValue
             }()
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .like:
-            return .requestPlain
-        case .unlike:
-            return .requestPlain
+        case .like(let list):
+            return .requestParameters(parameters: ["archiveIds": list], encoding: JSONEncoding.default)
+        case .unlike(let list):
+            return .requestParameters(parameters: ["archiveIds": list], encoding: JSONEncoding.default)
         case .getBanner:
             return .requestPlain
         case .getThisMonthRegistArchiveCnt:

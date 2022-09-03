@@ -1,11 +1,12 @@
 //
 //  LikeUsecase.swift
-//  Archive
+//  Like
 //
-//  Created by hanwe on 2022/06/25.
+//  Created by Hanwe LEE on 2022/08/30.
 //
 
 import RxSwift
+import Foundation
 
 class LikeUsecase: NSObject {
     
@@ -13,7 +14,7 @@ class LikeUsecase: NSObject {
     
     private let repository: LikeRepository
     
-    // MARK: internal property
+    // MARK: property
     
     // MARK: lifeCycle
     
@@ -21,18 +22,17 @@ class LikeUsecase: NSObject {
         self.repository = repository
     }
     
-    // MARK: private function
+    // MARK: private func
     
-    // MARK: internal function
+    // MARK: func
     
-    func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        return self.repository.like(archiveId: archiveId)
+    
+    func like(idList: [String]) -> Observable<Result<Void, ArchiveError>> {
+        return self.repository.like(idList: idList)
     }
     
-    func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        return self.repository.unlike(archiveId: archiveId)
+    func likeCancel(idList: [String]) -> Observable<Result<Void, ArchiveError>> {
+        return self.repository.likeCancel(idList: idList)
     }
     
-    // MARK: action
-
 }
