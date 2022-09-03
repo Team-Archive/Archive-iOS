@@ -29,21 +29,17 @@ extension MyLikeHeaderSection: AnimatableSectionModelType {
 }
 
 struct MyLikeArchiveSection {
-    var items: [MyLikeArchive]
+    var items: [PublicArchive]
     var identity: Int {
         return 0
     }
 }
 
 extension MyLikeArchiveSection: AnimatableSectionModelType {
-    init(original: MyLikeArchiveSection, items: [MyLikeArchive]) {
+    init(original: MyLikeArchiveSection, items: [PublicArchive]) {
         self = original
         self.items = items
     }
-}
-
-protocol MyLikeListViewControllerDelegate: MyLikeEmptyViewDelegate {
-    
 }
 
 class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, ActivityIndicatorableBasic {
@@ -84,8 +80,8 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     private lazy var dataSource: ArchiveSectionDataSource = {
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
-        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { datasource, collectionView, indexPath, item in
-            var cell = self.makeArhiveCell(item, from: collectionView, indexPath: indexPath)
+        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { [weak self] datasource, collectionView, indexPath, item in
+            guard let cell = self?.makeArhiveCell(item, from: collectionView, indexPath: indexPath) else { return UICollectionViewCell() }
             
             return cell
         }
@@ -99,7 +95,6 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
-    weak var delegate: MyLikeListViewControllerDelegate?
     
     // MARK: lifeCycle
 
@@ -227,7 +222,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     // MARK: private func
     
-    private func makeArhiveCell(_ archive: MyLikeArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLikeCollectionViewCell.identifier, for: indexPath) as? MyLikeCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
         return cell
@@ -240,10 +235,10 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     private func setupDatasource() {
         self.collectionView.dataSource = nil
-        dataSource.configureSupplementaryView = { (dataSource, collectionView, kind, indexPath) in
+        dataSource.configureSupplementaryView = { [weak self] (dataSource, collectionView, kind, indexPath) in
             if kind == UICollectionView.elementKindSectionHeader {
                 if let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier, for: indexPath) as? MyLikeListLikeCountHeaderView {
-                    self.headerView = section
+                    self?.headerView = section
                     return section
                 } else {
                     return UICollectionReusableView()
@@ -264,7 +259,9 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
 extension MyLikeListViewController: MyLikeEmptyViewDelegate {
     func goToCommunity() {
         self.navigationController?.popViewController(animated: true, completion: { [weak self] in
-            self?.delegate?.goToCommunity()
+            DispatchQueue.global().async { [weak self] in 
+                self?.reactor?.action.onNext(.moveToCommunityTab)
+            }
         })
     }
 }

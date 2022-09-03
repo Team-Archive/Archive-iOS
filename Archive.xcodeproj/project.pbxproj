@@ -36,6 +36,7 @@
 		780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780189BF279BD08C006C82CB /* ServerErrorUtil.swift */; };
 		78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78027CEE28B4FC450096B400 /* RegistBehindView.swift */; };
 		78027CF128B4FCC40096B400 /* ClearTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78027CF028B4FCC40096B400 /* ClearTextField.swift */; };
+		7802B86F28C3A154007A9416 /* MyLikeRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7802B86E28C3A154007A9416 /* MyLikeRepositoryImplement.swift */; };
 		780389D3278956AF00DB1730 /* Splash.json in Resources */ = {isa = PBXBuildFile; fileRef = 780389D2278956AF00DB1730 /* Splash.json */; };
 		780389DB27895AC200DB1730 /* AppConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389DA27895AC200DB1730 /* AppConfigManager.swift */; };
 		780389E2278988BF00DB1730 /* CardRecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780389E0278988BF00DB1730 /* CardRecordCollectionViewCell.swift */; };
@@ -304,6 +305,7 @@
 		780189BF279BD08C006C82CB /* ServerErrorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerErrorUtil.swift; sourceTree = "<group>"; };
 		78027CEE28B4FC450096B400 /* RegistBehindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistBehindView.swift; sourceTree = "<group>"; };
 		78027CF028B4FCC40096B400 /* ClearTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearTextField.swift; sourceTree = "<group>"; };
+		7802B86E28C3A154007A9416 /* MyLikeRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepositoryImplement.swift; sourceTree = "<group>"; };
 		780389D2278956AF00DB1730 /* Splash.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Splash.json; sourceTree = "<group>"; };
 		780389DA27895AC200DB1730 /* AppConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigManager.swift; sourceTree = "<group>"; };
 		780389E0278988BF00DB1730 /* CardRecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRecordCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1241,6 +1243,7 @@
 				789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */,
 				789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */,
 				789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */,
+				7802B86E28C3A154007A9416 /* MyLikeRepositoryImplement.swift */,
 			);
 			path = MyLike;
 			sourceTree = "<group>";
@@ -1820,6 +1823,7 @@
 				789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
+				7802B86F28C3A154007A9416 /* MyLikeRepositoryImplement.swift in Sources */,
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
 				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
 				781C8452282F8B6E004A0FB3 /* MainSplashReactor.swift in Sources */,

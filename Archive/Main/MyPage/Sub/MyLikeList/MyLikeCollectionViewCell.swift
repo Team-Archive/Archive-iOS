@@ -81,7 +81,7 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     // MARK: internal property
     
-    var infoData: MyLikeArchive? {
+    var infoData: PublicArchive? {
         didSet {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
@@ -98,8 +98,8 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
                 self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
-                self?.likeBtn.isLike = info.isLiked
-                self?.isLike = info.isLiked
+//                self?.likeBtn.isLike = info.isLiked
+//                self?.isLike = info.isLiked
             }
         }
     }

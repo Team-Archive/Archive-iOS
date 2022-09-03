@@ -41,18 +41,19 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case moveToLikeList
         case getMyLikeArchives
         case moveToEditProfile
+        case moveToCommunityTab
     }
     
     enum Mutation {
         case empty
         case setIsLoading(Bool)
-        case setMyLikeArchives([MyLikeArchive])
+        case setMyLikeArchives([PublicArchive])
     }
     
     struct State {
         let cardCnt: Int = 0 // TODO: 아카이브 갯수만 받아오는 API추가해야할듯
         var isLoading: Bool = false
-        var myLikeArchives: [MyLikeArchive] = []
+        var myLikeArchives: [PublicArchive] = []
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -108,6 +109,10 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .moveToEditProfile:
             self.steps.accept(ArchiveStep.editProfileIsRequired(reactor: self))
             return .empty()
+        case .moveToCommunityTab:
+            // TODO: 탭 이동 수정하기
+            self.steps.accept(ArchiveStep.communityIsRequired)
+            return .empty()
         }
     }
     
@@ -130,7 +135,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         return self.usecase.getCurrentUserInfo()
     }
     
-    private func getMyLikeArchives() -> Observable<Result<[MyLikeArchive], ArchiveError>> {
+    private func getMyLikeArchives() -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.myLikeUsecase.getMyLikeArchives()
     }
     
