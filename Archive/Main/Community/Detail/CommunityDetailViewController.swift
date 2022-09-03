@@ -396,6 +396,15 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             .disposed(by: self.disposeBag)
         
         reactor.state
+            .map { $0.detailArchive }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0))
+            .drive(onNext: { [weak self] data in
+                self?.likeBtn.isLike = LikeManager.shared.likeList.contains("\(data.archiveInfo.archiveId)")
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
             .map { $0.currentDetailUserImage }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: "")
@@ -426,33 +435,17 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             })
             .disposed(by: self.disposeBag)
         
-//        self.likeBtn.rx.likeClicked
-//            .map { [weak self] isLike -> (Bool, Bool) in
-//                let index = self?.reactor?.currentDetailIndex ?? 0
-//                let origin: Bool = self?.reactor?.currentState.archives.value[index].isLiked ?? false
-//                self?.reactor?.action.onNext(.refreshLikeData(index: self?.reactor?.currentDetailIndex ?? 1000000, isLike: isLike))
-//                return (isLike, origin)
-//            }
-//            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-//            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
-//            .subscribe(onNext: { [weak self] isLike, isOriginLike in
-//                if isLike {
-//                    if isOriginLike {
-//                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-//                    } else {
-//                        guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
-//                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
-//                    }
-//                } else {
-//                    if isOriginLike {
-//                        guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
-//                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
-//                    } else {
-//                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-//                    }
-//                }
-//            })
-//            .disposed(by: self.disposeBag)
+        self.likeBtn.rx.likeClicked
+            .subscribe(onNext: { [weak self] isLike in
+                if isLike {
+                    guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
+                    LikeManager.shared.like(id: "\(archiveId)")
+                } else {
+                    guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
+                    LikeManager.shared.likeCancel(id: "\(archiveId)")
+                }
+            })
+            .disposed(by: self.disposeBag)
         
     }
     

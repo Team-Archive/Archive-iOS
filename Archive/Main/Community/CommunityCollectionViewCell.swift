@@ -216,32 +216,6 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private func bind() {
-//        self.likeBtn.rx.likeClicked
-//            .map { [weak self] isLike -> Bool in
-//                self?.infoData?.isLiked = isLike
-//                self?.reactor?.action.onNext(.refreshLikeData(index: self?.index ?? 1000000, isLike: isLike))
-//                return isLike
-//            }
-//            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-//            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
-//            .subscribe(onNext: { [weak self] isLike in
-//                if isLike {
-//                    if currentRealIsLike {
-//                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-//                    } else {
-//                        guard let archiveId = self?.infoData?.archiveId else { return }
-//                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
-//                    }
-//                } else {
-//                    if currentRealIsLike {
-//                        guard let archiveId = self?.infoData?.archiveId else { return }
-//                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
-//                    } else {
-//                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-//                    }
-//                }
-//            })
-//            .disposed(by: self.disposeBag)
         self.likeBtn.rx.likeClicked
             .subscribe(onNext: { [weak self] isLike in
                 if isLike {
