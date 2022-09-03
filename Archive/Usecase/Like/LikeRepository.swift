@@ -10,4 +10,5 @@ import RxSwift
 protocol LikeRepository {
     func like(idList: [String]) -> Observable<Result<Void, ArchiveError>>
     func likeCancel(idList: [String]) -> Observable<Result<Void, ArchiveError>>
+    func getMyLikeIdList() -> Observable<Result<Set<String>, ArchiveError>>
 }

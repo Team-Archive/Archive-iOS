@@ -35,4 +35,8 @@ class LikeUsecase: NSObject {
         return self.repository.likeCancel(idList: idList)
     }
     
+    func getMyLikeIdList() -> Observable<Result<Set<String>, ArchiveError>> {
+        return self.repository.getMyLikeIdList()
+    }
+    
 }

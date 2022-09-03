@@ -49,6 +49,7 @@ class LogInManager: NSObject {
         setLogInTypeToRepository(type)
         self.logInType = type
         self.repository.logIn(token)
+        LikeManager.shared.refreshMyLikeList()
     }
     
     func logOut() {

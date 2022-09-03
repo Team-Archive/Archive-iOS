@@ -19,7 +19,6 @@ struct PublicArchive: CodableWrapper {
     let mainImage: String
     let authorProfileImage: String
     let archiveName: String
-    var isLiked: Bool
     let archiveId: Int
     let authorNickname: String
     let emotion: Emotion
@@ -32,7 +31,6 @@ struct PublicArchive: CodableWrapper {
         case mainImage
         case authorProfileImage
         case archiveName = "name"
-        case isLiked
         case archiveId
         case authorNickname
         case emotion

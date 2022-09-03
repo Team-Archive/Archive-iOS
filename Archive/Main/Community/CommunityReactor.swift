@@ -175,13 +175,13 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     return .empty
                 }
         case .refreshLikeData(let index, let isLike):
-            let refreshResult = self.refreshArchivesForIsLike(index: index, isLike: isLike)
-            switch refreshResult {
-            case .success(let newArchives):
-                return .just(.setArchives(newArchives))
-            case .failure(_):
-                break // 딱히 오류를 출력해주지는 않는다.
-            }
+//            let refreshResult = self.refreshArchivesForIsLike(index: index, isLike: isLike)
+//            switch refreshResult {
+//            case .success(let newArchives):
+//                return .just(.setArchives(newArchives))
+//            case .failure(_):
+//                break // 딱히 오류를 출력해주지는 않는다.
+//            }
             return .empty()
         case .showDetail(let index):
             return Observable.concat([
@@ -213,7 +213,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 .setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)),
                 .setCurrentDetailUserImage(self.currentState.archives.value[index].authorProfileImage),
                 .setCurrentDetailUserImage(self.currentState.archives.value[index].authorNickname),
-                .setDetailsIsLike(self.currentState.archives.value[index].isLiked)
+//                .setDetailsIsLike(self.currentState.archives.value[index].isLiked)
             ])
         case .showNextPage:
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
@@ -309,22 +309,24 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     private func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        return self.likeUsecase.like(archiveId: archiveId)
+//        return self.likeUsecase.like(archiveId: archiveId)
+        return .empty()
     }
     
     private func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        return self.likeUsecase.unlike(archiveId: archiveId)
+//        return self.likeUsecase.unlike(archiveId: archiveId)
+        return .empty()
     }
     
-    private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
-        var returnValue = self.currentState.archives
-        if self.currentState.archives.value.count >= index + 1 {
-            returnValue.value[index].isLiked = isLike
-            return .success(returnValue.value)
-        } else {
-            return .failure(.init(.publicArchiveIsRefreshed))
-        }
-    }
+//    private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
+//        var returnValue = self.currentState.archives
+//        if self.currentState.archives.value.count >= index + 1 {
+//            returnValue.value[index].isLiked = isLike
+//            return .success(returnValue.value)
+//        } else {
+//            return .failure(.init(.publicArchiveIsRefreshed))
+//        }
+//    }
     
     private func getDetailArchiveInfo(index: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
         if self.currentState.archives.value.count >= index + 1 {

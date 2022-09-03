@@ -42,6 +42,7 @@ final class AppFlow: Flow {
             return navigationToOnboardingScreen()
         case .splashIsComplete(let isLoggedIn):
             if isLoggedIn {
+                LikeManager.shared.refreshMyLikeList()
                 return navigationToMainScreen()
             } else {
                 return navigationToOnboardingScreen()

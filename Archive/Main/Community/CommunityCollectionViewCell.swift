@@ -77,7 +77,7 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     // MARK: private property
     
     private let disposeBag = DisposeBag()
-    private var isLike: Bool = false // 화면에서 보여지는 버튼의 좋아요가 아닌 진짜 나의 상태값임
+//    private var isLike: Bool = false // 화면에서 보여지는 버튼의 좋아요가 아닌 진짜 나의 상태값임
     
     // MARK: internal property
     
@@ -98,8 +98,8 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
                 self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
-                self?.likeBtn.isLike = info.isLiked
-                self?.isLike = info.isLiked
+//                self?.likeBtn.isLike = info.isLiked
+//                self?.isLike = info.isLiked
             }
         }
     }
@@ -212,33 +212,33 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private func bind() {
-        let currentRealIsLike = self.isLike
-        self.likeBtn.rx.likeClicked
-            .map { [weak self] isLike -> Bool in
-                self?.infoData?.isLiked = isLike
-                self?.reactor?.action.onNext(.refreshLikeData(index: self?.index ?? 1000000, isLike: isLike))
-                return isLike
-            }
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [weak self] isLike in
-                if isLike {
-                    if currentRealIsLike {
-                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-                    } else {
-                        guard let archiveId = self?.infoData?.archiveId else { return }
-                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
-                    }
-                } else {
-                    if currentRealIsLike {
-                        guard let archiveId = self?.infoData?.archiveId else { return }
-                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
-                    } else {
-                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-                    }
-                }
-            })
-            .disposed(by: self.disposeBag)
+//        let currentRealIsLike = self.isLike
+//        self.likeBtn.rx.likeClicked
+//            .map { [weak self] isLike -> Bool in
+//                self?.infoData?.isLiked = isLike
+//                self?.reactor?.action.onNext(.refreshLikeData(index: self?.index ?? 1000000, isLike: isLike))
+//                return isLike
+//            }
+//            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+//            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
+//            .subscribe(onNext: { [weak self] isLike in
+//                if isLike {
+//                    if currentRealIsLike {
+//                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
+//                    } else {
+//                        guard let archiveId = self?.infoData?.archiveId else { return }
+//                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
+//                    }
+//                } else {
+//                    if currentRealIsLike {
+//                        guard let archiveId = self?.infoData?.archiveId else { return }
+//                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
+//                    } else {
+//                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
+//                    }
+//                }
+//            })
+//            .disposed(by: self.disposeBag)
     }
     
     // MARK: internal function

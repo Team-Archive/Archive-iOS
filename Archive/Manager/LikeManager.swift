@@ -94,6 +94,17 @@ class LikeManager: NSObject {
         self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerIsDone), userInfo: nil, repeats: false)
     }
     
-    
+    func refreshMyLikeList() {
+        self.usecase.getMyLikeIdList()
+            .subscribe(onNext: { result in
+                switch result {
+                case .success(let list):
+                    self.likeList = list
+                case .failure(let err):
+                    print("좋아요 리스트 가져오기 오류: \(err.getMessage())")
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
     
 }
