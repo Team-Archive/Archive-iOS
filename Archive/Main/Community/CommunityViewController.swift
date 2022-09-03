@@ -288,6 +288,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityCollectionViewCell.identifier, for: indexPath) as? CommunityCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
+        cell.isLike = LikeManager.shared.likeList.contains("\(archive.archiveId)")
         return cell
     }
     

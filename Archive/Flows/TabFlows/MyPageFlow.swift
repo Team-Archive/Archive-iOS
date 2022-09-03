@@ -35,7 +35,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
-    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>,info: MyLoginInfo, cardCnt: Int) {
+    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>, info: MyLoginInfo, cardCnt: Int) {
         let reactor = LoginInformationReactor(stepper: stepper, loginInfo: info,
                                               archiveCnt: cardCnt,
                                               validator: Validator(),

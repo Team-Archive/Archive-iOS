@@ -77,7 +77,6 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     // MARK: private property
     
     private let disposeBag = DisposeBag()
-//    private var isLike: Bool = false // 화면에서 보여지는 버튼의 좋아요가 아닌 진짜 나의 상태값임
     
     // MARK: internal property
     
@@ -98,14 +97,19 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
                 self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
-//                self?.likeBtn.isLike = info.isLiked
-//                self?.isLike = info.isLiked
             }
         }
     }
     
     weak var reactor: CommunityReactor?
     var index: Int = -1
+    var isLike: Bool = false {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshLikeUI()
+            }
+        }
+    }
     
     // MARK: lifeCycle
     
@@ -212,7 +216,6 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private func bind() {
-//        let currentRealIsLike = self.isLike
 //        self.likeBtn.rx.likeClicked
 //            .map { [weak self] isLike -> Bool in
 //                self?.infoData?.isLiked = isLike
@@ -239,6 +242,19 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
 //                }
 //            })
 //            .disposed(by: self.disposeBag)
+        self.likeBtn.rx.likeClicked
+            .subscribe(onNext: { [weak self] isLike in
+                if isLike {
+                    LikeManager.shared.like(id: "\(self?.infoData?.archiveId ?? -1)")
+                } else {
+                    LikeManager.shared.likeCancel(id: "\(self?.infoData?.archiveId ?? -1)")
+                }
+            })
+            .disposed(by: self.disposeBag)
+    }
+    
+    private func refreshLikeUI() {
+        self.likeBtn.isLike = self.isLike
     }
     
     // MARK: internal function

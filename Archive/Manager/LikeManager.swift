@@ -41,7 +41,7 @@ class LikeManager: NSObject {
                 case .success(_):
                     print("좋아요 쿼리 성공 노티 날려도 됨")
                 case .failure(let err):
-                    print("err: \(err.localizedDescription)")
+                    print("err: \(err.archiveErrMsg)")
                 }
             })
             .disposed(by: self.disposeBag)
@@ -54,7 +54,7 @@ class LikeManager: NSObject {
         self.willLikeStack.removeAll()
         self.willCancelLikeStack.removeAll()
         return Observable.merge([
-            self.usecase.likeCancel(idList: copyWillLikeStack.map { return $0 }),
+            self.usecase.like(idList: copyWillLikeStack.map { return $0 }),
             self.usecase.likeCancel(idList: copyWillCancelLikeStack.map { return $0 })
         ])
         .map { result in
