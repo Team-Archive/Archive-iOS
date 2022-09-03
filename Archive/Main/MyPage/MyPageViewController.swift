@@ -90,10 +90,10 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         $0.text = "좋아요 한 전시기록"
     }
     
-    private let likeContentsCntLabel = UILabel().then {
+    private lazy var likeContentsCntLabel = UILabel().then {
         $0.font = .fonts(.header3)
         $0.textColor = Gen.Colors.black.color
-        $0.text = "0"
+        $0.text = "\(LikeManager.shared.likeList.count)"
     }
     
     private lazy var showLikeListBtn = UIButton().then {
@@ -246,6 +246,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.likeQueryDoneNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
     }
     
     init(reactor: MyPageReactor) {
@@ -570,6 +571,11 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
         self.reactor?.action.onNext(.openPrivacy)
     }
     
+    @objc private func likeQueryDoneNotificationReceive(notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.likeContentsCntLabel.text = "\(LikeManager.shared.likeList.count)"
+        }
+    }
     
     // MARK: func
     

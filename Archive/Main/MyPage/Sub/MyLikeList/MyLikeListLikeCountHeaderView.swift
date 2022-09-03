@@ -23,7 +23,7 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
     
     // MARK: internal property
     
-    var totalCnt: Int = 0 {
+    var totalCnt: Int = LikeManager.shared.likeList.count {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.contentsLabel.attributedText = "좋아요 한 전시기록 \(self?.totalCnt ?? 0)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
@@ -40,6 +40,7 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.likeQueryDoneNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -55,6 +56,10 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
             $0.trailing.equalTo(self.snp.trailing).offset(-32)
             $0.centerY.equalTo(self.snp.centerY)
         }
+    }
+    
+    @objc private func likeQueryDoneNotificationReceive(notification: Notification) {
+        self.totalCnt = LikeManager.shared.likeList.count
     }
     
     // MARK: internal function
