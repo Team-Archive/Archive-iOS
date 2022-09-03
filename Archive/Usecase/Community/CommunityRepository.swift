@@ -24,7 +24,7 @@ struct PublicArchive: CodableWrapper {
     let emotion: Emotion
     let watchedOn: String
     let dateMilli: Int
-    let likeCount: Int
+    var likeCount: Int
     
     enum CodingKeys: String, CodingKey {
         case authorId

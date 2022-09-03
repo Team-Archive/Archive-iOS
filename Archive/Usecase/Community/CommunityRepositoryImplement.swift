@@ -36,7 +36,10 @@ class CommunityRepositoryImplement: CommunityRepository {
                         var returnValue: [PublicArchive] = []
                         for item in resultJson {
                             guard let data = try? item.1.rawData() else { continue }
-                            if let newItem = PublicArchive.fromJson(jsonData: data) {
+                            if var newItem = PublicArchive.fromJson(jsonData: data) {
+                                if item.1["isLiked"].boolValue {
+                                    newItem.likeCount -= 1
+                                }
                                 returnValue.append(newItem)
                             }
                         }

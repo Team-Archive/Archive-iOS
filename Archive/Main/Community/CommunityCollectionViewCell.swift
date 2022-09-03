@@ -96,7 +96,14 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.userNicknameLabel.text = info.authorNickname
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
-                self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
+                let likeCnt: Int = {
+                    var cnt = info.likeCount
+                    if LikeManager.shared.likeList.contains("\(info.archiveId)") {
+                        cnt += 1
+                    }
+                    return cnt
+                }()
+                self?.likeCntLabel.text = likeCnt.likeCntToArchiveLikeCnt
             }
         }
     }

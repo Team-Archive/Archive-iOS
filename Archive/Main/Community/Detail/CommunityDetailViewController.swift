@@ -426,15 +426,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             })
             .disposed(by: self.disposeBag)
         
-        reactor.state
-            .map { $0.detailIsLike }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isLike in
-                self?.likeBtn.isLike = isLike
-            })
-            .disposed(by: self.disposeBag)
-        
         self.likeBtn.rx.likeClicked
             .subscribe(onNext: { [weak self] isLike in
                 if isLike {
