@@ -14,6 +14,7 @@ class LikeManager: NSObject {
     
     private var willLikeStack: Set<String> = []
     private var willCancelLikeStack: Set<String> = []
+    private var willChangeStateLikeList: Set<String> = []
     private let usecase: LikeUsecase = LikeUsecase(repository: LikeRepositoryImplement())
     
     private var timer: Timer?
@@ -38,8 +39,9 @@ class LikeManager: NSObject {
         self.query()
             .subscribe(onNext: { result in
                 switch result {
-                case .success(_):
-                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
+                case .success(let changed):
+                    self.willChangeStateLikeList.removeAll()
+                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: changed)
                 case .failure(let err):
                     print("err: \(err.archiveErrMsg)")
                 }
@@ -47,12 +49,14 @@ class LikeManager: NSObject {
             .disposed(by: self.disposeBag)
     }
     
-    private func query() -> Observable<Result<Void, Error>> {
-        guard self.willLikeStack.count > 0 || self.willCancelLikeStack.count > 0 else { return .just(.success(())) }
+    private func query() -> Observable<Result<Set<String>, Error>> {
+        guard self.willLikeStack.count > 0 || self.willCancelLikeStack.count > 0 else { return .just(.success([])) }
         let copyWillLikeStack = self.willLikeStack
         let copyWillCancelLikeStack = self.willCancelLikeStack
         self.willLikeStack.removeAll()
         self.willCancelLikeStack.removeAll()
+        willChangeStateLikeList = willChangeStateLikeList.union(copyWillLikeStack)
+        willChangeStateLikeList = willChangeStateLikeList.union(copyWillCancelLikeStack)
         return Observable.merge([
             self.usecase.like(idList: copyWillLikeStack.map { return $0 }),
             self.usecase.likeCancel(idList: copyWillCancelLikeStack.map { return $0 })
@@ -66,7 +70,7 @@ class LikeManager: NSObject {
             }
             switch result {
             case .success(_):
-                return .success(())
+                return .success(self.willChangeStateLikeList)
             case .failure(let err):
                 return .failure(err)
             }
