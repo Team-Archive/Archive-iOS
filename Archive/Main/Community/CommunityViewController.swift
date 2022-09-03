@@ -121,6 +121,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         setupDatasource()
         self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.likeQueryDoneNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
     }
     
     init(reactor: CommunityReactor) {
@@ -324,6 +325,12 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     private func stopRefresher() {
         print("stopRefresher")
         self.refresher?.endRefreshing()
+    }
+    
+    @objc private func likeQueryDoneNotificationReceive(notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
     
     // MARK: func

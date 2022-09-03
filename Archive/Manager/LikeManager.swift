@@ -39,7 +39,7 @@ class LikeManager: NSObject {
             .subscribe(onNext: { result in
                 switch result {
                 case .success(_):
-                    print("좋아요 쿼리 성공 노티 날려도 됨")
+                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
                 case .failure(let err):
                     print("err: \(err.archiveErrMsg)")
                 }
