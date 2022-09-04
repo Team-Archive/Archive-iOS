@@ -201,12 +201,13 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
             })
             .disposed(by: self.disposeBag)
         
-//        self.collectionView.rx.itemSelected
-//            .asDriver()
-//            .drive(onNext: { [weak self] index in
-//                reactor.action.onNext(.showDetail(index: index.item))
-//            })
-//            .disposed(by: self.disposeBag)
+        self.collectionView.rx.itemSelected
+            .asDriver()
+            .drive(onNext: { [weak self] index in
+                guard let archivedId = self?.reactor?.currentState.myLikeArchives[index.item].archiveId else { return }
+                reactor.action.onNext(.showDetail(archiveId: archivedId))
+            })
+            .disposed(by: self.disposeBag)
         
 //        self.collectionView.rx.contentOffset
 //            .asDriver()

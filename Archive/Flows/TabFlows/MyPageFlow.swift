@@ -67,6 +67,10 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         rootViewController?.pushViewController(vc, animated: true)
     }
     
+    private func navigationToMyLikeDetail(info: ArchiveDetailInfo) {
+        print("작업하자")
+    }
+    
     // MARK: internal function
     
     func makeNavigationItems() {
@@ -99,6 +103,9 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .end(forwardToParentFlowWithStep: ArchiveStep.myPageIsComplete)
         case .communityIsRequired:
             return .end(forwardToParentFlowWithStep: ArchiveStep.communityIsRequired)
+        case .myLikeArchiveDetailIsRequired(let infoData):
+            navigationToMyLikeDetail(info: infoData)
+            return .none
         default:
             return .none
         }

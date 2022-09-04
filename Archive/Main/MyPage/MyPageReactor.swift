@@ -17,6 +17,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private let usecase: MyPageUsecase
     private let myLikeUsecase: MyLikeUsecase
+    private let detailUsecase: DetailUsecase
     
     // MARK: internal property
     
@@ -26,10 +27,11 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: MyPageRepository, myLikeRepository: MyLikeRepository) {
+    init(repository: MyPageRepository, myLikeRepository: MyLikeRepository, detailRepository: DetailRepository) {
         self.initialState = .init()
         self.usecase = MyPageUsecase(repository: repository)
         self.myLikeUsecase = MyLikeUsecase(repository: myLikeRepository)
+        self.detailUsecase = DetailUsecase(repository: detailRepository)
     }
     
     enum Action {
@@ -43,6 +45,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case moveToEditProfile
         case moveToCommunityTab
         case myLikeArchivesLikeCancel(id: Int)
+        case showDetail(archiveId: Int)
     }
     
     enum Mutation {
@@ -117,6 +120,21 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             return .empty()
         case .myLikeArchivesLikeCancel(let id):
             return .just(.myLikeArchivesLikeCancel(id: id))
+        case .showDetail(let archiveId):
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                self.getDetailArchiveInfo(archiveId: archiveId).map { [weak self] result in
+                    switch result {
+                    case .success(let info):
+                        self?.steps.accept(ArchiveStep.myLikeArchiveDetailIsRequired(data: info))
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
+            return .empty()
         }
     }
     
@@ -143,6 +161,10 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func getMyLikeArchives() -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.myLikeUsecase.getMyLikeArchives()
+    }
+    
+    private func getDetailArchiveInfo(archiveId: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
+        return self.detailUsecase.getDetailArchiveInfo(id: "\(archiveId)")
     }
     
     

@@ -368,7 +368,7 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
 extension CommunityViewController: MajorTabViewController {
     
     func willTabSeleted() {
-        
+        self.collectionView.reloadData()
     }
     
     func didTabSeleted() {
