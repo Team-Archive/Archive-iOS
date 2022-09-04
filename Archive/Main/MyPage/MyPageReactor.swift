@@ -42,12 +42,14 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case getMyLikeArchives
         case moveToEditProfile
         case moveToCommunityTab
+        case myLikeArchivesLikeCancel(id: Int)
     }
     
     enum Mutation {
         case empty
         case setIsLoading(Bool)
         case setMyLikeArchives([PublicArchive])
+        case myLikeArchivesLikeCancel(id: Int)
     }
     
     struct State {
@@ -113,6 +115,8 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             // TODO: 탭 이동 수정하기
             self.steps.accept(ArchiveStep.communityIsRequired)
             return .empty()
+        case .myLikeArchivesLikeCancel(let id):
+            return .just(.myLikeArchivesLikeCancel(id: id))
         }
     }
     
@@ -125,6 +129,8 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.isLoading = isLoading
         case .setMyLikeArchives(let archives):
             newState.myLikeArchives = archives
+        case .myLikeArchivesLikeCancel(let id):
+            newState.myLikeArchives = state.myLikeArchives.filter({ $0.archiveId != id })
         }
         return newState
     }

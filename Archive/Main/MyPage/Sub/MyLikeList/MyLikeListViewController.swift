@@ -191,11 +191,11 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
                 if archives.count > 0 {
                     self?.collectionView.isUserInteractionEnabled = true
                     self?.emptyView.isHidden = true
+                    self?.sections.accept([MyLikeArchiveSection(items: archives)])
                     self?.headerView?.totalCnt = archives.count
                 } else {
                     self?.collectionView.isUserInteractionEnabled = false
                     self?.emptyView.isHidden = false
-                    self?.sections.accept([MyLikeArchiveSection(items: archives)])
                     self?.headerView?.totalCnt = 0
                 }
             })
@@ -225,6 +225,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLikeCollectionViewCell.identifier, for: indexPath) as? MyLikeCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
+        cell.delegate = self
         return cell
     }
     
@@ -263,5 +264,11 @@ extension MyLikeListViewController: MyLikeEmptyViewDelegate {
                 self?.reactor?.action.onNext(.moveToCommunityTab)
             }
         })
+    }
+}
+
+extension MyLikeListViewController: MyLikeCollectionViewCellDelegate {
+    func likeCanceled(archiveId: Int) {
+        self.reactor?.action.onNext(.myLikeArchivesLikeCancel(id: archiveId))
     }
 }
