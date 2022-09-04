@@ -13,23 +13,25 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
     
     // MARK: UI property
     
-    private let contentsLabel = UILabel().then {
-        $0.font = .fonts(.header3)
-        $0.textColor = Gen.Colors.gray02.color
-        $0.text = "좋아요 한 전시기록"
+    private lazy var contentsLabel = UILabel().then {
+        $0.attributedText = "좋아요 한 전시기록  \(self.totalCnt)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
+                                                                           frontFont: .fonts(.header3),
+                                                                           frontTextColor: Gen.Colors.gray02.color,
+                                                                           rearFont: .fonts(.subTitle),
+                                                                           rearTextColor: Gen.Colors.gray01.color)
     }
     
     // MARK: private property
     
     // MARK: internal property
     
-    var totalCnt: Int = 0 {
+    var totalCnt: Int = LikeManager.shared.likeList.count {
         didSet {
             DispatchQueue.main.async { [weak self] in
-                self?.contentsLabel.attributedText = "좋아요 한 전시기록 \(self?.totalCnt ?? 0)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
-                                                                                                          frontFont: .fonts(.subTitle),
+                self?.contentsLabel.attributedText = "좋아요 한 전시기록  \(self?.totalCnt ?? 0)".attrStringCustom(frontText: "좋아요 한 전시기록 ",
+                                                                                                          frontFont: .fonts(.header3),
                                                                                                           frontTextColor: Gen.Colors.gray02.color,
-                                                                                                          rearFont: .fonts(.header3),
+                                                                                                          rearFont: .fonts(.subTitle),
                                                                                                           rearTextColor: Gen.Colors.gray01.color)
             }
         }
@@ -40,6 +42,7 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.likeQueryDoneNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -55,6 +58,10 @@ class MyLikeListLikeCountHeaderView: UICollectionReusableView, ClassIdentifiable
             $0.trailing.equalTo(self.snp.trailing).offset(-32)
             $0.centerY.equalTo(self.snp.centerY)
         }
+    }
+    
+    @objc private func likeQueryDoneNotificationReceive(notification: Notification) {
+        self.totalCnt = LikeManager.shared.likeList.count
     }
     
     // MARK: internal function

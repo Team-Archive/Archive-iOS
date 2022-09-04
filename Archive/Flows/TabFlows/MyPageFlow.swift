@@ -35,7 +35,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
-    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>,info: MyLoginInfo, cardCnt: Int) {
+    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>, info: MyLoginInfo, cardCnt: Int) {
         let reactor = LoginInformationReactor(stepper: stepper, loginInfo: info,
                                               archiveCnt: cardCnt,
                                               validator: Validator(),
@@ -67,10 +67,24 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         rootViewController?.pushViewController(vc, animated: true)
     }
     
+    private func navigationToMyLikeDetail(info: ArchiveDetailInfo) {
+        let reactor = DetailReactor(recordData: info, index: 0)
+        let detailViewController: DetailViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewController(identifier: DetailViewController.identifier) { corder in
+            return DetailViewController(coder: corder, reactor: reactor, type: .myLike)
+        }
+        let navi = UINavigationController(rootViewController: detailViewController)
+        navi.modalPresentationStyle = .fullScreen
+        self.rootViewController?.present(navi, animated: true)
+    }
+    
     // MARK: internal function
     
     func makeNavigationItems() {
-        
+        self.rootViewController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.fonts(.subTitle),
+            NSAttributedString.Key.foregroundColor: Gen.Colors.gray01.color
+        ]
+        self.rootViewController?.navigationBar.topItem?.title = "내 정보"
     }
     
     func navigate(to step: Step) -> FlowContributors {
@@ -97,6 +111,11 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .none
         case .myPageIsComplete:
             return .end(forwardToParentFlowWithStep: ArchiveStep.myPageIsComplete)
+        case .communityIsRequired:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.communityIsRequired)
+        case .myLikeArchiveDetailIsRequired(let infoData):
+            navigationToMyLikeDetail(info: infoData)
+            return .none
         default:
             return .none
         }

@@ -51,7 +51,17 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
     // MARK: internal function
     
     func makeNavigationItems() {
+        let logoImage = Gen.Images.logo.image
+        let logoImageView = UIImageView.init(image: logoImage)
+        logoImageView.frame = CGRect(x: -40, y: 0, width: 108, height: 28)
+        logoImageView.contentMode = .scaleAspectFit
+        let imageItem = UIBarButtonItem.init(customView: logoImageView)
+        let negativeSpacer = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = -25
         
+        let leftItems: [UIBarButtonItem] = [negativeSpacer, imageItem]
+        self.rootViewController?.navigationBar.topItem?.leftBarButtonItems = leftItems
+        self.rootViewController?.navigationBar.topItem?.title = ""
     }
     
     func navigate(to step: Step) -> FlowContributors {

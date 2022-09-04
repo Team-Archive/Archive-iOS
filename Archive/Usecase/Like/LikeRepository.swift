@@ -1,13 +1,14 @@
 //
 //  LikeRepository.swift
-//  Archive
+//  Like
 //
-//  Created by hanwe on 2022/06/25.
+//  Created by Hanwe LEE on 2022/08/30.
 //
 
 import RxSwift
 
 protocol LikeRepository {
-    func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>>
-    func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>>
+    func like(idList: [String]) -> Observable<Result<Void, ArchiveError>>
+    func likeCancel(idList: [String]) -> Observable<Result<Void, ArchiveError>>
+    func getMyLikeIdList() -> Observable<Result<Set<String>, ArchiveError>>
 }

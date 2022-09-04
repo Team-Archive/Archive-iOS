@@ -50,9 +50,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case getFirstPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?)
         case getMorePublicArchives
         case refreshPublicArchives
-        case like(archiveId: Int)
-        case unlike(archiveId: Int)
-        case refreshLikeData(index: Int, isLike: Bool)
         case showDetail(index: Int)
         case spreadDetailData(infoData: ArchiveDetailInfo, index: Int)
         case showNextPage
@@ -72,7 +69,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setDetailArchive(DetailInfo)
         case setCurrentDetailUserNickName(String)
         case setCurrentDetailUserImage(String)
-        case setDetailsIsLike(Bool)
         case setBannerInfo([BannerInfo])
         case appendArchives([PublicArchive])
     }
@@ -86,7 +82,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             index: 0)
         var currentDetailUserNickName: String = ""
         var currentDetailUserImage: String = ""
-        var detailIsLike: Bool = false
         var archiveTimeSortBy: ArchiveSortType = .sortByRegist
         var archiveEmotionSortBy: Emotion?
         var bannerInfo: [BannerInfo] = []
@@ -150,39 +145,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             } else {
                 return .empty()
             }
-        case .like(archiveId: let archiveId):
-            return self.like(archiveId: archiveId)
-                .map { [weak self] result in
-                    switch result {
-                    case .success(()):
-                        // 특별히 액션이 없다.
-                        break
-                    case .failure(let err):
-                        print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
-                    }
-                    return .empty
-                }
-        case .unlike(archiveId: let archiveId):
-            return self.unlike(archiveId: archiveId)
-                .map { [weak self] result in
-                    switch result {
-                    case .success(()):
-                        // 특별히 액션이 없다.
-                        break
-                    case .failure(let err):
-                        print("err!!!!:\(err)") // 딱히 오류를 출력해주지는 않는다.
-                    }
-                    return .empty
-                }
-        case .refreshLikeData(let index, let isLike):
-            let refreshResult = self.refreshArchivesForIsLike(index: index, isLike: isLike)
-            switch refreshResult {
-            case .success(let newArchives):
-                return .just(.setArchives(newArchives))
-            case .failure(_):
-                break // 딱히 오류를 출력해주지는 않는다.
-            }
-            return .empty()
         case .showDetail(let index):
             return Observable.concat([
                 Observable.just(Mutation.setIsLoading(true)),
@@ -212,8 +174,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return Observable.from([
                 .setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)),
                 .setCurrentDetailUserImage(self.currentState.archives.value[index].authorProfileImage),
-                .setCurrentDetailUserImage(self.currentState.archives.value[index].authorNickname),
-                .setDetailsIsLike(self.currentState.archives.value[index].isLiked)
+                .setCurrentDetailUserImage(self.currentState.archives.value[index].authorNickname)
             ])
         case .showNextPage:
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
@@ -288,8 +249,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.currentDetailUserImage = image
         case .setCurrentDetailUserNickName(let nickName):
             newState.currentDetailUserNickName = nickName
-        case .setDetailsIsLike(let isLike):
-            newState.detailIsLike = isLike
         case .setBannerInfo(let info):
             newState.bannerInfo = info
         case .appendArchives(let archives):
@@ -306,24 +265,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func getMorePublicArchives() -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.usecase.getMorePublicArchives()
-    }
-    
-    private func like(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        return self.likeUsecase.like(archiveId: archiveId)
-    }
-    
-    private func unlike(archiveId: Int) -> Observable<Result<Void, ArchiveError>> {
-        return self.likeUsecase.unlike(archiveId: archiveId)
-    }
-    
-    private func refreshArchivesForIsLike(index: Int, isLike: Bool) -> Result<[PublicArchive], ArchiveError> {
-        var returnValue = self.currentState.archives
-        if self.currentState.archives.value.count >= index + 1 {
-            returnValue.value[index].isLiked = isLike
-            return .success(returnValue.value)
-        } else {
-            return .failure(.init(.publicArchiveIsRefreshed))
-        }
     }
     
     private func getDetailArchiveInfo(index: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {

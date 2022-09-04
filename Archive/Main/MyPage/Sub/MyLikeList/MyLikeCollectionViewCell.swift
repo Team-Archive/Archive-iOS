@@ -12,6 +12,10 @@ import RxSwift
 import RxCocoa
 import Then
 
+@objc protocol MyLikeCollectionViewCellDelegate: AnyObject {
+    @objc optional func likeCanceled(archiveId: Int)
+}
+
 class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     // MARK: UI property
@@ -67,6 +71,7 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     private let likeBtn = LikeButton().then {
         $0.backgroundColor = .clear
+        $0.isLike = true
     }
     
     private let likeCntLabel = UILabel().then {
@@ -81,7 +86,7 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     // MARK: internal property
     
-    var infoData: MyLikeArchive? {
+    var infoData: PublicArchive? {
         didSet {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
@@ -98,14 +103,11 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
                 self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
-                self?.likeBtn.isLike = info.isLiked
-                self?.isLike = info.isLiked
             }
         }
     }
     
-    weak var reactor: CommunityReactor?
-    var index: Int = -1
+    weak var delegate: MyLikeCollectionViewCellDelegate?
     
     // MARK: lifeCycle
     
@@ -212,35 +214,46 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private func bind() {
-        let currentRealIsLike = self.isLike
         self.likeBtn.rx.likeClicked
-            .map { [weak self] isLike -> Bool in
-                self?.infoData?.isLiked = isLike
-                self?.reactor?.action.onNext(.refreshLikeData(index: self?.index ?? 1000000, isLike: isLike))
-                return isLike
-            }
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [weak self] isLike in
-                if isLike {
-                    if currentRealIsLike {
-                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-                    } else {
-                        guard let archiveId = self?.infoData?.archiveId else { return }
-                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
-                    }
-                } else {
-                    if currentRealIsLike {
-                        guard let archiveId = self?.infoData?.archiveId else { return }
-                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
-                    } else {
-                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-                    }
-                }
+            .subscribe(onNext: { [weak self] _ in
+                guard let archiveId = self?.infoData?.archiveId else { return }
+                LikeManager.shared.likeCancel(id: "\(archiveId)")
+                self?.delegate?.likeCanceled?(archiveId: archiveId)
             })
             .disposed(by: self.disposeBag)
     }
     
     // MARK: internal function
     
+}
+
+class MyLikeCollectionViewCellDelegateProxy: DelegateProxy<MyLikeCollectionViewCell, MyLikeCollectionViewCellDelegate>, DelegateProxyType, MyLikeCollectionViewCellDelegate {
+    
+    
+    static func currentDelegate(for object: MyLikeCollectionViewCell) -> MyLikeCollectionViewCellDelegate? {
+        return object.delegate
+    }
+    
+    static func setCurrentDelegate(_ delegate: MyLikeCollectionViewCellDelegate?, to object: MyLikeCollectionViewCell) {
+        object.delegate = delegate
+    }
+    
+    static func registerKnownImplementations() {
+        self.register { (view) -> MyLikeCollectionViewCellDelegateProxy in
+            MyLikeCollectionViewCellDelegateProxy(parentObject: view, delegateProxy: self)
+        }
+    }
+}
+
+extension Reactive where Base: MyLikeCollectionViewCell {
+    var delegate: DelegateProxy<MyLikeCollectionViewCell, MyLikeCollectionViewCellDelegate> {
+        return MyLikeCollectionViewCellDelegateProxy.proxy(for: self.base)
+    }
+    
+    var likeCanceled: Observable<Int> {
+        return delegate.methodInvoked(#selector(MyLikeCollectionViewCellDelegate.likeCanceled(archiveId:)))
+            .map { result in
+                return result[0] as? Int ?? 0
+            }
+    }
 }

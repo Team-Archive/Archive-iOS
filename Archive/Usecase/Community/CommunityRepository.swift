@@ -19,20 +19,18 @@ struct PublicArchive: CodableWrapper {
     let mainImage: String
     let authorProfileImage: String
     let archiveName: String
-    var isLiked: Bool
     let archiveId: Int
     let authorNickname: String
     let emotion: Emotion
     let watchedOn: String
-    let dateMilli: Int
-    let likeCount: Int
+    let dateMilli: Int?
+    var likeCount: Int
     
     enum CodingKeys: String, CodingKey {
         case authorId
         case mainImage
         case authorProfileImage
         case archiveName = "name"
-        case isLiked
         case archiveId
         case authorNickname
         case emotion

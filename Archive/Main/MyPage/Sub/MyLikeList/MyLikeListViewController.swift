@@ -29,14 +29,14 @@ extension MyLikeHeaderSection: AnimatableSectionModelType {
 }
 
 struct MyLikeArchiveSection {
-    var items: [MyLikeArchive]
+    var items: [PublicArchive]
     var identity: Int {
         return 0
     }
 }
 
 extension MyLikeArchiveSection: AnimatableSectionModelType {
-    init(original: MyLikeArchiveSection, items: [MyLikeArchive]) {
+    init(original: MyLikeArchiveSection, items: [PublicArchive]) {
         self = original
         self.items = items
     }
@@ -69,6 +69,10 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         $0.collectionViewLayout = layout
     }
     
+    private lazy var emptyView = MyLikeEmptyView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+        $0.delegate = self
+    }
     
     // MARK: private property
     
@@ -76,8 +80,8 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     private lazy var dataSource: ArchiveSectionDataSource = {
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
-        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { datasource, collectionView, indexPath, item in
-            var cell = self.makeArhiveCell(item, from: collectionView, indexPath: indexPath)
+        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { [weak self] datasource, collectionView, indexPath, item in
+            guard let cell = self?.makeArhiveCell(item, from: collectionView, indexPath: indexPath) else { return UICollectionViewCell() }
             
             return cell
         }
@@ -87,6 +91,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     private var sections = BehaviorRelay<[MyLikeArchiveSection]>(value: [])
     
     private var refresher: UIRefreshControl?
+    private weak var headerView: MyLikeListLikeCountHeaderView?
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -99,6 +104,10 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         collectionView.register(MyLikeListLikeCountHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier)
         setupDatasource()
         self.reactor?.action.onNext(.getMyLikeArchives)
+    }
+    
+    deinit {
+        print("\(self) deinit")
     }
     
     init(reactor: MyPageReactor) {
@@ -123,6 +132,12 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         self.mainContentsView.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints {
             $0.edges.equalTo(self.mainContentsView)
+        }
+        
+        self.mainContentsView.addSubview(self.emptyView)
+        self.emptyView.snp.makeConstraints {
+            $0.top.equalTo(self.mainContentsView).offset(60)
+            $0.leading.trailing.bottom.equalTo(self.mainContentsView)
         }
         
     }
@@ -173,16 +188,26 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] archives in
-                self?.sections.accept([MyLikeArchiveSection(items: archives)])
+                if archives.count > 0 {
+                    self?.collectionView.isUserInteractionEnabled = true
+                    self?.emptyView.isHidden = true
+                    self?.sections.accept([MyLikeArchiveSection(items: archives)])
+                    self?.headerView?.totalCnt = archives.count
+                } else {
+                    self?.collectionView.isUserInteractionEnabled = false
+                    self?.emptyView.isHidden = false
+                    self?.headerView?.totalCnt = 0
+                }
             })
             .disposed(by: self.disposeBag)
         
-//        self.collectionView.rx.itemSelected
-//            .asDriver()
-//            .drive(onNext: { [weak self] index in
-//                reactor.action.onNext(.showDetail(index: index.item))
-//            })
-//            .disposed(by: self.disposeBag)
+        self.collectionView.rx.itemSelected
+            .asDriver()
+            .drive(onNext: { [weak self] index in
+                guard let archivedId = self?.reactor?.currentState.myLikeArchives[index.item].archiveId else { return }
+                reactor.action.onNext(.showDetail(archiveId: archivedId))
+            })
+            .disposed(by: self.disposeBag)
         
 //        self.collectionView.rx.contentOffset
 //            .asDriver()
@@ -196,15 +221,12 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         
     }
     
-    deinit {
-        print("\(self) deinit")
-    }
-    
     // MARK: private func
     
-    private func makeArhiveCell(_ archive: MyLikeArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLikeCollectionViewCell.identifier, for: indexPath) as? MyLikeCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
+        cell.delegate = self
         return cell
     }
     
@@ -215,10 +237,10 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     private func setupDatasource() {
         self.collectionView.dataSource = nil
-        dataSource.configureSupplementaryView = { (dataSource, collectionView, kind, indexPath) in
+        dataSource.configureSupplementaryView = { [weak self] (dataSource, collectionView, kind, indexPath) in
             if kind == UICollectionView.elementKindSectionHeader {
                 if let section = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: MyLikeListLikeCountHeaderView.identifier, for: indexPath) as? MyLikeListLikeCountHeaderView {
-                    
+                    self?.headerView = section
                     return section
                 } else {
                     return UICollectionReusableView()
@@ -234,4 +256,20 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     // MARK: func
 
+}
+
+extension MyLikeListViewController: MyLikeEmptyViewDelegate {
+    func goToCommunity() {
+        self.navigationController?.popViewController(animated: true, completion: { [weak self] in
+            DispatchQueue.global().async { [weak self] in 
+                self?.reactor?.action.onNext(.moveToCommunityTab)
+            }
+        })
+    }
+}
+
+extension MyLikeListViewController: MyLikeCollectionViewCellDelegate {
+    func likeCanceled(archiveId: Int) {
+        self.reactor?.action.onNext(.myLikeArchivesLikeCancel(id: archiveId))
+    }
 }

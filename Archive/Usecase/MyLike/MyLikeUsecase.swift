@@ -25,7 +25,7 @@ class MyLikeUsecase: NSObject {
     
     // MARK: internal function
     
-    func getMyLikeArchives() -> Observable<Result<[MyLikeArchive], ArchiveError>> {
+    func getMyLikeArchives() -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.repository.getMyLikeArchives()
     }
     

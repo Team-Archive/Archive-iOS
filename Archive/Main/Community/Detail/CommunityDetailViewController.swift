@@ -12,6 +12,7 @@ import RxCocoa
 import RxSwift
 import Then
 import Kingfisher
+import Spring
 
 class CommunityDetailViewController: UIViewController, View, ActivityIndicatorable {
     
@@ -158,8 +159,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     }
     
     // MARK: private property
-    
-    private var isFirstShowCover: Bool = true // 애니메이션 체크용
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -397,6 +396,15 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             .disposed(by: self.disposeBag)
         
         reactor.state
+            .map { $0.detailArchive }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0))
+            .drive(onNext: { [weak self] data in
+                self?.likeBtn.isLike = LikeManager.shared.likeList.contains("\(data.archiveInfo.archiveId)")
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
             .map { $0.currentDetailUserImage }
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: "")
@@ -418,39 +426,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             })
             .disposed(by: self.disposeBag)
         
-        reactor.state
-            .map { $0.detailIsLike }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
-            .drive(onNext: { [weak self] isLike in
-                self?.likeBtn.isLike = isLike
-            })
-            .disposed(by: self.disposeBag)
-        
         self.likeBtn.rx.likeClicked
-            .map { [weak self] isLike -> (Bool, Bool) in
-                let index = self?.reactor?.currentDetailIndex ?? 0
-                let origin: Bool = self?.reactor?.currentState.archives.value[index].isLiked ?? false
-                self?.reactor?.action.onNext(.refreshLikeData(index: self?.reactor?.currentDetailIndex ?? 1000000, isLike: isLike))
-                return (isLike, origin)
-            }
-            .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-            .debounce(.seconds(2), scheduler: ConcurrentDispatchQueueScheduler(qos: .background))
-            .subscribe(onNext: { [weak self] isLike, isOriginLike in
+            .subscribe(onNext: { [weak self] isLike in
                 if isLike {
-                    if isOriginLike {
-                        // 결국 좋아요 요청을 보내야하지만 이미 좋아요상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-                    } else {
-                        guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
-                        self?.reactor?.action.onNext(.like(archiveId: archiveId))
-                    }
+                    guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
+                    LikeManager.shared.like(id: "\(archiveId)")
                 } else {
-                    if isOriginLike {
-                        guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
-                        self?.reactor?.action.onNext(.unlike(archiveId: archiveId))
-                    } else {
-                        // 결국 좋아요취소 요청을 보내야하지만 이미 좋아요가 아닌상태인 경우. 아마 사용자가 연타로 눌렀을듯. 아무것도 하지 않는다.
-                    }
+                    guard let archiveId = self?.reactor?.currentState.detailArchive.archiveInfo.archiveId else { return }
+                    LikeManager.shared.likeCancel(id: "\(archiveId)")
                 }
             })
             .disposed(by: self.disposeBag)
@@ -464,19 +447,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private func
     
     private func showCover(infoData: CommunityReactor.DetailInfo) {
-        if self.isFirstShowCover {
-            self.isFirstShowCover = false
-            showCoverLogic(infoData: infoData)
-        } else {
-            UIView.transition(with: self.view, duration: 0.75, options: .transitionCurlUp, animations: nil, completion: { [weak self] isEndAnimation in
-                if isEndAnimation {
-                    self?.showCoverLogic(infoData: infoData)
-                }
-            })
-        }
-    }
-    
-    private func showCoverLogic(infoData: CommunityReactor.DetailInfo) {
         let item = infoData.archiveInfo
         self.topCoverContentsView.isHidden = false
         self.bottomCoverContentsView.isHidden = false
@@ -491,13 +461,14 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.topCoverEmotionCoverView.image = item.emotion.coverAlphaImage
         self.bottomCoverTitleLabel.text = item.name
         self.bottomCoverDateLabel.text = item.watchedOn
-        //        self.userNameLabel.text = item.authorId
+//        self.userNameLabel.text = item.authorId
         
-        //        self.likeBtn.isLike
-        //        private let likeCntLabel = UILabel().then {
-        //            $0.font = .fonts(.body)
-        //            $0.textColor = Gen.Colors.gray03.color
-        //        }
+//        self.likeBtn.isLike
+//        private let likeCntLabel = UILabel().then {
+//            $0.font = .fonts(.body)
+//            $0.textColor = Gen.Colors.gray03.color
+//        }
+        
     }
     
     private func makeNavigationItems() {

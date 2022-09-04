@@ -137,6 +137,7 @@ internal enum Gen {
     internal static let typeSplendid = ImageAsset(name: "type=splendid")
     internal static let typeTouching = ImageAsset(name: "type=touching")
     internal static let typeWonderful = ImageAsset(name: "type=wonderful")
+    internal static let emptyMyLike = ImageAsset(name: "EmptyMyLike")
     internal static let emptyTicket = ImageAsset(name: "EmptyTicket")
     internal static let instaShare = ImageAsset(name: "InstaShare")
     internal static let logo = ImageAsset(name: "Logo")

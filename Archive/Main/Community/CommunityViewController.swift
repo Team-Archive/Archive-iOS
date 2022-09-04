@@ -121,6 +121,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         setupDatasource()
         self.bannerView.register(CommunityBannerViewCell.self, forCellWithReuseIdentifier: CommunityBannerViewCell.identifier)
         self.reactor?.action.onNext(.getBannerInfo)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.likeQueryDoneNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.LIKE_QUERY_DONE), object: nil)
     }
     
     init(reactor: CommunityReactor) {
@@ -288,6 +289,8 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityCollectionViewCell.identifier, for: indexPath) as? CommunityCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
+        cell.index = indexPath.item
+        cell.isLike = LikeManager.shared.likeList.contains("\(archive.archiveId)")
         return cell
     }
     
@@ -325,6 +328,21 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         self.refresher?.endRefreshing()
     }
     
+    @objc private func likeQueryDoneNotificationReceive(notification: Notification) {
+        guard let changedArchiveIdSet = notification.object as? Set<String> else { return }
+        DispatchQueue.main.async { [weak self] in
+            _ = self?.collectionView.visibleCells.map { [weak self] in
+                if let cell = ($0 as? CommunityCollectionViewCell) {
+                    if changedArchiveIdSet.contains("\(cell.infoData?.archiveId ?? 0)") {
+                        if cell.index != -1 {
+                            self?.collectionView.reloadItems(at: [IndexPath(item: cell.index, section: 0)])
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: func
 
 }
@@ -350,7 +368,7 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
 extension CommunityViewController: MajorTabViewController {
     
     func willTabSeleted() {
-        
+        self.collectionView.reloadData()
     }
     
     func didTabSeleted() {

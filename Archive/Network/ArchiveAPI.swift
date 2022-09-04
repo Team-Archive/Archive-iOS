@@ -23,8 +23,9 @@ enum ArchiveAPI {
     case sendTempPassword(email: String)
     case changePassword(eMail: String, beforePassword: String, newPassword: String)
     case getPublicArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
-    case like(archiveId: Int)
-    case unlike(archiveId: Int)
+    case like(archiveIdList: [String])
+    case unlike(archiveIdList: [String])
+    case getMyLikeList
     case getBanner
     case getThisMonthRegistArchiveCnt
 }
@@ -40,7 +41,7 @@ extension ArchiveAPI: TargetType {
         }
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -79,10 +80,12 @@ extension ArchiveAPI: TargetType {
             return "api/v1/auth/password/reset"
         case .getPublicArchives:
             return "/api/v2/archive/community"
-        case .like(let archiveId):
-            return "/api/v2/archive/\(archiveId)/like"
-        case .unlike(let archiveId):
-            return "/api/v2/archive/\(archiveId)/like"
+        case .like:
+            return "/api/v2/archive/like"
+        case .unlike:
+            return "/api/v2/archive/like"
+        case .getMyLikeList:
+            return "/api/v2/archive/like"
         case .getBanner:
             return "/api/v2/banner"
         case .getThisMonthRegistArchiveCnt:
@@ -126,6 +129,8 @@ extension ArchiveAPI: TargetType {
             return .post
         case .unlike:
             return .delete
+        case .getMyLikeList:
+            return .get
         case .getBanner:
             return .get
         case .getThisMonthRegistArchiveCnt:
@@ -192,9 +197,11 @@ extension ArchiveAPI: TargetType {
                 return returnValue
             }()
             return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
-        case .like:
-            return .requestPlain
-        case .unlike:
+        case .like(let list):
+            return .requestParameters(parameters: ["archiveIds": list], encoding: JSONEncoding.default)
+        case .unlike(let list):
+            return .requestParameters(parameters: ["archiveIds": list], encoding: JSONEncoding.default)
+        case .getMyLikeList:
             return .requestPlain
         case .getBanner:
             return .requestPlain
@@ -242,6 +249,8 @@ extension ArchiveAPI: TargetType {
         case .like:
             return ["Authorization": LogInManager.shared.accessToken]
         case .unlike:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getMyLikeList:
             return ["Authorization": LogInManager.shared.accessToken]
         case .getBanner:
             return ["Authorization": LogInManager.shared.accessToken]

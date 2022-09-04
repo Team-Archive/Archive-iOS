@@ -17,6 +17,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private let usecase: MyPageUsecase
     private let myLikeUsecase: MyLikeUsecase
+    private let detailUsecase: DetailUsecase
     
     // MARK: internal property
     
@@ -26,10 +27,11 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     // MARK: lifeCycle
     
-    init(repository: MyPageRepository, myLikeRepository: MyLikeRepository) {
+    init(repository: MyPageRepository, myLikeRepository: MyLikeRepository, detailRepository: DetailRepository) {
         self.initialState = .init()
         self.usecase = MyPageUsecase(repository: repository)
         self.myLikeUsecase = MyLikeUsecase(repository: myLikeRepository)
+        self.detailUsecase = DetailUsecase(repository: detailRepository)
     }
     
     enum Action {
@@ -41,18 +43,22 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case moveToLikeList
         case getMyLikeArchives
         case moveToEditProfile
+        case moveToCommunityTab
+        case myLikeArchivesLikeCancel(id: Int)
+        case showDetail(archiveId: Int)
     }
     
     enum Mutation {
         case empty
         case setIsLoading(Bool)
-        case setMyLikeArchives([MyLikeArchive])
+        case setMyLikeArchives([PublicArchive])
+        case myLikeArchivesLikeCancel(id: Int)
     }
     
     struct State {
         let cardCnt: Int = 0 // TODO: 아카이브 갯수만 받아오는 API추가해야할듯
         var isLoading: Bool = false
-        var myLikeArchives: [MyLikeArchive] = []
+        var myLikeArchives: [PublicArchive] = []
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -108,6 +114,27 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .moveToEditProfile:
             self.steps.accept(ArchiveStep.editProfileIsRequired(reactor: self))
             return .empty()
+        case .moveToCommunityTab:
+            // TODO: 탭 이동 수정하기
+            self.steps.accept(ArchiveStep.communityIsRequired)
+            return .empty()
+        case .myLikeArchivesLikeCancel(let id):
+            return .just(.myLikeArchivesLikeCancel(id: id))
+        case .showDetail(let archiveId):
+            return Observable.concat([
+                Observable.just(.setIsLoading(true)),
+                self.getDetailArchiveInfo(archiveId: archiveId).map { [weak self] result in
+                    switch result {
+                    case .success(let info):
+                        self?.steps.accept(ArchiveStep.myLikeArchiveDetailIsRequired(data: info))
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
+                },
+                Observable.just(.setIsLoading(false))
+            ])
+            return .empty()
         }
     }
     
@@ -120,6 +147,8 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.isLoading = isLoading
         case .setMyLikeArchives(let archives):
             newState.myLikeArchives = archives
+        case .myLikeArchivesLikeCancel(let id):
+            newState.myLikeArchives = state.myLikeArchives.filter({ $0.archiveId != id })
         }
         return newState
     }
@@ -130,8 +159,12 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
         return self.usecase.getCurrentUserInfo()
     }
     
-    private func getMyLikeArchives() -> Observable<Result<[MyLikeArchive], ArchiveError>> {
+    private func getMyLikeArchives() -> Observable<Result<[PublicArchive], ArchiveError>> {
         return self.myLikeUsecase.getMyLikeArchives()
+    }
+    
+    private func getDetailArchiveInfo(archiveId: Int) -> Observable<Result<ArchiveDetailInfo, ArchiveError>> {
+        return self.detailUsecase.getDetailArchiveInfo(id: "\(archiveId)")
     }
     
     
