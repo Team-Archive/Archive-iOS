@@ -53,6 +53,7 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         
         let leftItems: [UIBarButtonItem] = [negativeSpacer, imageItem]
         self.rootViewController?.navigationBar.topItem?.leftBarButtonItems = leftItems
+        self.rootViewController?.navigationBar.topItem?.title = ""
     }
     
     func navigate(to step: Step) -> FlowContributors {

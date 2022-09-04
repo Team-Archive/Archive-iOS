@@ -80,7 +80,11 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     // MARK: internal function
     
     func makeNavigationItems() {
-        
+        self.rootViewController?.navigationBar.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont.fonts(.subTitle),
+            NSAttributedString.Key.foregroundColor: Gen.Colors.gray01.color
+        ]
+        self.rootViewController?.navigationBar.topItem?.title = "내 정보"
     }
     
     func navigate(to step: Step) -> FlowContributors {
