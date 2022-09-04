@@ -19,6 +19,11 @@ protocol DetailViewControllerDelegate: AnyObject {
 
 class DetailViewController: UIViewController, StoryboardView, ActivityIndicatorable {
     
+    enum DetailType {
+        case home
+        case myLike
+    }
+    
     enum CellModel {
         case cover(ArchiveDetailInfo)
         case commonImage(ArchiveDetailImageInfo, Emotion, String)
@@ -47,6 +52,8 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         }
     })
     
+    private let type: DetailType
+    
     // MARK: internal property
     var disposeBag: DisposeBag = DisposeBag()
     
@@ -63,13 +70,14 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         print("\(self) deinit")
     }
     
-    init?(coder: NSCoder, reactor: DetailReactor) {
+    init?(coder: NSCoder, reactor: DetailReactor, type: DetailType = .home) {
+        self.type = type
         super.init(coder: coder)
         self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     func bind(reactor: DetailReactor) {
@@ -202,11 +210,16 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     }
     
     private func makeNaviBtn() {
-        let moreImage = Gen.Images.moreVertBlack24dp.image
-        moreImage.withRenderingMode(.alwaysTemplate)
-        let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(moreButtonClicked(_:)))
-        moreBarButtonItem.tintColor = Gen.Colors.white.color
-        self.navigationItem.rightBarButtonItem = moreBarButtonItem
+        switch self.type {
+        case .home:
+            let moreImage = Gen.Images.moreVertBlack24dp.image
+            moreImage.withRenderingMode(.alwaysTemplate)
+            let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(moreButtonClicked(_:)))
+            moreBarButtonItem.tintColor = Gen.Colors.white.color
+            self.navigationItem.rightBarButtonItem = moreBarButtonItem
+        case .myLike:
+            break
+        }
         
         let closeImage = Gen.Images.xIcon.image
         closeImage.withRenderingMode(.alwaysTemplate)

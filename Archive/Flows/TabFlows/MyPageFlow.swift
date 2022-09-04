@@ -68,7 +68,13 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     }
     
     private func navigationToMyLikeDetail(info: ArchiveDetailInfo) {
-        print("작업하자")
+        let reactor = DetailReactor(recordData: info, index: 0)
+        let detailViewController: DetailViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewController(identifier: DetailViewController.identifier) { corder in
+            return DetailViewController(coder: corder, reactor: reactor, type: .myLike)
+        }
+        let navi = UINavigationController(rootViewController: detailViewController)
+        navi.modalPresentationStyle = .fullScreen
+        self.rootViewController?.present(navi, animated: true)
     }
     
     // MARK: internal function
