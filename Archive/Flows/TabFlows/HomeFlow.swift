@@ -11,22 +11,13 @@ import RxFlow
 class HomeFlow: Flow, MainTabFlowProtocol {
     
     private enum Constants {
-        static let HomeStoryBoardName = "Home"
-        static let HomeNavigationTitle = ""
         static let DetailStoryBoardName = "Detail"
         static let DetailNavigationTitle = "나의 아카이브"
-        static let LoginInfoNavigationTitle = "로그인 정보"
-        static let WithdrawalNavigationTitle = "회원탈퇴"
     }
     
     // MARK: private property
     
-    private let homeStoryBoard = UIStoryboard(name: Constants.HomeStoryBoardName, bundle: nil)
     private let detailStoryBoard = UIStoryboard(name: Constants.DetailStoryBoardName, bundle: nil)
-    
-    private weak var homeViewControllerPtr: HomeViewController?
-    private weak var recordViewController: RecordViewController?
-    private weak var editEmotionViewController: EmotionSelectViewController?
     
     // MARK: internal property
     
@@ -78,21 +69,9 @@ class HomeFlow: Flow, MainTabFlowProtocol {
             return DetailViewController(coder: corder, reactor: reactor)
         }
         detailViewController.title = Constants.DetailNavigationTitle
-        detailViewController.delegate = self
         let navi = UINavigationController(rootViewController: detailViewController)
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController?.present(navi, animated: true)
-    }
-    
-}
-
-extension HomeFlow: DetailViewControllerDelegate {
-    func willDeletedArchive(index: Int) {
-        self.homeViewControllerPtr?.willDeletedIndex(index)
-    }
-    
-    func deletedArchive() {
-        self.homeViewControllerPtr?.reactor?.action.onNext(.refreshMyArchives)
     }
     
 }

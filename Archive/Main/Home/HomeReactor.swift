@@ -24,6 +24,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
     let steps = PublishRelay<Step>()
     let initialState: State = State()
     let err: PublishSubject<ArchiveError> = .init()
+    let willDeleteLastArchive: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
@@ -38,6 +39,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case showDetail(Int)
         case refreshMyArchives
         case moreMyArchives
+        case deletedArchived(archiveId: String)
     }
     
     enum Mutation {
@@ -49,6 +51,7 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setCurrentArchiveEmotionSortBy(Emotion?)
         case setArvhivesCount(Int)
         case appendArchives([ArchiveInfo])
+        case deleteArchive(archiveId: String)
     }
     
     struct State {
@@ -150,6 +153,8 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
                 },
                 Observable.just(.setIsLoading(false))
             ])
+        case .deletedArchived(let archiveId):
+            return .just(.deleteArchive(archiveId: archiveId))
         }
     }
     
@@ -172,6 +177,14 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
             newState.arvhivesCount = count
         case .appendArchives(let archives):
             newState.archives = state.archives + archives
+        case .deleteArchive(let archiveId):
+            if let willDeletedArchiveIdInt = Int(archiveId) {
+                if state.archives.last?.archiveId == willDeletedArchiveIdInt {
+                    self.willDeleteLastArchive.onNext(())
+                }
+            }
+            newState.archives = state.archives.filter({ "\($0.archiveId)" != archiveId })
+            newState.arvhivesCount = state.arvhivesCount - 1
         }
         return newState
     }

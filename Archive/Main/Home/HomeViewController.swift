@@ -64,6 +64,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         initUI()
         self.reactor?.action.onNext(.getMyArchives(sortType: .sortByRegist, emotion: nil))
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsAddedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsDeletedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: nil)
 
     }
     
@@ -232,7 +233,13 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
                 }
             })
             .disposed(by: self.disposeBag)
-            
+        
+        reactor.willDeleteLastArchive
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.willDeletedIndex()
+            })
+            .disposed(by: self.disposeBag)
         
     }
     
@@ -264,6 +271,11 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.reactor?.action.onNext(.refreshMyArchives)
     }
     
+    @objc private func archiveIsDeletedNotificationReceive(notification: Notification) {
+        guard let archiveId: String = notification.object as? String else { return }
+        self.reactor?.action.onNext(.deletedArchived(archiveId: archiveId))
+    }
+    
     private func moveCollectionViewFirstIndex() {
         DispatchQueue.main.async { [weak self] in
             if self?.reactor?.currentState.archives.count ?? 0 > 1 {
@@ -274,18 +286,14 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         }
     }
     
-    // MARK: internal function
-    
-    func willDeletedIndex(_ index: Int) {
-        DispatchQueue.main.async { [weak self] in
-            guard let reactor = self?.reactor else {
-                return
-            }
-            if index+1 >= reactor.currentState.archives.count {
-                self?.ticketCollectionView.scrollToItem(at: IndexPath(item: index-1, section: 0), at: .top, animated: false)
-            }
+    private func willDeletedIndex() {
+        guard let count = self.reactor?.currentState.archives.count else { return }
+        if count != 1 {
+            self.ticketCollectionView.scrollToItem(at: IndexPath(item: count - 2, section: 0), at: .top, animated: false)
         }
     }
+    
+    // MARK: internal function
     
     // MARK: action
     
