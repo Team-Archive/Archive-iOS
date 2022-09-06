@@ -261,8 +261,8 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
 
 extension MyLikeListViewController: MyLikeEmptyViewDelegate {
     func goToCommunity() {
-        self.navigationController?.popViewController(animated: true, completion: { [weak self] in
-            DispatchQueue.global().async { [weak self] in 
+        self.navigationController?.popViewController(animated: false, completion: { [weak self] in
+            DispatchQueue.global().async { [weak self] in
                 self?.reactor?.action.onNext(.moveToCommunityTab)
             }
         })

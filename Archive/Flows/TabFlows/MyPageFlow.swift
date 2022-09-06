@@ -111,8 +111,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             return .none
         case .myPageIsComplete:
             return .end(forwardToParentFlowWithStep: ArchiveStep.myPageIsComplete)
-        case .communityIsRequired:
-            return .end(forwardToParentFlowWithStep: ArchiveStep.communityIsRequired)
+        case .communityIrRequiredFromCode:
+            return .end(forwardToParentFlowWithStep: ArchiveStep.communityIrRequiredFromCode)
         case .myLikeArchiveDetailIsRequired(let infoData):
             navigationToMyLikeDetail(info: infoData)
             return .none

@@ -35,7 +35,7 @@ protocol MajorTabViewController where Self: UIViewController {
     func willUnselected()
 }
 
-enum Tab {
+enum Tab: Int {
     case none
     case home
     case record
