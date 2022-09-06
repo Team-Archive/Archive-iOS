@@ -162,6 +162,9 @@
 		788AB64A280A9EB900182B45 /* FindPasswordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB649280A9EB900182B45 /* FindPasswordRepository.swift */; };
 		788AB64C280A9EC600182B45 /* FindPasswordRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB64B280A9EC600182B45 /* FindPasswordRepositoryImplement.swift */; };
 		788AB64E280AAC6E00182B45 /* ArchiveToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */; };
+		788CDDC128C774D8002E81F1 /* CommunityReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CDDC028C774D8002E81F1 /* CommunityReportViewController.swift */; };
+		788CDDC328C77790002E81F1 /* ReportReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CDDC228C77790002E81F1 /* ReportReason.swift */; };
+		788CDDC528C77994002E81F1 /* CommunityReportTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788CDDC428C77994002E81F1 /* CommunityReportTableViewCell.swift */; };
 		78958E0C27129FBB003FF724 /* Pretendard-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78958E0927129FBB003FF724 /* Pretendard-Medium.ttf */; };
 		78958E0D27129FBB003FF724 /* Pretendard-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78958E0A27129FBB003FF724 /* Pretendard-Regular.ttf */; };
 		78958E0E27129FBB003FF724 /* Pretendard-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 78958E0B27129FBB003FF724 /* Pretendard-Bold.ttf */; };
@@ -428,6 +431,9 @@
 		788AB649280A9EB900182B45 /* FindPasswordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordRepository.swift; sourceTree = "<group>"; };
 		788AB64B280A9EC600182B45 /* FindPasswordRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordRepositoryImplement.swift; sourceTree = "<group>"; };
 		788AB64D280AAC6E00182B45 /* ArchiveToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveToastView.swift; sourceTree = "<group>"; };
+		788CDDC028C774D8002E81F1 /* CommunityReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityReportViewController.swift; sourceTree = "<group>"; };
+		788CDDC228C77790002E81F1 /* ReportReason.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportReason.swift; sourceTree = "<group>"; };
+		788CDDC428C77994002E81F1 /* CommunityReportTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityReportTableViewCell.swift; sourceTree = "<group>"; };
 		78958E0927129FBB003FF724 /* Pretendard-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.ttf"; sourceTree = "<group>"; };
 		78958E0A27129FBB003FF724 /* Pretendard-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.ttf"; sourceTree = "<group>"; };
 		78958E0B27129FBB003FF724 /* Pretendard-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Bold.ttf"; sourceTree = "<group>"; };
@@ -770,6 +776,7 @@
 		781C843C282F7CE3004A0FB3 /* Community */ = {
 			isa = PBXGroup;
 			children = (
+				788CDDBF28C774B4002E81F1 /* Report */,
 				78A45426286754350081D17E /* Detail */,
 				781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */,
 				781C843F282F7D05004A0FB3 /* CommunityReactor.swift */,
@@ -1131,6 +1138,16 @@
 				788AB64B280A9EC600182B45 /* FindPasswordRepositoryImplement.swift */,
 			);
 			path = FIndPassword;
+			sourceTree = "<group>";
+		};
+		788CDDBF28C774B4002E81F1 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				788CDDC028C774D8002E81F1 /* CommunityReportViewController.swift */,
+				788CDDC228C77790002E81F1 /* ReportReason.swift */,
+				788CDDC428C77994002E81F1 /* CommunityReportTableViewCell.swift */,
+			);
+			path = Report;
 			sourceTree = "<group>";
 		};
 		78958E0827129FA6003FF724 /* Font */ = {
@@ -1824,6 +1841,7 @@
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
 				786CE633289E3C6900D24266 /* MyLikeListLikeCountHeaderView.swift in Sources */,
+				788CDDC528C77994002E81F1 /* CommunityReportTableViewCell.swift in Sources */,
 				789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */,
 				7831CCE2284CB6D700526D11 /* ArchiveSelectEmotionView.swift in Sources */,
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
@@ -1861,6 +1879,7 @@
 				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
 				7825935128C3189500BB9814 /* LikeManager.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
+				788CDDC128C774D8002E81F1 /* CommunityReportViewController.swift in Sources */,
 				78D58B1128BB51BF00AF3191 /* RegistUploadCompleteViewController.swift in Sources */,
 				78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */,
 				448936AA2708401500EA423A /* SignInReactor.swift in Sources */,
@@ -1932,6 +1951,7 @@
 				783010372882A1670031F8CB /* CommunityBannerViewCell.swift in Sources */,
 				78D58B1428BB573800AF3191 /* UploadImageUsecase.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
+				788CDDC328C77790002E81F1 /* ReportReason.swift in Sources */,
 				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,

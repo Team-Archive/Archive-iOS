@@ -58,6 +58,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case showBeforeUser
         case getBannerInfo
         case bannerClicked(index: Int)
+        case report(archiveId: Int, reason: ReportReason)
     }
     
     enum Mutation {
@@ -226,6 +227,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             case .image:
                 self.steps.accept(ArchiveStep.bannerImageIsRequired(imageUrl: url))
             }
+            return .empty()
+        case .report(let archiveId, let reason):
+            print("신고할 아이디: \(archiveId) \(reason)")
             return .empty()
         }
     }
