@@ -56,7 +56,6 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     struct State {
-        let cardCnt: Int = 0 // TODO: 아카이브 갯수만 받아오는 API추가해야할듯
         var isLoading: Bool = false
         var myLikeArchives: [PublicArchive] = []
     }
@@ -76,8 +75,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                     switch result {
                     case .success(let info):
                         self?.steps.accept(ArchiveStep.loginInfomationIsRequired(stepper: self?.steps ?? .init(),
-                                                                                 info: info,
-                                                                                 archiveCnt: self?.currentState.cardCnt ?? 0))
+                                                                                 info: info))
                     case .failure(let err):
                         self?.err.onNext(err)
                     }

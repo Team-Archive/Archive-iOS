@@ -30,6 +30,7 @@ class LogInManager: NSObject {
     
     var profilePhotoUrl: String = ""
     var nickname: String = ""
+    var myTotalArchiveCnt: Int = 0
     
     // MARK: lifeCycle
     

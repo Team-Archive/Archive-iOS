@@ -35,9 +35,9 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         self.rootViewController?.present(navi, animated: true)
     }
     
-    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>, info: MyLoginInfo, cardCnt: Int) {
+    private func navigationToLoginInformationScreen(stepper: PublishRelay<Step>, info: MyLoginInfo) {
         let reactor = LoginInformationReactor(stepper: stepper, loginInfo: info,
-                                              archiveCnt: cardCnt,
+                                              archiveCnt: LogInManager.shared.myTotalArchiveCnt,
                                               validator: Validator(),
                                               findPasswordUsecase: FindPasswordUsecase(repository: FindPasswordRepositoryImplement()))
         let loginInfoViewController: LoginInformationViewController = UIStoryboard(name: "MyPage", bundle: nil).instantiateViewController(identifier: LoginInformationViewController.identifier) { corder in
@@ -95,8 +95,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         case .openUrlIsRequired(let url, let title):
             navigationToWebView(url: url, title: title)
             return .none
-        case .loginInfomationIsRequired(let stepper, let info, let archiveCnt):
-            navigationToLoginInformationScreen(stepper: stepper, info: info, cardCnt: archiveCnt)
+        case .loginInfomationIsRequired(let stepper, let info):
+            navigationToLoginInformationScreen(stepper: stepper, info: info)
             return .none
         case .logout:
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)

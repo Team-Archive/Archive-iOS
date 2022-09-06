@@ -174,10 +174,6 @@ extension ClearTextField: UITextFieldDelegate {
         refreshFocusUI()
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        refreshUnfocusUI()
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.endEditing(true)
         self.delegate?.doneClicked?(self, text: textField.text ?? "")
@@ -186,6 +182,7 @@ extension ClearTextField: UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         self.delegate?.didEndEditing?(self, text: textField.text ?? "")
+        refreshUnfocusUI()
     }
 }
 

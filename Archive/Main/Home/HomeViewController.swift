@@ -128,8 +128,9 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         
         reactor.state.map { $0.arvhivesCount }
         .distinctUntilChanged()
-        .map { String("\($0)") }
-        .bind(to: self.contentsCountLabel.rx.text)
+        .subscribe(onNext: { cnt in
+            LogInManager.shared.myTotalArchiveCnt = cnt
+        })
         .disposed(by: self.disposeBag)
         
         reactor.state.map { $0.arvhivesCount }
