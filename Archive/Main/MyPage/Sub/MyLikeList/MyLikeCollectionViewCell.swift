@@ -69,7 +69,7 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         $0.textColor = Gen.Colors.gray03.color
     }
     
-    private let likeBtn = LikeButton().then {
+    let likeBtn = LikeButton().then {
         $0.backgroundColor = .clear
         $0.isLike = true
     }

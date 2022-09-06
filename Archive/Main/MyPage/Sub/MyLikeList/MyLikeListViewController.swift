@@ -227,6 +227,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLikeCollectionViewCell.identifier, for: indexPath) as? MyLikeCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
         cell.delegate = self
+        cell.likeBtn.isLike = true
         return cell
     }
     
