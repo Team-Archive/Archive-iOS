@@ -95,7 +95,7 @@ class LikeManager: NSObject {
         self.timer?.invalidate()
         if self.willLikeStack.contains(id) { self.willLikeStack.remove(id) }
         self.willCancelLikeStack.insert(id)
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.timerIsDone), userInfo: nil, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: 0.7, target: self, selector: #selector(self.timerIsDone), userInfo: nil, repeats: false)
     }
     
     func refreshMyLikeList() {

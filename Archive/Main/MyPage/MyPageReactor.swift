@@ -56,7 +56,6 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     }
     
     struct State {
-        let cardCnt: Int = 0 // TODO: 아카이브 갯수만 받아오는 API추가해야할듯
         var isLoading: Bool = false
         var myLikeArchives: [PublicArchive] = []
     }
@@ -76,8 +75,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                     switch result {
                     case .success(let info):
                         self?.steps.accept(ArchiveStep.loginInfomationIsRequired(stepper: self?.steps ?? .init(),
-                                                                                 info: info,
-                                                                                 archiveCnt: self?.currentState.cardCnt ?? 0))
+                                                                                 info: info))
                     case .failure(let err):
                         self?.err.onNext(err)
                     }
@@ -115,8 +113,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
             self.steps.accept(ArchiveStep.editProfileIsRequired(reactor: self))
             return .empty()
         case .moveToCommunityTab:
-            // TODO: 탭 이동 수정하기
-            self.steps.accept(ArchiveStep.communityIsRequired)
+            self.steps.accept(ArchiveStep.communityIrRequiredFromCode)
             return .empty()
         case .myLikeArchivesLikeCancel(let id):
             return .just(.myLikeArchivesLikeCancel(id: id))
@@ -134,7 +131,6 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                 },
                 Observable.just(.setIsLoading(false))
             ])
-            return .empty()
         }
     }
     

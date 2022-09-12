@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Lottie
 
 @objc protocol LikeButtonDelegate {
     @objc optional func likeButtonClicked(button: LikeButton, willIsLike: Bool)
@@ -23,6 +24,13 @@ class LikeButton: UIView {
     
     private let likeImageView = UIImageView().then {
         $0.image = Gen.Images.unlike.image
+    }
+    
+    private let likeLottieView = AnimationView().then {
+        $0.backgroundColor = .clear
+        $0.animation = Animation.named("Like")
+        $0.contentMode = .scaleAspectFit
+        $0.loopMode = .playOnce
     }
     
     private lazy var likeRealBtn = UIButton().then {
@@ -43,8 +51,14 @@ class LikeButton: UIView {
             let isLike = self.isLike
             DispatchQueue.main.async { [weak self] in
                 if isLike {
+                    self?.likeLottieView.stop()
+                    self?.likeLottieView.isHidden = true
+                    self?.likeImageView.isHidden = false
                     self?.likeImageView.image = Gen.Images.like.image
                 } else {
+                    self?.likeLottieView.stop()
+                    self?.likeLottieView.isHidden = true
+                    self?.likeImageView.isHidden = false
                     self?.likeImageView.image = Gen.Images.unlike.image
                 }
             }
@@ -76,6 +90,12 @@ class LikeButton: UIView {
             $0.edges.equalTo(self.mainContentsView)
         }
         
+        self.mainContentsView.addSubview(self.likeLottieView)
+        self.likeLottieView.snp.makeConstraints {
+            $0.edges.equalTo(self.mainContentsView)
+        }
+        self.likeLottieView.isHidden = true
+        
         self.mainContentsView.addSubview(self.likeRealBtn)
         self.likeRealBtn.snp.makeConstraints {
             $0.edges.equalTo(self.mainContentsView)
@@ -84,12 +104,28 @@ class LikeButton: UIView {
     }
     
     private func likeAnimation(completion: @escaping () -> Void) {
-        completion()
+        self.likeLottieView.play(fromFrame: 0,
+                                  toFrame: 37,
+                                  loopMode: .playOnce,
+                                  completion: { isDone in
+            if isDone {
+                completion()
+            }
+        })
     }
     
     private func unlikeAnimation(completion: @escaping () -> Void) {
-        completion()
+        self.likeLottieView.play(fromFrame: 37,
+                                 toFrame: 75,
+                                 loopMode: .playOnce,
+                                 completion: { isDone in
+            if isDone {
+                completion()
+            }
+        })
     }
+
+
     
     // MARK: function
     
@@ -104,15 +140,21 @@ class LikeButton: UIView {
     
     @objc private func likeClicked() {
         haptic()
+        self.likeImageView.isHidden = true
+        self.likeLottieView.isHidden = false
         if self.isLike {
             self.delegate?.likeButtonClicked?(button: self, willIsLike: false)
             self.unlikeAnimation { [weak self] in
                 self?.isLike = false
+                self?.likeLottieView.isHidden = true
+                self?.likeImageView.isHidden = false
             }
         } else {
             self.delegate?.likeButtonClicked?(button: self, willIsLike: true)
             self.likeAnimation { [weak self] in
                 self?.isLike = true
+                self?.likeLottieView.isHidden = true
+                self?.likeImageView.isHidden = false
             }
         }
     }

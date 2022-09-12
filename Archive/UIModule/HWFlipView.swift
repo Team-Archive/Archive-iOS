@@ -9,6 +9,7 @@ import UIKit
 import SnapKit
 import RxCocoa
 import RxSwift
+import Spring // TODO: flip animation을 여기있는 플립으로 바꾸면 더 이쁨, 근데 애니메이션 중간 뷰를 바꿔야해서 중간에 호출되는 핸들러를 만들어야할 듯
 
 @objc public protocol HWFlipViewDelegate: AnyObject {
     @objc optional func flipViewWillFliped(flipView: HWFlipView, foregroundView: UIView, behindeView: UIView, willShow: HWFlipView.FlipType)

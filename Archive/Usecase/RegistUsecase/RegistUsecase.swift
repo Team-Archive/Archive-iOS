@@ -83,12 +83,11 @@ class RegistUsecase: NSObject {
                     let recordImageDataArr: [RecordImageData]? = {
                         if infoArr.count > 1 {
                             var returnValue: [RecordImageData] = []
-                            for i in 1..<infoArr.count {
-                                let index = i - 1
+                            for index in 1..<infoArr.count {
                                 let review = imageContents[index]
-                                let newElement = RecordImageData(image: infoArr[i].imageUrl,
+                                let newElement = RecordImageData(image: infoArr[index].imageUrl,
                                                                  review: review ?? "",
-                                                                 backgroundColor: infoArr[i].themeColor)
+                                                                 backgroundColor: infoArr[index].themeColor)
                                 returnValue.append(newElement)
                             }
                             return returnValue

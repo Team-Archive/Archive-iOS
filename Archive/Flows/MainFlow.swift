@@ -172,6 +172,16 @@ final class MainFlow: Flow {
             } else {
                 return .none
             }
+        case .communityIrRequiredFromCode:
+            if self.currentTabFlow != .community {
+                print("communityIsRequired")
+                endTabFlow(current: self.currentTabFlow)
+                self.currentTabFlow = .community
+                mainTabBarContoller.moveTabTo(.community)
+                return startTabFlow(new: .community)
+            } else {
+                return .none
+            }
         case .myPageIsRequired:
             if self.currentTabFlow != .myPage {
                 print("myPageIsRequired")

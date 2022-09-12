@@ -45,10 +45,11 @@ enum ArchiveStep: Step {
     case communityIsRequired
     case communityIsComplete
     case communityDetailIsRequired(data: ArchiveDetailInfo, currentIndex: Int, reactor: CommunityReactor)
+    case communityIrRequiredFromCode
     
     // MyPage
     case myPageIsRequired
-    case loginInfomationIsRequired(stepper: PublishRelay<Step>, info: MyLoginInfo, archiveCnt: Int)
+    case loginInfomationIsRequired(stepper: PublishRelay<Step>, info: MyLoginInfo)
     case withdrawalIsRequired(reactor: LoginInformationReactor)
     case withdrawalIsComplete
     case logout

@@ -92,6 +92,31 @@ class MainTabBarViewController: UITabBarController, View {
     
     // MARK: func
     
+    func moveTabTo(_ tab: Tab) {
+        self.currentSelectedMajorTabViewController?.willUnselected()
+        switch tab {
+        case .none:
+            break
+        case .home:
+            self.tabViewControllers?.homeViewController.willTabSeleted()
+            self.selectedIndex = tab.rawValue - 1
+            self.currentTab = tab
+            self.tabViewControllers?.homeViewController.didTabSeleted()
+        case .record:
+            break
+        case .community:
+            self.tabViewControllers?.communityViewController.willTabSeleted()
+            self.selectedIndex = tab.rawValue - 1
+            self.currentTab = tab
+            self.tabViewControllers?.communityViewController.didTabSeleted()
+        case .myPage:
+            self.tabViewControllers?.myPageViewController.willTabSeleted()
+            self.selectedIndex = tab.rawValue - 1
+            self.currentTab = tab
+            self.tabViewControllers?.myPageViewController.didTabSeleted()
+        }
+    }
+    
     // MARK: action
 
     
