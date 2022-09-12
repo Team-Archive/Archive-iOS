@@ -28,6 +28,7 @@ enum ArchiveAPI {
     case getMyLikeList
     case getBanner
     case getThisMonthRegistArchiveCnt
+    case report(archiveId: Int, reason: String)
 }
         
 extension ArchiveAPI: TargetType {
@@ -41,7 +42,7 @@ extension ArchiveAPI: TargetType {
         }
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -90,6 +91,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v2/banner"
         case .getThisMonthRegistArchiveCnt:
             return "/api/v2/archive/count/month"
+        case .report(let archiveId, _):
+            return "/api/v2/report/\(archiveId)"
         }
     }
     
@@ -135,6 +138,8 @@ extension ArchiveAPI: TargetType {
             return .get
         case .getThisMonthRegistArchiveCnt:
             return .get
+        case .report:
+            return .post
         }
     }
     
@@ -207,6 +212,8 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .getThisMonthRegistArchiveCnt:
             return .requestPlain
+        case .report(_, let reason):
+            return .requestParameters(parameters: ["reason": reason], encoding: JSONEncoding.default)
         }
     }
     
@@ -255,6 +262,8 @@ extension ArchiveAPI: TargetType {
         case .getBanner:
             return ["Authorization": LogInManager.shared.accessToken]
         case .getThisMonthRegistArchiveCnt:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .report:
             return ["Authorization": LogInManager.shared.accessToken]
         }
     }

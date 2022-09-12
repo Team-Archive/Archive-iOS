@@ -438,6 +438,15 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             })
             .disposed(by: self.disposeBag)
         
+        reactor.reportSuccess
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: {
+                CommonAlertView.shared.show(message: "신고 완료", btnText: "확인", confirmHandler: {
+                    CommonAlertView.shared.hide()
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {
@@ -530,7 +539,16 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     }
     
     @objc private func moreClicked() {
-        print("옵션")
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let reportAction: UIAlertAction = UIAlertAction(title: "부적절한 콘텐츠로 신고하기", style: .default) { [weak self] _ in
+            self?.reactor?.action.onNext(.showReportPage)
+        }
+        reportAction.setValue(Gen.Colors.errorRed.color, forKey: "titleTextColor")
+        
+        alert.view.tintColor = Gen.Colors.black.color
+        alert.addAction(reportAction)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
     }
     
     @objc private func closeClicked() {

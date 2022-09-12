@@ -21,6 +21,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
     }
     
     weak var rootViewController: UINavigationController?
+    weak var currentPresentedViewController: UIViewController?
     
     // MARK: lifeCycle
     
@@ -31,6 +32,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         reactor.action.onNext(.spreadDetailData(infoData: infoData, index: index))
         let navi = UINavigationController(rootViewController: vc)
         navi.modalPresentationStyle = .fullScreen
+        self.currentPresentedViewController = navi
         self.rootViewController?.present(navi, animated: true)
     }
     
@@ -38,6 +40,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         let vc = FullImageViewController(url: url)
         let navi = UINavigationController(rootViewController: vc)
         navi.modalPresentationStyle = .fullScreen
+        self.currentPresentedViewController = navi
         self.rootViewController?.present(navi, animated: true)
     }
     
@@ -45,12 +48,22 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         let vc = CommonWebViewController(url: url, title: title)
         let navi = UINavigationController(rootViewController: vc)
         navi.modalPresentationStyle = .fullScreen
+        self.currentPresentedViewController = navi
         self.rootViewController?.present(navi, animated: true)
+    }
+    
+    private func navigationToReport(reactor: CommunityReactor) {
+        let vc = CommunityReportViewController(reactor: reactor)
+        let navi = UINavigationController(rootViewController: vc)
+        navi.modalPresentationStyle = .pageSheet
+        self.currentPresentedViewController?.present(navi, animated: true)
     }
     
     // MARK: internal function
     
     func makeNavigationItems() {
+        self.currentPresentedViewController = self.rootViewController
+        
         let logoImage = Gen.Images.logo.image
         let logoImageView = UIImageView.init(image: logoImage)
         logoImageView.frame = CGRect(x: -40, y: 0, width: 108, height: 28)
@@ -75,6 +88,9 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
             return .none
         case .openUrlIsRequired(let url, let title):
             navigationToBannerWebViewDetail(url: url, title: title)
+            return .none
+        case .communityReportIsRequired(let reactor):
+            navigationToReport(reactor: reactor)
             return .none
         case .communityIsComplete:
             return .end(forwardToParentFlowWithStep: ArchiveStep.communityIsComplete)

@@ -24,6 +24,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     private let bannerUsecase: BannerUsecase
     private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
+    private let reportUsecase: ReportUsecase
     private var archiveSortType: ArchiveSortType = .sortByRegist
     private var filterEmotion: Emotion?
     
@@ -35,14 +36,20 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     let steps = PublishRelay<Step>()
     let initialState = State()
     var err: PublishSubject<ArchiveError> = .init()
+    var reportSuccess: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
-    init(repository: CommunityRepository, bannerRepository: BannerRepository, likeRepository: LikeRepository, detailRepository: DetailRepository) {
+    init(repository: CommunityRepository,
+         bannerRepository: BannerRepository,
+         likeRepository: LikeRepository,
+         detailRepository: DetailRepository,
+         reportRepository: ReportRepository) {
         self.usecase = CommunityUsecase(repository: repository)
         self.bannerUsecase = BannerUsecase(repository: bannerRepository)
         self.likeUsecase = LikeUsecase(repository: likeRepository)
         self.detailUsecase = DetailUsecase(repository: detailRepository)
+        self.reportUsecase = ReportUsecase(repository: reportRepository)
     }
     
     enum Action {
@@ -58,6 +65,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case showBeforeUser
         case getBannerInfo
         case bannerClicked(index: Int)
+        case showReportPage
+        case report(archiveId: Int, reason: ReportReason)
     }
     
     enum Mutation {
@@ -160,7 +169,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                             reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
                                                               bannerRepository: BannerRepositoryImplement(),
                                                               likeRepository: LikeRepositoryImplement(),
-                                                              detailRepository: DetailRepositoryImplement())))
+                                                              detailRepository: DetailRepositoryImplement(),
+                                                              reportRepository: ReportRepositoryImplement())))
                     case .failure(let err):
                         self?.err.onNext(err)
                     }
@@ -227,6 +237,24 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 self.steps.accept(ArchiveStep.bannerImageIsRequired(imageUrl: url))
             }
             return .empty()
+        case .showReportPage:
+            self.steps.accept(ArchiveStep.communityReportIsRequired(reactor: self))
+            return .empty()
+        case .report(let archiveId, let reason):
+            return Observable.concat([
+                Observable.just(Mutation.setIsLoading(true)),
+                self.report(archiveId: archiveId, reason: reason.localizaedValue)
+                    .map { [weak self] result in
+                        switch result {
+                        case .success(_):
+                            self?.reportSuccess.onNext(())
+                        case .failure(let err):
+                            self?.err.onNext(err)
+                        }
+                        return .empty
+                    },
+                Observable.just(Mutation.setIsLoading(false))
+            ])
         }
     }
     
@@ -354,6 +382,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private func getBannerInfo() -> Observable<Result<[BannerInfo], ArchiveError>> {
         return self.bannerUsecase.getBanner()
+    }
+    
+    private func report(archiveId: Int, reason: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.reportUsecase.report(archiveId: archiveId, reason: reason)
     }
     
     // MARK: internal function
