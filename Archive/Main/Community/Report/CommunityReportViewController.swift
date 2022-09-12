@@ -38,6 +38,11 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
         $0.register(CommunityReportTableViewCell.self, forCellReuseIdentifier: CommunityReportTableViewCell.identifier)
     }
     
+    private lazy var closeBtn = UIButton().then {
+        $0.setImageAllState(Gen.Images.xIcon.image)
+        $0.addTarget(self, action: #selector(closeClicked), for: .touchUpInside)
+    }
+    
     // MARK: private property
     
     // MARK: property
@@ -115,7 +120,7 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
         
         self.tableView.rx.itemSelected
             .subscribe(onNext: { index in
-                reactor.action.onNext(.report(archiveId: reactor.currentDetailIndex,
+                reactor.action.onNext(.report(archiveId: reactor.currentState.detailArchive.archiveInfo.archiveId,
                                               reason: ReportReason.getItemAtIndex(index.row)))
             })
             .disposed(by: self.disposeBag)
@@ -129,25 +134,14 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private func
     
     private func makeNavigationItems() {
-//        self.userImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        self.userImageView.contentMode = .scaleAspectFit
-//        let userImageItem = UIBarButtonItem.init(customView: self.userImageView)
-//        let negativeSpacer1 = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-//        let negativeSpacer2 = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-//        let userNameItem = UIBarButtonItem.init(customView: self.userNameLabel)
-//        let leftItems: [UIBarButtonItem] = [negativeSpacer1, negativeSpacer2, userImageItem, userNameItem]
-//
-//        self.userImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-//        self.userImageView.contentMode = .scaleAspectFit
-//        let closeItem = UIBarButtonItem.init(customView: self.closeBtn)
-//        let moreItem = UIBarButtonItem.init(customView: self.moreBtn)
-//        let rightItems: [UIBarButtonItem] = [closeItem, moreItem]
-//
-//        self.navigationController?.navigationBar.topItem?.leftBarButtonItems = leftItems
-//        self.navigationController?.navigationBar.topItem?.rightBarButtonItems = rightItems
-//
-//        self.navigationController?.navigationBar.barStyle = .black
-//        self.navigationController?.navigationBar.tintColor = .white
+        let closeItem = UIBarButtonItem.init(customView: self.closeBtn)
+        let rightItems: [UIBarButtonItem] = [closeItem]
+        
+        self.navigationController?.navigationBar.topItem?.rightBarButtonItems = rightItems
+    }
+    
+    @objc private func closeClicked() {
+        self.dismiss(animated: true)
     }
     
     // MARK: func

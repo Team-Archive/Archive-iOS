@@ -532,10 +532,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     @objc private func moreClicked() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let reportAction: UIAlertAction = UIAlertAction(title: "부적절한 콘텐츠로 신고하기", style: .default) { [weak self] _ in
-            guard let reactor = self?.reactor else { return }
-            let vc = CommunityReportViewController(reactor: reactor)
-            vc.modalPresentationStyle = .pageSheet
-            self?.present(vc, animated: true)
+            self?.reactor?.action.onNext(.showReportPage)
         }
         reportAction.setValue(Gen.Colors.errorRed.color, forKey: "titleTextColor")
         
