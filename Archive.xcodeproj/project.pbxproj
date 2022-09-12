@@ -75,6 +75,9 @@
 		7823982E280C23E80071D874 /* LogInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823982D280C23E80071D874 /* LogInManager.swift */; };
 		78239830280C251F0071D874 /* LogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823982F280C251F0071D874 /* LogInRepository.swift */; };
 		78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78239831280C252D0071D874 /* LogInRepositoryImplement.swift */; };
+		7823ACD628CF367E005CFFC7 /* ReportUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823ACD528CF367E005CFFC7 /* ReportUsecase.swift */; };
+		7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823ACD728CF3687005CFFC7 /* ReportRepository.swift */; };
+		7823ACDA28CF3693005CFFC7 /* ReportRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7823ACD928CF3693005CFFC7 /* ReportRepositoryImplement.swift */; };
 		7824796228B09F0C003E71A2 /* RegistImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */; };
 		7824796428B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */; };
 		7824796628B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */; };
@@ -349,6 +352,9 @@
 		7823982D280C23E80071D874 /* LogInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInManager.swift; sourceTree = "<group>"; };
 		7823982F280C251F0071D874 /* LogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRepository.swift; sourceTree = "<group>"; };
 		78239831280C252D0071D874 /* LogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInRepositoryImplement.swift; sourceTree = "<group>"; };
+		7823ACD528CF367E005CFFC7 /* ReportUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportUsecase.swift; sourceTree = "<group>"; };
+		7823ACD728CF3687005CFFC7 /* ReportRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRepository.swift; sourceTree = "<group>"; };
+		7823ACD928CF3693005CFFC7 /* ReportRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportRepositoryImplement.swift; sourceTree = "<group>"; };
 		7824796128B09F0C003E71A2 /* RegistImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageAddCollectionViewCell.swift; sourceTree = "<group>"; };
 		7824796528B0AE9C003E71A2 /* RegistImageCoverCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCoverCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -846,6 +852,16 @@
 			path = LogInManager;
 			sourceTree = "<group>";
 		};
+		7823ACD428CF3674005CFFC7 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				7823ACD528CF367E005CFFC7 /* ReportUsecase.swift */,
+				7823ACD728CF3687005CFFC7 /* ReportRepository.swift */,
+				7823ACD928CF3693005CFFC7 /* ReportRepositoryImplement.swift */,
+			);
+			path = Report;
+			sourceTree = "<group>";
+		};
 		782FDF39272CF9A3004D1B6E /* ImageSelect */ = {
 			isa = PBXGroup;
 			children = (
@@ -915,6 +931,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				7823ACD428CF3674005CFFC7 /* Report */,
 				78D58B1928BB59A600AF3191 /* RegistUsecase */,
 				78D58B1228BB572E00AF3191 /* UploadImage */,
 				78D5F4FD28B118E500C2B271 /* ImageColorUsecase */,
@@ -1774,6 +1791,7 @@
 			files = (
 				78A38BED280D9380000C921B /* ChangePasswordViewController.swift in Sources */,
 				7830103A2882A2850031F8CB /* BannerUsecase.swift in Sources */,
+				7823ACDA28CF3693005CFFC7 /* ReportRepositoryImplement.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
@@ -1861,6 +1879,7 @@
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
 				786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */,
 				787769A0273AA98100519B58 /* PhotoContentsView.swift in Sources */,
+				7823ACD628CF367E005CFFC7 /* ReportUsecase.swift in Sources */,
 				44FB0A2927186E33006E1048 /* AppStepper.swift in Sources */,
 				78BAF74C28AA169000641250 /* RegistEmotionSelectViewController.swift in Sources */,
 				44FB0A1027183BDA006E1048 /* EmailInputViewController.swift in Sources */,
@@ -1870,6 +1889,7 @@
 				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
+				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,

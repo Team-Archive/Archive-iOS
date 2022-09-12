@@ -119,9 +119,11 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
             .disposed(by: self.disposeBag)
         
         self.tableView.rx.itemSelected
-            .subscribe(onNext: { index in
+            .asDriver()
+            .drive(onNext: { [weak self] index in
                 reactor.action.onNext(.report(archiveId: reactor.currentState.detailArchive.archiveInfo.archiveId,
                                               reason: ReportReason.getItemAtIndex(index.row)))
+                self?.dismiss(animated: true)
             })
             .disposed(by: self.disposeBag)
         

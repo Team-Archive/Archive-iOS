@@ -65,7 +65,8 @@ final class MainFlow: Flow {
         let communityReactor: CommunityReactor = CommunityReactor(repository: CommunityRepositoryImplement(),
                                                                   bannerRepository: BannerRepositoryImplement(),
                                                                   likeRepository: LikeRepositoryImplement(),
-                                                                  detailRepository: DetailRepositoryImplement())
+                                                                  detailRepository: DetailRepositoryImplement(),
+                                                                  reportRepository: ReportRepositoryImplement())
         let communityViewController = CommunityViewController(reactor: communityReactor)
         communityViewController.tabBarItem = UITabBarItem(title: "전시 소통", image: Gen.Images.communityOff.image, selectedImage: Gen.Images.communityOn.image)
         
