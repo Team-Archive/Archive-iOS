@@ -109,6 +109,10 @@
 		7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */; };
 		7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */; };
 		7839E49828DEDA0400A80A1D /* CommunityReportCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49728DEDA0400A80A1D /* CommunityReportCompleteViewController.swift */; };
+		7839E49B28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */; };
+		7839E49D28DEDF4600A80A1D /* NickNameDuplicationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */; };
+		7839E49F28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */; };
+		7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
@@ -386,6 +390,10 @@
 		7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepository.swift; sourceTree = "<group>"; };
 		7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
 		7839E49728DEDA0400A80A1D /* CommunityReportCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityReportCompleteViewController.swift; sourceTree = "<group>"; };
+		7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationUsecase.swift; sourceTree = "<group>"; };
+		7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepository.swift; sourceTree = "<group>"; };
+		7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepositoryImplement.swift; sourceTree = "<group>"; };
+		7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationStubRepoImp.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
@@ -933,6 +941,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				7839E49928DEDF1600A80A1D /* NickNameDuplication */,
 				7823ACD428CF3674005CFFC7 /* Report */,
 				78D58B1928BB59A600AF3191 /* RegistUsecase */,
 				78D58B1228BB572E00AF3191 /* UploadImage */,
@@ -981,6 +990,17 @@
 				78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */,
 			);
 			path = EmailSignIn;
+			sourceTree = "<group>";
+		};
+		7839E49928DEDF1600A80A1D /* NickNameDuplication */ = {
+			isa = PBXGroup;
+			children = (
+				7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */,
+				7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */,
+				7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */,
+				7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */,
+			);
+			path = NickNameDuplication;
 			sourceTree = "<group>";
 		};
 		783A61DD273BEAE3004D848F /* Manager */ = {
@@ -1858,6 +1878,7 @@
 				78C4B33B27244C000006EBAD /* UIViewExtension.swift in Sources */,
 				78D5F50428B1241D00C2B271 /* RegistContentsBottomView.swift in Sources */,
 				78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */,
+				7839E49F28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift in Sources */,
 				78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
@@ -1890,6 +1911,7 @@
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
 				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
 				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
+				7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
 				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,
@@ -1898,6 +1920,7 @@
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,
 				44BE6F07271144BF00E74A7D /* SignUpReactor.swift in Sources */,
 				782FDF4F272CFB6E004D1B6E /* HWPhotoListFromAlbumView.swift in Sources */,
+				7839E49D28DEDF4600A80A1D /* NickNameDuplicationRepository.swift in Sources */,
 				78657BCE28A5498D00549D12 /* RegistViewController.swift in Sources */,
 				781C8440282F7D05004A0FB3 /* CommunityReactor.swift in Sources */,
 				7825935128C3189500BB9814 /* LikeManager.swift in Sources */,
@@ -1981,6 +2004,7 @@
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
 				789E61B227257BD400D6E18F /* ImageRecordModel.swift in Sources */,
+				7839E49B28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift in Sources */,
 				78D58B1828BB575200AF3191 /* UploadImageRepositoryImplement.swift in Sources */,
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
