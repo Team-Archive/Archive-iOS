@@ -59,6 +59,12 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     
     // MARK: private property
     
+    private lazy var photoPicker = UIImagePickerController().then {
+        $0.delegate = self
+        $0.sourceType = .savedPhotosAlbum
+        $0.allowsEditing = false
+    }
+    
     // MARK: property
     
     var disposeBag: DisposeBag = DisposeBag()
@@ -224,7 +230,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
         reactor.photoAccessAuthSuccess
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
-                print("권한 얻음")
+                self?.present(self?.photoPicker ?? UIViewController(), animated: true)
             })
             .disposed(by: self.disposeBag)
     }
@@ -269,16 +275,17 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
 
 }
 
-extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate { // TODO: XCode업데이트하고 개발하기
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         picker.dismiss(animated: true)
 
-        guard let image = info[.editedImage] as? UIImage else {
-            print("No image found")
-            return
-        }
-
-        // print out the image size as a test
-        print(image.size)
+//        guard let image = info[.editedImage] as? UIImage else {
+//            print("No image found")
+//            return
+//        }
+        
+        guard let image = info[.originalImage] as? UIImage else { print("No image found from library") ; return }
+        print("image: \(image)")
     }
 }
