@@ -46,8 +46,6 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     private let duplicatedNicknameWarningLabel = UILabel().then {
         $0.font = .fonts(.body)
         $0.textColor = Gen.Colors.gray02.color
-//        $0.text = "사용할 수 있는 닉네임입니다."
-//        이미 사용 중인 닉네임입니다.
     }
     
     private let confirmBtn = ArchiveConfirmButton().then {
@@ -165,6 +163,36 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             })
             .disposed(by: self.disposeBag)
         
+        reactor.state
+            .map { $0.isEnableConfirmBtn }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] isEnable in
+                self?.confirmBtn.isEnabled = isEnable
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isDuplicatedNickName }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: nil)
+            .drive(onNext: { [weak self] isDuplicated in
+                guard let isDuplicated = isDuplicated else { self?.duplicatedNicknameWarningLabel.isEnabled = true ; return }
+                self?.duplicatedNicknameWarningLabel.isHidden = false
+                if isDuplicated {
+                    self?.duplicatedNicknameWarningLabel.text = "이미 사용 중인 닉네임입니다."
+                } else {
+                    self?.duplicatedNicknameWarningLabel.text = "사용할 수 있는 닉네임입니다."
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.nicknameTextField.rx.check
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] nickName in
+                reactor.action.onNext(.checkIsDuplicatedNickName(nickName))
+            })
+            .disposed(by: self.disposeBag)
     }
     
     deinit {
