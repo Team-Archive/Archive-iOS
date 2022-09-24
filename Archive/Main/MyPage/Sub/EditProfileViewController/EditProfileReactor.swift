@@ -38,6 +38,7 @@ class EditProfileReactor: Reactor, Stepper {
         case checkIsDuplicatedNickName(String)
         case changedNickNameText
         case requestPhotoAccessAuth
+        case setProfileImageData(Data)
     }
     
     enum Mutation {
@@ -47,6 +48,7 @@ class EditProfileReactor: Reactor, Stepper {
         case setIsDuplicatedNickName(Bool?)
         case setNewNickName(String)
         case setIsRegistNewProfilePhoto(Bool)
+        case setProfileImageData(Data)
     }
     
     struct State {
@@ -56,6 +58,7 @@ class EditProfileReactor: Reactor, Stepper {
         var isRegistNewProfilePhoto: Bool = false
         var isEnableConfirmBtn: Bool = false
         var newNickName: String = ""
+        var profileImageData: Data?
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -116,6 +119,14 @@ class EditProfileReactor: Reactor, Stepper {
                 self?.photoAccessAuthSuccess.onNext(())
             })
             return .empty()
+        case .setProfileImageData(let data):
+            let confirmBtnIsEnable: Bool = self.checkConfirmBtnIsEnable(isCheckedNickNameDuplication: self.currentState.isDuplicatedNickName ?? false,
+                                                                        isRegistedNewProfilePhoto: true)
+            return .from([
+                .setIsEnableConfirmBtn(confirmBtnIsEnable),
+                .setIsRegistNewProfilePhoto(true),
+                .setProfileImageData(data)
+            ])
         }
     }
     
@@ -134,6 +145,8 @@ class EditProfileReactor: Reactor, Stepper {
             newState.isRegistNewProfilePhoto = isRegisted
         case .setNewNickName(let nickName):
             newState.newNickName = nickName
+        case .setProfileImageData(let data):
+            newState.profileImageData = data
         }
         return newState
     }

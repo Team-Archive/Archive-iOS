@@ -11,6 +11,7 @@ import ReactorKit
 import RxCocoa
 import Then
 import AVFoundation
+import CropViewController
 
 class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     
@@ -27,6 +28,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     private let profileImageContainerView = UIView().then {
         $0.backgroundColor = .clear
         $0.layer.cornerRadius = 31
+        $0.layer.masksToBounds = true
     }
     
     private let profileImageView = UIImageView().then {
@@ -233,6 +235,8 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
                 self?.present(self?.photoPicker ?? UIViewController(), animated: true)
             })
             .disposed(by: self.disposeBag)
+        
+        
     }
     
     deinit {
@@ -271,6 +275,16 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
 //        })
 //    }
     
+    private func showImageEditView(image: UIImage) {
+        let cropViewController: CropViewController = CropViewController(croppingStyle: .circular, image: image)
+        cropViewController.delegate = self
+        cropViewController.doneButtonTitle = "확인"
+        cropViewController.doneButtonColor = Gen.Colors.white.color
+        cropViewController.cancelButtonTitle = "취소"
+        cropViewController.cancelButtonColor = Gen.Colors.white.color
+        self.present(cropViewController, animated: true, completion: nil)
+    }
+    
     // MARK: func
 
 }
@@ -278,7 +292,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        picker.dismiss(animated: true)
+        picker.dismiss(animated: false)
 
 //        guard let image = info[.editedImage] as? UIImage else {
 //            print("No image found")
@@ -286,6 +300,21 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 //        }
         
         guard let image = info[.originalImage] as? UIImage else { print("No image found from library") ; return }
-        print("image: \(image)")
+        DispatchQueue.main.async { [weak self] in
+            self?.showImageEditView(image: image)
+        }
+    }
+}
+
+extension EditProfileViewController: CropViewControllerDelegate {
+    func cropViewController(_ cropViewController: CropViewController, didCropToImage image: UIImage, withRect cropRect: CGRect, angle: Int) {
+        DispatchQueue.main.async { [weak self] in
+            cropViewController.dismiss(animated: true, completion: { [weak self] in
+//                self?.reactor?.action.onNext(.setCropedImage(image))
+                guard let data = image.pngData() else { return }
+                self?.reactor?.action.onNext(.setProfileImageData(data))
+                self?.profileImageView.image = image
+            })
+        }
     }
 }
