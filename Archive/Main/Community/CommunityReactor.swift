@@ -36,7 +36,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     let steps = PublishRelay<Step>()
     let initialState = State()
     var err: PublishSubject<ArchiveError> = .init()
-    var reportSuccess: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
@@ -247,7 +246,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     .map { [weak self] result in
                         switch result {
                         case .success(_):
-                            self?.reportSuccess.onNext(())
+                            break
                         case .failure(let err):
                             self?.err.onNext(err)
                         }

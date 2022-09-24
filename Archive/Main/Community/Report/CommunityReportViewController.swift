@@ -45,6 +45,8 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
     
     // MARK: private property
     
+    private let completeViewController: CommunityReportCompleteViewController
+    
     // MARK: property
     
     var disposeBag: DisposeBag = DisposeBag()
@@ -58,6 +60,7 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
     }
     
     init(reactor: CommunityReactor) {
+        self.completeViewController = CommunityReportCompleteViewController(reactor: reactor)
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
     }
@@ -123,7 +126,7 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
             .drive(onNext: { [weak self] index in
                 reactor.action.onNext(.report(archiveId: reactor.currentState.detailArchive.archiveInfo.archiveId,
                                               reason: ReportReason.getItemAtIndex(index.row)))
-                self?.dismiss(animated: true)
+                self?.navigationController?.pushViewController(self?.completeViewController ?? UIViewController(), animated: true)
             })
             .disposed(by: self.disposeBag)
         
@@ -138,8 +141,7 @@ class CommunityReportViewController: UIViewController, View, ActivityIndicatorab
     private func makeNavigationItems() {
         let closeItem = UIBarButtonItem.init(customView: self.closeBtn)
         let rightItems: [UIBarButtonItem] = [closeItem]
-        
-        self.navigationController?.navigationBar.topItem?.rightBarButtonItems = rightItems
+        navigationItem.rightBarButtonItems = rightItems
     }
     
     @objc private func closeClicked() {

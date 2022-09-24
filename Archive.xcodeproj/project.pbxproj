@@ -108,6 +108,7 @@
 		7831D52027E593F100E3FA57 /* EmailSignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */; };
 		7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */; };
 		7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */; };
+		7839E49828DEDA0400A80A1D /* CommunityReportCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49728DEDA0400A80A1D /* CommunityReportCompleteViewController.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
@@ -384,6 +385,7 @@
 		7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailSignInViewController.swift; sourceTree = "<group>"; };
 		7831D52127E5A5A300E3FA57 /* LoginOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepository.swift; sourceTree = "<group>"; };
 		7831D52327E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
+		7839E49728DEDA0400A80A1D /* CommunityReportCompleteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityReportCompleteViewController.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
@@ -1163,6 +1165,7 @@
 				788CDDC028C774D8002E81F1 /* CommunityReportViewController.swift */,
 				788CDDC228C77790002E81F1 /* ReportReason.swift */,
 				788CDDC428C77994002E81F1 /* CommunityReportTableViewCell.swift */,
+				7839E49728DEDA0400A80A1D /* CommunityReportCompleteViewController.swift */,
 			);
 			path = Report;
 			sourceTree = "<group>";
@@ -1972,6 +1975,7 @@
 				78D58B1428BB573800AF3191 /* UploadImageUsecase.swift in Sources */,
 				785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */,
 				788CDDC328C77790002E81F1 /* ReportReason.swift in Sources */,
+				7839E49828DEDA0400A80A1D /* CommunityReportCompleteViewController.swift in Sources */,
 				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
