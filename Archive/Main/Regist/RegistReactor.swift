@@ -256,7 +256,7 @@ class RegistReactor: Reactor, Stepper {
             break
         }
     }
-    
+    //
     private func requestPhotoAuth(completion: (() -> Void)?) {
         if #available(iOS 14, *) {
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] (status) in

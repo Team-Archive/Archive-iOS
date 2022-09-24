@@ -210,6 +210,23 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
                 reactor.action.onNext(.changedNickNameText)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.moveToConfig
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                CommonAlertView.shared.show(message: "프로필 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다.", subMessage: nil, btnText: "확인", hapticType: .warning, confirmHandler: {
+                    Util.moveToSetting()
+                    CommonAlertView.shared.hide(nil)
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.photoAccessAuthSuccess
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                print("권한 얻음")
+            })
+            .disposed(by: self.disposeBag)
     }
     
     deinit {
@@ -228,8 +245,8 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             self?.present(vc, animated: true)
             // TODO: 이거 테스트하려면 XCode 업데이트 해야함..
         }
-        let selectFromLibraryAction: UIAlertAction = UIAlertAction(title: "라이브러리에서 선택", style: .default) { [weak self] selectFromLibrary in
-            
+        let selectFromLibraryAction: UIAlertAction = UIAlertAction(title: "라이브러리에서 선택", style: .default) { selectFromLibrary in
+            self.reactor?.action.onNext(.requestPhotoAccessAuth)
         }
         alert.view.tintColor = .black
         alert.addAction(takePhotoAction)
