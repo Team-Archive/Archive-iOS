@@ -17,6 +17,8 @@ class EditProfileReactor: Reactor, Stepper {
     // MARK: private property
     
     private let nickNameCheckUsecase: NickNameDuplicationUsecase
+    private let updateProfileUsecase: UpdateProfileUsecase
+    private var isUploading: Bool = false
     
     // MARK: internal property
     
@@ -25,12 +27,14 @@ class EditProfileReactor: Reactor, Stepper {
     let err: PublishSubject<ArchiveError> = .init()
     var photoAccessAuthSuccess: PublishSubject<Void> = .init()
     var moveToConfig: PublishSubject<Void> = .init()
+    var updateProfileComplete: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
-    init(nickNameDuplicationRepository: NickNameDuplicationRepository) {
+    init(nickNameDuplicationRepository: NickNameDuplicationRepository, updateProfileRepository: UpdateProfileRepository) {
         self.initialState = .init()
         self.nickNameCheckUsecase = NickNameDuplicationUsecase(repository: nickNameDuplicationRepository)
+        self.updateProfileUsecase = UpdateProfileUsecase(repository: updateProfileRepository)
     }
     
     enum Action {
@@ -39,6 +43,7 @@ class EditProfileReactor: Reactor, Stepper {
         case changedNickNameText
         case requestPhotoAccessAuth
         case setProfileImageData(Data)
+        case updateProfile
     }
     
     enum Mutation {
@@ -127,6 +132,25 @@ class EditProfileReactor: Reactor, Stepper {
                 .setIsRegistNewProfilePhoto(true),
                 .setProfileImageData(data)
             ])
+        case .updateProfile:
+            self.isUploading = true
+            return Observable.concat([
+                Observable.just(Mutation.setIsLoading(true)),
+                Observable.just(Mutation.setIsEnableConfirmBtn(false)),
+                self.updateProfile(profileImageData: self.currentState.profileImageData,
+                                   nickName: self.currentState.newNickName)
+                .map { [weak self] result in
+                    switch result {
+                    case .success(_):
+                        self?.updateProfileComplete.onNext(())
+                        self?.steps.accept(ArchiveStep.editProfileIsComplete)
+                    case .failure(let err):
+                        self?.err.onNext(err)
+                    }
+                    return .empty
+                },
+                Observable.just(Mutation.setIsLoading(false))
+            ])
         }
     }
     
@@ -157,8 +181,17 @@ class EditProfileReactor: Reactor, Stepper {
         return self.nickNameCheckUsecase.isDuplicatedNickName(nickName)
     }
     
+    private func updateProfile(profileImageData: Data?, nickName: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.updateProfileUsecase.updateProfile(imageData: profileImageData,
+                                                       nickName: nickName)
+    }
+    
     private func checkConfirmBtnIsEnable(isCheckedNickNameDuplication: Bool, isRegistedNewProfilePhoto: Bool) -> Bool {
-        return isCheckedNickNameDuplication || isRegistedNewProfilePhoto
+        if self.isUploading {
+            return false
+        } else {
+            return isCheckedNickNameDuplication || isRegistedNewProfilePhoto
+        }
     }
     
     private func checkPhotoAuth(completion: (() -> Void)?) {

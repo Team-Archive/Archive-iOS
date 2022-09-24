@@ -236,6 +236,20 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             })
             .disposed(by: self.disposeBag)
         
+        self.confirmBtn.rx.tap
+            .asDriver()
+            .drive(onNext: {
+                reactor.action.onNext(.updateProfile)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.updateProfileComplete
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
         
     }
     

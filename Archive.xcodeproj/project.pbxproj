@@ -115,6 +115,10 @@
 		7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */; };
 		7839E4A328DEE19200A80A1D /* EditProfileReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */; };
 		7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */; };
+		7839E4A828DF26A900A80A1D /* UpdateProfileUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */; };
+		7839E4AA28DF26B300A80A1D /* UpdateProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */; };
+		7839E4AC28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */; };
+		7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
@@ -398,6 +402,10 @@
 		7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationStubRepoImp.swift; sourceTree = "<group>"; };
 		7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileReactor.swift; sourceTree = "<group>"; };
 		7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFlow.swift; sourceTree = "<group>"; };
+		7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileUsecase.swift; sourceTree = "<group>"; };
+		7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepository.swift; sourceTree = "<group>"; };
+		7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepositoryImplement.swift; sourceTree = "<group>"; };
+		7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileStubImpl.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
@@ -946,6 +954,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				7839E4A628DF269D00A80A1D /* UpdateProfile */,
 				7839E49928DEDF1600A80A1D /* NickNameDuplication */,
 				7823ACD428CF3674005CFFC7 /* Report */,
 				78D58B1928BB59A600AF3191 /* RegistUsecase */,
@@ -1006,6 +1015,17 @@
 				7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */,
 			);
 			path = NickNameDuplication;
+			sourceTree = "<group>";
+		};
+		7839E4A628DF269D00A80A1D /* UpdateProfile */ = {
+			isa = PBXGroup;
+			children = (
+				7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */,
+				7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */,
+				7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */,
+				7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */,
+			);
+			path = UpdateProfile;
 			sourceTree = "<group>";
 		};
 		783A61DD273BEAE3004D848F /* Manager */ = {
@@ -1872,6 +1892,7 @@
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,
 				781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */,
+				7839E4AC28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift in Sources */,
 				7830103E2882A2980031F8CB /* BannerRepositoryImplement.swift in Sources */,
 				78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */,
 				78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */,
@@ -1895,6 +1916,7 @@
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
 				7802B86F28C3A154007A9416 /* MyLikeRepositoryImplement.swift in Sources */,
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
+				7839E4A828DF26A900A80A1D /* UpdateProfileUsecase.swift in Sources */,
 				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
 				781C8452282F8B6E004A0FB3 /* MainSplashReactor.swift in Sources */,
 				7824796228B09F0C003E71A2 /* RegistImageCollectionViewCell.swift in Sources */,
@@ -1905,6 +1927,7 @@
 				78A32167275B92530078650D /* DetailViewController.swift in Sources */,
 				789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */,
 				78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */,
+				7839E4AA28DF26B300A80A1D /* UpdateProfileRepository.swift in Sources */,
 				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
 				786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */,
@@ -1921,6 +1944,7 @@
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
 				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,
+				7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,

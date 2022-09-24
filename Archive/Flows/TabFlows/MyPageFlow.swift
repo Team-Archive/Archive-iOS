@@ -62,7 +62,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     }
     
     private func navigationToEditProfile() -> FlowContributors {
-        let reactor = EditProfileReactor(nickNameDuplicationRepository: NickNameDuplicationStubRepoImp())
+        let reactor = EditProfileReactor(nickNameDuplicationRepository: NickNameDuplicationStubRepoImp(),
+                                         updateProfileRepository: UpdateProfileStubImpl())
         let vc = EditProfileViewController(reactor: reactor)
         vc.title = "프로필 수정"
         let editProfileFlow = EditProfileFlow(rootViewController: self.rootViewController ?? UINavigationController())
