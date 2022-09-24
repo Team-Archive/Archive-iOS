@@ -33,13 +33,14 @@ class EditProfileReactor: Reactor, Stepper {
     enum Action {
         case endFlow
         case checkIsDuplicatedNickName(String)
+        case changedNickNameText
     }
     
     enum Mutation {
         case empty
         case setIsLoading(Bool)
         case setIsEnableConfirmBtn(Bool)
-        case setIsDuplicatedNickName(Bool)
+        case setIsDuplicatedNickName(Bool?)
         case setNewNickName(String)
         case setIsRegistNewProfilePhoto(Bool)
     }
@@ -74,12 +75,20 @@ class EditProfileReactor: Reactor, Stepper {
                         switch result {
                         case .success(let isDuplicated):
                             if isDuplicated {
-                                return .just(.setIsDuplicatedNickName(true))
-                            } else {
+                                let confirmBtnIsEnable: Bool = self?.checkConfirmBtnIsEnable(isCheckedNickNameDuplication: false,
+                                                                                            isRegistedNewProfilePhoto: self?.currentState.isRegistNewProfilePhoto ?? false) ?? false
                                 return .from([
+                                    .setNewNickName(""),
                                     .setIsDuplicatedNickName(true),
+                                    .setIsEnableConfirmBtn(confirmBtnIsEnable)
+                                ])
+                            } else {
+                                let confirmBtnIsEnable: Bool = self?.checkConfirmBtnIsEnable(isCheckedNickNameDuplication: true,
+                                                                                            isRegistedNewProfilePhoto: self?.currentState.isRegistNewProfilePhoto ?? false) ?? false
+                                return .from([
+                                    .setIsDuplicatedNickName(false),
                                     .setNewNickName(nickName),
-                                    .setIsEnableConfirmBtn(true)
+                                    .setIsEnableConfirmBtn(confirmBtnIsEnable)
                                 ])
                             }
                         case .failure(let err):
@@ -89,6 +98,14 @@ class EditProfileReactor: Reactor, Stepper {
                     }
                 ,
                 Observable.just(Mutation.setIsLoading(false))
+            ])
+        case .changedNickNameText:
+            let confirmBtnIsEnable: Bool = self.checkConfirmBtnIsEnable(isCheckedNickNameDuplication: false,
+                                                                        isRegistedNewProfilePhoto: self.currentState.isRegistNewProfilePhoto)
+            return .from([
+                .setIsEnableConfirmBtn(confirmBtnIsEnable),
+                .setNewNickName(""),
+                .setIsDuplicatedNickName(nil)
             ])
         }
     }
@@ -116,6 +133,10 @@ class EditProfileReactor: Reactor, Stepper {
     
     private func isDuplicatedNickName(_ nickName: String) -> Observable<Result<Bool, ArchiveError>> {
         return self.nickNameCheckUsecase.isDuplicatedNickName(nickName)
+    }
+    
+    private func checkConfirmBtnIsEnable(isCheckedNickNameDuplication: Bool, isRegistedNewProfilePhoto: Bool) -> Bool {
+        return isCheckedNickNameDuplication || isRegistedNewProfilePhoto
     }
     
     // MARK: internal function

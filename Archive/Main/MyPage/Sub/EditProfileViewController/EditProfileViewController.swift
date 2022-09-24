@@ -122,7 +122,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             $0.leading.equalTo(self.mainContentsView).offset(32)
             $0.trailing.equalTo(self.mainContentsView).offset(-32)
         }
-        self.duplicatedNicknameWarningLabel.isHidden = true
+        self.duplicatedNicknameWarningLabel.alpha = 0
         
         self.mainContentsView.addSubview(self.confirmBtn)
         self.confirmBtn.snp.makeConstraints {
@@ -177,8 +177,8 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: nil)
             .drive(onNext: { [weak self] isDuplicated in
-                guard let isDuplicated = isDuplicated else { self?.duplicatedNicknameWarningLabel.isEnabled = true ; return }
-                self?.duplicatedNicknameWarningLabel.isHidden = false
+                guard let isDuplicated = isDuplicated else { self?.duplicatedNicknameWarningLabel.alpha = 0 ; return }
+                self?.duplicatedNicknameWarningLabel.alpha = 1
                 if isDuplicated {
                     self?.duplicatedNicknameWarningLabel.text = "이미 사용 중인 닉네임입니다."
                 } else {
@@ -191,6 +191,13 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { [weak self] nickName in
                 reactor.action.onNext(.checkIsDuplicatedNickName(nickName))
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.nicknameTextField.rx.text
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] text in
+                reactor.action.onNext(.changedNickNameText)
             })
             .disposed(by: self.disposeBag)
     }

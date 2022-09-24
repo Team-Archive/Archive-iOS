@@ -14,6 +14,7 @@ import RxSwift
 @objc protocol ArchiveCheckTextFieldDelegate: AnyObject {
     @objc optional func changeState(_ view: ArchiveCheckTextField, isActive: Bool)
     @objc optional func checkClicked(_ view: ArchiveCheckTextField, checkText: String)
+    @objc optional func changedText(_ view: ArchiveCheckTextField, text: String)
 }
 
 class ArchiveCheckTextField: UIView {
@@ -148,6 +149,7 @@ class ArchiveCheckTextField: UIView {
             setActiveUI()
             self.delegate?.changeState?(self, isActive: true)
         }
+        self.delegate?.changedText?(self, text: textField.text ?? "")
     }
     
     private func setActiveUI() {
@@ -202,6 +204,13 @@ extension Reactive where Base: ArchiveCheckTextField {
     
     var check: Observable<String> {
         return delegate.methodInvoked(#selector(ArchiveCheckTextFieldDelegate.checkClicked(_:checkText:)))
+            .map { result in
+                return result[1] as? String ?? ""
+            }
+    }
+    
+    var text: Observable<String> {
+        return delegate.methodInvoked(#selector(ArchiveCheckTextFieldDelegate.changedText(_:text:)))
             .map { result in
                 return result[1] as? String ?? ""
             }
