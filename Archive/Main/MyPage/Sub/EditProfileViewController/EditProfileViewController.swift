@@ -10,6 +10,7 @@ import SnapKit
 import ReactorKit
 import RxCocoa
 import Then
+import AVFoundation
 
 class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     
@@ -33,8 +34,12 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
         $0.image = Gen.Images.userImagePlaceHolder.image
     }
     
-    private let prifileImageEditImageView = UIImageView().then {
+    private let profileImageEditImageView = UIImageView().then {
         $0.image = Gen.Images.editProfile.image
+    }
+    
+    private lazy var profileEditBtn = UIButton().then {
+        $0.addTarget(self, action: #selector(photoEditAction), for: .touchUpInside)
     }
     
     private let nicknameTextField = ArchiveCheckTextField(originValue: LogInManager.shared.nickname,
@@ -102,10 +107,15 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             $0.edges.equalTo(self.profileImageContainerView)
         }
         
-        self.mainContentsView.addSubview(self.prifileImageEditImageView)
-        self.prifileImageEditImageView.snp.makeConstraints {
+        self.mainContentsView.addSubview(self.profileImageEditImageView)
+        self.profileImageEditImageView.snp.makeConstraints {
             $0.width.height.equalTo(20)
             $0.trailing.bottom.equalTo(self.profileImageContainerView)
+        }
+        
+        self.profileImageContainerView.addSubview(self.profileEditBtn)
+        self.profileEditBtn.snp.makeConstraints {
+            $0.edges.equalTo(self.profileImageContainerView)
         }
         
         self.mainContentsView.addSubview(self.nicknameTextField)
@@ -208,6 +218,50 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     
     // MARK: private func
     
+    @objc private func photoEditAction() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let takePhotoAction: UIAlertAction = UIAlertAction(title: "사진 찍기", style: .default) { [weak self] (takeAPhoto) in
+            let vc = UIImagePickerController()
+            vc.sourceType = .camera
+            vc.allowsEditing = true
+            vc.delegate = self
+            self?.present(vc, animated: true)
+            // TODO: 이거 테스트하려면 XCode 업데이트 해야함..
+        }
+        let selectFromLibraryAction: UIAlertAction = UIAlertAction(title: "라이브러리에서 선택", style: .default) { [weak self] selectFromLibrary in
+            
+        }
+        alert.view.tintColor = .black
+        alert.addAction(takePhotoAction)
+        alert.addAction(selectFromLibraryAction)
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+//    func checkCameraPermission(){
+//        AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+//            if granted {
+//                print("Camera: 권한 허용")
+//            } else {
+//                print("Camera: 권한 거부")
+//            }
+//        })
+//    }
+    
     // MARK: func
 
+}
+
+extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate { // TODO: XCode업데이트하고 개발하기
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+
+        guard let image = info[.editedImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+
+        // print out the image size as a test
+        print(image.size)
+    }
 }
