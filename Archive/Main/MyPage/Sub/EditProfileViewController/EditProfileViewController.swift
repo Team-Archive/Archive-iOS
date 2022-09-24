@@ -46,7 +46,8 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     private let duplicatedNicknameWarningLabel = UILabel().then {
         $0.font = .fonts(.body)
         $0.textColor = Gen.Colors.gray02.color
-        $0.text = "중복되지 않은 닉네임입니다"
+//        $0.text = "사용할 수 있는 닉네임입니다."
+//        이미 사용 중인 닉네임입니다.
     }
     
     private let confirmBtn = ArchiveConfirmButton().then {
@@ -65,9 +66,16 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
         super.viewDidLoad()
     }
     
-    init(reactor: MyPageReactor) {
+    init(reactor: EditProfileReactor) {
         super.init(nibName: nil, bundle: nil)
         self.reactor = reactor
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.isMovingFromParent {
+            self.reactor?.action.onNext(.endFlow)
+        }
     }
     
     override func loadView() {
@@ -116,6 +124,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             $0.leading.equalTo(self.mainContentsView).offset(32)
             $0.trailing.equalTo(self.mainContentsView).offset(-32)
         }
+        self.duplicatedNicknameWarningLabel.isHidden = true
         
         self.mainContentsView.addSubview(self.confirmBtn)
         self.confirmBtn.snp.makeConstraints {
@@ -124,6 +133,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
             $0.leading.equalTo(self.mainContentsView).offset(32)
             $0.trailing.equalTo(self.mainContentsView).offset(-32)
         }
+        self.confirmBtn.isEnabled = false
         
     }
     
@@ -131,7 +141,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bind(reactor: MyPageReactor) {
+    func bind(reactor: EditProfileReactor) {
         
         reactor.err
             .asDriver(onErrorJustReturn: .init(.commonError))

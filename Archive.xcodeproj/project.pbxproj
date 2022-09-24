@@ -113,6 +113,8 @@
 		7839E49D28DEDF4600A80A1D /* NickNameDuplicationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */; };
 		7839E49F28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */; };
 		7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */; };
+		7839E4A328DEE19200A80A1D /* EditProfileReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */; };
+		7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
@@ -394,6 +396,8 @@
 		7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepository.swift; sourceTree = "<group>"; };
 		7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepositoryImplement.swift; sourceTree = "<group>"; };
 		7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationStubRepoImp.swift; sourceTree = "<group>"; };
+		7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileReactor.swift; sourceTree = "<group>"; };
+		7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFlow.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
@@ -698,6 +702,7 @@
 				44FB0A08271832E9006E1048 /* OnboardingFlow.swift */,
 				781C842A282F6201004A0FB3 /* MainFlow.swift */,
 				78D58B0D28BB4ADF00AF3191 /* RegistFlow.swift */,
+				7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */,
 				781C842C282F621A004A0FB3 /* TabFlows */,
 			);
 			path = Flows;
@@ -1132,6 +1137,7 @@
 			isa = PBXGroup;
 			children = (
 				786CE637289E469700D24266 /* EditProfileViewController.swift */,
+				7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */,
 			);
 			path = EditProfileViewController;
 			sourceTree = "<group>";
@@ -1962,6 +1968,7 @@
 				78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */,
 				78557A2A272ECFC800C5BD62 /* UIDeviceExtension.swift in Sources */,
 				78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */,
+				7839E4A328DEE19200A80A1D /* EditProfileReactor.swift in Sources */,
 				789E61B92725817900D6E18F /* NibIdentifiable.swift in Sources */,
 				78E8E6332866D6E400B18AD8 /* CommunityRepositoryImplement.swift in Sources */,
 				7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */,
@@ -2008,6 +2015,7 @@
 				78D58B1828BB575200AF3191 /* UploadImageRepositoryImplement.swift in Sources */,
 				44AA7D892724494B006EEA98 /* ConditionCheckView.swift in Sources */,
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
+				7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
 				78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,

@@ -110,7 +110,7 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                 Observable.just(.setIsLoading(false))
             ])
         case .moveToEditProfile:
-            self.steps.accept(ArchiveStep.editProfileIsRequired(reactor: self))
+            self.steps.accept(ArchiveStep.editProfileIsRequired)
             return .empty()
         case .moveToCommunityTab:
             self.steps.accept(ArchiveStep.communityIrRequiredFromCode)

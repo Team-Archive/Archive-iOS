@@ -61,10 +61,14 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         rootViewController?.pushViewController(vc, animated: true)
     }
     
-    private func navigationToEditProfile(reactor: MyPageReactor) {
+    private func navigationToEditProfile() -> FlowContributors {
+        let reactor = EditProfileReactor()
         let vc = EditProfileViewController(reactor: reactor)
         vc.title = "프로필 수정"
+        let editProfileFlow = EditProfileFlow(rootViewController: self.rootViewController ?? UINavigationController())
         rootViewController?.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: editProfileFlow,
+                                                 withNextStepper: reactor))
     }
     
     private func navigationToMyLikeDetail(info: ArchiveDetailInfo) {
@@ -106,15 +110,16 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         case .myLikeListIsRequired(let reactor):
             navigationToMyLikeListScreen(reactor: reactor)
             return .none
-        case .editProfileIsRequired(let reactor):
-            navigationToEditProfile(reactor: reactor)
-            return .none
+        case .editProfileIsRequired:
+            return navigationToEditProfile()
         case .myPageIsComplete:
             return .end(forwardToParentFlowWithStep: ArchiveStep.myPageIsComplete)
         case .communityIrRequiredFromCode:
             return .end(forwardToParentFlowWithStep: ArchiveStep.communityIrRequiredFromCode)
         case .myLikeArchiveDetailIsRequired(let infoData):
             navigationToMyLikeDetail(info: infoData)
+            return .none
+        case .editProfileIsComplete:
             return .none
         default:
             return .none

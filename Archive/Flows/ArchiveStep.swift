@@ -56,7 +56,6 @@ enum ArchiveStep: Step {
     case logout
     case myPageIsComplete
     case myLikeListIsRequired(reactor: MyPageReactor)
-    case editProfileIsRequired(reactor: MyPageReactor)
     case myLikeArchiveDetailIsRequired(data: ArchiveDetailInfo)
     
     // Regist
@@ -80,6 +79,10 @@ enum ArchiveStep: Step {
     
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)
+    
+    // Edit Profile
+    case editProfileIsRequired
+    case editProfileIsComplete
     
     // 기타 등등
     case bannerImageIsRequired(imageUrl: URL)
