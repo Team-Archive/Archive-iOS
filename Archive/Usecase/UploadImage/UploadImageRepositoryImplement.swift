@@ -11,9 +11,9 @@ import SwiftyJSON
 
 class UploadImageRepositoryImplement: UploadImageRepository {
     
-    func uploadImage(_ image: UIImage) -> Observable<Result<String, ArchiveError>> {
+    func uploadImage(_ imageData: Data) -> Observable<Result<String, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.uploadImage(image))
+        return provider.rx.request(.uploadImage(imageData))
             .asObservable()
             .map { result in
                 if result.statusCode == 200 {

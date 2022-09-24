@@ -30,7 +30,8 @@ class RegistRepositoryImplement: RegistRepositoty {
         let uploadImageObservables: [Observable<Result<String, ArchiveError>>] = {
             var returnValue: [Observable<Result<String, ArchiveError>>] = []
             for image in images {
-                let newElement = self.uploadImageUsecase.uploadImage(image)
+                guard let imageData = image.pngData() else { continue }
+                let newElement = self.uploadImageUsecase.uploadImage(imageData)
                 returnValue.append(newElement)
             }
             return returnValue

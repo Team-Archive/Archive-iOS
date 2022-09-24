@@ -31,10 +31,10 @@ class EditProfileReactor: Reactor, Stepper {
     
     // MARK: lifeCycle
     
-    init(nickNameDuplicationRepository: NickNameDuplicationRepository, updateProfileRepository: UpdateProfileRepository) {
+    init(nickNameDuplicationRepository: NickNameDuplicationRepository, updateProfileRepository: UpdateProfileRepository, uploadImageRepository: UploadImageRepository) {
         self.initialState = .init()
         self.nickNameCheckUsecase = NickNameDuplicationUsecase(repository: nickNameDuplicationRepository)
-        self.updateProfileUsecase = UpdateProfileUsecase(repository: updateProfileRepository)
+        self.updateProfileUsecase = UpdateProfileUsecase(repository: updateProfileRepository, uploadImageRepository: uploadImageRepository)
     }
     
     enum Action {

@@ -12,16 +12,22 @@ class UpdateProfileUsecase: NSObject {
     // MARK: private property
     
     private let repository: UpdateProfileRepository
+    private let uploadImageRepository: UploadImageRepository
     
     // MARK: internal property
     
     // MARK: lifeCycle
     
-    init(repository: UpdateProfileRepository) {
+    init(repository: UpdateProfileRepository, uploadImageRepository: UploadImageRepository) {
         self.repository = repository
+        self.uploadImageRepository = uploadImageRepository
     }
     
     // MARK: private function
+    
+    private func uploadImage(imageData: Data) -> Observable<Result<String, ArchiveError>> {
+        return self.uploadImageRepository.uploadImage(imageData)
+    }
     
     // MARK: internal function
     
