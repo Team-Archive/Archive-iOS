@@ -181,7 +181,7 @@ class EditProfileReactor: Reactor, Stepper {
         return self.nickNameCheckUsecase.isDuplicatedNickName(nickName)
     }
     
-    private func updateProfile(profileImageData: Data?, nickName: String) -> Observable<Result<Void, ArchiveError>> {
+    private func updateProfile(profileImageData: Data?, nickName: String) -> Observable<Result<UpdateProfileResultData, ArchiveError>> {
         return self.updateProfileUsecase.updateProfile(imageData: profileImageData,
                                                        nickName: nickName)
     }

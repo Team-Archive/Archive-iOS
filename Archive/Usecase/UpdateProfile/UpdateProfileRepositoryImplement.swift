@@ -8,8 +8,7 @@
 import RxSwift
 
 class UpdateProfileRepositoryImplement: UpdateProfileRepository {
-    func updateProfile(imageUrl: String?, nickName: String?) -> Observable<Result<Void, ArchiveError>> {
-        return .just(.success(()))
+    func updateProfile(updataProfileData: UpdateProfileData) -> Observable<Result<UpdateProfileResultData, ArchiveError>> {
+        return .just(.failure(.init(.archiveDataIsInvaild)))
     }
-
 }

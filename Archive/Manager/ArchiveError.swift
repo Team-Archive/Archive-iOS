@@ -30,7 +30,8 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     
     case imageUploadCntFail // 이미지가 다 업로드 되지 않은듯
     case imageUploadFail // 이미지 Url이 없음
-    case archiveDataIsInvalue // 아카이브 등록 데이터 이상함.. 버그인듯
+    case archiveDataIsInvaild // 아카이브 등록 데이터 이상함.. 버그인듯
+    case editProfileIsInvaild // 프로필 업데이트 데이터 이상함
 }
 
 enum ErrorFrom {
@@ -112,7 +113,9 @@ class ArchiveError: Error {
             returnValue = "이미지 업로드 오류"
         case .selfIsNull:
             returnValue = "오류"
-        case .archiveDataIsInvalue:
+        case .archiveDataIsInvaild:
+            returnValue = "오류"
+        case .editProfileIsInvaild:
             returnValue = "오류"
         }
         return returnValue

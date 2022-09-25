@@ -8,7 +8,8 @@
 import RxSwift
 
 class UpdateProfileStubImpl: UpdateProfileRepository {
-    func updateProfile(imageUrl: String?, nickName: String?) -> Observable<Result<Void, ArchiveError>> {
-        return .just(.success(()))
+    func updateProfile(updataProfileData: UpdateProfileData) -> Observable<Result<UpdateProfileResultData, ArchiveError>> {
+        return .just(.success(UpdateProfileResultData(imageUrl: "https://naver.com",
+                                                      nickNmae: "새로운 닉네임")))
     }
 }
