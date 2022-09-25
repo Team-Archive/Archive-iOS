@@ -141,7 +141,7 @@ class EditProfileReactor: Reactor, Stepper {
                                    nickName: self.currentState.newNickName)
                 .map { [weak self] result in
                     switch result {
-                    case .success(_):
+                    case .success(let updateProfileResult):
                         self?.updateProfileComplete.onNext(())
                         self?.steps.accept(ArchiveStep.editProfileIsComplete)
                     case .failure(let err):
@@ -181,7 +181,7 @@ class EditProfileReactor: Reactor, Stepper {
         return self.nickNameCheckUsecase.isDuplicatedNickName(nickName)
     }
     
-    private func updateProfile(profileImageData: Data?, nickName: String) -> Observable<Result<UpdateProfileResultData, ArchiveError>> {
+    private func updateProfile(profileImageData: Data?, nickName: String) -> Observable<Result<ProfileData, ArchiveError>> {
         return self.updateProfileUsecase.updateProfile(imageData: profileImageData,
                                                        nickName: nickName)
     }

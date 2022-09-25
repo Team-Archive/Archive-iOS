@@ -44,7 +44,7 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
         $0.addTarget(self, action: #selector(photoEditAction), for: .touchUpInside)
     }
     
-    private let nicknameTextField = ArchiveCheckTextField(originValue: LogInManager.shared.nickname,
+    private let nicknameTextField = ArchiveCheckTextField(originValue: LogInManager.shared.profile.nickNmae,
                                                           placeHolder: "새로운 닉네임을 설정해보세요!",
                                                           checkBtnTitle: "중복 확인").then {
         $0.backgroundColor = .white

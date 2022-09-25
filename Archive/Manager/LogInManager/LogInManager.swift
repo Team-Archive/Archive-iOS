@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class LogInManager: NSObject {
     
@@ -28,8 +29,9 @@ class LogInManager: NSObject {
         return self.repository.getLogInToken()
     }
     
-    var profilePhotoUrl: String = ""
-    var nickname: String = ""
+    var profile: ProfileData = ProfileData(imageUrl: "", nickNmae: "")
+    lazy var profileSubject: BehaviorSubject<ProfileData> = .init(value: self.profile)
+    
     var myTotalArchiveCnt: Int = 0
     
     // MARK: lifeCycle

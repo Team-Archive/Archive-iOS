@@ -40,7 +40,7 @@ class UpdateProfileUsecase: NSObject {
     
     // MARK: internal function
     
-    func updateProfile(imageData: Data?, nickName: String) -> Observable<Result<UpdateProfileResultData, ArchiveError>> {
+    func updateProfile(imageData: Data?, nickName: String) -> Observable<Result<ProfileData, ArchiveError>> {
         if imageData == nil && nickName == "" { return .just(.failure(.init(.editProfileIsInvaild))) }
         return uploadImage(imageData: imageData)
             .map { result -> Result<String?, ArchiveError> in
@@ -51,7 +51,7 @@ class UpdateProfileUsecase: NSObject {
                     return .failure(err)
                 }
             }
-            .flatMap { [weak self] result -> Observable<Result<UpdateProfileResultData, ArchiveError>> in
+            .flatMap { [weak self] result -> Observable<Result<ProfileData, ArchiveError>> in
                 switch result {
                 case .success(let imageUrl):
                     let optionalNickName: String? = {

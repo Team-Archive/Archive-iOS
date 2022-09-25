@@ -8,7 +8,7 @@
 import RxSwift
 
 protocol UpdateProfileRepository {
-    func updateProfile(updataProfileData: UpdateProfileData) -> Observable<Result<UpdateProfileResultData, ArchiveError>>
+    func updateProfile(updataProfileData: UpdateProfileData) -> Observable<Result<ProfileData, ArchiveError>>
 }
 
 struct UpdateProfileData {
@@ -16,7 +16,7 @@ struct UpdateProfileData {
     let nickNmae: String?
 }
 
-struct UpdateProfileResultData {
+struct ProfileData {
     let imageUrl: String
     let nickNmae: String
 }
