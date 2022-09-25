@@ -254,7 +254,7 @@
 		78D58B1F28BB5ACD00AF3191 /* RegistRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B1E28BB5ACD00AF3191 /* RegistRepositoryImplement.swift */; };
 		78D5B96D28B6732700E7C2D4 /* ExplainToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */; };
 		78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */; };
-		78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */; };
+		78D5F50228B1197900C2B271 /* ImageEdit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50128B1197900C2B271 /* ImageEdit.swift */; };
 		78D5F50428B1241D00C2B271 /* RegistContentsBottomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50328B1241D00C2B271 /* RegistContentsBottomView.swift */; };
 		78D5F50628B1249F00C2B271 /* PlaceHolderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5F50528B1249F00C2B271 /* PlaceHolderTextView.swift */; };
 		78D8A67228798B02002E8445 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D8A67128798B02002E8445 /* FilterViewController.swift */; };
@@ -537,7 +537,7 @@
 		78D58B1E28BB5ACD00AF3191 /* RegistRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistRepositoryImplement.swift; sourceTree = "<group>"; };
 		78D5B96C28B6732700E7C2D4 /* ExplainToggleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplainToggleView.swift; sourceTree = "<group>"; };
 		78D5F4FE28B118EF00C2B271 /* ImageColorUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageColorUsecase.swift; sourceTree = "<group>"; };
-		78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageThemeColorExtraction.swift; sourceTree = "<group>"; };
+		78D5F50128B1197900C2B271 /* ImageEdit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageEdit.swift; sourceTree = "<group>"; };
 		78D5F50328B1241D00C2B271 /* RegistContentsBottomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistContentsBottomView.swift; sourceTree = "<group>"; };
 		78D5F50528B1249F00C2B271 /* PlaceHolderTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceHolderTextView.swift; sourceTree = "<group>"; };
 		78D8A67128798B02002E8445 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
@@ -1527,7 +1527,7 @@
 		78D5F50028B1194600C2B271 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				78D5F50128B1197900C2B271 /* ImageThemeColorExtraction.swift */,
+				78D5F50128B1197900C2B271 /* ImageEdit.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1979,7 +1979,7 @@
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
 				78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */,
-				78D5F50228B1197900C2B271 /* ImageThemeColorExtraction.swift in Sources */,
+				78D5F50228B1197900C2B271 /* ImageEdit.swift in Sources */,
 				781468FF2889982F00263553 /* ActivityIndicatorableBasic.swift in Sources */,
 				78958E142712A0C5003FF724 /* UIFontExtension.swift in Sources */,
 				781C8442282F7F9C004A0FB3 /* DummyRecordViewController.swift in Sources */,

@@ -8,7 +8,7 @@
 import UIKit
 import RxSwift
 
-class ImageThemeColorExtraction: NSObject {
+class ImageEdit: NSObject {
     
     // MARK: private property
     
@@ -18,7 +18,9 @@ class ImageThemeColorExtraction: NSObject {
     
     // MARK: private function
     
-    private func resize(images: [UIImage], scale: CGFloat, completion: @escaping (([UIImage]) -> Void)) {
+    // MARK: internal function
+    
+    func resize(images: [UIImage], scale: CGFloat, completion: @escaping (([UIImage]) -> Void)) {
         DispatchQueue.global().async { [weak self] in
             var responseImages: [UIImage] = [UIImage]()
             for uiImage in images {
@@ -41,8 +43,6 @@ class ImageThemeColorExtraction: NSObject {
             completion(responseImages)
         }
     }
-    
-    // MARK: internal function
     
     func extractColor(images: [UIImage]) -> Observable<Result<[RegistImageInfo], ArchiveError>> {
         return Observable.create { [weak self] emitter in
