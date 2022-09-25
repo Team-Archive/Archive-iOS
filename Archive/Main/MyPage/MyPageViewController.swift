@@ -10,6 +10,7 @@ import ReactorKit
 import Then
 import RxCocoa
 import RxSwift
+import Kingfisher
 
 class MyPageViewController: UIViewController, View, ActivityIndicatorable {
 
@@ -534,7 +535,15 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     func bind(reactor: MyPageReactor) {
-        
+        reactor.profileData
+            .asDriver(onErrorJustReturn: ProfileData(imageUrl: "", nickNmae: ""))
+            .drive(onNext: { [weak self] profile in
+                if let userImageUrl = URL(string: profile.imageUrl) {
+                    self?.profileImageView.kf.setImage(with: userImageUrl, placeholder: Gen.Images.userImagePlaceHolder.image)
+                }
+                self?.nameLabel.text = profile.nickNmae
+            })
+            .disposed(by: self.disposeBag)
     }
     
     deinit {

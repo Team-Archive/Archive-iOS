@@ -142,6 +142,7 @@ class EditProfileReactor: Reactor, Stepper {
                 .map { [weak self] result in
                     switch result {
                     case .success(let updateProfileResult):
+                        LogInManager.shared.profile = updateProfileResult
                         self?.updateProfileComplete.onNext(())
                         self?.steps.accept(ArchiveStep.editProfileIsComplete)
                     case .failure(let err):

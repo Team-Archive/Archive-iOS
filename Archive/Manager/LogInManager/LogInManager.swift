@@ -29,7 +29,12 @@ class LogInManager: NSObject {
         return self.repository.getLogInToken()
     }
     
-    var profile: ProfileData = ProfileData(imageUrl: "", nickNmae: "")
+    var profile: ProfileData = ProfileData(imageUrl: "", nickNmae: "") {
+        didSet {
+            self.profileSubject.onNext(profile)
+        }
+    }
+    
     lazy var profileSubject: BehaviorSubject<ProfileData> = .init(value: self.profile)
     
     var myTotalArchiveCnt: Int = 0

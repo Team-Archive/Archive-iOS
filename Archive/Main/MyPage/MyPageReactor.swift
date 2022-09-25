@@ -24,6 +24,9 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
     let steps = PublishRelay<Step>()
     let initialState: State
     let err: PublishSubject<ArchiveError> = .init()
+    var profileData: BehaviorSubject<ProfileData> {
+        return LogInManager.shared.profileSubject
+    }
     
     // MARK: lifeCycle
     
