@@ -553,7 +553,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     // MARK: private func
     
     private func setUp() {
-        
+        ImageCache.default.clearCache()
     }
     
     @objc private func modifyProfileBtnAction() {
