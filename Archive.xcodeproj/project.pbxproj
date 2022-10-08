@@ -143,6 +143,7 @@
 		784FCDE9282FEE9E007683D2 /* LoginAccessTokenRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784FCDE8282FEE9E007683D2 /* LoginAccessTokenRepository.swift */; };
 		784FCDEB282FEEAA007683D2 /* LoginAccessTokenRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784FCDEA282FEEAA007683D2 /* LoginAccessTokenRepositoryImplement.swift */; };
 		78557A2A272ECFC800C5BD62 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78557A29272ECFC800C5BD62 /* UIDeviceExtension.swift */; };
+		78561F3728F1A04C0064ED9F /* SignUpNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78561F3628F1A04C0064ED9F /* SignUpNicknameViewController.swift */; };
 		78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DCC276375C2003FD959 /* TicketImageContentView.swift */; };
 		78599DD5276375C2003FD959 /* TicketCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DCD276375C2003FD959 /* TicketCollectionViewLayout.swift */; };
 		78599DD6276375C2003FD959 /* TicketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DCE276375C2003FD959 /* TicketCollectionViewCell.swift */; };
@@ -431,6 +432,7 @@
 		784FCDE8282FEE9E007683D2 /* LoginAccessTokenRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAccessTokenRepository.swift; sourceTree = "<group>"; };
 		784FCDEA282FEEAA007683D2 /* LoginAccessTokenRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAccessTokenRepositoryImplement.swift; sourceTree = "<group>"; };
 		78557A29272ECFC800C5BD62 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		78561F3628F1A04C0064ED9F /* SignUpNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpNicknameViewController.swift; sourceTree = "<group>"; };
 		78599DCC276375C2003FD959 /* TicketImageContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketImageContentView.swift; sourceTree = "<group>"; };
 		78599DCD276375C2003FD959 /* TicketCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketCollectionViewLayout.swift; sourceTree = "<group>"; };
 		78599DCE276375C2003FD959 /* TicketCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -634,6 +636,7 @@
 				44FB0A1627183C22006E1048 /* PasswordInputViewController.swift */,
 				44FB0A1B27183C9C006E1048 /* SignUpCompletionViewController.swift */,
 				78FEDAB828070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift */,
+				78561F3628F1A04C0064ED9F /* SignUpNicknameViewController.swift */,
 			);
 			path = SignUp;
 			sourceTree = "<group>";
@@ -1946,6 +1949,7 @@
 				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,
 				7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
+				78561F3728F1A04C0064ED9F /* SignUpNicknameViewController.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
 				781C842B282F6201004A0FB3 /* MainFlow.swift in Sources */,
 				44BE6F07271144BF00E74A7D /* SignUpReactor.swift in Sources */,
