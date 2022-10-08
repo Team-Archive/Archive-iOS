@@ -12,7 +12,7 @@ class ImageColorUsecase: NSObject {
     
     // MARK: private property
     
-    private let colorExtraction: ImageThemeColorExtraction = ImageThemeColorExtraction()
+    private let colorExtraction: ImageEdit = ImageEdit()
     
     // MARK: internal property
     

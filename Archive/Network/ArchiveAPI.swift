@@ -8,7 +8,7 @@
 import Moya
 
 enum ArchiveAPI {
-    case uploadImage(_ image: UIImage)
+    case uploadImage(_ imageData: Data)
     case registArchive(_ info: RecordData)
     case registEmail(_ param: RequestEmailParam)
     case loginEmail(_ param: LoginEmailParam)
@@ -145,10 +145,10 @@ extension ArchiveAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .uploadImage(let image):
+        case .uploadImage(let imageData):
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
-            let data: MultipartFormData = MultipartFormData(provider: .data(image.pngData()!), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
+            let data: MultipartFormData = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
             return .uploadMultipart([data])
         case .registArchive(let infoData):
             return .requestJSONEncodable(infoData)

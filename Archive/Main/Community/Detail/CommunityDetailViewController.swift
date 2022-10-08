@@ -438,15 +438,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             })
             .disposed(by: self.disposeBag)
         
-        reactor.reportSuccess
-            .asDriver(onErrorJustReturn: ())
-            .drive(onNext: {
-                CommonAlertView.shared.show(message: "신고 완료", btnText: "확인", confirmHandler: {
-                    CommonAlertView.shared.hide()
-                })
-            })
-            .disposed(by: self.disposeBag)
-        
     }
     
     deinit {

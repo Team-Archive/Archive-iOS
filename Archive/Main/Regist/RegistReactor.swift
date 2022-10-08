@@ -161,7 +161,7 @@ class RegistReactor: Reactor, Stepper {
             guard let name = self.currentState.archiveName,
                   let visitDate = self.currentState.visitDate,
                   let emotion = self.currentState.emotion else {
-                err.onNext(.init(.archiveDataIsInvalue))
+                err.onNext(.init(.archiveDataIsInvaild))
                 return .just(.empty)
             }
             let registObservable = self.registUsecase.regist(name: name,
@@ -256,7 +256,7 @@ class RegistReactor: Reactor, Stepper {
             break
         }
     }
-    
+    //
     private func requestPhotoAuth(completion: (() -> Void)?) {
         if #available(iOS 14, *) {
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] (status) in

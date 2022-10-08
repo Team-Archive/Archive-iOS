@@ -51,10 +51,10 @@ class RecordUploadModel: RecordUploadModelProtocol {
             var colors: [String] = [String]()
             let provider = ArchiveProvider.shared.provider
             for item in infos {
-                let request = provider.rx.request(.uploadImage(item.image)).asObservable()
-                observarbleRequests.append(request)
-                photoContents.append(item.contents ?? "")
-                colors.append(item.backgroundColor.hexStringFromColor())
+//                let request = provider.rx.request(.uploadImage(item)).asObservable()
+//                observarbleRequests.append(request)
+//                photoContents.append(item.contents ?? "")
+//                colors.append(item.backgroundColor.hexStringFromColor())
             }
             Observable.zip(observarbleRequests)
                 .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
@@ -74,19 +74,19 @@ class RecordUploadModel: RecordUploadModelProtocol {
     }
     
     private func uploadMainImage(completion: @escaping (String) -> Void) {
-        let provider = ArchiveProvider.shared.provider
-        provider.request(.uploadImage(self.thumbnailImage), completion: { response in
-            switch response {
-            case .success(let result):
-                if let result: JSON = try? JSON.init(data: result.data) {
-                    completion(result["imageUrl"].stringValue)
-                } else {
-                    completion("")
-                }
-            case .failure(_):
-                completion("")
-            }
-        })
+//        let provider = ArchiveProvider.shared.provider
+//        provider.request(.uploadImage(self.thumbnailImage), completion: { response in
+//            switch response {
+//            case .success(let result):
+//                if let result: JSON = try? JSON.init(data: result.data) {
+//                    completion(result["imageUrl"].stringValue)
+//                } else {
+//                    completion("")
+//                }
+//            case .failure(_):
+//                completion("")
+//            }
+//        })
     }
     
     // MARK: internal function
