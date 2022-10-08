@@ -54,8 +54,10 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
         $0.text = "중복되지 않은 닉네임입니다"
     }
     
-    private let confirmBtn = ArchiveConfirmButton().then {
+    private lazy var confirmBtn = ArchiveConfirmButton().then {
         $0.setTitleAllState("다음")
+        $0.isEnabled = false
+        $0.addTarget(self, action: #selector(confirm), for: .touchUpInside)
     }
     
     // MARK: private property
@@ -161,8 +163,46 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
             })
             .disposed(by: self.disposeBag)
         
+        reactor.state
+            .map { $0.isDuplicatedNickname }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] in
+                if $0 {
+                    self?.nicknameDupLabel.isHidden = false
+                } else {
+                    self?.nicknameDupLabel.isHidden = true
+                }
+            })
+            .disposed(by: self.disposeBag)
         
+        reactor.state
+            .map { $0.isSuccessCheckedDuplicatedNickname }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] in
+                if $0 {
+                    self?.confirmBtn.isEnabled = true
+                } else {
+                    self?.confirmBtn.isEnabled = false
+                    self?.nicknameDupLabel.isHidden = true
+                }
+            })
+            .disposed(by: self.disposeBag)
         
+        self.nicknameTextField.rx.text
+            .subscribe(onNext: { [weak self] text in
+                if reactor.currentState.isSuccessCheckedDuplicatedNickname {
+                    reactor.action.onNext(.nicknameTextFieldIsChanged)
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.nicknameTextField.rx.check
+            .subscribe(onNext: { [weak self] text in
+                reactor.action.onNext(.checkIsDuplicatedNickname(text))
+            })
+            .disposed(by: self.disposeBag)
         
         
     }
@@ -172,6 +212,10 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     }
     
     // MARK: private func
+    
+    @objc private func confirm() {
+        self.reactor?.action.onNext(.completeSignUp)
+    }
     
     // MARK: func
 

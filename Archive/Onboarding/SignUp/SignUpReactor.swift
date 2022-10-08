@@ -29,6 +29,7 @@ final class SignUpReactor: Reactor, Stepper {
         case goToPasswordInput
         
         case checkIsDuplicatedNickname(String)
+        case nicknameTextFieldIsChanged
         
         case passwordInput(text: String)
         case passwordCofirmInput(text: String)
@@ -252,6 +253,8 @@ final class SignUpReactor: Reactor, Stepper {
         case .passwordSetComplete:
             steps.accept(ArchiveStep.nicknameSignupIsRequired)
             return .empty()
+        case .nicknameTextFieldIsChanged:
+            return .just(.setIsCheckedSuccessNicknameDuplication(false))
         }
     }
     

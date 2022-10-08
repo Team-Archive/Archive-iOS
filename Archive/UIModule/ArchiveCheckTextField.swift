@@ -84,6 +84,10 @@ class ArchiveCheckTextField: UIView {
         }
     }
     
+    var text: String? {
+        return self.textField.text
+    }
+    
     // MARK: lifeCycle
     
     init(originValue: String, placeHolder: String, checkBtnTitle: String) {

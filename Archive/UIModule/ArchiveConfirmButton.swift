@@ -37,6 +37,14 @@ class ArchiveConfirmButton: UIButton {
         }
     }
     
+    var hilightButtonColor: UIColor = Gen.Colors.gray03.color {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.setBackgroundColor(self?.hilightButtonColor ?? Gen.Colors.gray03.color, for: .highlighted)
+            }
+        }
+    }
+    
     var titleColor: UIColor = Gen.Colors.white.color {
         didSet {
             DispatchQueue.main.async { [weak self] in
@@ -70,6 +78,7 @@ class ArchiveConfirmButton: UIButton {
         self.setBackgroundColor(self.buttonColor, for: .focused)
         self.setBackgroundColor(self.buttonColor, for: .selected)
         self.setBackgroundColor(self.disableButtonColor, for: .disabled)
+        self.setBackgroundColor(self.hilightButtonColor, for: .highlighted)
         
         self.setTitleColor(self.titleColor, for: .normal)
         self.setTitleColor(self.titleColor, for: .focused)
