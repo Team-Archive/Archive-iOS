@@ -59,6 +59,8 @@ final class OnboardingFlow: Flow {
         case .openUrlIsRequired(let url, let title):
             navigationToWebView(url: url, title: title)
             return .none
+        case .nicknameSignupIsRequired:
+            return navigationToNicknameScreen()
         default:
             return .none
         }
@@ -104,6 +106,13 @@ final class OnboardingFlow: Flow {
         passwordInputViewController.title = Constants.signUpNavigationTitle
         rootViewController.pushViewController(passwordInputViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: passwordInputViewController,
+                                                 withNextStepper: signUpReactor))
+    }
+    
+    private func navigationToNicknameScreen() -> FlowContributors {
+        let vc = SignUpNicknameViewController(reactor: self.signUpReactor)
+        rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: vc,
                                                  withNextStepper: signUpReactor))
     }
     

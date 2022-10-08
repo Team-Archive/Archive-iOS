@@ -630,8 +630,8 @@
 		44BE6EFA2711443800E74A7D /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
-				44BE6F00271144AB00E74A7D /* TermsAgreementViewController.swift */,
 				44BE6F06271144BF00E74A7D /* SignUpReactor.swift */,
+				44BE6F00271144AB00E74A7D /* TermsAgreementViewController.swift */,
 				44FB0A0F27183BDA006E1048 /* EmailInputViewController.swift */,
 				44FB0A1627183C22006E1048 /* PasswordInputViewController.swift */,
 				44FB0A1B27183C9C006E1048 /* SignUpCompletionViewController.swift */,

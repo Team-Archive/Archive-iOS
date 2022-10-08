@@ -13,7 +13,7 @@ import RxCocoa
 final class TermsAgreementViewController: UIViewController, StoryboardView, ActivityIndicatorable {
     
     private enum Constant {
-        static let progress: Float = 0.33
+        static let progress: Float = 0.25
     }
     
     @IBOutlet private weak var progressView: UIProgressView!

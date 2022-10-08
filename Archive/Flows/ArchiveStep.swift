@@ -31,6 +31,7 @@ enum ArchiveStep: Step {
     case emailInputRequired
     case passwordInputRequired
     case userIsSignedUp
+    case nicknameSignupIsRequired
     case signUpComplete
     case termsAgreeForOAuthRegist(accessToken: String, loginType: OAuthSignInType)
     

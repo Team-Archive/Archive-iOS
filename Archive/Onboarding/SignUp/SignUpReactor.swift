@@ -32,6 +32,8 @@ final class SignUpReactor: Reactor, Stepper {
         
         case passwordInput(text: String)
         case passwordCofirmInput(text: String)
+        case passwordSetComplete
+        
         case completeSignUp
         
         case startArchive
@@ -247,6 +249,9 @@ final class SignUpReactor: Reactor, Stepper {
                     },
                 Observable.just(.setIsLoading(false))
             ])
+        case .passwordSetComplete:
+            steps.accept(ArchiveStep.nicknameSignupIsRequired)
+            return .empty()
         }
     }
     

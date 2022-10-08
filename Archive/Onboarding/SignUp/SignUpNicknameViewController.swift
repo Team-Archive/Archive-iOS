@@ -14,6 +14,10 @@ import Then
 
 class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorable {
     
+    private enum Constant {
+        static let progress: Float = 1.0
+    }
+    
     // MARK: UI property
     
     private let mainBackgroundView = UIView().then {
@@ -22,6 +26,13 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     
     private let mainContentsView = UIView().then {
         $0.backgroundColor = .clear
+    }
+    
+    private let progressView = UIProgressView().then {
+        $0.setProgress(0.75, animated: false)
+        $0.progressTintColor = Gen.Colors.black.color
+        $0.trackTintColor = Gen.Colors.gray05.color
+        $0.progressViewStyle = .bar
     }
     
     private let mainTitleLabel = UILabel().then {
@@ -54,15 +65,20 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     var disposeBag: DisposeBag = DisposeBag()
     
     // MARK: lifeCycle
+    
+    init(reactor: SignUpReactor) {
+        super.init(nibName: nil, bundle: nil)
+        self.reactor = reactor
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "신고"
     }
     
-    init(reactor: SignUpReactor) {
-        super.init(nibName: nil, bundle: nil)
-        self.reactor = reactor
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.progressView.setProgress(Constant.progress, animated: true)
     }
     
     override func loadView() {
@@ -77,6 +93,12 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
         let safeGuide = self.view.safeAreaLayoutGuide
         self.mainContentsView.snp.makeConstraints {
             $0.edges.equalTo(safeGuide)
+        }
+        
+        self.mainContentsView.addSubview(self.progressView)
+        self.progressView.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(self.mainContentsView)
+            $0.height.equalTo(2)
         }
         
         self.mainContentsView.addSubview(self.mainTitleLabel)
