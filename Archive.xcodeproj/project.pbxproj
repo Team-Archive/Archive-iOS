@@ -213,6 +213,9 @@
 		78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */; };
 		78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A212868A89300B8DF2F /* DetailRepository.swift */; };
 		78A96A242868A89E00B8DF2F /* DetailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */; };
+		78B0988628F1CC27005ED913 /* SignUpEmailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0988528F1CC27005ED913 /* SignUpEmailUsecase.swift */; };
+		78B0988828F1CC34005ED913 /* SignUpEmailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0988728F1CC34005ED913 /* SignUpEmailRepository.swift */; };
+		78B0988A28F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0988928F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift */; };
 		78B872DB2726C54C009EFB54 /* EmotionSelectReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */; };
 		78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872D92726C54C009EFB54 /* EmotionSelectViewController.swift */; };
 		78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B872E02726C6D1009EFB54 /* EmotionDefine.swift */; };
@@ -497,6 +500,9 @@
 		78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUsecase.swift; sourceTree = "<group>"; };
 		78A96A212868A89300B8DF2F /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepositoryImplement.swift; sourceTree = "<group>"; };
+		78B0988528F1CC27005ED913 /* SignUpEmailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailUsecase.swift; sourceTree = "<group>"; };
+		78B0988728F1CC34005ED913 /* SignUpEmailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailRepository.swift; sourceTree = "<group>"; };
+		78B0988928F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailRepositoryImplement.swift; sourceTree = "<group>"; };
 		78B872D82726C54C009EFB54 /* EmotionSelectReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectReactor.swift; sourceTree = "<group>"; };
 		78B872D92726C54C009EFB54 /* EmotionSelectViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionSelectViewController.swift; sourceTree = "<group>"; };
 		78B872E02726C6D1009EFB54 /* EmotionDefine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmotionDefine.swift; sourceTree = "<group>"; };
@@ -957,6 +963,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78B0988428F1CC18005ED913 /* SignUpEmail */,
 				7839E4A628DF269D00A80A1D /* UpdateProfile */,
 				7839E49928DEDF1600A80A1D /* NickNameDuplication */,
 				7823ACD428CF3674005CFFC7 /* Report */,
@@ -1384,6 +1391,16 @@
 				78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		78B0988428F1CC18005ED913 /* SignUpEmail */ = {
+			isa = PBXGroup;
+			children = (
+				78B0988528F1CC27005ED913 /* SignUpEmailUsecase.swift */,
+				78B0988728F1CC34005ED913 /* SignUpEmailRepository.swift */,
+				78B0988928F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift */,
+			);
+			path = SignUpEmail;
 			sourceTree = "<group>";
 		};
 		78B872D62726C54C009EFB54 /* EmotionSelect */ = {
@@ -1877,6 +1894,7 @@
 				781C8451282F8B6E004A0FB3 /* MainSplashViewController.swift in Sources */,
 				784FCDEB282FEEAA007683D2 /* LoginAccessTokenRepositoryImplement.swift in Sources */,
 				781C8444282F8B2E004A0FB3 /* SplashFlow.swift in Sources */,
+				78B0988A28F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift in Sources */,
 				78FEDAB928070EA5000BC7E5 /* TermsAgreementForOAuthViewController.swift in Sources */,
 				78BB7E272778970900DF78AF /* DetailFriendsCollectionViewCell.swift in Sources */,
 				78C4B33527243C660006EBAD /* NSMutableAttributedStringExtension.swift in Sources */,
@@ -1979,6 +1997,7 @@
 				7845765627E3809F00BE6863 /* GAModule.swift in Sources */,
 				78599DDA276375C2003FD959 /* HomeReactor.swift in Sources */,
 				781C8431282F62B5004A0FB3 /* Tab.swift in Sources */,
+				78B0988628F1CC27005ED913 /* SignUpEmailUsecase.swift in Sources */,
 				780478222723E83F00FAA1CF /* LoginInformationReactor.swift in Sources */,
 				78B872DC2726C54C009EFB54 /* EmotionSelectViewController.swift in Sources */,
 				78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */,
@@ -2002,6 +2021,7 @@
 				7831D51C27E58FEE00E3FA57 /* LoginOAuthUsecase.swift in Sources */,
 				7825935728C3193300BB9814 /* LikeRepository.swift in Sources */,
 				789E619B2725551400D6E18F /* RecordReactor.swift in Sources */,
+				78B0988828F1CC34005ED913 /* SignUpEmailRepository.swift in Sources */,
 				7821233C273F9F58007DEC28 /* StringExtension.swift in Sources */,
 				78458D2A272C18BB00392B45 /* Util.swift in Sources */,
 				78DB247C28C374D800CF5726 /* MyLikeEmptyView.swift in Sources */,

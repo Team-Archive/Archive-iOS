@@ -102,14 +102,17 @@ final class SignUpReactor: Reactor, Stepper {
     var oAuthLoginType: OAuthSignInType = .kakao
     private let emailLogInUsecase: EMailLogInUsecase
     private let nicknameDuplicationUsecase: NickNameDuplicationUsecase
+    private let signUpEmailUsecase: SignUpEmailUsecase
     
     init(validator: SignUpValidator,
          emailLogInRepository: EMailLogInRepository,
-         nicknameDuplicationRepository: NickNameDuplicationRepository) {
+         nicknameDuplicationRepository: NickNameDuplicationRepository,
+         signUpEmailRepository: SignUpEmailRepository) {
         self.validator = validator
         self.error = .init()
         self.emailLogInUsecase = EMailLogInUsecase(repository: emailLogInRepository)
         self.nicknameDuplicationUsecase = NickNameDuplicationUsecase(repository: nicknameDuplicationRepository)
+        self.signUpEmailUsecase = SignUpEmailUsecase(repository: signUpEmailRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -152,7 +155,7 @@ final class SignUpReactor: Reactor, Stepper {
                         case .success(let isDup):
                             return .setEmailDuplicate(isDup)
                         case .failure(let err):
-                            self?.error.onNext("error\(err.localizedDescription)")
+                            self?.error.onNext(err.archiveErrMsg)
                         }
                         return .setIsLoading(false)
                     },
@@ -183,7 +186,7 @@ final class SignUpReactor: Reactor, Stepper {
                         case .success(_):
                             self?.steps.accept(ArchiveStep.userIsSignedUp)
                         case .failure(let err):
-                            self?.error.onNext(ServerErrorUtil.getErrMsg(err))
+                            self?.error.onNext(err.archiveErrMsg)
                         }
                         return .setIsLoading(false)
                     }
@@ -310,38 +313,12 @@ final class SignUpReactor: Reactor, Stepper {
         return newState
     }
     
-    private func registEmail(eMail: String, password: String) -> Observable<Result<Void, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        let param = RequestEmailParam(email: eMail, password: password)
-        return provider.rx.request(.registEmail(param), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                return .success(Void())
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func registEmail(eMail: String, password: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.signUpEmailUsecase.registEmail(eMail: eMail, password: password)
     }
     
-    private func checkIsDuplicatedEmail(eMail: String) -> Observable<Result<Bool, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.isDuplicatedEmail(eMail), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { response in
-                if let result: JSON = try? JSON.init(data: response.data) {
-                    let isDup: Bool = result["duplicatedEmail"].boolValue
-                    if isDup {
-                        return .success(true)
-                    } else {
-                        return .success(false)
-                    }
-                } else {
-                    return .success(true)
-                }
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func checkIsDuplicatedEmail(eMail: String) -> Observable<Result<Bool, ArchiveError>> {
+        return self.signUpEmailUsecase.checkIsDuplicatedEmail(eMail: eMail)
     }
     
     // TODO: Usecase생성 후 이동하기
