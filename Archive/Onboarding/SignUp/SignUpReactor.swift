@@ -103,16 +103,20 @@ final class SignUpReactor: Reactor, Stepper {
     private let emailLogInUsecase: EMailLogInUsecase
     private let nicknameDuplicationUsecase: NickNameDuplicationUsecase
     private let signUpEmailUsecase: SignUpEmailUsecase
+    private let loginOAuthUsecase: LoginOAuthUsecase
     
     init(validator: SignUpValidator,
          emailLogInRepository: EMailLogInRepository,
          nicknameDuplicationRepository: NickNameDuplicationRepository,
-         signUpEmailRepository: SignUpEmailRepository) {
+         signUpEmailRepository: SignUpEmailRepository,
+         loginOAuthRepository: LoginOAuthRepository
+    ) {
         self.validator = validator
         self.error = .init()
         self.emailLogInUsecase = EMailLogInUsecase(repository: emailLogInRepository)
         self.nicknameDuplicationUsecase = NickNameDuplicationUsecase(repository: nicknameDuplicationRepository)
         self.signUpEmailUsecase = SignUpEmailUsecase(repository: signUpEmailRepository)
+        self.loginOAuthUsecase = LoginOAuthUsecase(repository: loginOAuthRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -321,35 +325,31 @@ final class SignUpReactor: Reactor, Stepper {
         return self.signUpEmailUsecase.checkIsDuplicatedEmail(eMail: eMail)
     }
     
-    // TODO: Usecase생성 후 이동하기
     private func registWithOAuth(accessToken: String, type: OAuthSignInType) -> Observable<Result<Void, ArchiveError>> {
-        let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.logInWithOAuth(logInType: type, token: accessToken), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                if result.statusCode == 200 {
-                    guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
-                    guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
-                    // TODO: DIP를 이용해 바꿀것
-                    // TODO: kakao Login 모듈과 중복된 코드
-                    var loginType: LoginType = .eMail
-                    switch type {
-                    case .apple:
-                        loginType = .apple
-                    case .kakao:
-                        loginType = .kakao
-                    }
-                    LogInManager.shared.logIn(token: loginToken, type: loginType)
-                    //
-                    return .success(())
-                } else {
-                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+        switch type {
+        case .apple:
+            return self.loginOAuthUsecase.loginWithApple(accessToken: accessToken).flatMap { result -> Observable<Result<Void, ArchiveError>> in
+                switch result {
+                case .success(let token):
+                    LogInManager.shared.logIn(token: token, type: .apple)
+                    return .just(.success(()))
+                case .failure(let err):
+                    return .just(.failure(err))
                 }
             }
-            .catch { err in
-                return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
+        case .kakao:
+            return self.loginOAuthUsecase.loginWithKakao(accessToken: accessToken).flatMap { result -> Observable<Result<Void, ArchiveError>> in
+                switch result {
+                case .success(let token):
+                    LogInManager.shared.logIn(token: token, type: .kakao)
+                    return .just(.success(()))
+                case .failure(let err):
+                    return .just(.failure(err))
+                }
             }
+        }
     }
+    
     
     private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
         return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
