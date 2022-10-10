@@ -79,9 +79,12 @@ final class OnboardingFlow: Flow {
     }
     
     private func navigationToTermsAgreementScreen() -> FlowContributors {
+        self.signUpReactor.loginType = .eMail
         let termsAgreementViewController = onboardingStoryBoard
             .instantiateViewController(identifier: TermsAgreementViewController.identifier) { coder in
-                return TermsAgreementViewController(coder: coder, reactor: self.signUpReactor)
+                return TermsAgreementViewController(coder: coder,
+                                                    reactor: self.signUpReactor,
+                                                    progress: 0.25)
             }
         termsAgreementViewController.title = Constants.signUpNavigationTitle
         rootViewController.pushViewController(termsAgreementViewController, animated: true)
@@ -139,13 +142,19 @@ final class OnboardingFlow: Flow {
     }
     
     private func navigationToTermsAgreementForOAuthScreen(accessToken: String, loginType: OAuthSignInType) -> FlowContributors {
+        switch loginType {
+        case .kakao:
+            self.signUpReactor.loginType = .kakao
+        case .apple:
+            self.signUpReactor.loginType = .apple
+        }
         let termsAgreementViewController = onboardingStoryBoard
-            .instantiateViewController(identifier: TermsAgreementForOAuthViewController.identifier) { coder in
-                return TermsAgreementForOAuthViewController(coder: coder, reactor: self.signUpReactor)
+            .instantiateViewController(identifier: TermsAgreementViewController.identifier) { coder in
+                return TermsAgreementViewController(coder: coder,
+                                                    reactor: self.signUpReactor,
+                                                    progress: 0.5)
             }
         termsAgreementViewController.title = Constants.signUpNavigationTitle
-        self.signUpReactor.oAuthAccessToken = accessToken
-        self.signUpReactor.oAuthLoginType = loginType
         rootViewController.pushViewController(termsAgreementViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: termsAgreementViewController,
                                                  withNextStepper: signUpReactor))

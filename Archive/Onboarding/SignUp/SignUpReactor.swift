@@ -20,7 +20,7 @@ final class SignUpReactor: Reactor, Stepper {
         case viewTerms
         case agreePersonalInformationPolicy
         case viewPersonalInformationPolicy
-        case goToEmailInput
+        case completeAgreePolicy
         
         case registOAuthLogin(OAuthSignInType)
         
@@ -99,7 +99,7 @@ final class SignUpReactor: Reactor, Stepper {
     private let validator: SignUpValidator
     var error: PublishSubject<String>
     var oAuthAccessToken: String = ""
-    var oAuthLoginType: OAuthSignInType = .kakao
+    var loginType: LoginType = .eMail
     private let emailLogInUsecase: EMailLogInUsecase
     private let nicknameDuplicationUsecase: NickNameDuplicationUsecase
     private let signUpEmailUsecase: SignUpEmailUsecase
@@ -141,8 +141,13 @@ final class SignUpReactor: Reactor, Stepper {
             guard let url = URL(string: "https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae") else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "개인정보 처리방침"))
             return .empty()
-        case .goToEmailInput:
-            steps.accept(ArchiveStep.emailInputRequired)
+        case .completeAgreePolicy:
+            switch self.loginType {
+            case .eMail:
+                steps.accept(ArchiveStep.emailInputRequired)
+            case .kakao, .apple:
+                steps.accept(ArchiveStep.nicknameSignupIsRequired)
+            }
             return .empty()
         case let .emailInput(email):
             let isValid = validator.isValidEmail(email)
