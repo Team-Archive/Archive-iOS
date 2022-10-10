@@ -20,17 +20,19 @@ final class SignUpReactor: Reactor, Stepper {
         case viewTerms
         case agreePersonalInformationPolicy
         case viewPersonalInformationPolicy
-        case goToEmailInput
-        
-        case registOAuthLogin(OAuthSignInType)
+        case completeAgreePolicy
         
         case emailInput(text: String)
         case checkEmailDuplicate
         case goToPasswordInput
         
+        case checkIsDuplicatedNickname(String)
+        case nicknameTextFieldIsChanged
+        case nicknameSetIsComplete
+        
         case passwordInput(text: String)
         case passwordCofirmInput(text: String)
-        case completeSignUp
+        case passwordSetComplete
         
         case startArchive
     }
@@ -43,6 +45,9 @@ final class SignUpReactor: Reactor, Stepper {
         case setEmailValidation(Bool)
         case setEmailDuplicate(Bool)
         case resetEmailValidation
+        
+        case setIsDuplicatedNickname(Bool)
+        case setIsCheckedSuccessNicknameDuplication(Bool)
         
         case setPassword(String)
         case setEnglishCombination(Bool)
@@ -81,6 +86,9 @@ final class SignUpReactor: Reactor, Stepper {
             return isContainsEnglish && isContainsNumber && isWithinRange && isSamePasswordInput
         }
         var isLoading: Bool = false
+        
+        var isSuccessCheckedDuplicatedNickname: Bool = false
+        var isDuplicatedNickname: Bool = false
     }
     
     let initialState = State()
@@ -88,13 +96,24 @@ final class SignUpReactor: Reactor, Stepper {
     private let validator: SignUpValidator
     var error: PublishSubject<String>
     var oAuthAccessToken: String = ""
-    var oAuthLoginType: OAuthSignInType = .kakao
+    var loginType: LoginType = .eMail
     private let emailLogInUsecase: EMailLogInUsecase
+    private let nicknameDuplicationUsecase: NickNameDuplicationUsecase
+    private let signUpEmailUsecase: SignUpEmailUsecase
+    private let loginOAuthUsecase: LoginOAuthUsecase
     
-    init(validator: SignUpValidator, emailLogInRepository: EMailLogInRepository) {
+    init(validator: SignUpValidator,
+         emailLogInRepository: EMailLogInRepository,
+         nicknameDuplicationRepository: NickNameDuplicationRepository,
+         signUpEmailRepository: SignUpEmailRepository,
+         loginOAuthRepository: LoginOAuthRepository
+    ) {
         self.validator = validator
         self.error = .init()
         self.emailLogInUsecase = EMailLogInUsecase(repository: emailLogInRepository)
+        self.nicknameDuplicationUsecase = NickNameDuplicationUsecase(repository: nicknameDuplicationRepository)
+        self.signUpEmailUsecase = SignUpEmailUsecase(repository: signUpEmailRepository)
+        self.loginOAuthUsecase = LoginOAuthUsecase(repository: loginOAuthRepository)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -119,8 +138,13 @@ final class SignUpReactor: Reactor, Stepper {
             guard let url = URL(string: "https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae") else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "개인정보 처리방침"))
             return .empty()
-        case .goToEmailInput:
-            steps.accept(ArchiveStep.emailInputRequired)
+        case .completeAgreePolicy:
+            switch self.loginType {
+            case .eMail:
+                steps.accept(ArchiveStep.emailInputRequired)
+            case .kakao, .apple:
+                steps.accept(ArchiveStep.nicknameSignupIsRequired)
+            }
             return .empty()
         case let .emailInput(email):
             let isValid = validator.isValidEmail(email)
@@ -137,7 +161,7 @@ final class SignUpReactor: Reactor, Stepper {
                         case .success(let isDup):
                             return .setEmailDuplicate(isDup)
                         case .failure(let err):
-                            self?.error.onNext("error\(err.localizedDescription)")
+                            self?.error.onNext(err.archiveErrMsg)
                         }
                         return .setIsLoading(false)
                     },
@@ -158,21 +182,6 @@ final class SignUpReactor: Reactor, Stepper {
             
         case let .passwordCofirmInput(text):
             return .just(.setPasswordCofirmationInput(text))
-            
-        case .completeSignUp:
-            return Observable.concat([
-                Observable.just(.setIsLoading(true)),
-                registEmail(eMail: self.currentState.email, password: self.currentState.password)
-                    .map { [weak self] result in
-                        switch result {
-                        case .success(_):
-                            self?.steps.accept(ArchiveStep.userIsSignedUp)
-                        case .failure(let err):
-                            self?.error.onNext(ServerErrorUtil.getErrMsg(err))
-                        }
-                        return .setIsLoading(false)
-                    }
-            ])
         case .startArchive:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
@@ -194,20 +203,70 @@ final class SignUpReactor: Reactor, Stepper {
                     },
                 Observable.just(.setIsLoading(false))
             ])
-        case .registOAuthLogin(let type):
+        case .checkIsDuplicatedNickname(let nickname):
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
-                self.registWithOAuth(accessToken: self.oAuthAccessToken, type: type).map { [weak self] result in
-                    switch result {
-                    case .success(_):
-                        self?.steps.accept(ArchiveStep.userIsSignedIn)
-                    case .failure(let err):
-                        self?.error.onNext(err.getMessage())
-                    }
-                    return .empty
-                },
+                self.checkIsDuplicatedNickname(nickname)
+                    .map { result -> Result<Bool, ArchiveError> in
+                        return result
+                    }.flatMap { [weak self] result -> Observable<Mutation> in
+                        switch result {
+                        case .success(let isDuplicated):
+                            if isDuplicated {
+                                return .from([
+                                    .setIsDuplicatedNickname(true),
+                                    .setIsCheckedSuccessNicknameDuplication(false)
+                                ])
+                            } else {
+                                return .from([
+                                    .setIsDuplicatedNickname(true),
+                                    .setIsCheckedSuccessNicknameDuplication(true)
+                                ])
+                            }
+                        case .failure(let err):
+                            self?.error.onNext(err.getMessage())
+                            return .empty()
+                        }
+                    },
                 Observable.just(.setIsLoading(false))
             ])
+        case .passwordSetComplete:
+            steps.accept(ArchiveStep.nicknameSignupIsRequired)
+            return .empty()
+        case .nicknameTextFieldIsChanged:
+            return .just(.setIsCheckedSuccessNicknameDuplication(false))
+        case .nicknameSetIsComplete:
+            switch self.loginType {
+            case .eMail:
+                return Observable.concat([
+                    Observable.just(.setIsLoading(true)),
+                    registEmail(eMail: self.currentState.email, password: self.currentState.password)
+                        .map { [weak self] result in
+                            switch result {
+                            case .success(_):
+                                self?.steps.accept(ArchiveStep.userIsSignedUp)
+                            case .failure(let err):
+                                self?.error.onNext(err.archiveErrMsg)
+                            }
+                            return .empty
+                        },
+                    Observable.just(.setIsLoading(false))
+                ])
+            case .kakao, .apple:
+                return Observable.concat([
+                    Observable.just(.setIsLoading(true)),
+                    self.registWithOAuth(accessToken: self.oAuthAccessToken, type: self.loginType).map { [weak self] result in
+                        switch result {
+                        case .success(_):
+                            self?.steps.accept(ArchiveStep.userIsSignedIn)
+                        case .failure(let err):
+                            self?.error.onNext(err.getMessage())
+                        }
+                        return .empty
+                    },
+                    Observable.just(.setIsLoading(false))
+                ])
+            }
         }
     }
     
@@ -252,6 +311,10 @@ final class SignUpReactor: Reactor, Stepper {
         case .setIsLoading(let isLoading):
             newState.isLoading = isLoading
             
+        case .setIsCheckedSuccessNicknameDuplication(let isChecked):
+            newState.isSuccessCheckedDuplicatedNickname = isChecked
+        case .setIsDuplicatedNickname(let isDuplicated):
+            newState.isDuplicatedNickname = isDuplicated
         case .empty:
             break
         }
@@ -259,72 +322,48 @@ final class SignUpReactor: Reactor, Stepper {
         return newState
     }
     
-    private func registEmail(eMail: String, password: String) -> Observable<Result<Void, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        let param = RequestEmailParam(email: eMail, password: password)
-        return provider.rx.request(.registEmail(param), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                return .success(Void())
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func registEmail(eMail: String, password: String) -> Observable<Result<Void, ArchiveError>> {
+        return self.signUpEmailUsecase.registEmail(eMail: eMail, password: password)
     }
     
-    private func checkIsDuplicatedEmail(eMail: String) -> Observable<Result<Bool, Error>> {
-        let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.isDuplicatedEmail(eMail), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { response in
-                if let result: JSON = try? JSON.init(data: response.data) {
-                    let isDup: Bool = result["duplicatedEmail"].boolValue
-                    if isDup {
-                        return .success(true)
-                    } else {
-                        return .success(false)
-                    }
-                } else {
-                    return .success(true)
-                }
-            }
-            .catch { err in
-                .just(.failure(err))
-            }
+    private func checkIsDuplicatedEmail(eMail: String) -> Observable<Result<Bool, ArchiveError>> {
+        return self.signUpEmailUsecase.checkIsDuplicatedEmail(eMail: eMail)
     }
     
-    // TODO: Usecase생성 후 이동하기
-    private func registWithOAuth(accessToken: String, type: OAuthSignInType) -> Observable<Result<Void, ArchiveError>> {
-        let provider = ArchiveProvider.shared.provider
-        return provider.rx.request(.logInWithOAuth(logInType: type, token: accessToken), callbackQueue: DispatchQueue.global())
-            .asObservable()
-            .map { result in
-                if result.statusCode == 200 {
-                    guard let header = result.response?.headers else { return .failure(.init(.responseHeaderIsNull))}
-                    guard let loginToken = header["Authorization"] else { return .failure(.init(.responseHeaderIsNull))}
-                    // TODO: DIP를 이용해 바꿀것
-                    // TODO: kakao Login 모듈과 중복된 코드
-                    var loginType: LoginType = .eMail
-                    switch type {
-                    case .apple:
-                        loginType = .apple
-                    case .kakao:
-                        loginType = .kakao
-                    }
-                    LogInManager.shared.logIn(token: loginToken, type: loginType)
-                    //
-                    return .success(())
-                } else {
-                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+    private func registWithOAuth(accessToken: String, type: LoginType) -> Observable<Result<Void, ArchiveError>> {
+        switch type {
+        case .eMail:
+            return .just(.failure(.init(.invalidLoginType)))
+        case .apple:
+            return self.loginOAuthUsecase.loginWithApple(accessToken: accessToken).flatMap { result -> Observable<Result<Void, ArchiveError>> in
+                switch result {
+                case .success(let token):
+                    LogInManager.shared.logIn(token: token, type: .apple)
+                    return .just(.success(()))
+                case .failure(let err):
+                    return .just(.failure(err))
                 }
             }
-            .catch { err in
-                return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))
+        case .kakao:
+            return self.loginOAuthUsecase.loginWithKakao(accessToken: accessToken).flatMap { result -> Observable<Result<Void, ArchiveError>> in
+                switch result {
+                case .success(let token):
+                    LogInManager.shared.logIn(token: token, type: .kakao)
+                    return .just(.success(()))
+                case .failure(let err):
+                    return .just(.failure(err))
+                }
             }
+        }
     }
+    
     
     private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
         return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
+    }
+    
+    private func checkIsDuplicatedNickname(_ nickname: String) -> Observable<Result<Bool, ArchiveError>> {
+        return self.nicknameDuplicationUsecase.isDuplicatedNickName(nickname)
     }
 }
 

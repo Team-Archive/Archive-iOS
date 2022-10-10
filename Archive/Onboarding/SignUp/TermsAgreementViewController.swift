@@ -12,10 +12,6 @@ import RxCocoa
 
 final class TermsAgreementViewController: UIViewController, StoryboardView, ActivityIndicatorable {
     
-    private enum Constant {
-        static let progress: Float = 0.33
-    }
-    
     @IBOutlet private weak var progressView: UIProgressView!
     @IBOutlet private weak var checkAllButton: UIButton!
     @IBOutlet private weak var agreeTermsButton: UIButton!
@@ -25,12 +21,16 @@ final class TermsAgreementViewController: UIViewController, StoryboardView, Acti
     @IBOutlet private weak var nextButton: UIButton!
     var disposeBag = DisposeBag()
     
-    init?(coder: NSCoder, reactor: SignUpReactor) {
+    private let progress: Float
+    
+    init?(coder: NSCoder, reactor: SignUpReactor, progress: Float) {
+        self.progress = progress
         super.init(coder: coder)
         self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
+        self.progress = 0.25
         super.init(coder: coder)
     }
     
@@ -45,7 +45,7 @@ final class TermsAgreementViewController: UIViewController, StoryboardView, Acti
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        progressView.setProgress(Constant.progress, animated: true)
+        progressView.setProgress(self.progress, animated: true)
     }
     
     func bind(reactor: SignUpReactor) {
@@ -75,7 +75,7 @@ final class TermsAgreementViewController: UIViewController, StoryboardView, Acti
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .map { Reactor.Action.goToEmailInput }
+            .map { Reactor.Action.completeAgreePolicy }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         

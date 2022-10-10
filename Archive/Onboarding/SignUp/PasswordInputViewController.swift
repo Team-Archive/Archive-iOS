@@ -14,7 +14,7 @@ import RxFlow
 final class PasswordInputViewController: UIViewController, StoryboardView, ActivityIndicatorable {
     
     private enum Constant {
-        static let progress: Float = 1
+        static let progress: Float = 0.75
     }
     
     @IBOutlet private weak var progressView: UIProgressView!
@@ -55,6 +55,7 @@ final class PasswordInputViewController: UIViewController, StoryboardView, Activ
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        progressView.setProgress(0.5, animated: false)
         progressView.setProgress(Constant.progress, animated: true)
     }
     
@@ -72,7 +73,7 @@ final class PasswordInputViewController: UIViewController, StoryboardView, Activ
             .disposed(by: disposeBag)
         
         nextButton?.rx.tap
-            .map { Reactor.Action.completeSignUp }
+            .map { Reactor.Action.passwordSetComplete }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
         
