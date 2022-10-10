@@ -164,7 +164,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                         self?.currentDetailIndex = index
                         self?.steps.accept(ArchiveStep.communityDetailIsRequired(
                             data: detailData,
-                            currentIndex: 0,
+                            currentIndex: index,
                             reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
                                                               bannerRepository: BannerRepositoryImplement(),
                                                               likeRepository: LikeRepositoryImplement(),
