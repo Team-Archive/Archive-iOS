@@ -22,20 +22,17 @@ final class SignUpReactor: Reactor, Stepper {
         case viewPersonalInformationPolicy
         case completeAgreePolicy
         
-        case registOAuthLogin(OAuthSignInType)
-        
         case emailInput(text: String)
         case checkEmailDuplicate
         case goToPasswordInput
         
         case checkIsDuplicatedNickname(String)
         case nicknameTextFieldIsChanged
+        case nicknameSetIsComplete
         
         case passwordInput(text: String)
         case passwordCofirmInput(text: String)
         case passwordSetComplete
-        
-        case completeSignUp
         
         case startArchive
     }
@@ -185,21 +182,6 @@ final class SignUpReactor: Reactor, Stepper {
             
         case let .passwordCofirmInput(text):
             return .just(.setPasswordCofirmationInput(text))
-            
-        case .completeSignUp:
-            return Observable.concat([
-                Observable.just(.setIsLoading(true)),
-                registEmail(eMail: self.currentState.email, password: self.currentState.password)
-                    .map { [weak self] result in
-                        switch result {
-                        case .success(_):
-                            self?.steps.accept(ArchiveStep.userIsSignedUp)
-                        case .failure(let err):
-                            self?.error.onNext(err.archiveErrMsg)
-                        }
-                        return .setIsLoading(false)
-                    }
-            ])
         case .startArchive:
             return Observable.concat([
                 Observable.just(.setIsLoading(true)),
@@ -219,20 +201,6 @@ final class SignUpReactor: Reactor, Stepper {
                         }
                         return .empty
                     },
-                Observable.just(.setIsLoading(false))
-            ])
-        case .registOAuthLogin(let type):
-            return Observable.concat([
-                Observable.just(.setIsLoading(true)),
-                self.registWithOAuth(accessToken: self.oAuthAccessToken, type: type).map { [weak self] result in
-                    switch result {
-                    case .success(_):
-                        self?.steps.accept(ArchiveStep.userIsSignedIn)
-                    case .failure(let err):
-                        self?.error.onNext(err.getMessage())
-                    }
-                    return .empty
-                },
                 Observable.just(.setIsLoading(false))
             ])
         case .checkIsDuplicatedNickname(let nickname):
@@ -267,6 +235,38 @@ final class SignUpReactor: Reactor, Stepper {
             return .empty()
         case .nicknameTextFieldIsChanged:
             return .just(.setIsCheckedSuccessNicknameDuplication(false))
+        case .nicknameSetIsComplete:
+            switch self.loginType {
+            case .eMail:
+                return Observable.concat([
+                    Observable.just(.setIsLoading(true)),
+                    registEmail(eMail: self.currentState.email, password: self.currentState.password)
+                        .map { [weak self] result in
+                            switch result {
+                            case .success(_):
+                                self?.steps.accept(ArchiveStep.userIsSignedUp)
+                            case .failure(let err):
+                                self?.error.onNext(err.archiveErrMsg)
+                            }
+                            return .empty
+                        },
+                    Observable.just(.setIsLoading(false))
+                ])
+            case .kakao, .apple:
+                return Observable.concat([
+                    Observable.just(.setIsLoading(true)),
+                    self.registWithOAuth(accessToken: self.oAuthAccessToken, type: self.loginType).map { [weak self] result in
+                        switch result {
+                        case .success(_):
+                            self?.steps.accept(ArchiveStep.userIsSignedIn)
+                        case .failure(let err):
+                            self?.error.onNext(err.getMessage())
+                        }
+                        return .empty
+                    },
+                    Observable.just(.setIsLoading(false))
+                ])
+            }
         }
     }
     
@@ -330,8 +330,10 @@ final class SignUpReactor: Reactor, Stepper {
         return self.signUpEmailUsecase.checkIsDuplicatedEmail(eMail: eMail)
     }
     
-    private func registWithOAuth(accessToken: String, type: OAuthSignInType) -> Observable<Result<Void, ArchiveError>> {
+    private func registWithOAuth(accessToken: String, type: LoginType) -> Observable<Result<Void, ArchiveError>> {
         switch type {
+        case .eMail:
+            return .just(.failure(.init(.invalidLoginType)))
         case .apple:
             return self.loginOAuthUsecase.loginWithApple(accessToken: accessToken).flatMap { result -> Observable<Result<Void, ArchiveError>> in
                 switch result {

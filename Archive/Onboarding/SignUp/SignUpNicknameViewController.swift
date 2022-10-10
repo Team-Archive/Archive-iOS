@@ -214,7 +214,7 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     // MARK: private func
     
     @objc private func confirm() {
-        self.reactor?.action.onNext(.completeSignUp)
+        self.reactor?.action.onNext(.nicknameSetIsComplete)
     }
     
     // MARK: func

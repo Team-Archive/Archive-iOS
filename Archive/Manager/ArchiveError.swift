@@ -22,6 +22,7 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case unexpectedAppleSignIn = 11100 // 에러는 발생하지 않았지만 애플로그인 이상함
     case tokenNotExsitAppleSignIn // 애플로그인 토큰 없음
     case tokenAsciiToStringFailAppleSignIn // 애플로그인 토큰데이터 -> 스트링 변환 실패
+    case invalidLoginType // 로그인 타입이 유효하지않음
     case unexpectedKakaoSignIn = 11120
     case kakaoIsNotIntalled // 카카오톡이 설치되어있지 않음
     case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
@@ -120,6 +121,8 @@ class ArchiveError: Error {
             returnValue = "오류"
         case .convertImageFail:
             returnValue = "이미지 변환 오류"
+        case .invalidLoginType:
+            returnValue = "유효하지 않은 로그인 타입"
         }
         return returnValue
     }
