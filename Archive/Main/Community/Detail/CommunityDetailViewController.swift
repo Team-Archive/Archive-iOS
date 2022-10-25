@@ -374,9 +374,9 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         reactor.state
             .map { $0.detailArchive }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0))
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0))
             .drive(onNext: { [weak self] data in
-                if data.index == 0 {
+                if data.innerIndex == 0 {
                     self?.showCover(infoData: data)
                 } else {
                     self?.showPhoto(infoData: data)
@@ -389,7 +389,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                 }
                 self?.progressBar.setPercent(
                     self?.getProgressPercent(totalPageCnt: (data.archiveInfo.images?.count ?? 0) + 1,
-                                             currentIndex: data.index) ?? 0
+                                             currentIndex: data.innerIndex) ?? 0
                 )
             
             })
@@ -398,7 +398,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         reactor.state
             .map { $0.detailArchive }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0))
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0))
             .drive(onNext: { [weak self] data in
                 self?.likeBtn.isLike = LikeManager.shared.likeList.contains("\(data.archiveInfo.archiveId)")
             })
@@ -447,6 +447,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private func
     
     private func showCover(infoData: CommunityReactor.DetailInfo) {
+        print("info: \(infoData.innerIndex)")
         let item = infoData.archiveInfo
         self.topCoverContentsView.isHidden = false
         self.bottomCoverContentsView.isHidden = false
@@ -494,7 +495,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     }
     
     private func showPhoto(infoData: CommunityReactor.DetailInfo) {
-        guard let item = infoData.archiveInfo.images?[infoData.index-1] else { return }
+        guard let item = infoData.archiveInfo.images?[infoData.innerIndex-1] else { return }
         self.topCoverContentsView.isHidden = true
         self.bottomCoverContentsView.isHidden = true
         self.topPhotoContentsView.isHidden = false
