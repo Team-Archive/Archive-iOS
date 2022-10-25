@@ -90,6 +90,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
             NSAttributedString.Key.font: UIFont.fonts(.subTitle),
             NSAttributedString.Key.foregroundColor: Gen.Colors.gray01.color
         ]
+        self.rootViewController?.navigationBar.topItem?.leftBarButtonItems = nil
         self.rootViewController?.navigationBar.topItem?.title = "내 정보"
     }
     

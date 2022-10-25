@@ -15,6 +15,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     struct DetailInfo: Equatable {
         let archiveInfo: ArchiveDetailInfo
+        let innerIndex: Int
         let index: Int
     }
     
@@ -87,6 +88,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         var archives: Pulse<[PublicArchive]> = Pulse(wrappedValue: [])
         var detailArchive: DetailInfo = DetailInfo(
             archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil),
+            innerIndex: 0,
             index: 0)
         var currentDetailUserNickName: String = ""
         var currentDetailUserImage: String = ""
@@ -164,7 +166,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                         self?.currentDetailIndex = index
                         self?.steps.accept(ArchiveStep.communityDetailIsRequired(
                             data: detailData,
-                            currentIndex: 0,
+                            currentIndex: index,
                             reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
                                                               bannerRepository: BannerRepositoryImplement(),
                                                               likeRepository: LikeRepositoryImplement(),
@@ -181,7 +183,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             self.currentDetailIndex = index
             self.currentDetailInnerIndex = 0
             return Observable.from([
-                .setDetailArchive(DetailInfo(archiveInfo: infoData, index: self.currentDetailInnerIndex)),
+                .setDetailArchive(DetailInfo(archiveInfo: infoData,
+                                             innerIndex: self.currentDetailInnerIndex,
+                                             index: self.currentDetailIndex)),
                 .setCurrentDetailUserImage(self.currentState.archives.value[index].authorProfileImage),
                 .setCurrentDetailUserImage(self.currentState.archives.value[index].authorNickname)
             ])
@@ -192,7 +196,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                 } else {
                     self.currentDetailInnerIndex += 1
                     return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
-                                                              index: self.currentDetailInnerIndex)))
+                                                              innerIndex: self.currentDetailInnerIndex,
+                                                              index: self.currentDetailIndex)))
                 }
             } else { // 포토 데이터가 없다면
                 // 다음 데이터로 넘어가본다.
@@ -208,7 +213,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             } else {
                 self.currentDetailInnerIndex -= 1
                 return .just(.setDetailArchive(DetailInfo(archiveInfo: self.currentState.detailArchive.archiveInfo,
-                                                          index: self.currentDetailInnerIndex)))
+                                                          innerIndex: self.currentDetailInnerIndex,
+                                                          index: self.currentDetailIndex)))
             }
         case .showNextUser:
             return getNextUserDetail()
@@ -271,7 +277,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .setDetailArchive(let data):
             newState.detailArchive = data
         case .clearDetailArchive:
-            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), index: 0)
+            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0, index: 0)
         case .setCurrentDetailUserImage(let image):
             newState.currentDetailUserImage = image
         case .setCurrentDetailUserNickName(let nickName):

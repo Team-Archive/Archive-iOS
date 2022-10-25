@@ -107,6 +107,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
                                                                  emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
     
     private var refresher: UIRefreshControl?
+    private var isRefreshing: Bool = false
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -224,7 +225,10 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             .map { $0.archives }
             .asDriver(onErrorJustReturn: .init(wrappedValue: []))
             .drive(onNext: { [weak self] _ in
-                self?.stopRefresher()
+                if self?.isRefreshing ?? false {
+                    self?.stopRefresher()
+                    self?.isRefreshing = false
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -268,11 +272,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             })
             .disposed(by: self.disposeBag)
         
-        self.collectionView.rx.contentOffset
-            .asDriver()
-            .drive(onNext: { [weak self] offset in
-                if (offset.y > (self?.collectionView.contentSize.height ?? 1000000000000) - ((UIScreen.main.bounds.width * 1.08)*2)) &&
-                    offset.y > 1 {
+        self.collectionView.rx.willDisplayCell
+            .subscribe(onNext: { info in
+                if reactor.currentState.archives.value.count - 3 < info.at.item {
                     reactor.action.onNext(.getMorePublicArchives)
                 }
             })
@@ -320,6 +322,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     
     @objc private func refresh() {
         print("refresh")
+        self.isRefreshing = true
         self.reactor?.action.onNext(.refreshPublicArchives)
     }
     
