@@ -74,7 +74,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
         
         let leftItems: [UIBarButtonItem] = [negativeSpacer, imageItem]
         self.rootViewController?.navigationBar.topItem?.leftBarButtonItems = leftItems
-        self.rootViewController?.navigationBar.topItem?.title = ""
+        self.rootViewController?.navigationBar.topItem?.title = "ㅤ"
     }
     
     func navigate(to step: Step) -> FlowContributors {
