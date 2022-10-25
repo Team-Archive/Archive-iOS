@@ -107,6 +107,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
                                                                  emotionSortBy: self.reactor?.currentState.archiveEmotionSortBy)
     
     private var refresher: UIRefreshControl?
+    private var isRefreshing: Bool = false
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -224,7 +225,10 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             .map { $0.archives }
             .asDriver(onErrorJustReturn: .init(wrappedValue: []))
             .drive(onNext: { [weak self] _ in
-                self?.stopRefresher()
+                if self?.isRefreshing ?? false {
+                    self?.stopRefresher()
+                    self?.isRefreshing = false
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -318,6 +322,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     
     @objc private func refresh() {
         print("refresh")
+        self.isRefreshing = true
         self.reactor?.action.onNext(.refreshPublicArchives)
     }
     
