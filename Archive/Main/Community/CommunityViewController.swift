@@ -268,11 +268,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             })
             .disposed(by: self.disposeBag)
         
-        self.collectionView.rx.contentOffset
-            .asDriver()
-            .drive(onNext: { [weak self] offset in
-                if (offset.y > (self?.collectionView.contentSize.height ?? 1000000000000) - ((UIScreen.main.bounds.width * 1.08)*2)) &&
-                    offset.y > 1 {
+        self.collectionView.rx.willDisplayCell
+            .subscribe(onNext: { info in
+                if reactor.currentState.archives.value.count - 3 < info.at.item {
                     reactor.action.onNext(.getMorePublicArchives)
                 }
             })
