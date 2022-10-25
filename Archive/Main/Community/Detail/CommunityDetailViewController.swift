@@ -379,7 +379,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0, index: 0))
             .drive(onNext: { [weak self] data in
                 if data.innerIndex == 0 {
-                    print("....")
                     self?.showCover(infoData: data)
                 } else {
                     self?.showPhoto(infoData: data)
@@ -450,8 +449,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private func
     
     private func showCover(infoData: CommunityReactor.DetailInfo) {
-        print("info: \(infoData.innerIndex)")
-        print("info2: \(infoData.index)")
         let item = infoData.archiveInfo
         self.topCoverContentsView.isHidden = false
         self.bottomCoverContentsView.isHidden = false
@@ -474,11 +471,20 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
 //            $0.textColor = Gen.Colors.gray03.color
 //        }
         
+       
         if self.currentIndex != -1 {
             if currentIndex > infoData.index {
-                print("이전 유저 데이터보기")
+                self.mainContentsView.alpha = 0
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
+                    self.mainContentsView.frame = CGRect(x: self.mainContentsView.frame.origin.x + 25, y: self.mainContentsView.frame.origin.y, width: self.mainContentsView.frame.width, height: self.mainContentsView.frame.height)
+                    self.mainContentsView.alpha = 1
+                })
             } else if currentIndex < infoData.index {
-                print("다음 유저 데이터보기")
+                self.mainContentsView.alpha = 0
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
+                    self.mainContentsView.frame = CGRect(x: self.mainContentsView.frame.origin.x - 25, y: self.mainContentsView.frame.origin.y, width: self.mainContentsView.frame.width, height: self.mainContentsView.frame.height)
+                    self.mainContentsView.alpha = 1
+                })
             }
         }
         self.currentIndex = infoData.index // 위치가 별로긴 한데.. 애니메이션때문에 우선 여기에 넣고 개선해보자.. showCover 라는 메서드에서 바꿔주는걸 파악하고있지 않으면 알 수가 없음...
