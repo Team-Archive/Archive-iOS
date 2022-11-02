@@ -12,7 +12,7 @@ class ArchiveStatus: NSObject {
     
     enum Mode {
         case normal
-        case debug
+        case debug(url: String?)
     }
     
     // MARK: private property

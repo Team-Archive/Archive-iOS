@@ -34,12 +34,20 @@ enum ArchiveAPI {
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
-        var domain: String = ""
-        if ArchiveStatus.shared.mode == .debug {
-            domain = CommonDefine.devApiServer
-        } else {
-            domain = CommonDefine.apiServer
-        }
+        let domain: String = {
+            var returnValue: String = ""
+            switch ArchiveStatus.shared.mode {
+            case .debug(let url):
+                if let url = url {
+                    returnValue = url
+                } else {
+                    returnValue = CommonDefine.devApiServer
+                }
+            case .normal:
+                returnValue = CommonDefine.apiServer
+            }
+            return returnValue
+        }()
         
         switch self {
         case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report:
