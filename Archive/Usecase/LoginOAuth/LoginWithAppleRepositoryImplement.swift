@@ -73,7 +73,7 @@ class LoginWithAppleRepositoryImplement: NSObject {
             return returnValue
         }
         let payloadBase64: String = String(splited[1])
-        guard let decodedPayload = Data(base64Encoded: payloadBase64) else {
+        guard let decodedPayload = Util.base64Decode(payloadBase64) else {
             return returnValue
         }
         guard let payloadJson: JSON = try? JSON.init(data: decodedPayload) else {
