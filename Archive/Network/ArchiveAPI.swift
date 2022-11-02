@@ -29,6 +29,7 @@ enum ArchiveAPI {
     case getBanner
     case getThisMonthRegistArchiveCnt
     case report(archiveId: Int, reason: String)
+    case uploadProfilePhotoImage(_ imageData: Data)
 }
         
 extension ArchiveAPI: TargetType {
@@ -50,7 +51,7 @@ extension ArchiveAPI: TargetType {
         }()
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -101,6 +102,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v2/archive/count/month"
         case .report(let archiveId, _):
             return "/api/v2/report/\(archiveId)"
+        case .uploadProfilePhotoImage:
+            return "/api/v2/user/profile/image/upload"
         }
     }
     
@@ -147,6 +150,8 @@ extension ArchiveAPI: TargetType {
         case .getThisMonthRegistArchiveCnt:
             return .get
         case .report:
+            return .post
+        case .uploadProfilePhotoImage:
             return .post
         }
     }
@@ -222,6 +227,11 @@ extension ArchiveAPI: TargetType {
             return .requestPlain
         case .report(_, let reason):
             return .requestParameters(parameters: ["reason": reason], encoding: JSONEncoding.default)
+        case .uploadProfilePhotoImage(let imageData):
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
+            let data: MultipartFormData = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
+            return .uploadMultipart([data])
         }
     }
     
@@ -272,6 +282,8 @@ extension ArchiveAPI: TargetType {
         case .getThisMonthRegistArchiveCnt:
             return ["Authorization": LogInManager.shared.accessToken]
         case .report:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .uploadProfilePhotoImage:
             return ["Authorization": LogInManager.shared.accessToken]
         }
     }

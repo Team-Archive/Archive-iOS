@@ -210,6 +210,9 @@
 		78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */; };
 		78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */; };
 		78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A45427286754480081D17E /* CommunityDetailViewController.swift */; };
+		78A5349D291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5349C291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift */; };
+		78A5349F291294D400308DA6 /* UploadProfilePhotoImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5349E291294D400308DA6 /* UploadProfilePhotoImageRepository.swift */; };
+		78A534A1291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A534A0291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift */; };
 		78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */; };
 		78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A212868A89300B8DF2F /* DetailRepository.swift */; };
 		78A96A242868A89E00B8DF2F /* DetailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */; };
@@ -496,6 +499,9 @@
 		78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepository.swift; sourceTree = "<group>"; };
 		78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepositoryImplement.swift; sourceTree = "<group>"; };
 		78A45427286754480081D17E /* CommunityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailViewController.swift; sourceTree = "<group>"; };
+		78A5349C291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePhotoImageUsecase.swift; sourceTree = "<group>"; };
+		78A5349E291294D400308DA6 /* UploadProfilePhotoImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePhotoImageRepository.swift; sourceTree = "<group>"; };
+		78A534A0291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePhotoImageRepositoryImplement.swift; sourceTree = "<group>"; };
 		78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUsecase.swift; sourceTree = "<group>"; };
 		78A96A212868A89300B8DF2F /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -979,6 +985,7 @@
 				78A38BEE280DB3EB000C921B /* LoginEMail */,
 				7831D51A27E58FDF00E3FA57 /* LoginOAuth */,
 				784FCDE5282FEE6E007683D2 /* LoginAccessToken */,
+				78A5349B291294B300308DA6 /* UploadProfilePhotoImage */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -1378,6 +1385,16 @@
 				78A45427286754480081D17E /* CommunityDetailViewController.swift */,
 			);
 			path = Detail;
+			sourceTree = "<group>";
+		};
+		78A5349B291294B300308DA6 /* UploadProfilePhotoImage */ = {
+			isa = PBXGroup;
+			children = (
+				78A5349C291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift */,
+				78A5349E291294D400308DA6 /* UploadProfilePhotoImageRepository.swift */,
+				78A534A0291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift */,
+			);
+			path = UploadProfilePhotoImage;
 			sourceTree = "<group>";
 		};
 		78A96A1E2868A85200B8DF2F /* Detail */ = {
@@ -1861,6 +1878,7 @@
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
+				78A5349F291294D400308DA6 /* UploadProfilePhotoImageRepository.swift in Sources */,
 				7825935628C3193300BB9814 /* LikeUsecase.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
@@ -1983,6 +2001,7 @@
 				78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */,
 				4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */,
 				789E61992725550A00D6E18F /* RecordViewController.swift in Sources */,
+				78A534A1291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift in Sources */,
 				784D1E2127088BC0004B1A23 /* HWFlipView.swift in Sources */,
 				781C8450282F8B6E004A0FB3 /* FakeSplashView.swift in Sources */,
 				788AB648280A9EAE00182B45 /* FindPasswordUsecase.swift in Sources */,
@@ -2090,6 +2109,7 @@
 				78BAF75928AA396000641250 /* RegistPhotoReactor.swift in Sources */,
 				78BAF75728AA382C00641250 /* PhotoUsecase.swift in Sources */,
 				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
+				78A5349D291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift in Sources */,
 				786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */,
 				78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */,
 				783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */,

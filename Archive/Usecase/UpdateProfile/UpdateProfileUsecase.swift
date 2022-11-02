@@ -12,7 +12,7 @@ class UpdateProfileUsecase: NSObject {
     // MARK: private property
     
     private let repository: UpdateProfileRepository
-    private let uploadImageUsecase: UploadImageUsecase
+    private let uploadImageUsecase: UploadProfilePhotoImageUsecase
     
     private let imageEdit: ImageEdit = ImageEdit()
     
@@ -20,9 +20,9 @@ class UpdateProfileUsecase: NSObject {
     
     // MARK: lifeCycle
     
-    init(repository: UpdateProfileRepository, uploadImageRepository: UploadImageRepository) {
+    init(repository: UpdateProfileRepository, uploadImageRepository: UploadProfilePhotoImageRepository) {
         self.repository = repository
-        self.uploadImageUsecase = UploadImageUsecase(repository: uploadImageRepository)
+        self.uploadImageUsecase = UploadProfilePhotoImageUsecase(repository: uploadImageRepository)
     }
     
     // MARK: private function
