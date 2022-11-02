@@ -72,13 +72,7 @@ class LoginWithAppleRepositoryImplement: NSObject {
         if splited.count != 3 {
             return returnValue
         }
-        var payloadBase64: String = String(splited[1])
-        if payloadBase64.hasSuffix("==") {
-        } else if payloadBase64.hasSuffix("=") {
-            payloadBase64 += "="
-        } else {
-            payloadBase64 += "=="
-        }
+        let payloadBase64: String = String(splited[1])
         guard let decodedPayload = Data(base64Encoded: payloadBase64) else {
             return returnValue
         }

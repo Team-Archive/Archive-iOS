@@ -148,6 +148,7 @@ final class OnboardingFlow: Flow {
         case .apple:
             self.signUpReactor.loginType = .apple
         }
+        self.signUpReactor.oAuthAccessToken = accessToken
         let termsAgreementViewController = onboardingStoryBoard
             .instantiateViewController(identifier: TermsAgreementViewController.identifier) { coder in
                 return TermsAgreementViewController(coder: coder,

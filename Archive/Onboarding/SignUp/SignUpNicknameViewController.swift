@@ -75,7 +75,7 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "신고"
+        self.title = "회원가입"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -214,6 +214,7 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     // MARK: private func
     
     @objc private func confirm() {
+        self.view.endEditing(true)
         self.reactor?.action.onNext(.nicknameSetIsComplete)
     }
     
