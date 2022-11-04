@@ -61,7 +61,7 @@ extension ArchiveAPI: TargetType {
     var path: String {
         switch self {
         case .uploadImage:
-            return "/api/v1/archive/image/upload"
+            return "/api/v2/archive/image/upload"
         case .registArchive:
             return "/api/v1/archive"
         case .registEmail:
@@ -70,8 +70,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v1/auth/login"
         case .logInWithOAuth:
             return "/api/v1/auth/social"
-        case .isDuplicatedEmail(let eMail):
-            return "/api/v1/auth/email/" + eMail
+        case .isDuplicatedEmail:
+            return "/api/v2/user/duplicate/email"
         case .deleteArchive(let archiveId):
             return "/api/v1/archive/" + archiveId
         case .getArchives:
@@ -87,7 +87,7 @@ extension ArchiveAPI: TargetType {
         case .sendTempPassword:
             return "api/v1/auth/password/temporary"
         case .changePassword:
-            return "api/v1/auth/password/reset"
+            return "api/v2/auth/password/reset"
         case .getPublicArchives:
             return "/api/v2/archive/community"
         case .like:
@@ -171,8 +171,8 @@ extension ArchiveAPI: TargetType {
             return .requestJSONEncodable(param)
         case .logInWithOAuth(let type, let token):
             return .requestParameters(parameters: ["providerAccessToken": token, "provider": type.rawValue], encoding: JSONEncoding.default)
-        case .isDuplicatedEmail:
-            return .requestPlain
+        case .isDuplicatedEmail(let email):
+            return .requestParameters(parameters: ["value": email], encoding: URLEncoding.default)
         case .deleteArchive:
             return .requestPlain
         case .getArchives(let sortBy, let emotion, let lastSeenArchiveDateMilli, let lastSeenArchiveId):
