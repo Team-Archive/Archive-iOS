@@ -88,7 +88,7 @@ final class SignUpReactor: Reactor, Stepper {
         var isLoading: Bool = false
         
         var isSuccessCheckedDuplicatedNickname: Bool = false
-        var isDuplicatedNickname: Bool = false
+        var isDuplicatedNickname: Pulse<Bool> = .init(wrappedValue: false)
     }
     
     let initialState = State()
@@ -314,7 +314,7 @@ final class SignUpReactor: Reactor, Stepper {
         case .setIsCheckedSuccessNicknameDuplication(let isChecked):
             newState.isSuccessCheckedDuplicatedNickname = isChecked
         case .setIsDuplicatedNickname(let isDuplicated):
-            newState.isDuplicatedNickname = isDuplicated
+            newState.isDuplicatedNickname.value = isDuplicated
         case .empty:
             break
         }

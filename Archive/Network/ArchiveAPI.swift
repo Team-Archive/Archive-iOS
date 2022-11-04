@@ -30,6 +30,7 @@ enum ArchiveAPI {
     case getThisMonthRegistArchiveCnt
     case report(archiveId: Int, reason: String)
     case uploadProfilePhotoImage(_ imageData: Data)
+    case getIsDuplicatedNickname(_ nickname: String)
 }
         
 extension ArchiveAPI: TargetType {
@@ -51,7 +52,7 @@ extension ArchiveAPI: TargetType {
         }()
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -104,6 +105,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v2/report/\(archiveId)"
         case .uploadProfilePhotoImage:
             return "/api/v2/user/profile/image/upload"
+        case .getIsDuplicatedNickname:
+            return "/api/v2/user/duplicate/nickname"
         }
     }
     
@@ -153,6 +156,8 @@ extension ArchiveAPI: TargetType {
             return .post
         case .uploadProfilePhotoImage:
             return .post
+        case .getIsDuplicatedNickname:
+            return .get
         }
     }
     
@@ -232,6 +237,8 @@ extension ArchiveAPI: TargetType {
             dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
             let data: MultipartFormData = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
             return .uploadMultipart([data])
+        case .getIsDuplicatedNickname(let nickName):
+            return .requestParameters(parameters: ["value": nickName], encoding: URLEncoding.queryString)
         }
     }
     
@@ -285,6 +292,8 @@ extension ArchiveAPI: TargetType {
             return ["Authorization": LogInManager.shared.accessToken]
         case .uploadProfilePhotoImage:
             return ["Authorization": LogInManager.shared.accessToken]
+        case .getIsDuplicatedNickname:
+            return nil
         }
     }
     

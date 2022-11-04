@@ -62,7 +62,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     }
     
     private func navigationToEditProfile() -> FlowContributors {
-        let reactor = EditProfileReactor(nickNameDuplicationRepository: NickNameDuplicationStubRepoImp(),
+        let reactor = EditProfileReactor(nickNameDuplicationRepository: NickNameDuplicationRepositoryImplement(),
                                          updateProfileRepository: UpdateProfileStubImpl(),
                                          uploadImageRepository: UploadProfilePhotoImageRepositoryImplement())
         let vc = EditProfileViewController(reactor: reactor)

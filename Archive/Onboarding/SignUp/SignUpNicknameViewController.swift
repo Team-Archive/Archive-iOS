@@ -165,10 +165,9 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
         
         reactor.state
             .map { $0.isDuplicatedNickname }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
+            .asDriver(onErrorJustReturn: .init(wrappedValue: false))
             .drive(onNext: { [weak self] in
-                if $0 {
+                if $0.value {
                     self?.nicknameDupLabel.isHidden = false
                 } else {
                     self?.nicknameDupLabel.isHidden = true

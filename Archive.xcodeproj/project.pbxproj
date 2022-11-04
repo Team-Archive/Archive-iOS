@@ -112,7 +112,6 @@
 		7839E49B28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */; };
 		7839E49D28DEDF4600A80A1D /* NickNameDuplicationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */; };
 		7839E49F28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */; };
-		7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */; };
 		7839E4A328DEE19200A80A1D /* EditProfileReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */; };
 		7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */; };
 		7839E4A828DF26A900A80A1D /* UpdateProfileUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */; };
@@ -405,7 +404,6 @@
 		7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationUsecase.swift; sourceTree = "<group>"; };
 		7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepository.swift; sourceTree = "<group>"; };
 		7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepositoryImplement.swift; sourceTree = "<group>"; };
-		7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationStubRepoImp.swift; sourceTree = "<group>"; };
 		7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileReactor.swift; sourceTree = "<group>"; };
 		7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFlow.swift; sourceTree = "<group>"; };
 		7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileUsecase.swift; sourceTree = "<group>"; };
@@ -1026,7 +1024,6 @@
 				7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */,
 				7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */,
 				7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */,
-				7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */,
 			);
 			path = NickNameDuplication;
 			sourceTree = "<group>";
@@ -1975,7 +1972,6 @@
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
 				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
 				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
-				7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
 				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,

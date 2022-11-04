@@ -26,7 +26,7 @@ final class OnboardingFlow: Flow {
     private let validator = Validator()
     private lazy var signUpReactor = SignUpReactor(validator: validator,
                                                    emailLogInRepository: EMailLogInRepositoryImplement(),
-                                                   nicknameDuplicationRepository: NickNameDuplicationStubRepoImp(),
+                                                   nicknameDuplicationRepository: NickNameDuplicationRepositoryImplement(),
                                                    signUpEmailRepository: SignUpEmailRepositoryImplement(),
                                                    loginOAuthRepository: LoginOAuthRepositoryImplement())
     private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement(), emailLogInRepository: EMailLogInRepositoryImplement())
