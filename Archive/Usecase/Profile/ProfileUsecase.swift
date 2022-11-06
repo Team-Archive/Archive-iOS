@@ -64,16 +64,12 @@ class ProfileUsecase: NSObject {
         return self.repository.updateNickname(newNickname)
     }
     
-    private func getProfile() -> Observable<Result<ProfileData, ArchiveError>> {
-        return self.repository.getProfile()
-    }
-    
     // MARK: internal function
     
     func updateProfile(imageData: Data?, nickName: String?) -> Observable<Result<ProfileData, ArchiveError>> {
         if imageData == nil && nickName == nil { return .just(.failure(.init(.editProfileIsInvaild))) }
         return Observable.zip(uploadImage(imageData: imageData), self.updateNickname(nickName))
-            .map { [weak self] resultUploadImage, resultUpdateNickname -> Result<Void, ArchiveError> in
+            .map { resultUploadImage, resultUpdateNickname -> Result<Void, ArchiveError> in
                 
                 switch resultUploadImage {
                 case .success(_):
@@ -102,7 +98,6 @@ class ProfileUsecase: NSObject {
             .map { result -> Result<ProfileData, ArchiveError> in
                 switch result {
                 case .success(let profile):
-                    LogInManager.shared.profile = profile
                     return .success(profile)
                 case .failure(let err):
                     return .failure(err)
@@ -110,5 +105,8 @@ class ProfileUsecase: NSObject {
             }
     }
     
+    func getProfile() -> Observable<Result<ProfileData, ArchiveError>> {
+        return self.repository.getProfile()
+    }
     
 }

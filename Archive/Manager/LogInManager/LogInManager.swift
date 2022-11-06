@@ -13,6 +13,10 @@ class LogInManager: NSObject {
     // MARK: private property
     
     private let repository: LogInRepository = LogInRepositoryImplement()
+    private let profileUsecase = ProfileUsecase(repository: ProfileRepositoryImplement(),
+                                                uploadImageRepository: UploadProfilePhotoImageRepositoryImplement())
+    
+    private let disposeBag = DisposeBag()
     
     // MARK: internal property
     
@@ -62,6 +66,18 @@ class LogInManager: NSObject {
     
     func logOut() {
         self.repository.logOut()
+    }
+    
+    func refreshProfile() {
+        self.profileUsecase.getProfile().subscribe(onNext: { [weak self] profileResult in
+            switch profileResult {
+            case .success(let profileInfo):
+                self?.profile = profileInfo
+            case .failure(let err):
+                print("프로필 가져오기 실패: \(err.getMessage())")
+            }
+        })
+        .disposed(by: self.disposeBag)
     }
 
 }
