@@ -7,7 +7,7 @@
 
 import RxSwift
 
-protocol UpdateProfileRepository {
+protocol ProfileRepository {
     func updateNickname(_ newNickname: String) -> Observable<Result<Void, ArchiveError>>
 }
 

@@ -8,7 +8,7 @@
 import RxSwift
 import SwiftyJSON
 
-class UpdateProfileRepositoryImplement: UpdateProfileRepository {
+class ProfileRepositoryImplement: ProfileRepository {
     
     // MARK: private function
     

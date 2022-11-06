@@ -32,6 +32,7 @@ enum ArchiveAPI {
     case uploadProfilePhotoImage(_ imageData: Data)
     case getIsDuplicatedNickname(_ nickname: String)
     case updateNickname(_ nickname: String)
+    case getProfileInfo
 }
         
 extension ArchiveAPI: TargetType {
@@ -53,7 +54,7 @@ extension ArchiveAPI: TargetType {
         }()
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname, .getProfileInfo:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -110,6 +111,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v2/user/duplicate/nickname"
         case .updateNickname:
             return "/api/v2/user/nickname"
+        case .getProfileInfo:
+            return "/api/v2/user/profile"
         }
     }
     
@@ -163,6 +166,8 @@ extension ArchiveAPI: TargetType {
             return .get
         case .updateNickname:
             return .put
+        case .getProfileInfo:
+            return .get
         }
     }
     
@@ -246,6 +251,8 @@ extension ArchiveAPI: TargetType {
             return .requestParameters(parameters: ["value": nickName], encoding: URLEncoding.queryString)
         case .updateNickname(let newNickname):
             return .requestParameters(parameters: ["nickname": newNickname], encoding: JSONEncoding.default)
+        case .getProfileInfo:
+            return .requestPlain
         }
     }
     
@@ -302,6 +309,8 @@ extension ArchiveAPI: TargetType {
         case .getIsDuplicatedNickname:
             return nil
         case .updateNickname:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getProfileInfo:
             return ["Authorization": LogInManager.shared.accessToken]
         }
     }

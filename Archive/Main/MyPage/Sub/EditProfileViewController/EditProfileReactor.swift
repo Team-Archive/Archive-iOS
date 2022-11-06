@@ -17,7 +17,7 @@ class EditProfileReactor: Reactor, Stepper {
     // MARK: private property
     
     private let nickNameCheckUsecase: NickNameDuplicationUsecase
-    private let updateProfileUsecase: UpdateProfileUsecase
+    private let profileUsecase: ProfileUsecase
     private var isUploading: Bool = false
     
     // MARK: internal property
@@ -31,10 +31,10 @@ class EditProfileReactor: Reactor, Stepper {
     
     // MARK: lifeCycle
     
-    init(nickNameDuplicationRepository: NickNameDuplicationRepository, updateProfileRepository: UpdateProfileRepository, uploadImageRepository: UploadProfilePhotoImageRepository) {
+    init(nickNameDuplicationRepository: NickNameDuplicationRepository, profileRepository: ProfileRepository, uploadImageRepository: UploadProfilePhotoImageRepository) {
         self.initialState = .init()
         self.nickNameCheckUsecase = NickNameDuplicationUsecase(repository: nickNameDuplicationRepository)
-        self.updateProfileUsecase = UpdateProfileUsecase(repository: updateProfileRepository, uploadImageRepository: uploadImageRepository)
+        self.profileUsecase = ProfileUsecase(repository: profileRepository, uploadImageRepository: uploadImageRepository)
     }
     
     enum Action {
@@ -190,8 +190,8 @@ class EditProfileReactor: Reactor, Stepper {
                 return nickName
             }
         }()
-        return self.updateProfileUsecase.updateProfile(imageData: profileImageData,
-                                                       nickName: inputNickname)
+        return self.profileUsecase.updateProfile(imageData: profileImageData,
+                                                 nickName: inputNickname)
     }
     
     private func checkConfirmBtnIsEnable(isCheckedNickNameDuplication: Bool, isRegistedNewProfilePhoto: Bool) -> Bool {

@@ -7,11 +7,11 @@
 
 import RxSwift
 
-class UpdateProfileUsecase: NSObject {
+class ProfileUsecase: NSObject {
 
     // MARK: private property
     
-    private let repository: UpdateProfileRepository
+    private let repository: ProfileRepository
     private let uploadImageUsecase: UploadProfilePhotoImageUsecase
     
     private let imageEdit: ImageEdit = ImageEdit()
@@ -20,7 +20,7 @@ class UpdateProfileUsecase: NSObject {
     
     // MARK: lifeCycle
     
-    init(repository: UpdateProfileRepository, uploadImageRepository: UploadProfilePhotoImageRepository) {
+    init(repository: ProfileRepository, uploadImageRepository: UploadProfilePhotoImageRepository) {
         self.repository = repository
         self.uploadImageUsecase = UploadProfilePhotoImageUsecase(repository: uploadImageRepository)
     }
