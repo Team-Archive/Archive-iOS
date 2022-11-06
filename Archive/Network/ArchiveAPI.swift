@@ -259,7 +259,7 @@ extension ArchiveAPI: TargetType {
         case .registEmail:
             return nil
         case .uploadImage:
-            return nil
+            return ["Authorization": LogInManager.shared.accessToken]
         case .deleteArchive:
             return ["Authorization": LogInManager.shared.accessToken]
         case .getArchives:
@@ -275,7 +275,7 @@ extension ArchiveAPI: TargetType {
         case .sendTempPassword:
             return nil
         case .changePassword:
-            return nil
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getPublicArchives:
             return ["Authorization": LogInManager.shared.accessToken]
         case .like:
