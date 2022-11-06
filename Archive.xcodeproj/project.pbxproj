@@ -112,13 +112,11 @@
 		7839E49B28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */; };
 		7839E49D28DEDF4600A80A1D /* NickNameDuplicationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */; };
 		7839E49F28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */; };
-		7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */; };
 		7839E4A328DEE19200A80A1D /* EditProfileReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */; };
 		7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */; };
-		7839E4A828DF26A900A80A1D /* UpdateProfileUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */; };
-		7839E4AA28DF26B300A80A1D /* UpdateProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */; };
-		7839E4AC28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */; };
-		7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */; };
+		7839E4A828DF26A900A80A1D /* ProfileUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A728DF26A900A80A1D /* ProfileUsecase.swift */; };
+		7839E4AA28DF26B300A80A1D /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A928DF26B300A80A1D /* ProfileRepository.swift */; };
+		7839E4AC28DF26BC00A80A1D /* ProfileRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AB28DF26BC00A80A1D /* ProfileRepositoryImplement.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
@@ -210,6 +208,9 @@
 		78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */; };
 		78A38BF4280DB41B000C921B /* EMailLogInRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */; };
 		78A45428286754480081D17E /* CommunityDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A45427286754480081D17E /* CommunityDetailViewController.swift */; };
+		78A5349D291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5349C291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift */; };
+		78A5349F291294D400308DA6 /* UploadProfilePhotoImageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A5349E291294D400308DA6 /* UploadProfilePhotoImageRepository.swift */; };
+		78A534A1291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A534A0291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift */; };
 		78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */; };
 		78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A212868A89300B8DF2F /* DetailRepository.swift */; };
 		78A96A242868A89E00B8DF2F /* DetailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */; };
@@ -285,6 +286,9 @@
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
 		78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8A2830C8420033882E /* MyPageViewController.swift */; };
 		78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8C2830C8510033882E /* MyPageReactor.swift */; };
+		78F92DAB2917F634009381D3 /* SignUpOAuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */; };
+		78F92DAD2917F63D009381D3 /* SignUpOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */; };
+		78F92DAF2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */; };
 		A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029C34E0C4CFA05B0DB2E343 /* Pods_Archive.framework */; };
 /* End PBXBuildFile section */
 
@@ -402,13 +406,11 @@
 		7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationUsecase.swift; sourceTree = "<group>"; };
 		7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepository.swift; sourceTree = "<group>"; };
 		7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationRepositoryImplement.swift; sourceTree = "<group>"; };
-		7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NickNameDuplicationStubRepoImp.swift; sourceTree = "<group>"; };
 		7839E4A228DEE19200A80A1D /* EditProfileReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileReactor.swift; sourceTree = "<group>"; };
 		7839E4A428DEE2A600A80A1D /* EditProfileFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileFlow.swift; sourceTree = "<group>"; };
-		7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileUsecase.swift; sourceTree = "<group>"; };
-		7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepository.swift; sourceTree = "<group>"; };
-		7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepositoryImplement.swift; sourceTree = "<group>"; };
-		7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileStubImpl.swift; sourceTree = "<group>"; };
+		7839E4A728DF26A900A80A1D /* ProfileUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUsecase.swift; sourceTree = "<group>"; };
+		7839E4A928DF26B300A80A1D /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
+		7839E4AB28DF26BC00A80A1D /* ProfileRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepositoryImplement.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
@@ -496,6 +498,9 @@
 		78A38BF1280DB40D000C921B /* EMailLogInRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepository.swift; sourceTree = "<group>"; };
 		78A38BF3280DB41B000C921B /* EMailLogInRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMailLogInRepositoryImplement.swift; sourceTree = "<group>"; };
 		78A45427286754480081D17E /* CommunityDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityDetailViewController.swift; sourceTree = "<group>"; };
+		78A5349C291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePhotoImageUsecase.swift; sourceTree = "<group>"; };
+		78A5349E291294D400308DA6 /* UploadProfilePhotoImageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePhotoImageRepository.swift; sourceTree = "<group>"; };
+		78A534A0291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadProfilePhotoImageRepositoryImplement.swift; sourceTree = "<group>"; };
 		78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUsecase.swift; sourceTree = "<group>"; };
 		78A96A212868A89300B8DF2F /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -571,6 +576,9 @@
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
 		78F06C8A2830C8420033882E /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		78F06C8C2830C8510033882E /* MyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageReactor.swift; sourceTree = "<group>"; };
+		78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthUsecase.swift; sourceTree = "<group>"; };
+		78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepository.swift; sourceTree = "<group>"; };
+		78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
 		FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.debug.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -960,8 +968,9 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78F92DA92917F62C009381D3 /* SignUpOAuth */,
 				78B0988428F1CC18005ED913 /* SignUpEmail */,
-				7839E4A628DF269D00A80A1D /* UpdateProfile */,
+				7839E4A628DF269D00A80A1D /* Profile */,
 				7839E49928DEDF1600A80A1D /* NickNameDuplication */,
 				7823ACD428CF3674005CFFC7 /* Report */,
 				78D58B1928BB59A600AF3191 /* RegistUsecase */,
@@ -979,6 +988,7 @@
 				78A38BEE280DB3EB000C921B /* LoginEMail */,
 				7831D51A27E58FDF00E3FA57 /* LoginOAuth */,
 				784FCDE5282FEE6E007683D2 /* LoginAccessToken */,
+				78A5349B291294B300308DA6 /* UploadProfilePhotoImage */,
 			);
 			path = Usecase;
 			sourceTree = "<group>";
@@ -1019,20 +1029,18 @@
 				7839E49A28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift */,
 				7839E49C28DEDF4600A80A1D /* NickNameDuplicationRepository.swift */,
 				7839E49E28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift */,
-				7839E4A028DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift */,
 			);
 			path = NickNameDuplication;
 			sourceTree = "<group>";
 		};
-		7839E4A628DF269D00A80A1D /* UpdateProfile */ = {
+		7839E4A628DF269D00A80A1D /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */,
-				7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */,
-				7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */,
-				7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */,
+				7839E4A728DF26A900A80A1D /* ProfileUsecase.swift */,
+				7839E4A928DF26B300A80A1D /* ProfileRepository.swift */,
+				7839E4AB28DF26BC00A80A1D /* ProfileRepositoryImplement.swift */,
 			);
-			path = UpdateProfile;
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		783A61DD273BEAE3004D848F /* Manager */ = {
@@ -1380,6 +1388,16 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
+		78A5349B291294B300308DA6 /* UploadProfilePhotoImage */ = {
+			isa = PBXGroup;
+			children = (
+				78A5349C291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift */,
+				78A5349E291294D400308DA6 /* UploadProfilePhotoImageRepository.swift */,
+				78A534A0291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift */,
+			);
+			path = UploadProfilePhotoImage;
+			sourceTree = "<group>";
+		};
 		78A96A1E2868A85200B8DF2F /* Detail */ = {
 			isa = PBXGroup;
 			children = (
@@ -1604,6 +1622,16 @@
 				78EDAD62274525E80028F56D /* ShareCardView.xib */,
 			);
 			path = Sub;
+			sourceTree = "<group>";
+		};
+		78F92DA92917F62C009381D3 /* SignUpOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */,
+				78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */,
+				78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */,
+			);
+			path = SignUpOAuth;
 			sourceTree = "<group>";
 		};
 		7A78CD9881593A0B9DDBF955 /* Pods */ = {
@@ -1861,6 +1889,7 @@
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
+				78A5349F291294D400308DA6 /* UploadProfilePhotoImageRepository.swift in Sources */,
 				7825935628C3193300BB9814 /* LikeUsecase.swift in Sources */,
 				78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */,
 				789E61C7272584FC00D6E18F /* ContentsRecordModel.swift in Sources */,
@@ -1909,7 +1938,7 @@
 				7821232F273F8954007DEC28 /* RecordUploadCompleteReactor.swift in Sources */,
 				789E619D2725551C00D6E18F /* RecordModel.swift in Sources */,
 				781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */,
-				7839E4AC28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift in Sources */,
+				7839E4AC28DF26BC00A80A1D /* ProfileRepositoryImplement.swift in Sources */,
 				7830103E2882A2980031F8CB /* BannerRepositoryImplement.swift in Sources */,
 				78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */,
 				78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */,
@@ -1933,7 +1962,7 @@
 				44FB09FF271832AD006E1048 /* AppFlow.swift in Sources */,
 				7802B86F28C3A154007A9416 /* MyLikeRepositoryImplement.swift in Sources */,
 				78E8E6312866D6DB00B18AD8 /* CommunityRepository.swift in Sources */,
-				7839E4A828DF26A900A80A1D /* UpdateProfileUsecase.swift in Sources */,
+				7839E4A828DF26A900A80A1D /* ProfileUsecase.swift in Sources */,
 				78486D6827E6C4D8008448A7 /* LoginWithAppleRepositoryImplement.swift in Sources */,
 				781C8452282F8B6E004A0FB3 /* MainSplashReactor.swift in Sources */,
 				7824796228B09F0C003E71A2 /* RegistImageCollectionViewCell.swift in Sources */,
@@ -1944,7 +1973,7 @@
 				78A32167275B92530078650D /* DetailViewController.swift in Sources */,
 				789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */,
 				78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */,
-				7839E4AA28DF26B300A80A1D /* UpdateProfileRepository.swift in Sources */,
+				7839E4AA28DF26B300A80A1D /* ProfileRepository.swift in Sources */,
 				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
 				781C843E282F7CF3004A0FB3 /* CommunityViewController.swift in Sources */,
 				786CE63C289E490A00D24266 /* ArchiveCheckTextField.swift in Sources */,
@@ -1957,11 +1986,9 @@
 				78BB7E1E27788D8300DF78AF /* UIViewControllerExtension.swift in Sources */,
 				786DEB372869F5E600DAB4C2 /* BottomPaddingCoverView.swift in Sources */,
 				78E3582228955F0800DB1974 /* MyPageRepository.swift in Sources */,
-				7839E4A128DEDFB000A80A1D /* NickNameDuplicationStubRepoImp.swift in Sources */,
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
 				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,
-				7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78561F3728F1A04C0064ED9F /* SignUpNicknameViewController.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,
@@ -1981,8 +2008,10 @@
 				78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */,
 				781C8435282F63C9004A0FB3 /* MainTabBarReactor.swift in Sources */,
 				78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */,
+				78F92DAD2917F63D009381D3 /* SignUpOAuthRepository.swift in Sources */,
 				4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */,
 				789E61992725550A00D6E18F /* RecordViewController.swift in Sources */,
+				78A534A1291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift in Sources */,
 				784D1E2127088BC0004B1A23 /* HWFlipView.swift in Sources */,
 				781C8450282F8B6E004A0FB3 /* FakeSplashView.swift in Sources */,
 				788AB648280A9EAE00182B45 /* FindPasswordUsecase.swift in Sources */,
@@ -2061,6 +2090,7 @@
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
+				78F92DAF2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift in Sources */,
 				78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
@@ -2071,6 +2101,7 @@
 				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
 				789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
+				78F92DAB2917F634009381D3 /* SignUpOAuthUsecase.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,
 				789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */,
@@ -2090,6 +2121,7 @@
 				78BAF75928AA396000641250 /* RegistPhotoReactor.swift in Sources */,
 				78BAF75728AA382C00641250 /* PhotoUsecase.swift in Sources */,
 				781C843B282F7BC3004A0FB3 /* CommunityFlow.swift in Sources */,
+				78A5349D291294C900308DA6 /* UploadProfilePhotoImageUsecase.swift in Sources */,
 				786A3EE62871E67D00A35112 /* RotatedTitleView.swift in Sources */,
 				78BB7E132778563700DF78AF /* DetailCardCollectionViewCell.swift in Sources */,
 				783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */,
@@ -2238,7 +2270,7 @@
 				CODE_SIGN_ENTITLEMENTS = Archive/Archive.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = P4ZJYAK634;
 				INFOPLIST_FILE = Archive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2318,7 +2350,7 @@
 				CODE_SIGN_ENTITLEMENTS = Archive/Archive.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 22;
+				CURRENT_PROJECT_VERSION = 26;
 				DEVELOPMENT_TEAM = P4ZJYAK634;
 				INFOPLIST_FILE = Archive/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

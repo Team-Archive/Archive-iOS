@@ -47,4 +47,24 @@ class Util {
         }
         return nonce
     }
+    
+    static func base64Decode(_ encoded: String) -> Data? {
+        if let decodedPayload = Data(base64Encoded: encoded) {
+            return decodedPayload
+        } else {
+            let secondTryEncoded = encoded + "="
+            if let decodedPayload = Data(base64Encoded: secondTryEncoded) {
+                return decodedPayload
+            } else {
+                let thirdTryEncoded = secondTryEncoded + "="
+                if let decodedPayload = Data(base64Encoded: thirdTryEncoded) {
+                    return decodedPayload
+                } else {
+                    return nil
+                }
+            }
+        }
+    }
+    
+
 }

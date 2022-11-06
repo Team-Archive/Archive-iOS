@@ -75,7 +75,7 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "신고"
+        self.title = "회원가입"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -165,10 +165,9 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
         
         reactor.state
             .map { $0.isDuplicatedNickname }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: false)
+            .asDriver(onErrorJustReturn: .init(wrappedValue: false))
             .drive(onNext: { [weak self] in
-                if $0 {
+                if $0.value {
                     self?.nicknameDupLabel.isHidden = false
                 } else {
                     self?.nicknameDupLabel.isHidden = true
@@ -214,7 +213,9 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     // MARK: private func
     
     @objc private func confirm() {
-        self.reactor?.action.onNext(.nicknameSetIsComplete)
+        self.view.endEditing(true)
+        guard let nickname = self.nicknameTextField.text else { return }
+        self.reactor?.action.onNext(.nicknameSetIsComplete(nickname: nickname))
     }
     
     // MARK: func

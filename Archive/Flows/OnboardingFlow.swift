@@ -26,9 +26,9 @@ final class OnboardingFlow: Flow {
     private let validator = Validator()
     private lazy var signUpReactor = SignUpReactor(validator: validator,
                                                    emailLogInRepository: EMailLogInRepositoryImplement(),
-                                                   nicknameDuplicationRepository: NickNameDuplicationStubRepoImp(),
+                                                   nicknameDuplicationRepository: NickNameDuplicationRepositoryImplement(),
                                                    signUpEmailRepository: SignUpEmailRepositoryImplement(),
-                                                   loginOAuthRepository: LoginOAuthRepositoryImplement())
+                                                   signUpOAuthRepository: SignUpOAuthRepositoryImplement())
     private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement(), emailLogInRepository: EMailLogInRepositoryImplement())
     
     func navigate(to step: Step) -> FlowContributors {
@@ -148,6 +148,7 @@ final class OnboardingFlow: Flow {
         case .apple:
             self.signUpReactor.loginType = .apple
         }
+        self.signUpReactor.oAuthAccessToken = accessToken
         let termsAgreementViewController = onboardingStoryBoard
             .instantiateViewController(identifier: TermsAgreementViewController.identifier) { coder in
                 return TermsAgreementViewController(coder: coder,

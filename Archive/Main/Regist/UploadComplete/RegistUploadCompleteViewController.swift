@@ -41,7 +41,7 @@ class RegistUploadCompleteViewController: UIViewController, View {
         $0.font = .fonts(.header2)
         $0.textColor = Gen.Colors.gray01.color
         $0.numberOfLines = 2
-        $0.text = "이번 달에 \(self.thisMonthRegistCnt)개의 전시를\n기록하셨네요!"
+        $0.text = "이번 달에 \(self.thisMonthRegistCnt + 1)개의 전시를\n기록하셨네요!"
         $0.textAlignment = .center
     }
     

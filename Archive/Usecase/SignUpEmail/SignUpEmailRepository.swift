@@ -9,6 +9,6 @@ import RxSwift
 import Foundation
 
 protocol SignUpEmailRepository {
-    func registEmail(eMail: String, password: String) -> Observable<Result<Void, ArchiveError>>
+    func registEmail(eMail: String, nickname: String, password: String) -> Observable<Result<String, ArchiveError>>
     func checkIsDuplicatedEmail(eMail: String) -> Observable<Result<Bool, ArchiveError>>
 }

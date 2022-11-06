@@ -53,6 +53,7 @@ class MainSplashReactor: Reactor, Stepper {
                     self?.goToNextStep(isFinishAnimation: self?.currentState.isFinishAnimation ?? true,
                                  isFinishAutoLogin: true,
                                  isSuccessAutoLogin: isLoggedIn)
+                    LogInManager.shared.refreshProfile()
                     return .setIsSuccessAutoLogin(isLoggedIn)
                 },
                 Observable.just(.setIsFinishAutoLogin(true))

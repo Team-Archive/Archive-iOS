@@ -11,13 +11,17 @@ import SwiftyJSON
 
 class SignUpEmailRepositoryImplement: SignUpEmailRepository {
 
-    func registEmail(eMail: String, password: String) -> Observable<Result<Void, ArchiveError>> {
+    func registEmail(eMail: String, nickname: String, password: String) -> Observable<Result<String, ArchiveError>> {
         let provider = ArchiveProvider.shared.provider
-        let param = RequestEmailParam(email: eMail, password: password)
-        return provider.rx.request(.registEmail(param), callbackQueue: DispatchQueue.global())
+        return provider.rx.request(.registEmail(email: eMail, nickname: nickname, password: password), callbackQueue: DispatchQueue.global())
             .asObservable()
             .map { result in
-                return .success(Void())
+                if result.statusCode == 200 {
+                    guard let token = result.response?.headers["Authorization"] else { return .success("")}
+                    return .success(token)
+                } else {
+                    return .failure(.init(from: .server, code: result.statusCode, message: "서버오류"))
+                }
             }
             .catch { err in
                 return .just(.failure(.init(from: .server, code: err.responseCode, message: err.archiveErrMsg)))

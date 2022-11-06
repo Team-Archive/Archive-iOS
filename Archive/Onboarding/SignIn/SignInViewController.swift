@@ -129,10 +129,21 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 let alert = UIAlertController(title: "디버그용 치트키", message: "비밀번호를 입력해주세요", preferredStyle: .alert)
                 alert.addTextField { [weak self] textField in
                     textField.isSecureTextEntry = true
+                    textField.placeholder = "비밀번호"
+                }
+                alert.addTextField { [weak self] textField in
+                    textField.placeholder = "테스트 서버 주소(공란시 개발서버)"
                 }
                 alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak alert] (_) in
                     guard let text: String = alert?.textFields?[0].text else { return }
-                    let result = ArchiveStatus.shared.changeMode(mode: .debug, password: text)
+                    let url: String? = {
+                        if alert?.textFields?[1].text == "" || alert?.textFields?[1].text == nil {
+                            return nil
+                        } else {
+                            return alert?.textFields?[1].text
+                        }
+                    }()
+                    let result = ArchiveStatus.shared.changeMode(mode: .debug(url: url), password: text)
                     switch result {
                     case .success(let mode):
                         CommonAlertView.shared.show(message: "모드 변경: \(mode)", btnText: "확인", hapticType: .success, confirmHandler: {

@@ -41,7 +41,7 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     private let userImageView = UIImageView().then {
         $0.backgroundColor = .clear
         $0.image = Gen.Images.userImagePlaceHolder.image
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 15
         $0.layer.masksToBounds = true
     }
     

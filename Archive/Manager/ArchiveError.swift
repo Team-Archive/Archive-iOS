@@ -17,6 +17,7 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case publicArchiveIsEndOfPage // 페이지의 끝임
     case photoAuth // 사진접근권한이 없음
     case selfIsNull // self == null
+    case deserializationFail // 역직렬화 실패
     
     case archiveOAuthError = 11000
     case unexpectedAppleSignIn = 11100 // 에러는 발생하지 않았지만 애플로그인 이상함
@@ -123,6 +124,8 @@ class ArchiveError: Error {
             returnValue = "이미지 변환 오류"
         case .invalidLoginType:
             returnValue = "유효하지 않은 로그인 타입"
+        case .deserializationFail:
+            returnValue = "데이터 역직렬화 실패"
         }
         return returnValue
     }
