@@ -286,6 +286,9 @@
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
 		78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8A2830C8420033882E /* MyPageViewController.swift */; };
 		78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8C2830C8510033882E /* MyPageReactor.swift */; };
+		78F92DAB2917F634009381D3 /* SignUpOAuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */; };
+		78F92DAD2917F63D009381D3 /* SignUpOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */; };
+		78F92DAF2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */; };
 		A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 029C34E0C4CFA05B0DB2E343 /* Pods_Archive.framework */; };
 /* End PBXBuildFile section */
 
@@ -573,6 +576,9 @@
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
 		78F06C8A2830C8420033882E /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		78F06C8C2830C8510033882E /* MyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageReactor.swift; sourceTree = "<group>"; };
+		78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthUsecase.swift; sourceTree = "<group>"; };
+		78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepository.swift; sourceTree = "<group>"; };
+		78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
 		FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.debug.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -962,6 +968,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78F92DA92917F62C009381D3 /* SignUpOAuth */,
 				78B0988428F1CC18005ED913 /* SignUpEmail */,
 				7839E4A628DF269D00A80A1D /* Profile */,
 				7839E49928DEDF1600A80A1D /* NickNameDuplication */,
@@ -1617,6 +1624,16 @@
 			path = Sub;
 			sourceTree = "<group>";
 		};
+		78F92DA92917F62C009381D3 /* SignUpOAuth */ = {
+			isa = PBXGroup;
+			children = (
+				78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */,
+				78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */,
+				78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */,
+			);
+			path = SignUpOAuth;
+			sourceTree = "<group>";
+		};
 		7A78CD9881593A0B9DDBF955 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1991,6 +2008,7 @@
 				78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */,
 				781C8435282F63C9004A0FB3 /* MainTabBarReactor.swift in Sources */,
 				78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */,
+				78F92DAD2917F63D009381D3 /* SignUpOAuthRepository.swift in Sources */,
 				4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */,
 				789E61992725550A00D6E18F /* RecordViewController.swift in Sources */,
 				78A534A1291294DE00308DA6 /* UploadProfilePhotoImageRepositoryImplement.swift in Sources */,
@@ -2072,6 +2090,7 @@
 				44922DA12719512A00A5EA2B /* SignInViewController.swift in Sources */,
 				7839E4A528DEE2A600A80A1D /* EditProfileFlow.swift in Sources */,
 				78B872E52726E420009EFB54 /* ImageRecordViewController.swift in Sources */,
+				78F92DAF2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift in Sources */,
 				78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */,
 				784CFFDE274BC0290052B1EC /* ArchiveProvider.swift in Sources */,
 				78E8E6372866FD3A00B18AD8 /* IntExtension.swift in Sources */,
@@ -2082,6 +2101,7 @@
 				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
 				789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */,
 				44F9B0E3270606E7005418F0 /* SceneDelegate.swift in Sources */,
+				78F92DAB2917F634009381D3 /* SignUpOAuthUsecase.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,
 				789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */,

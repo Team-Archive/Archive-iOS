@@ -26,8 +26,8 @@ class SignUpEmailUsecase: NSObject {
     
     // MARK: internal function
     
-    func registEmail(eMail: String, password: String) -> Observable<Result<Void, ArchiveError>> {
-        return self.repository.registEmail(eMail: eMail, password: password)
+    func registEmail(eMail: String, nickname: String, password: String) -> Observable<Result<String, ArchiveError>> {
+        return self.repository.registEmail(eMail: eMail, nickname: nickname, password: password)
     }
     
     func checkIsDuplicatedEmail(eMail: String) -> Observable<Result<Bool, ArchiveError>> {

@@ -28,7 +28,7 @@ final class OnboardingFlow: Flow {
                                                    emailLogInRepository: EMailLogInRepositoryImplement(),
                                                    nicknameDuplicationRepository: NickNameDuplicationRepositoryImplement(),
                                                    signUpEmailRepository: SignUpEmailRepositoryImplement(),
-                                                   loginOAuthRepository: LoginOAuthRepositoryImplement())
+                                                   signUpOAuthRepository: SignUpOAuthRepositoryImplement())
     private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement(), emailLogInRepository: EMailLogInRepositoryImplement())
     
     func navigate(to step: Step) -> FlowContributors {

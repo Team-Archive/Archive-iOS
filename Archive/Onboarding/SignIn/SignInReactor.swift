@@ -126,6 +126,7 @@ final class SignInReactor: Reactor, Stepper {
                             switch logInSuccessType {
                             case .logInSuccess(let token):
                                 LogInManager.shared.logIn(token: token, type: .eMail)
+                                LogInManager.shared.refreshProfile()
                                 self?.steps.accept(ArchiveStep.userIsSignedIn)
                             case .isTempPW:
                                 self?.toastMessage.onNext("임시 비밀번호를 변경해주세요.")
@@ -193,6 +194,7 @@ final class SignInReactor: Reactor, Stepper {
                 realLoginWithKakao(accessToken: accessToken).map { [weak self] result in
                     switch result {
                     case .success(_):
+                        LogInManager.shared.refreshProfile()
                         self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
@@ -207,6 +209,7 @@ final class SignInReactor: Reactor, Stepper {
                 realLoginWithApple(accessToken: accessToken).map { [weak self] result in
                     switch result {
                     case .success(_):
+                        LogInManager.shared.refreshProfile()
                         self?.steps.accept(ArchiveStep.userIsSignedIn)
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())

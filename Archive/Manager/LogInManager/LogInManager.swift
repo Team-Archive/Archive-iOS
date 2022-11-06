@@ -66,6 +66,7 @@ class LogInManager: NSObject {
     
     func logOut() {
         self.repository.logOut()
+        self.profile = ProfileData(userId: -1, mail: "", imageUrl: "", nickNmae: "")
     }
     
     func refreshProfile() {

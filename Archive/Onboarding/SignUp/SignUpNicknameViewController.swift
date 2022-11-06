@@ -214,7 +214,8 @@ class SignUpNicknameViewController: UIViewController, View, ActivityIndicatorabl
     
     @objc private func confirm() {
         self.view.endEditing(true)
-        self.reactor?.action.onNext(.nicknameSetIsComplete)
+        guard let nickname = self.nicknameTextField.text else { return }
+        self.reactor?.action.onNext(.nicknameSetIsComplete(nickname: nickname))
     }
     
     // MARK: func

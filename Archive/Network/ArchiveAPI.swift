@@ -10,7 +10,8 @@ import Moya
 enum ArchiveAPI {
     case uploadImage(_ imageData: Data)
     case registArchive(_ info: RecordData)
-    case registEmail(_ param: RequestEmailParam)
+    case registEmail(email: String, nickname: String, password: String)
+    case registOAuth(nickname: String, provider: String, providerAccessToken: String)
     case loginEmail(_ param: LoginEmailParam)
     case logInWithOAuth(logInType: OAuthSignInType, token: String)
     case isDuplicatedEmail(_ eMail: String)
@@ -54,7 +55,7 @@ extension ArchiveAPI: TargetType {
         }()
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname, .getProfileInfo:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname, .getProfileInfo, .registOAuth:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -68,11 +69,13 @@ extension ArchiveAPI: TargetType {
         case .registArchive:
             return "/api/v1/archive"
         case .registEmail:
-            return "/api/v1/auth/register"
+            return "/api/v2/auth/register"
+        case .registOAuth:
+            return "/api/v2/auth/register/social"
         case .loginEmail:
             return "/api/v1/auth/login"
         case .logInWithOAuth:
-            return "/api/v1/auth/social"
+            return "/api/v2/auth/login/social"
         case .isDuplicatedEmail:
             return "/api/v2/user/duplicate/email"
         case .deleteArchive(let archiveId):
@@ -168,6 +171,8 @@ extension ArchiveAPI: TargetType {
             return .put
         case .getProfileInfo:
             return .get
+        case .registOAuth:
+            return .post
         }
     }
     
@@ -180,8 +185,10 @@ extension ArchiveAPI: TargetType {
             return .uploadMultipart([data])
         case .registArchive(let infoData):
             return .requestJSONEncodable(infoData)
-        case .registEmail(let param):
-            return .requestJSONEncodable(param)
+        case .registEmail(let email, let nickname, let password):
+            return .requestParameters(parameters: ["email": email, "nickname": nickname, "password": password], encoding: JSONEncoding.default)
+        case .registOAuth(let nickname, let provider, let providerAccessToken):
+            return .requestParameters(parameters: ["nickname": nickname, "provider": provider, "providerAccessToken": providerAccessToken], encoding: JSONEncoding.default)
         case .loginEmail(let param):
             return .requestJSONEncodable(param)
         case .logInWithOAuth(let type, let token):
@@ -271,6 +278,8 @@ extension ArchiveAPI: TargetType {
         case .registArchive:
             return ["Authorization": LogInManager.shared.accessToken]
         case .registEmail:
+            return nil
+        case .registOAuth:
             return nil
         case .uploadImage:
             return ["Authorization": LogInManager.shared.accessToken]
