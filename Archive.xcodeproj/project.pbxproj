@@ -117,7 +117,6 @@
 		7839E4A828DF26A900A80A1D /* UpdateProfileUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */; };
 		7839E4AA28DF26B300A80A1D /* UpdateProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */; };
 		7839E4AC28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */; };
-		7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */; };
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
@@ -409,7 +408,6 @@
 		7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileUsecase.swift; sourceTree = "<group>"; };
 		7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepository.swift; sourceTree = "<group>"; };
 		7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileRepositoryImplement.swift; sourceTree = "<group>"; };
-		7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateProfileStubImpl.swift; sourceTree = "<group>"; };
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
@@ -1034,7 +1032,6 @@
 				7839E4A728DF26A900A80A1D /* UpdateProfileUsecase.swift */,
 				7839E4A928DF26B300A80A1D /* UpdateProfileRepository.swift */,
 				7839E4AB28DF26BC00A80A1D /* UpdateProfileRepositoryImplement.swift */,
-				7839E4AD28DF26C600A80A1D /* UpdateProfileStubImpl.swift */,
 			);
 			path = UpdateProfile;
 			sourceTree = "<group>";
@@ -1975,7 +1972,6 @@
 				78E00D08288307C30018773A /* MyArchiveRepository.swift in Sources */,
 				78DB247E28C37BD500CF5726 /* UINavigationControllerExtension.swift in Sources */,
 				7823ACD828CF3687005CFFC7 /* ReportRepository.swift in Sources */,
-				7839E4AE28DF26C600A80A1D /* UpdateProfileStubImpl.swift in Sources */,
 				78E00D07288307C30018773A /* MyArchiveRepositoryImplement.swift in Sources */,
 				78561F3728F1A04C0064ED9F /* SignUpNicknameViewController.swift in Sources */,
 				78212328273F8397007DEC28 /* RecordUploadReactor.swift in Sources */,

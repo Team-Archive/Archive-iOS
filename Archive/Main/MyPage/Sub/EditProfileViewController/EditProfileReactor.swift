@@ -183,8 +183,15 @@ class EditProfileReactor: Reactor, Stepper {
     }
     
     private func updateProfile(profileImageData: Data?, nickName: String) -> Observable<Result<ProfileData, ArchiveError>> {
+        let inputNickname: String? = {
+            if nickName == "" {
+                return nil
+            } else {
+                return nickName
+            }
+        }()
         return self.updateProfileUsecase.updateProfile(imageData: profileImageData,
-                                                       nickName: nickName)
+                                                       nickName: inputNickname)
     }
     
     private func checkConfirmBtnIsEnable(isCheckedNickNameDuplication: Bool, isRegistedNewProfilePhoto: Bool) -> Bool {

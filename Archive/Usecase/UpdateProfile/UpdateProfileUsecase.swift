@@ -27,9 +27,9 @@ class UpdateProfileUsecase: NSObject {
     
     // MARK: private function
     
-    private func uploadImage(imageData: Data?) -> Observable<Result<String?, ArchiveError>> {
-        guard let imageData = imageData else { return .just(.success(nil))}
-        guard let image = UIImage.init(data: imageData) else { return .just(.success(nil)) }
+    private func uploadImage(imageData: Data?) -> Observable<Result<Void, ArchiveError>> {
+        guard let imageData = imageData else { return .just(.success(()))}
+        guard let image = UIImage.init(data: imageData) else { return .just(.failure(.init(.invaldData))) }
         
         return self.imageEdit.resizeSize(image: image, size: CGSize(width: 300, height: 300))
             .map { result -> Result<Data, ArchiveError> in
@@ -41,14 +41,14 @@ class UpdateProfileUsecase: NSObject {
                     return .failure(err)
                 }
             }
-            .flatMap { [weak self] result -> Observable<Result<String?, ArchiveError>> in
+            .flatMap { [weak self] result -> Observable<Result<Void, ArchiveError>> in
                 switch result {
                 case .success(let data):
                     return self?.uploadImageUsecase.uploadImage(data)
                         .map { result in
                             switch result {
-                            case .success(let url):
-                                return .success(url)
+                            case .success(_):
+                                return .success(())
                             case .failure(let err):
                                 return .failure(err)
                             }
@@ -59,34 +59,34 @@ class UpdateProfileUsecase: NSObject {
             }
     }
     
+    private func updateNickname(_ newNickname: String?) -> Observable<Result<Void, ArchiveError>> {
+        guard let newNickname else { return .just(.success(())) }
+        return self.repository.updateNickname(newNickname)
+    }
+    
     // MARK: internal function
     
-    func updateProfile(imageData: Data?, nickName: String) -> Observable<Result<ProfileData, ArchiveError>> {
-        if imageData == nil && nickName == "" { return .just(.failure(.init(.editProfileIsInvaild))) }
-        return uploadImage(imageData: imageData)
-            .map { result -> Result<String?, ArchiveError> in
-                switch result {
-                case .success(let imageUrl):
-                    return .success(imageUrl)
+    func updateProfile(imageData: Data?, nickName: String?) -> Observable<Result<ProfileData, ArchiveError>> {
+        if imageData == nil && nickName == nil { return .just(.failure(.init(.editProfileIsInvaild))) }
+        return Observable.zip(uploadImage(imageData: imageData), self.updateNickname(nickName))
+            .map { [weak self] resultUploadImage, resultUpdateNickname in
+                
+                switch resultUploadImage {
+                case .success(_):
+                    break
                 case .failure(let err):
                     return .failure(err)
                 }
-            }
-            .flatMap { [weak self] result -> Observable<Result<ProfileData, ArchiveError>> in
-                switch result {
-                case .success(let imageUrl):
-                    let optionalNickName: String? = {
-                        var returnValue: String?
-                        if nickName != "" {
-                            returnValue = nickName
-                        }
-                        return returnValue
-                    }()
-                    let updateProfileData: UpdateProfileData = UpdateProfileData(imageUrl: imageUrl, nickNmae: optionalNickName)
-                    return self?.repository.updateProfile(updataProfileData: updateProfileData) ?? .just(.failure(.init(.selfIsNull)))
+                
+                switch resultUpdateNickname {
+                case .success(_):
+                    break
                 case .failure(let err):
-                    return .just(.failure(err))
+                    return .failure(err)
                 }
+                
+//                return .success(<#T##ProfileData#>)
+                return .failure(.init(.invaldData))
             }
     }
     

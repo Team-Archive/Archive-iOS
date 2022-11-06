@@ -8,7 +8,7 @@
 import RxSwift
 
 protocol UpdateProfileRepository {
-    func updateProfile(updataProfileData: UpdateProfileData) -> Observable<Result<ProfileData, ArchiveError>>
+    func updateNickname(_ newNickname: String) -> Observable<Result<Void, ArchiveError>>
 }
 
 struct UpdateProfileData {

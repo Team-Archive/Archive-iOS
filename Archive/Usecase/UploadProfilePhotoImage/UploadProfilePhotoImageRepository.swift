@@ -8,5 +8,5 @@
 import RxSwift
 
 protocol UploadProfilePhotoImageRepository {
-    func uploadImage(_ imageData: Data) -> Observable<Result<String, ArchiveError>>
+    func uploadImage(_ imageData: Data) -> Observable<Result<Void, ArchiveError>>
 }

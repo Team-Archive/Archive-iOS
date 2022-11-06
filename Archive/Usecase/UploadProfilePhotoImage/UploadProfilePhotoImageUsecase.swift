@@ -25,7 +25,7 @@ class UploadProfilePhotoImageUsecase: NSObject {
     
     // MARK: internal function
     
-    func uploadImage(_ imageData: Data) -> Observable<Result<String, ArchiveError>> {
+    func uploadImage(_ imageData: Data) -> Observable<Result<Void, ArchiveError>> {
         return self.repository.uploadImage(imageData)
     }
 }
