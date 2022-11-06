@@ -536,7 +536,7 @@ class MyPageViewController: UIViewController, View, ActivityIndicatorable {
     
     func bind(reactor: MyPageReactor) {
         reactor.profileData
-            .asDriver(onErrorJustReturn: ProfileData(imageUrl: "", nickNmae: ""))
+            .asDriver(onErrorJustReturn: ProfileData(userId: -1, mail: "", imageUrl: "", nickNmae: ""))
             .drive(onNext: { [weak self] profile in
                 if let userImageUrl = URL(string: profile.imageUrl) {
                     self?.profileImageView.kf.setImage(with: userImageUrl, placeholder: Gen.Images.userImagePlaceHolder.image)

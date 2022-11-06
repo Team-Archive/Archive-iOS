@@ -29,7 +29,7 @@ class LogInManager: NSObject {
         return self.repository.getLogInToken()
     }
     
-    var profile: ProfileData = ProfileData(imageUrl: "", nickNmae: "") {
+    var profile: ProfileData = ProfileData(userId: -1, mail: "", imageUrl: "", nickNmae: "") {
         didSet {
             self.profileSubject.onNext(profile)
         }
