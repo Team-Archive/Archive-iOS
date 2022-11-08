@@ -91,6 +91,8 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.emotionCoverImageView.image = info.emotion.coverAlphaImage
                 if let userImageUrl = URL(string: info.authorProfileImage) {
                     self?.userImageView.kf.setImage(with: userImageUrl, placeholder: Gen.Images.userImagePlaceHolder.image)
+                } else {
+                    self?.userImageView.image = Gen.Images.userImagePlaceHolder.image
                 }
                 
                 self?.userNicknameLabel.text = info.authorNickname

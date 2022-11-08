@@ -196,7 +196,6 @@
 		789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */; };
 		789EAC2C289651C500DC7F1A /* MyLikeUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */; };
 		789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */; };
-		789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */; };
 		789EAC3428966CDE00DC7F1A /* MyLikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */; };
 		789F34BB285D9B9E00733214 /* NotificationDefine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789F34BA285D9B9E00733214 /* NotificationDefine.swift */; };
 		78A32164275B91580078650D /* Detail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78A32163275B91580078650D /* Detail.storyboard */; };
@@ -486,7 +485,6 @@
 		789EAC2828964F9C00DC7F1A /* MyLikeListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeListViewController.swift; sourceTree = "<group>"; };
 		789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeUsecase.swift; sourceTree = "<group>"; };
 		789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepository.swift; sourceTree = "<group>"; };
-		789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLikeRepositoryStub.swift; sourceTree = "<group>"; };
 		789EAC3328966CDE00DC7F1A /* MyLikeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyLikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		789F34BA285D9B9E00733214 /* NotificationDefine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDefine.swift; sourceTree = "<group>"; };
 		78A32163275B91580078650D /* Detail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Detail.storyboard; sourceTree = "<group>"; };
@@ -1343,7 +1341,6 @@
 			children = (
 				789EAC2B289651C500DC7F1A /* MyLikeUsecase.swift */,
 				789EAC2D289651CE00DC7F1A /* MyLikeRepository.swift */,
-				789EAC312896523800DC7F1A /* MyLikeRepositoryStub.swift */,
 				7802B86E28C3A154007A9416 /* MyLikeRepositoryImplement.swift */,
 			);
 			path = MyLike;
@@ -2104,7 +2101,6 @@
 				78F92DAB2917F634009381D3 /* SignUpOAuthUsecase.swift in Sources */,
 				44922DD22719FB9300A5EA2B /* InputView.swift in Sources */,
 				78A32169275B92600078650D /* DetailReactor.swift in Sources */,
-				789EAC322896523800DC7F1A /* MyLikeRepositoryStub.swift in Sources */,
 				781C842E282F621A004A0FB3 /* HomeFlow.swift in Sources */,
 				783010422882D8490031F8CB /* FullImageViewController.swift in Sources */,
 				44FB0A1C27183C9C006E1048 /* SignUpCompletionViewController.swift in Sources */,
