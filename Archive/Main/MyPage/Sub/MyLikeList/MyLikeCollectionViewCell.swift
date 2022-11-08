@@ -45,7 +45,7 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     private let userImageView = UIImageView().then {
         $0.backgroundColor = .clear
         $0.image = Gen.Images.userImagePlaceHolder.image
-        $0.layer.cornerRadius = 8
+        $0.layer.cornerRadius = 15
         $0.layer.masksToBounds = true
     }
     
@@ -97,6 +97,8 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.emotionCoverImageView.image = info.emotion.coverAlphaImage
                 if let userImageUrl = URL(string: info.authorProfileImage) {
                     self?.userImageView.kf.setImage(with: userImageUrl, placeholder: Gen.Images.userImagePlaceHolder.image)
+                } else {
+                    self?.userImageView.image = Gen.Images.userImagePlaceHolder.image
                 }
                 
                 self?.userNicknameLabel.text = info.authorNickname
