@@ -212,9 +212,9 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
         let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        self.mainContentsView.addSubview(self.topGradationView)
+        self.mainBackgroundView.addSubview(self.topGradationView)
         self.topGradationView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(self.mainContentsView)
+            $0.top.leading.trailing.equalTo(self.mainBackgroundView)
             $0.height.equalTo(statusBarHeight + (self.navigationController?.navigationBar.bounds.height ?? 0))
         }
         

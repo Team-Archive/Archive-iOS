@@ -104,24 +104,14 @@ class LikeButton: UIView {
     }
     
     private func likeAnimation(completion: @escaping () -> Void) {
-        self.likeLottieView.play(fromFrame: 0,
-                                  toFrame: 37,
-                                  loopMode: .playOnce,
-                                  completion: { isDone in
-            if isDone {
-                completion()
-            }
+        self.likeLottieView.play(completion: { isDone in
+            completion()
         })
     }
     
     private func unlikeAnimation(completion: @escaping () -> Void) {
-        self.likeLottieView.play(fromFrame: 37,
-                                 toFrame: 75,
-                                 loopMode: .playOnce,
-                                 completion: { isDone in
-            if isDone {
-                completion()
-            }
+        self.likeLottieView.play(fromFrame: 29.0, toFrame: 1.0, loopMode: .playOnce, completion: { isDone in
+            completion()
         })
     }
 
@@ -140,21 +130,18 @@ class LikeButton: UIView {
     
     @objc private func likeClicked() {
         haptic()
-        self.likeImageView.isHidden = true
         self.likeLottieView.isHidden = false
         if self.isLike {
             self.delegate?.likeButtonClicked?(button: self, willIsLike: false)
             self.unlikeAnimation { [weak self] in
                 self?.isLike = false
                 self?.likeLottieView.isHidden = true
-                self?.likeImageView.isHidden = false
             }
         } else {
             self.delegate?.likeButtonClicked?(button: self, willIsLike: true)
             self.likeAnimation { [weak self] in
                 self?.isLike = true
                 self?.likeLottieView.isHidden = true
-                self?.likeImageView.isHidden = false
             }
         }
     }

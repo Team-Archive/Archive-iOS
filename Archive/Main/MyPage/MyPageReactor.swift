@@ -87,15 +87,15 @@ class MyPageReactor: Reactor, Stepper, MainTabStepperProtocol {
                 Observable.just(.setIsLoading(false))
             ])
         case .openTerms:
-            guard let url = URL(string: "https://wise-icicle-d10.notion.site/8ad4c5884b814ff6a6330f1a6143c1e6") else { return .empty()}
+            guard let url = URL(string: CommonDefine.termsUrl) else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "이용약관"))
             return .empty()
         case .openPrivacy:
-            guard let url = URL(string: "https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae") else { return .empty()}
+            guard let url = URL(string: CommonDefine.privacyUrl) else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "개인정보 처리방침"))
             return .empty()
         case .openAboutInfo:
-            guard let url = URL(string: "https://wise-icicle-d10.notion.site/f4d7fb67e93345d8be5978d9327f0c2a") else { return .empty()}
+            guard let url = URL(string: CommonDefine.aboutArchiveUrl) else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "아카이브 소개"))
             return .empty()
         case .getMyLikeArchives:
