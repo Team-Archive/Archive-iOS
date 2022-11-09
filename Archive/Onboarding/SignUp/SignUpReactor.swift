@@ -131,14 +131,14 @@ final class SignUpReactor: Reactor, Stepper {
             return .just(.setTermsAgreement(isSelected))
             
         case .viewTerms:
-            guard let url = URL(string: "https://wise-icicle-d10.notion.site/8ad4c5884b814ff6a6330f1a6143c1e6") else { return .empty()}
+            guard let url = URL(string: CommonDefine.termsUrl) else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "이용약관"))
             return .empty()
         case .agreePersonalInformationPolicy:
             let isSelected = !currentState.isAgreePersonalInformationPolicy
             return .just(.setPersonalInformationPolicyAgreement(isSelected))
         case .viewPersonalInformationPolicy:
-            guard let url = URL(string: "https://wise-icicle-d10.notion.site/13ff403ad4e2402ca657fb20be31e4ae") else { return .empty()}
+            guard let url = URL(string: CommonDefine.privacyUrl) else { return .empty()}
             self.steps.accept(ArchiveStep.openUrlIsRequired(url: url, title: "개인정보 처리방침"))
             return .empty()
         case .completeAgreePolicy:
