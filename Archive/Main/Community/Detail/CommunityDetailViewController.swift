@@ -161,6 +161,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private property
     
     private var currentIndex: Int = -1
+    private var feedbackGenerator: UIImpactFeedbackGenerator?
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -170,6 +171,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavigationItems()
+        setGenerator()
     }
     
     init(reactor: CommunityReactor) {
@@ -474,6 +476,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
        
         if self.currentIndex != -1 {
+            self.feedbackGenerator?.impactOccurred()
             if currentIndex > infoData.index {
                 self.mainContentsView.alpha = 0
                 UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
@@ -522,9 +525,11 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.bottomPhotoContentsView.isHidden = false
         
         self.photoImageView.kf.setImage(with: URL(string: item.image),
-                                            placeholder: nil,
-                                            options: [.cacheMemoryOnly],
-                                            completionHandler: nil)
+                                        placeholder: nil,
+                                        options: [.cacheMemoryOnly]) { [weak self] _ in
+            self?.photoImageView.fadeIn(duration: 0.1,
+                                        completeHandler: nil)
+        }
         self.photoContentsLabel.text = item.review
         self.mainBackgroundView.backgroundColor = item.backgroundColor.colorWithHexString()
         
@@ -536,6 +541,11 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         } else {
             return CGFloat(CGFloat((currentIndex + 1)) / CGFloat(totalPageCnt))
         }
+    }
+    
+    private func setGenerator() {
+        self.feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+        self.feedbackGenerator?.prepare()
     }
     
 
