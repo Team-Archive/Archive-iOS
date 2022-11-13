@@ -36,7 +36,7 @@ class ArchiveSelectEmotionView: UIView {
     
     // MARK: private property
     
-    private var feedbackGenerator: UISelectionFeedbackGenerator?
+    private var feedbackGenerator: UIImpactFeedbackGenerator?
     
     private var currentSelectedIndex: Int = 0 {
         didSet {
@@ -89,7 +89,7 @@ class ArchiveSelectEmotionView: UIView {
     }
     
     private func setGenerator() {
-        self.feedbackGenerator = UISelectionFeedbackGenerator()
+        self.feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
         self.feedbackGenerator?.prepare()
     }
     
@@ -117,7 +117,7 @@ extension ArchiveSelectEmotionView: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         self.currentSelectedIndex = indexPath.item
-        self.feedbackGenerator?.selectionChanged()
+        self.feedbackGenerator?.impactOccurred()
         guard let emotion = Emotion.getEmotionFromIndex(indexPath.item) else { return }
         self.delegate?.didSelectedItem?(view: self, didSelectedAt: emotion)
     }

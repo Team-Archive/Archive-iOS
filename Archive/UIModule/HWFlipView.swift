@@ -66,7 +66,7 @@ public class HWFlipView: UIView {
     // MARK: private function
     
     private func setGenerator() {
-        self.feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+        self.feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
         self.feedbackGenerator?.prepare()
     }
     
@@ -103,6 +103,7 @@ public class HWFlipView: UIView {
             self.foregroundView.isHidden = true
             self.behindView.isHidden = false
         }
+        self.feedbackGenerator?.impactOccurred()
         UIView.transition(with: self.containerView, duration: 0.5, options: .transitionFlipFromTop, animations: nil, completion: { [weak self] isEndAnimation in
             if isEndAnimation {
                 guard let self = self else { return }
