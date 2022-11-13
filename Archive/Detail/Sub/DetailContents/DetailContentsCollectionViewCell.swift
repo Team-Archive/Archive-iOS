@@ -82,6 +82,7 @@ class DetailContentsCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
         
         self.contentsLabel.font = .fonts(.body)
         self.contentsLabel.textColor = Gen.Colors.black.color
+        self.contentsLabel.numberOfLines = 100
         
     }
     
