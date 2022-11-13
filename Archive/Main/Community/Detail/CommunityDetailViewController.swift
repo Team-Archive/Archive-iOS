@@ -212,11 +212,12 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
         let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        self.mainBackgroundView.addSubview(self.topGradationView)
+        self.view.addSubview(self.topGradationView)
         self.topGradationView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(self.mainBackgroundView)
+            $0.top.leading.trailing.equalTo(self.view)
             $0.height.equalTo(statusBarHeight + (self.navigationController?.navigationBar.bounds.height ?? 0))
         }
+        self.view.bringSubviewToFront(self.topGradationView)
         
         self.topContentsView.addSubview(self.topCoverContentsView)
         self.topCoverContentsView.snp.makeConstraints {
@@ -323,7 +324,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.width.equalTo(50)
         }
         
-        self.mainContentsView.addSubview(self.progressBar)
+        self.view.addSubview(self.progressBar)
         self.progressBar.snp.makeConstraints {
             $0.top.equalTo(safeGuide)
             $0.leading.trailing.equalTo(self.mainContentsView)
