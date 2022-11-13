@@ -85,7 +85,11 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
                 if let thumbnailUrl = URL(string: info.mainImage) {
-                    self?.thumbnailImageView.kf.setImage(with: thumbnailUrl)
+                    self?.thumbnailImageView.kf.setImage(with: thumbnailUrl,
+                                                         completionHandler: { [weak self] _ in
+                        self?.thumbnailImageView.fadeIn(duration: 0.1,
+                                                        completeHandler: nil)
+                    })
                 }
                 
                 self?.emotionCoverImageView.image = info.emotion.coverAlphaImage
