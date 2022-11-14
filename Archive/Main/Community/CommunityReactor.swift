@@ -293,6 +293,8 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     // MARK: private function
     
     private func getFirstPublicArchives(sortBy: ArchiveSortType, emotion: Emotion?) -> Observable<Result<[PublicArchive], ArchiveError>> {
+        self.filterEmotion = emotion
+        self.archiveSortType = sortBy
         return self.usecase.getFirstPublicArchives(sortBy: sortBy, emotion: emotion)
     }
     

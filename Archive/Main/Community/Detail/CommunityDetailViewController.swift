@@ -161,6 +161,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     // MARK: private property
     
     private var currentIndex: Int = -1
+    private var feedbackGenerator: UIImpactFeedbackGenerator?
     
     // MARK: property
     var disposeBag: DisposeBag = DisposeBag()
@@ -170,6 +171,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     override func viewDidLoad() {
         super.viewDidLoad()
         makeNavigationItems()
+        setGenerator()
     }
     
     init(reactor: CommunityReactor) {
@@ -212,11 +214,12 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
         let window = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
         let statusBarHeight = window?.windowScene?.statusBarManager?.statusBarFrame.height ?? 0
-        self.mainBackgroundView.addSubview(self.topGradationView)
+        self.view.addSubview(self.topGradationView)
         self.topGradationView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(self.mainBackgroundView)
+            $0.top.leading.trailing.equalTo(self.view)
             $0.height.equalTo(statusBarHeight + (self.navigationController?.navigationBar.bounds.height ?? 0))
         }
+        self.view.bringSubviewToFront(self.topGradationView)
         
         self.topContentsView.addSubview(self.topCoverContentsView)
         self.topCoverContentsView.snp.makeConstraints {
@@ -323,7 +326,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.width.equalTo(50)
         }
         
-        self.mainContentsView.addSubview(self.progressBar)
+        self.view.addSubview(self.progressBar)
         self.progressBar.snp.makeConstraints {
             $0.top.equalTo(safeGuide)
             $0.leading.trailing.equalTo(self.mainContentsView)
@@ -473,6 +476,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
        
         if self.currentIndex != -1 {
+            self.feedbackGenerator?.impactOccurred()
             if currentIndex > infoData.index {
                 self.mainContentsView.alpha = 0
                 UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
@@ -521,9 +525,11 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         self.bottomPhotoContentsView.isHidden = false
         
         self.photoImageView.kf.setImage(with: URL(string: item.image),
-                                            placeholder: nil,
-                                            options: [.cacheMemoryOnly],
-                                            completionHandler: nil)
+                                        placeholder: nil,
+                                        options: [.cacheMemoryOnly]) { [weak self] _ in
+            self?.photoImageView.fadeIn(duration: 0.1,
+                                        completeHandler: nil)
+        }
         self.photoContentsLabel.text = item.review
         self.mainBackgroundView.backgroundColor = item.backgroundColor.colorWithHexString()
         
@@ -535,6 +541,11 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         } else {
             return CGFloat(CGFloat((currentIndex + 1)) / CGFloat(totalPageCnt))
         }
+    }
+    
+    private func setGenerator() {
+        self.feedbackGenerator = UIImpactFeedbackGenerator(style: .soft)
+        self.feedbackGenerator?.prepare()
     }
     
 
