@@ -122,16 +122,13 @@ final class SignInReactor: Reactor, Stepper {
                 eMailLogIn(email: self.currentState.id, password: self.currentState.password)
                     .map { [weak self] result in
                         switch result {
-                        case .success(let logInSuccessType):
-                            switch logInSuccessType {
-                            case .logInSuccess(let token):
-                                LogInManager.shared.logIn(token: token, type: .eMail)
-                                LogInManager.shared.refreshProfile()
-                                self?.steps.accept(ArchiveStep.userIsSignedIn)
-                            case .isTempPW:
-                                self?.toastMessage.onNext("임시 비밀번호를 변경해주세요.")
-                                self?.steps.accept(ArchiveStep.changePasswordFromFindPassword)
-                            }
+                        case .success(let logInSuccessData):
+                            LogInManager.shared.logIn(
+                                token: logInSuccessData.token,
+                                type: .eMail
+                            )
+                            LogInManager.shared.refreshProfile()
+                            self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: logInSuccessData.isTempPW))
                         case .failure(let err):
                             self?.error.onNext(err.getMessage())
                         }
@@ -195,7 +192,7 @@ final class SignInReactor: Reactor, Stepper {
                     switch result {
                     case .success(_):
                         LogInManager.shared.refreshProfile()
-                        self?.steps.accept(ArchiveStep.userIsSignedIn)
+                        self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: false))
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
                     }
@@ -210,7 +207,7 @@ final class SignInReactor: Reactor, Stepper {
                     switch result {
                     case .success(_):
                         LogInManager.shared.refreshProfile()
-                        self?.steps.accept(ArchiveStep.userIsSignedIn)
+                        self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: false))
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
                     }
@@ -356,7 +353,7 @@ final class SignInReactor: Reactor, Stepper {
         return self.findPasswordUsecase.changePassword(eMail: email, currentPassword: tempPassword, newPassword: newPassword)
     }
     
-    private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
+    private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessData, ArchiveError>> {
         return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
     }
     

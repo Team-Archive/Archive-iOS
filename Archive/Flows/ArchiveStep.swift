@@ -22,7 +22,7 @@ enum ArchiveStep: Step {
     // SignIn
     case signInIsRequired
     case eMailSignIn(reactor: SignInReactor)
-    case userIsSignedIn
+    case userIsSignedIn(isTempPw: Bool)
     case findPassword
     case changePasswordFromFindPassword
     

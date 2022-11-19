@@ -8,10 +8,10 @@
 import RxSwift
 
 protocol EMailLogInRepository {
-    func loginEmail(eMail: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>>
+    func loginEmail(eMail: String, password: String) -> Observable<Result<EMailLogInSuccessData, ArchiveError>>
 }
 
-enum EMailLogInSuccessType {
-    case logInSuccess(token: String)
-    case isTempPW
+struct EMailLogInSuccessData {
+    let token: String
+    let isTempPW: Bool
 }
