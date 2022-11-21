@@ -158,6 +158,13 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 self?.present(alert, animated: true, completion: nil)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private function

@@ -91,7 +91,9 @@ final class MainFlow: Flow {
             viewController: self.mainTabBarContoller,
             animated: false,
             completion: { [weak self] in
-                self?.mainTabBarContoller.showChangeTempPasswordView()
+                if isTempPw {
+                    self?.mainTabBarContoller.showChangeTempPasswordView()
+                }
             })
         return .one(flowContributor: .contribute(withNextPresentable: self.mainTabBarContoller,
                                                  withNextStepper: self.mainTabBarReactor))
