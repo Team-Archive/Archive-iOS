@@ -36,14 +36,14 @@ final class AppFlow: Flow {
         switch step {
         case .splashIsRequired:
             return navigationToSplashScreen()
-        case .onboardingIsComplete:
-            return navigationToMainScreen()
+        case .onboardingIsComplete(let isTempPw):
+            return navigationToMainScreen(isTempPw: isTempPw)
         case .logout:
             return navigationToOnboardingScreen()
         case .splashIsComplete(let isLoggedIn):
             if isLoggedIn {
                 LikeManager.shared.refreshMyLikeList()
-                return navigationToMainScreen()
+                return navigationToMainScreen(isTempPw: false)
             } else {
                 return navigationToOnboardingScreen()
             }
@@ -78,7 +78,7 @@ final class AppFlow: Flow {
                                                  allowStepWhenDismissed: false))
     }
     
-    private func navigationToMainScreen() -> FlowContributors {
+    private func navigationToMainScreen(isTempPw: Bool) -> FlowContributors {
 
         let mainFlow = MainFlow()
         Flows.use(mainFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
@@ -87,7 +87,7 @@ final class AppFlow: Flow {
         })
         
         return .one(flowContributor: .contribute(withNextPresentable: mainFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.mainIsRequired),
+                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.mainIsRequired(isTempPw: isTempPw)),
                                                  allowStepWhenNotPresented: false,
                                                  allowStepWhenDismissed: false))
     }

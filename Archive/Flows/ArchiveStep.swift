@@ -17,7 +17,7 @@ enum ArchiveStep: Step {
     case splashIsComplete(isSuccessAutoLogin: Bool)
     
     // Onboarding
-    case onboardingIsComplete
+    case onboardingIsComplete(isTempPw: Bool)
     
     // SignIn
     case signInIsRequired
@@ -36,7 +36,7 @@ enum ArchiveStep: Step {
     case termsAgreeForOAuthRegist(accessToken: String, loginType: OAuthSignInType)
     
     // MainTab
-    case mainIsRequired
+    case mainIsRequired(isTempPw: Bool)
     
     // Home
     case homeIsRequired

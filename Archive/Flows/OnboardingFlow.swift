@@ -39,8 +39,8 @@ final class OnboardingFlow: Flow {
             return navigationToSignInScreen()
         case .eMailSignIn(reactor: let reactor):
             return navigationToEmailSignIn(reactor: reactor)
-        case .userIsSignedIn:
-            return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete)
+        case .userIsSignedIn(let isTempPw):
+            return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete(isTempPw: isTempPw))
         case .termsAgreementIsRequired:
             return navigationToTermsAgreementScreen()
         case .emailInputRequired:

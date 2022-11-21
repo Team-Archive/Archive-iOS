@@ -117,6 +117,10 @@ class MainTabBarViewController: UITabBarController, View {
         }
     }
     
+    func showChangeTempPasswordView() {
+        // TODO: 임시 비밀번호 바꾸기 화면
+    }
+    
     // MARK: action
 
     
