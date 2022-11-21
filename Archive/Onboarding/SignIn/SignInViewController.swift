@@ -87,9 +87,9 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             .disposed(by: disposeBag)
         
         reactor.error
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { errorMsg in
-                CommonAlertView.shared.show(message: "오류", subMessage: errorMsg, btnText: "확인", hapticType: .error, confirmHandler: {
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: "오류", subMessage: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
                     CommonAlertView.shared.hide()
                 })
             })
@@ -156,6 +156,13 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                     }
                 }))
                 self?.present(alert, animated: true, completion: nil)
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
             })
             .disposed(by: self.disposeBag)
     }

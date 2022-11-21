@@ -32,6 +32,7 @@
 		4FD4F1D5272F869A00BDB4BB /* RecordCardCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FD4F1D3272F869A00BDB4BB /* RecordCardCollectionViewCell.xib */; };
 		4FD4F1DA272F86B800BDB4BB /* RecordImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4F1D8272F86B800BDB4BB /* RecordImageCollectionViewCell.swift */; };
 		4FD4F1DB272F86B800BDB4BB /* RecordImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4FD4F1D9272F86B800BDB4BB /* RecordImageCollectionViewCell.xib */; };
+		780045E7292BAAD900D06013 /* ChangePasswordReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780045E6292BAAD900D06013 /* ChangePasswordReactor.swift */; };
 		780161D42751FD5200F77193 /* CardShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780161D32751FD5200F77193 /* CardShareManager.swift */; };
 		780189C0279BD08C006C82CB /* ServerErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780189BF279BD08C006C82CB /* ServerErrorUtil.swift */; };
 		78027CEF28B4FC450096B400 /* RegistBehindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78027CEE28B4FC450096B400 /* RegistBehindView.swift */; };
@@ -325,6 +326,7 @@
 		4FD4F1D9272F86B800BDB4BB /* RecordImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RecordImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		53EB9EAFE492E4886567AE92 /* Pods_Archive_debug.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Archive_debug.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72C4423C0F1934D8C0AFE14D /* Pods-Archive.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive.release.xcconfig"; path = "Target Support Files/Pods-Archive/Pods-Archive.release.xcconfig"; sourceTree = "<group>"; };
+		780045E6292BAAD900D06013 /* ChangePasswordReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordReactor.swift; sourceTree = "<group>"; };
 		780161D32751FD5200F77193 /* CardShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardShareManager.swift; sourceTree = "<group>"; };
 		780189BF279BD08C006C82CB /* ServerErrorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerErrorUtil.swift; sourceTree = "<group>"; };
 		78027CEE28B4FC450096B400 /* RegistBehindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistBehindView.swift; sourceTree = "<group>"; };
@@ -760,6 +762,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		780045E5292BAACC00D06013 /* ChangeTempPassword */ = {
+			isa = PBXGroup;
+			children = (
+				78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */,
+				780045E6292BAAD900D06013 /* ChangePasswordReactor.swift */,
+			);
+			path = ChangeTempPassword;
+			sourceTree = "<group>";
+		};
 		780478152723E79500FAA1CF /* Sub */ = {
 			isa = PBXGroup;
 			children = (
@@ -949,6 +960,7 @@
 		7830103F2882D81D0031F8CB /* ETC */ = {
 			isa = PBXGroup;
 			children = (
+				780045E5292BAACC00D06013 /* ChangeTempPassword */,
 				783010402882D8410031F8CB /* FullImageViewController */,
 				78D31DF0288460CF000D81BE /* CommonWebViewController.swift */,
 			);
@@ -1016,7 +1028,6 @@
 			children = (
 				7831D51F27E593F100E3FA57 /* EmailSignInViewController.swift */,
 				78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */,
-				78A38BEC280D9380000C921B /* ChangePasswordViewController.swift */,
 			);
 			path = EmailSignIn;
 			sourceTree = "<group>";
@@ -2054,6 +2065,7 @@
 				78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */,
 				78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */,
 				78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */,
+				780045E7292BAAD900D06013 /* ChangePasswordReactor.swift in Sources */,
 				78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */,
 				78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */,
 				78A38BF2280DB40D000C921B /* EMailLogInRepository.swift in Sources */,

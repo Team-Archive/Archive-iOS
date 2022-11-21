@@ -39,8 +39,8 @@ final class OnboardingFlow: Flow {
             return navigationToSignInScreen()
         case .eMailSignIn(reactor: let reactor):
             return navigationToEmailSignIn(reactor: reactor)
-        case .userIsSignedIn:
-            return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete)
+        case .userIsSignedIn(let isTempPw):
+            return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete(isTempPw: isTempPw))
         case .termsAgreementIsRequired:
             return navigationToTermsAgreementScreen()
         case .emailInputRequired:
@@ -56,8 +56,6 @@ final class OnboardingFlow: Flow {
             return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken, loginType: type)
         case .findPassword:
             return navigationToFindPasswordScreen()
-        case .changePasswordFromFindPassword:
-            return navigationToChangePasswordScreen()
         case .openUrlIsRequired(let url, let title):
             navigationToWebView(url: url, title: title)
             return .none
@@ -168,16 +166,6 @@ final class OnboardingFlow: Flow {
             }
         rootViewController.pushViewController(findPasswordViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: findPasswordViewController,
-                                                 withNextStepper: signInReactor))
-    }
-    
-    private func navigationToChangePasswordScreen() -> FlowContributors {
-        let changePasswordViewController = onboardingStoryBoard
-            .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
-                return ChangePasswordViewController(coder: coder, reactor: self.signInReactor)
-            }
-        rootViewController.pushViewController(changePasswordViewController, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
                                                  withNextStepper: signInReactor))
     }
     

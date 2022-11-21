@@ -186,7 +186,7 @@ final class SignUpReactor: Reactor, Stepper {
         case let .passwordCofirmInput(text):
             return .just(.setPasswordCofirmationInput(text))
         case .startArchive:
-            self.steps.accept(ArchiveStep.userIsSignedIn)
+            self.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: false))
             return .empty()
         case .checkIsDuplicatedNickname(let nickname):
             return Observable.concat([
@@ -245,7 +245,7 @@ final class SignUpReactor: Reactor, Stepper {
                     self.registWithOAuth(accessToken: self.oAuthAccessToken, type: self.loginType, nickname: nickname).map { [weak self] result in
                         switch result {
                         case .success(_):
-                            self?.steps.accept(ArchiveStep.userIsSignedIn)
+                            self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: false))
                             LogInManager.shared.refreshProfile()
                         case .failure(let err):
                             self?.error.onNext(err.getMessage())
@@ -338,7 +338,7 @@ final class SignUpReactor: Reactor, Stepper {
     }
     
     
-    private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessType, ArchiveError>> {
+    private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessData, ArchiveError>> {
         return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
     }
     

@@ -117,6 +117,26 @@ class MainTabBarViewController: UITabBarController, View {
         }
     }
     
+    func showChangeTempPasswordView() {
+        DispatchQueue.global().async { [weak self] in // 타이밍 이슈로 인해.. TODO: 해결법 찾아보기
+            usleep(5 * 100 * 1000)
+            DispatchQueue.main.async { [weak self] in
+                let changePasswordViewController = UIStoryboard(name: "Onboarding", bundle: nil)
+                    .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
+                        return ChangePasswordViewController(
+                            coder: coder,
+                            reactor: ChangePasswordReactor(
+                                findPasswordRepository: FindPasswordRepositoryImplement(),
+                                validator: Validator(),
+                                email: LogInManager.shared.profile.mail)
+                        )
+                    }
+                self?.navigationController?.present(changePasswordViewController, animated: true)
+            }
+        }
+        
+    }
+    
     // MARK: action
 
     

@@ -86,8 +86,15 @@ final class MainFlow: Flow {
                                   myPageStepper: myPageReactor)
     }
     
-    private func navigationToMainTabBarScreen() -> FlowContributors {
-        rootViewController.pushViewController(self.mainTabBarContoller, animated: false)
+    private func navigationToMainTabBarScreen(isTempPw: Bool) -> FlowContributors {
+        rootViewController.pushViewController(
+            viewController: self.mainTabBarContoller,
+            animated: false,
+            completion: { [weak self] in
+                if isTempPw {
+                    self?.mainTabBarContoller.showChangeTempPasswordView()
+                }
+            })
         return .one(flowContributor: .contribute(withNextPresentable: self.mainTabBarContoller,
                                                  withNextStepper: self.mainTabBarReactor))
     }
@@ -150,8 +157,8 @@ final class MainFlow: Flow {
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }
         switch step {
-        case .mainIsRequired:
-            return navigationToMainTabBarScreen()
+        case .mainIsRequired(let isTempPw):
+            return navigationToMainTabBarScreen(isTempPw: isTempPw)
         case .homeIsRequired:
             if self.currentTabFlow != .home {
                 print("homeIsRequired")

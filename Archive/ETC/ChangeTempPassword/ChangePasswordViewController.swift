@@ -40,7 +40,7 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
     
     // MARK: lifeCycle
     
-    init?(coder: NSCoder, reactor: SignInReactor) {
+    init?(coder: NSCoder, reactor: ChangePasswordReactor) {
         super.init(coder: coder)
         self.reactor = reactor
     }
@@ -56,13 +56,14 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideNotification(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
     }
     
-    func bind(reactor: SignInReactor) {
+    func bind(reactor: ChangePasswordReactor) {
+        
         tempPasswordInputView.rx.text.orEmpty
             .distinctUntilChanged()
             .map { Reactor.Action.tempPasswordInput(text: $0) }
             .bind(to: reactor.action)
             .disposed(by: disposeBag)
-        
+
         passwordInputView.rx.text.orEmpty
             .distinctUntilChanged()
             .map { Reactor.Action.changepasswordInput(text: $0) }
@@ -110,15 +111,15 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
             .bind(to: nextButton.rx.isEnabled)
             .disposed(by: disposeBag)
 
-        reactor.error
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { errMsg in
-                CommonAlertView.shared.show(message: errMsg, subMessage: nil, btnText: "확인", hapticType: .error, confirmHandler: {
+        reactor.err
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: err.getMessage(), subMessage: nil, btnText: "확인", hapticType: .error, confirmHandler: {
                     CommonAlertView.shared.hide(nil)
                 })
             })
             .disposed(by: self.disposeBag)
-
+        
         reactor.state
             .map { $0.isLoading }
             .asDriver(onErrorJustReturn: false)
@@ -130,14 +131,14 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
                 }
             })
             .disposed(by: self.disposeBag)
-        
-        reactor.popToRootView
+
+        reactor.changePasswordComplete
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
-                self?.navigationController?.popToRootViewController(animated: true)
+                self?.dismiss(animated: true)
             })
             .disposed(by: self.disposeBag)
-        
+
         reactor.toastMessage
             .asDriver(onErrorJustReturn: "")
             .drive(onNext: { [weak self] toastMessage in
