@@ -85,6 +85,13 @@ final class FindPasswordViewController: UIViewController, StoryboardView, Activi
             })
             .disposed(by: self.disposeBag)
         
+        reactor.pop
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in 
+                self?.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {

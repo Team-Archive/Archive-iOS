@@ -56,8 +56,8 @@ final class OnboardingFlow: Flow {
             return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken, loginType: type)
         case .findPassword:
             return navigationToFindPasswordScreen()
-        case .changePasswordFromFindPassword:
-            return navigationToChangePasswordScreen()
+//        case .changePasswordFromFindPassword:
+//            return navigationToChangePasswordScreen()
         case .openUrlIsRequired(let url, let title):
             navigationToWebView(url: url, title: title)
             return .none
@@ -171,15 +171,15 @@ final class OnboardingFlow: Flow {
                                                  withNextStepper: signInReactor))
     }
     
-    private func navigationToChangePasswordScreen() -> FlowContributors {
-        let changePasswordViewController = onboardingStoryBoard
-            .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
-                return ChangePasswordViewController(coder: coder, reactor: self.signInReactor)
-            }
-        rootViewController.pushViewController(changePasswordViewController, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
-                                                 withNextStepper: signInReactor))
-    }
+//    private func navigationToChangePasswordScreen() -> FlowContributors {
+//        let changePasswordViewController = onboardingStoryBoard
+//            .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
+//                return ChangePasswordViewController(coder: coder, reactor: self.signInReactor)
+//            }
+//        rootViewController.pushViewController(changePasswordViewController, animated: true)
+//        return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
+//                                                 withNextStepper: signInReactor))
+//    }
     
     private func navigationToWebView(url: URL, title: String) {
         let vc = CommonWebViewController(url: url, title: title)

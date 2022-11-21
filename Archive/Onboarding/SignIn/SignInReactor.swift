@@ -27,10 +27,6 @@ final class SignInReactor: Reactor, Stepper {
         case realLoginWithApple(accessToken: String)
         case moveToFindPassword
         case sendTempPassword
-        case changepasswordInput(text: String)
-        case passwordCofirmInput(text: String)
-        case tempPasswordInput(text: String)
-        case changePassword
         case debugTouchAction
     }
      
@@ -41,12 +37,6 @@ final class SignInReactor: Reactor, Stepper {
         case setValidation(Bool)
         case setIsLoading(Bool)
         case empty
-        case setChangePassword(String)
-        case setEnglishCombination(Bool)
-        case setNumberCombination(Bool)
-        case setRangeValidation(Bool)
-        case setPasswordCofirmationInput(String)
-        case setTempPasswordInput(String)
     }
     
     struct State {
@@ -55,27 +45,6 @@ final class SignInReactor: Reactor, Stepper {
         var isValidEmail: Bool = false
         var isEnableSignIn: Bool = false
         var isLoading: Bool = false
-    
-        var tempPassword: String = ""
-        var changePassword: String = ""
-        var isContainsEnglish: Bool = false
-        var isContainsNumber: Bool = false
-        var isWithinRange: Bool = false
-        var passwordConfirmationInput: String = ""
-        var isSamePasswordInput: Bool {
-            if changePassword == "" { return false }
-            return changePassword == passwordConfirmationInput
-        }
-        var isNotNullTempPassword: Bool {
-            if tempPassword == "" {
-                return false
-            } else {
-                return true
-            }
-        }
-        var isValidPassword: Bool {
-            return isContainsEnglish && isContainsNumber && isWithinRange && isSamePasswordInput && isNotNullTempPassword
-        }
     }
     
     let initialState = State()
@@ -87,6 +56,7 @@ final class SignInReactor: Reactor, Stepper {
     var showDebugPasswordInputView: PublishSubject<Void> = .init()
     private let oAuthUsecase: LoginOAuthUsecase
     private let findPasswordUsecase: FindPasswordUsecase
+    let pop: PublishSubject<Void> = .init()
     private let emailLogInUsecase: EMailLogInUsecase
     private var debugTouchCnt: Int = 0
     
@@ -226,41 +196,10 @@ final class SignInReactor: Reactor, Stepper {
                     case .success(let isSuccess):
                         if isSuccess {
                             self?.toastMessage.onNext("임시 비밀번호가 발송되었습니다.")
-                            self?.steps.accept(ArchiveStep.changePasswordFromFindPassword)
+                            self?.pop.onNext(())
                         } else {
                             self?.toastMessage.onNext("가입하지 않은 이메일입니다. 회원가입으로 이동해주세요.")
                         }
-                    case .failure(let err):
-                        self?.error.onNext(err.getMessage())
-                    }
-                    return .empty
-                },
-                Observable.just(.setIsLoading(false))
-            ])
-        case let .changepasswordInput(text):
-            let isContainsEnglish = validator.isContainsEnglish(text)
-            let isContainsNumber = validator.isContainsNumber(text)
-            let isWithinRage = validator.isWithinRange(text, range: (8...20))
-            return .from([.setChangePassword(text),
-                          .setEnglishCombination(isContainsEnglish),
-                          .setNumberCombination(isContainsNumber),
-                          .setRangeValidation(isWithinRage)])
-            
-        case let .passwordCofirmInput(text):
-            return .just(.setPasswordCofirmationInput(text))
-        case .tempPasswordInput(text: let text):
-            return .just(.setTempPasswordInput(text))
-        case .changePassword:
-            return Observable.concat([
-                Observable.just(.setIsLoading(true)),
-                changePassword(email: self.currentState.id,
-                               tempPassword: self.currentState.tempPassword,
-                               newPassword: self.currentState.changePassword)
-                .map { [weak self] changePasswordResult in
-                    switch changePasswordResult {
-                    case .success(()):
-                        self?.toastMessage.onNext("비밀번호 변경 완료.\n변경된 비밀번호로 로그인해주세요.")
-                        self?.popToRootView.onNext(())
                     case .failure(let err):
                         self?.error.onNext(err.getMessage())
                     }
@@ -289,18 +228,6 @@ final class SignInReactor: Reactor, Stepper {
             newState.isLoading = isLoading
         case .empty:
             break
-        case let .setChangePassword(password):
-            newState.changePassword = password
-        case let .setEnglishCombination(isContainsEnglish):
-            newState.isContainsEnglish = isContainsEnglish
-        case let.setNumberCombination(isContainsNumber):
-            newState.isContainsNumber = isContainsNumber
-        case let .setRangeValidation(isWithinRange):
-            newState.isWithinRange = isWithinRange
-        case let .setPasswordCofirmationInput(password):
-            newState.passwordConfirmationInput = password
-        case .setTempPasswordInput(let password):
-            newState.tempPassword = password
         }
         return newState
     }
