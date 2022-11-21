@@ -58,58 +58,58 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
     
     func bind(reactor: ChangePasswordReactor) {
         
-//        tempPasswordInputView.rx.text.orEmpty
-//            .distinctUntilChanged()
-//            .map { Reactor.Action.tempPasswordInput(text: $0) }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        passwordInputView.rx.text.orEmpty
-//            .distinctUntilChanged()
-//            .map { Reactor.Action.changepasswordInput(text: $0) }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        passwordConfirmInputView.rx.text.orEmpty
-//            .distinctUntilChanged()
-//            .map { Reactor.Action.passwordCofirmInput(text: $0) }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        nextButton?.rx.tap
-//            .map { Reactor.Action.changePassword }
-//            .bind(to: reactor.action)
-//            .disposed(by: disposeBag)
-//
-//        reactor.state
-//            .map { $0.isContainsEnglish }
-//            .distinctUntilChanged()
-//            .bind(to: englishCombinationCheckView.rx.isValid)
-//            .disposed(by: disposeBag)
-//
-//        reactor.state
-//            .map { $0.isContainsNumber }
-//            .distinctUntilChanged()
-//            .bind(to: numberCombinationCheckView.rx.isValid)
-//            .disposed(by: disposeBag)
-//
-//        reactor.state
-//            .map { $0.isWithinRange }
-//            .distinctUntilChanged()
-//            .bind(to: countCheckView.rx.isValid)
-//            .disposed(by: disposeBag)
-//
-//        reactor.state
-//            .map { $0.isSamePasswordInput }
-//            .distinctUntilChanged()
-//            .bind(to: passwordCofirmCheckView.rx.isValid)
-//            .disposed(by: disposeBag)
-//
-//        reactor.state
-//            .map { $0.isValidPassword }
-//            .distinctUntilChanged()
-//            .bind(to: nextButton.rx.isEnabled)
-//            .disposed(by: disposeBag)
+        tempPasswordInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.tempPasswordInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        passwordInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.changepasswordInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        passwordConfirmInputView.rx.text.orEmpty
+            .distinctUntilChanged()
+            .map { Reactor.Action.passwordCofirmInput(text: $0) }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        nextButton?.rx.tap
+            .map { Reactor.Action.changePassword }
+            .bind(to: reactor.action)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isContainsEnglish }
+            .distinctUntilChanged()
+            .bind(to: englishCombinationCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isContainsNumber }
+            .distinctUntilChanged()
+            .bind(to: numberCombinationCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isWithinRange }
+            .distinctUntilChanged()
+            .bind(to: countCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isSamePasswordInput }
+            .distinctUntilChanged()
+            .bind(to: passwordCofirmCheckView.rx.isValid)
+            .disposed(by: disposeBag)
+
+        reactor.state
+            .map { $0.isValidPassword }
+            .distinctUntilChanged()
+            .bind(to: nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
 
         reactor.err
             .asDriver(onErrorJustReturn: .init(.commonError))
@@ -132,19 +132,19 @@ class ChangePasswordViewController: UIViewController, StoryboardView, ActivityIn
             })
             .disposed(by: self.disposeBag)
 
-//        reactor.popToRootView
-//            .asDriver(onErrorJustReturn: ())
-//            .drive(onNext: { [weak self] in
-//                self?.navigationController?.popToRootViewController(animated: true)
-//            })
-//            .disposed(by: self.disposeBag)
-//
-//        reactor.toastMessage
-//            .asDriver(onErrorJustReturn: "")
-//            .drive(onNext: { [weak self] toastMessage in
-//                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
-//            })
-//            .disposed(by: self.disposeBag)
+        reactor.changePasswordComplete
+            .asDriver(onErrorJustReturn: ())
+            .drive(onNext: { [weak self] in
+                self?.dismiss(animated: true)
+            })
+            .disposed(by: self.disposeBag)
+
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
+            })
+            .disposed(by: self.disposeBag)
 
     }
 

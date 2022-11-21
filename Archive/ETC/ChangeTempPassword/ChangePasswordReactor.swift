@@ -22,6 +22,8 @@ final class ChangePasswordReactor: Reactor {
     
     let initialState: State = State()
     let err: PublishSubject<ArchiveError> = .init()
+    let toastMessage: PublishSubject<String> = .init()
+    let changePasswordComplete: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
@@ -99,7 +101,8 @@ final class ChangePasswordReactor: Reactor {
                 .map { [weak self] changePasswordResult in
                     switch changePasswordResult {
                     case .success(()):
-                        print("성공한듯")
+                        self?.toastMessage.onNext("비밀번호 변경 완료")
+                        self?.changePasswordComplete.onNext(())
                     case .failure(let err):
                         self?.err.onNext(err)
                     }
