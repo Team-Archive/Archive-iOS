@@ -50,7 +50,7 @@ final class SignInReactor: Reactor, Stepper {
     let initialState = State()
     let steps = PublishRelay<Step>()
     private let validator: Validator
-    var error: PublishSubject<String>
+    var error: PublishSubject<ArchiveError>
     var toastMessage: PublishSubject<String>
     var popToRootView: PublishSubject<Void>
     var showDebugPasswordInputView: PublishSubject<Void> = .init()
@@ -100,7 +100,7 @@ final class SignInReactor: Reactor, Stepper {
                             LogInManager.shared.refreshProfile()
                             self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: logInSuccessData.isTempPW))
                         case .failure(let err):
-                            self?.error.onNext(err.getMessage())
+                            self?.error.onNext(err)
                         }
                         return .empty
                     },
@@ -115,7 +115,7 @@ final class SignInReactor: Reactor, Stepper {
                 case .success(let accessToken):
                     self?.action.onNext(.isExistIdCheckWithApple(accessToken: accessToken))
                 case .failure(let err):
-                    self?.error.onNext(err.getMessage())
+                    self?.error.onNext(err)
                 }
             }
             return .empty()
@@ -125,7 +125,7 @@ final class SignInReactor: Reactor, Stepper {
                 case .success(let accessToken):
                     self?.action.onNext(.isExistIdCheckWithKakao(accessToken: accessToken))
                 case .failure(let err):
-                    self?.error.onNext(err.getMessage())
+                    self?.error.onNext(err)
                 }
             }
             return .empty()
@@ -164,7 +164,7 @@ final class SignInReactor: Reactor, Stepper {
                         LogInManager.shared.refreshProfile()
                         self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: false))
                     case .failure(let err):
-                        self?.error.onNext(err.getMessage())
+                        self?.error.onNext(err)
                     }
                     return .empty
                 },
@@ -179,7 +179,7 @@ final class SignInReactor: Reactor, Stepper {
                         LogInManager.shared.refreshProfile()
                         self?.steps.accept(ArchiveStep.userIsSignedIn(isTempPw: false))
                     case .failure(let err):
-                        self?.error.onNext(err.getMessage())
+                        self?.error.onNext(err)
                     }
                     return .empty
                 },
@@ -201,7 +201,7 @@ final class SignInReactor: Reactor, Stepper {
                             self?.toastMessage.onNext("가입하지 않은 이메일입니다. 회원가입으로 이동해주세요.")
                         }
                     case .failure(let err):
-                        self?.error.onNext(err.getMessage())
+                        self?.error.onNext(err)
                     }
                     return .empty
                 },

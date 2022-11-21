@@ -33,7 +33,11 @@ class EMailLogInRepositoryImplement: EMailLogInRepository {
                 }
             }
             .catch { err in
-                    .just(.failure(.init(from: .network, code: err.responseCode, message: err.archiveErrMsg)))
+                if err.responseCode == 401 {
+                    return .just(.failure(.init(.wrongPassword)))
+                } else {
+                    return .just(.failure(.init(from: .network, code: err.responseCode, message: err.archiveErrMsg)))
+                }
             }
     }
 }

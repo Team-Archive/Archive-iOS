@@ -29,6 +29,7 @@ enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
     case responseHeaderIsNull // 헤더 존재하지 않음
     case loginTokenIsNull // 로그인 토큰이 존재하지않음
+    case wrongPassword // 비밀번호 틀림
     
     case imageUploadCntFail // 이미지가 다 업로드 되지 않은듯
     case imageUploadFail // 이미지 Url이 없음
@@ -126,6 +127,8 @@ class ArchiveError: Error {
             returnValue = "유효하지 않은 로그인 타입"
         case .deserializationFail:
             returnValue = "데이터 역직렬화 실패"
+        default:
+            break
         }
         return returnValue
     }

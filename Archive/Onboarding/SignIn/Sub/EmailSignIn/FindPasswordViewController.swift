@@ -46,9 +46,9 @@ final class FindPasswordViewController: UIViewController, StoryboardView, Activi
     func bind(reactor: SignInReactor) {
         
         reactor.error
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { errorMsg in
-                CommonAlertView.shared.show(message: errorMsg, btnText: "확인", hapticType: .error, confirmHandler: {
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
                     CommonAlertView.shared.hide(nil)
                 })
             })
