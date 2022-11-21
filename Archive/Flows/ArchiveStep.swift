@@ -24,7 +24,6 @@ enum ArchiveStep: Step {
     case eMailSignIn(reactor: SignInReactor)
     case userIsSignedIn(isTempPw: Bool)
     case findPassword
-//    case changePasswordFromFindPassword
     
     // SignUp
     case termsAgreementIsRequired
