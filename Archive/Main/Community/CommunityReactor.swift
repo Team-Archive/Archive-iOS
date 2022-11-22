@@ -87,7 +87,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         var isShimmerLoading: Bool = false
         var archives: Pulse<[PublicArchive]> = Pulse(wrappedValue: [])
         var detailArchive: DetailInfo = DetailInfo(
-            archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil),
+            archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""),
             innerIndex: 0,
             index: 0)
         var currentDetailUserNickName: String = ""
@@ -277,7 +277,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .setDetailArchive(let data):
             newState.detailArchive = data
         case .clearDetailArchive:
-            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0, index: 0)
+            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""), innerIndex: 0, index: 0)
         case .setCurrentDetailUserImage(let image):
             newState.currentDetailUserImage = image
         case .setCurrentDetailUserNickName(let nickName):

@@ -22,6 +22,8 @@ struct ArchiveDetailInfo: CodableWrapper, Equatable {
     let companions: [String]?
     let mainImage: String
     let images: [ArchiveDetailImageInfo]?
+    let nickname: String
+    let profileImage: String
 }
 
 struct ArchiveDetailImageInfo: CodableWrapper {
