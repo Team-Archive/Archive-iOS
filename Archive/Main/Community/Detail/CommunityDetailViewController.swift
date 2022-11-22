@@ -23,6 +23,8 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     private let userImageView = UIImageView().then {
         $0.backgroundColor = .clear
         $0.image = Gen.Images.userImagePlaceHolder.image
+        $0.layer.cornerRadius = 15
+        $0.layer.masksToBounds = true
     }
     
     private let userNameLabel = UILabel().then {
@@ -379,10 +381,15 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         reactor.state
             .map { $0.detailArchive }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0, index: 0))
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""), innerIndex: 0, index: 0))
             .drive(onNext: { [weak self] data in
                 if data.innerIndex == 0 {
                     self?.showCover(infoData: data)
+                    self?.userNameLabel.text = data.archiveInfo.nickname + "                           "
+                    self?.userImageView.kf.setImage(with: URL(string: data.archiveInfo.profileImage),
+                                                    placeholder: Gen.Images.userImagePlaceHolder.image,
+                                                    options: [.cacheMemoryOnly],
+                                                    completionHandler: nil)
                 } else {
                     self?.showPhoto(infoData: data)
                     self?.rotatedTitleView.name = data.archiveInfo.name
@@ -403,31 +410,9 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         reactor.state
             .map { $0.detailArchive }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0, index: 0))
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""), innerIndex: 0, index: 0))
             .drive(onNext: { [weak self] data in
                 self?.likeBtn.isLike = LikeManager.shared.likeList.contains("\(data.archiveInfo.archiveId)")
-            })
-            .disposed(by: self.disposeBag)
-        
-        reactor.state
-            .map { $0.currentDetailUserImage }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] imageUrl in
-                self?.userImageView.kf.setImage(with: URL(string: imageUrl),
-                                                placeholder: Gen.Images.userImagePlaceHolder.image,
-                                                options: [.cacheMemoryOnly],
-                                                completionHandler: nil)
-            })
-            .disposed(by: self.disposeBag)
-        
-        reactor.state
-            .map { $0.currentDetailUserNickName }
-            .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { [weak self] nickName in
-                print("nickName: \(nickName)")
-                self?.userNameLabel.text = nickName
             })
             .disposed(by: self.disposeBag)
         
@@ -496,16 +481,16 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     }
     
     private func makeNavigationItems() {
-        self.userImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
+        self.userImageView.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+        }
         self.userImageView.contentMode = .scaleAspectFit
         let userImageItem = UIBarButtonItem.init(customView: self.userImageView)
         let negativeSpacer1 = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let negativeSpacer2 = UIBarButtonItem.init(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
         let userNameItem = UIBarButtonItem.init(customView: self.userNameLabel)
-        let leftItems: [UIBarButtonItem] = [negativeSpacer1, negativeSpacer2, userImageItem, userNameItem]
+        let leftItems: [UIBarButtonItem] = [userImageItem, userNameItem, negativeSpacer1, negativeSpacer2]
         
-        self.userImageView.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-        self.userImageView.contentMode = .scaleAspectFit
         let closeItem = UIBarButtonItem.init(customView: self.closeBtn)
         let moreItem = UIBarButtonItem.init(customView: self.moreBtn)
         let rightItems: [UIBarButtonItem] = [closeItem, moreItem]

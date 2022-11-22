@@ -76,8 +76,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case setArchives([PublicArchive])
         case clearDetailArchive
         case setDetailArchive(DetailInfo)
-        case setCurrentDetailUserNickName(String)
-        case setCurrentDetailUserImage(String)
         case setBannerInfo([BannerInfo])
         case appendArchives([PublicArchive])
     }
@@ -87,11 +85,9 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         var isShimmerLoading: Bool = false
         var archives: Pulse<[PublicArchive]> = Pulse(wrappedValue: [])
         var detailArchive: DetailInfo = DetailInfo(
-            archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil),
+            archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""),
             innerIndex: 0,
             index: 0)
-        var currentDetailUserNickName: String = ""
-        var currentDetailUserImage: String = ""
         var archiveTimeSortBy: ArchiveSortType = .sortByRegist
         var archiveEmotionSortBy: Emotion?
         var bannerInfo: [BannerInfo] = []
@@ -185,9 +181,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             return Observable.from([
                 .setDetailArchive(DetailInfo(archiveInfo: infoData,
                                              innerIndex: self.currentDetailInnerIndex,
-                                             index: self.currentDetailIndex)),
-                .setCurrentDetailUserImage(self.currentState.archives.value[index].authorProfileImage),
-                .setCurrentDetailUserImage(self.currentState.archives.value[index].authorNickname)
+                                             index: self.currentDetailIndex))
             ])
         case .showNextPage:
             if let photoImageData = self.currentState.detailArchive.archiveInfo.images { // 포토 데이터가 있으면
@@ -277,11 +271,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
         case .setDetailArchive(let data):
             newState.detailArchive = data
         case .clearDetailArchive:
-            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil), innerIndex: 0, index: 0)
-        case .setCurrentDetailUserImage(let image):
-            newState.currentDetailUserImage = image
-        case .setCurrentDetailUserNickName(let nickName):
-            newState.currentDetailUserNickName = nickName
+            newState.detailArchive = DetailInfo(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""), innerIndex: 0, index: 0)
         case .setBannerInfo(let info):
             newState.bannerInfo = info
         case .appendArchives(let archives):
