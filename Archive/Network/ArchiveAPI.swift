@@ -34,6 +34,7 @@ enum ArchiveAPI {
     case getIsDuplicatedNickname(_ nickname: String)
     case updateNickname(_ nickname: String)
     case getProfileInfo
+    case editIsPublicArchive(isPublic: Bool, archiveId: Int)
 }
         
 extension ArchiveAPI: TargetType {
@@ -55,7 +56,7 @@ extension ArchiveAPI: TargetType {
         }()
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname, .getProfileInfo, .registOAuth:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname, .getProfileInfo, .registOAuth, .editIsPublicArchive:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -116,6 +117,8 @@ extension ArchiveAPI: TargetType {
             return "/api/v2/user/nickname"
         case .getProfileInfo:
             return "/api/v2/user/profile"
+        case .editIsPublicArchive(_, let archiveId):
+            return "/api/v2/archive/\(archiveId)"
         }
     }
     
@@ -173,6 +176,8 @@ extension ArchiveAPI: TargetType {
             return .get
         case .registOAuth:
             return .post
+        case .editIsPublicArchive:
+            return .put
         }
     }
     
@@ -260,6 +265,8 @@ extension ArchiveAPI: TargetType {
             return .requestParameters(parameters: ["nickname": newNickname], encoding: JSONEncoding.default)
         case .getProfileInfo:
             return .requestPlain
+        case .editIsPublicArchive(let isPublic, _):
+            return .requestParameters(parameters: ["isPublic": isPublic], encoding: URLEncoding.queryString)
         }
     }
     
@@ -320,6 +327,8 @@ extension ArchiveAPI: TargetType {
         case .updateNickname:
             return ["Authorization": LogInManager.shared.accessToken]
         case .getProfileInfo:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .editIsPublicArchive:
             return ["Authorization": LogInManager.shared.accessToken]
         }
     }
