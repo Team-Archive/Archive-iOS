@@ -461,14 +461,15 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
        
         if self.currentIndex != -1 {
-            self.feedbackGenerator?.impactOccurred()
             if currentIndex > infoData.index {
+                self.feedbackGenerator?.impactOccurred()
                 self.mainContentsView.alpha = 0
                 UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
                     self.mainContentsView.frame = CGRect(x: self.mainContentsView.frame.origin.x + 25, y: self.mainContentsView.frame.origin.y, width: self.mainContentsView.frame.width, height: self.mainContentsView.frame.height)
                     self.mainContentsView.alpha = 1
                 })
             } else if currentIndex < infoData.index {
+                self.feedbackGenerator?.impactOccurred()
                 self.mainContentsView.alpha = 0
                 UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseIn, animations: {
                     self.mainContentsView.frame = CGRect(x: self.mainContentsView.frame.origin.x - 25, y: self.mainContentsView.frame.origin.y, width: self.mainContentsView.frame.width, height: self.mainContentsView.frame.height)
