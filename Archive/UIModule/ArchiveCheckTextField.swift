@@ -53,6 +53,7 @@ class ArchiveCheckTextField: UIView {
         $0.font = .fonts(.body)
         $0.textColor = Gen.Colors.gray02.color
         $0.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        $0.text = self.originValue
     }
     
     // MARK: private property
