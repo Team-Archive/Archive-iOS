@@ -12,6 +12,7 @@ import RxCocoa
 import Then
 import AVFoundation
 import CropViewController
+import Kingfisher
 
 class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
     
@@ -31,9 +32,11 @@ class EditProfileViewController: UIViewController, View, ActivityIndicatorable {
         $0.layer.masksToBounds = true
     }
     
-    private let profileImageView = UIImageView().then {
-        $0.backgroundColor = .clear
-        $0.image = Gen.Images.userImagePlaceHolder.image
+    private lazy var profileImageView = UIImageView().then {
+        $0.kf.setImage(with: URL(string: LogInManager.shared.profile.imageUrl),
+                       placeholder: Gen.Images.userImagePlaceHolder.image,
+                       options: [],
+                       completionHandler: nil)
     }
     
     private let profileImageEditImageView = UIImageView().then {
