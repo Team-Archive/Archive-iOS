@@ -56,6 +56,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
     }
     
     private func navigationToMyLikeListScreen(reactor: MyPageReactor) {
+        GAModule.sendEventLogToGA(.showMyLikeList)
         let vc = MyLikeListViewController(reactor: reactor)
         vc.title = "좋아요 한 전시기록"
         rootViewController?.pushViewController(vc, animated: true)

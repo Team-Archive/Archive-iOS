@@ -139,6 +139,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                                 if (self?.currentState.archives.value.count ?? 0) == 0 {
                                     return .empty
                                 } else {
+                                    GAModule.sendEventLogToGA(.communityPaging)
                                     return .appendArchives(archives)
                                 }
                             case .failure(let err):
