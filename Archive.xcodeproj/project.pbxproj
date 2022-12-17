@@ -215,6 +215,7 @@
 		78D10DEC294DD7D500BD6156 /* ArchiveEditUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D10DEB294DD7D500BD6156 /* ArchiveEditUsecase.swift */; };
 		78D10DEE294DD7DF00BD6156 /* ArchiveEditRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D10DED294DD7DF00BD6156 /* ArchiveEditRepository.swift */; };
 		78D10DF0294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D10DEF294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift */; };
+		78D10DF3294DEA4400BD6156 /* Hero in Frameworks */ = {isa = PBXBuildFile; productRef = 78D10DF2294DEA4400BD6156 /* Hero */; };
 		78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D31DF0288460CF000D81BE /* CommonWebViewController.swift */; };
 		78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */; };
 		78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */; };
@@ -527,6 +528,7 @@
 			files = (
 				787475A7281C143D00BA0C15 /* FirebaseMessaging in Frameworks */,
 				7874759F281C143D00BA0C15 /* FirebaseAnalytics in Frameworks */,
+				78D10DF3294DEA4400BD6156 /* Hero in Frameworks */,
 				A95C21FD6652E13041320AF5 /* Pods_Archive.framework in Frameworks */,
 				7825934B28C3145200BB9814 /* Spring in Frameworks */,
 				787475A5281C143D00BA0C15 /* FirebaseCrashlytics in Frameworks */,
@@ -1508,6 +1510,7 @@
 				787475A4281C143D00BA0C15 /* FirebaseCrashlytics */,
 				787475A6281C143D00BA0C15 /* FirebaseMessaging */,
 				7825934A28C3145200BB9814 /* Spring */,
+				78D10DF2294DEA4400BD6156 /* Hero */,
 			);
 			productName = Archive;
 			productReference = 44F9B0DD270606E7005418F0 /* Archive.app */;
@@ -1566,6 +1569,7 @@
 			packageReferences = (
 				7874759D281C143D00BA0C15 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				7825934928C3145100BB9814 /* XCRemoteSwiftPackageReference "Spring" */,
+				78D10DF1294DEA4400BD6156 /* XCRemoteSwiftPackageReference "Hero" */,
 			);
 			productRefGroup = 44F9B0DE270606E7005418F0 /* Products */;
 			projectDirPath = "";
@@ -2265,6 +2269,14 @@
 				kind = branch;
 			};
 		};
+		78D10DF1294DEA4400BD6156 /* XCRemoteSwiftPackageReference "Hero" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/HeroTransitions/Hero.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2297,6 +2309,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7874759D281C143D00BA0C15 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseMessaging;
+		};
+		78D10DF2294DEA4400BD6156 /* Hero */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 78D10DF1294DEA4400BD6156 /* XCRemoteSwiftPackageReference "Hero" */;
+			productName = Hero;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
