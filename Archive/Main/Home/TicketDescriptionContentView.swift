@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Then
 
 final class TicketDescriptionContentView: UIView {
     
@@ -23,6 +24,15 @@ final class TicketDescriptionContentView: UIView {
         label.textColor = Gen.Colors.black.color
         return label
     }()
+    
+    private let likeImageView = UIImageView().then {
+        $0.image = Gen.Images.likeHomeCard.image
+    }
+    
+    private let likeCntLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.gray03.color
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,11 +81,30 @@ final class TicketDescriptionContentView: UIView {
             $0.trailing.equalTo(self.snp.trailing).offset(-20)
         }
         
+        self.addSubview(likeCntLabel)
+        self.likeCntLabel.snp.makeConstraints {
+            $0.bottom.equalTo(self).offset(-12)
+            $0.trailing.equalTo(self).offset(-20)
+        }
+        
+        self.addSubview(likeImageView)
+        self.likeImageView.snp.makeConstraints {
+            $0.width.height.equalTo(20)
+            $0.trailing.equalTo(self.likeCntLabel.snp.leading).offset(-4)
+            $0.centerY.equalTo(self.likeCntLabel)
+        }
+        
         self.addSubview(dateLabel)
         dateLabel.snp.makeConstraints {
-            $0.top.equalTo(self.titleLabel.snp.bottom).offset(10)
+            $0.centerY.equalTo(self.likeImageView)
             $0.leading.equalTo(self.titleLabel.snp.leading)
             $0.trailing.equalTo(self.titleLabel.snp.trailing)
+        }
+    }
+    
+    func setLikeCount(_ count: Int) {
+        DispatchQueue.main.async { [weak self] in
+            self?.likeCntLabel.text = "\(count)"
         }
     }
 }
