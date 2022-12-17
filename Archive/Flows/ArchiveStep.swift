@@ -66,7 +66,7 @@ enum ArchiveStep: Step {
     case registIsComplete
     
     // Detail
-    case detailIsRequired(ArchiveDetailInfo, Int)
+    case detailIsRequired(infoData: ArchiveDetailInfo, index: Int, isPublic: Bool)
     
     // Edit Profile
     case editProfileIsRequired

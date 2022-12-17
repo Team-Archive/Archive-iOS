@@ -65,7 +65,7 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         self.reactor?.action.onNext(.getMyArchives(sortType: .sortByRegist, emotion: nil))
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsAddedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsDeletedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: nil)
-
+        NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsUpdatedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_STATE_IS_UPDATED), object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -275,6 +275,11 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     @objc private func archiveIsDeletedNotificationReceive(notification: Notification) {
         guard let archiveId: String = notification.object as? String else { return }
         self.reactor?.action.onNext(.deletedArchived(archiveId: archiveId))
+    }
+    
+    @objc private func archiveIsUpdatedNotificationReceive(notification: Notification) {
+        moveCollectionViewFirstIndex()
+        self.reactor?.action.onNext(.refreshMyArchives)
     }
     
     private func moveCollectionViewFirstIndex() {

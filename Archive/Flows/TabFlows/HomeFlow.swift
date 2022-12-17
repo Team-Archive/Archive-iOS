@@ -12,7 +12,6 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     
     private enum Constants {
         static let DetailStoryBoardName = "Detail"
-        static let DetailNavigationTitle = "나의 아카이브"
     }
     
     // MARK: private property
@@ -50,9 +49,9 @@ class HomeFlow: Flow, MainTabFlowProtocol {
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ArchiveStep else { return .none }
         switch step {
-        case .detailIsRequired(let info, let index):
+        case .detailIsRequired(let info, let index, let isPublic):
             GAModule.sendEventLogToGA(.showDetail)
-            navigationToDetailScreen(infoData: info, index: index)
+            navigationToDetailScreen(infoData: info, index: index, isPublic: isPublic)
             return .none
         case .logout:
             return .end(forwardToParentFlowWithStep: ArchiveStep.logout)
@@ -63,12 +62,11 @@ class HomeFlow: Flow, MainTabFlowProtocol {
         }
     }
     
-    private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int) {
-        let reactor = DetailReactor(recordData: infoData, index: index)
+    private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int, isPublic: Bool) {
+        let reactor = DetailReactor(recordData: infoData, index: index, isPublic: isPublic, archiveEditRepository: ArchiveEditRepositoryImplement())
         let detailViewController: DetailViewController = detailStoryBoard.instantiateViewController(identifier: DetailViewController.identifier) { corder in
             return DetailViewController(coder: corder, reactor: reactor)
         }
-        detailViewController.title = Constants.DetailNavigationTitle
         let navi = UINavigationController(rootViewController: detailViewController)
         navi.modalPresentationStyle = .fullScreen
         self.rootViewController?.present(navi, animated: true)

@@ -212,6 +212,9 @@
 		78C8803328A94A6C00922C8D /* ForegroundStep1TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */; };
 		78CA759128634E9C00EA35EA /* ImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA759028634E9C00EA35EA /* ImageButton.swift */; };
 		78CA7593286353B500EA35EA /* TimeFilterRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */; };
+		78D10DEC294DD7D500BD6156 /* ArchiveEditUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D10DEB294DD7D500BD6156 /* ArchiveEditUsecase.swift */; };
+		78D10DEE294DD7DF00BD6156 /* ArchiveEditRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D10DED294DD7DF00BD6156 /* ArchiveEditRepository.swift */; };
+		78D10DF0294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D10DEF294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift */; };
 		78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D31DF0288460CF000D81BE /* CommonWebViewController.swift */; };
 		78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */; };
 		78D58B0C28BB499700AF3191 /* RegistUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */; };
@@ -468,6 +471,9 @@
 		78C8803228A94A6C00922C8D /* ForegroundStep1TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForegroundStep1TopView.swift; sourceTree = "<group>"; };
 		78CA759028634E9C00EA35EA /* ImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageButton.swift; sourceTree = "<group>"; };
 		78CA7592286353B500EA35EA /* TimeFilterRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFilterRadioButton.swift; sourceTree = "<group>"; };
+		78D10DEB294DD7D500BD6156 /* ArchiveEditUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveEditUsecase.swift; sourceTree = "<group>"; };
+		78D10DED294DD7DF00BD6156 /* ArchiveEditRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveEditRepository.swift; sourceTree = "<group>"; };
+		78D10DEF294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveEditRepositoryImplement.swift; sourceTree = "<group>"; };
 		78D31DF0288460CF000D81BE /* CommonWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWebViewController.swift; sourceTree = "<group>"; };
 		78D3EEC128716F9400409228 /* ArchiveProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveProgressBar.swift; sourceTree = "<group>"; };
 		78D58B0B28BB499700AF3191 /* RegistUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistUploadViewController.swift; sourceTree = "<group>"; };
@@ -863,6 +869,7 @@
 		7831D51927E58FA800E3FA57 /* Usecase */ = {
 			isa = PBXGroup;
 			children = (
+				78D10DEA294DD7C500BD6156 /* ArchiveEdit */,
 				78F92DA92917F62C009381D3 /* SignUpOAuth */,
 				78B0988428F1CC18005ED913 /* SignUpEmail */,
 				7839E4A628DF269D00A80A1D /* Profile */,
@@ -1333,6 +1340,16 @@
 			path = SubView;
 			sourceTree = "<group>";
 		};
+		78D10DEA294DD7C500BD6156 /* ArchiveEdit */ = {
+			isa = PBXGroup;
+			children = (
+				78D10DEB294DD7D500BD6156 /* ArchiveEditUsecase.swift */,
+				78D10DED294DD7DF00BD6156 /* ArchiveEditRepository.swift */,
+				78D10DEF294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift */,
+			);
+			path = ArchiveEdit;
+			sourceTree = "<group>";
+		};
 		78D58B0A28BB498A00AF3191 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
@@ -1800,6 +1817,7 @@
 				7825935128C3189500BB9814 /* LikeManager.swift in Sources */,
 				780161D42751FD5200F77193 /* CardShareManager.swift in Sources */,
 				788CDDC128C774D8002E81F1 /* CommunityReportViewController.swift in Sources */,
+				78D10DEC294DD7D500BD6156 /* ArchiveEditUsecase.swift in Sources */,
 				78D58B1128BB51BF00AF3191 /* RegistUploadCompleteViewController.swift in Sources */,
 				78E8E640286739AA00B18AD8 /* LikeRepositoryImplement.swift in Sources */,
 				448936AA2708401500EA423A /* SignInReactor.swift in Sources */,
@@ -1847,6 +1865,7 @@
 				78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */,
 				78C4B33827244ACC0006EBAD /* CommonAlertView.swift in Sources */,
 				78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */,
+				78D10DEE294DD7DF00BD6156 /* ArchiveEditRepository.swift in Sources */,
 				780045E7292BAAD900D06013 /* ChangePasswordReactor.swift in Sources */,
 				78E00D06288307C30018773A /* MyArchiveUsecase.swift in Sources */,
 				78239832280C252D0071D874 /* LogInRepositoryImplement.swift in Sources */,
@@ -1856,6 +1875,7 @@
 				78C8803328A94A6C00922C8D /* ForegroundStep1TopView.swift in Sources */,
 				78599DD6276375C2003FD959 /* TicketCollectionViewCell.swift in Sources */,
 				78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */,
+				78D10DF0294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift in Sources */,
 				784FCDE9282FEE9E007683D2 /* LoginAccessTokenRepository.swift in Sources */,
 				78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */,
 				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,

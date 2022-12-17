@@ -16,47 +16,52 @@ class DetailReactor: Reactor, Stepper {
     
     private let recordData: ArchiveDetailInfo
     private let index: Int
+    private let archiveEditUsecase: ArchiveEditUsecase
     
     // MARK: internal property
     
-    let initialState = State()
+    let initialState: State
     let steps = PublishRelay<Step>()
     
     // MARK: lifeCycle
     
-    init(recordData: ArchiveDetailInfo, index: Int) {
+    init(recordData: ArchiveDetailInfo, index: Int, isPublic: Bool, archiveEditRepository: ArchiveEditRepository) {
+        self.initialState = .init(detailData: recordData, isPublic: isPublic)
         self.recordData = recordData
         self.index = index
-        self.action.onNext(.setDetailData(self.recordData))
+        self.archiveEditUsecase = .init(repository: archiveEditRepository)
     }
     
     enum Action {
-        case setDetailData(ArchiveDetailInfo)
         case shareToInstagram
         case saveToAlbum
         case openShare(UIActivityViewController)
         case deleteArchive
+        case toggleArchiveIsPublic
     }
     
     enum Mutation {
-        case setDetailData(ArchiveDetailInfo)
         case setShareActivityController(UIActivityViewController)
         case setIsDeletedArchive(Bool)
         case setLoading(Bool)
+        case setIsPublic(Bool)
+        case setError(ArchiveError)
+        case setIsToggledIsPublicArchive(Void)
     }
     
     struct State {
-        var detailData: ArchiveDetailInfo?
+        var detailData: ArchiveDetailInfo
         var willSharedCarView: UIView?
         var shareActivityController: UIActivityViewController?
         var isDeletedArchive: Bool = false
         var isLoading: Bool = false
+        var isPublic: Bool
+        var err: Pulse<ArchiveError?> = .init(wrappedValue: nil)
+        var isToggledIsPublicArchive: Pulse<Void?> = .init(wrappedValue: nil)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
-        case .setDetailData(let data):
-            return .just(.setDetailData(data))
         case .shareToInstagram:
             GAModule.sendEventLogToGA(.shareInstagramFromDetail)
             DispatchQueue.main.async { [weak self] in
@@ -82,7 +87,7 @@ class DetailReactor: Reactor, Stepper {
         case .deleteArchive:
             return Observable.concat([
                 Observable.just(Mutation.setLoading(true)),
-                self.deleteArchive(archiveId: "\(self.currentState.detailData?.archiveId ?? 0)").map { result in
+                self.deleteArchive(archiveId: "\(self.currentState.detailData.archiveId)").map { result in
                     switch result {
                     case .success(_):
                         return .setIsDeletedArchive(true)
@@ -93,20 +98,43 @@ class DetailReactor: Reactor, Stepper {
                 Observable.just(.setIsDeletedArchive(true)),
                 Observable.just(Mutation.setLoading(false))
             ])
+        case .toggleArchiveIsPublic:
+            return Observable.concat([
+                Observable.just(Mutation.setLoading(true)),
+                self.toggleArchiveIsPublic(
+                    archiveId: self.currentState.detailData.archiveId,
+                    currentIsPublicState: self.currentState.isPublic
+                ).flatMap { [weak self] result -> Observable<Mutation> in
+                    switch result {
+                    case .success(_):
+                        return .from([
+                            .setIsToggledIsPublicArchive(()),
+                            .setIsPublic(!(self?.currentState.isPublic ?? true))
+                        ])
+                    case .failure(let err):
+                        return .just(.setError(err))
+                    }
+                },
+                Observable.just(Mutation.setLoading(false))
+            ])
         }
     }
     
     func reduce(state: State, mutation: Mutation) -> State {
         var newState = state
         switch mutation {
-        case .setDetailData(let data):
-            newState.detailData = data
         case .setShareActivityController(let controller):
             newState.shareActivityController = controller
         case .setIsDeletedArchive(let isDeleted):
             newState.isDeletedArchive = isDeleted
         case .setLoading(let isLoading):
             newState.isLoading = isLoading
+        case .setIsToggledIsPublicArchive(_):
+            newState.isToggledIsPublicArchive = .init(wrappedValue: ())
+        case .setError(let err):
+            newState.err = .init(wrappedValue: err)
+        case .setIsPublic(let isPublic):
+            newState.isPublic = isPublic
         }
         return newState
     }
@@ -145,6 +173,11 @@ class DetailReactor: Reactor, Stepper {
             .catch { err in
                 .just(.failure(err))
             }
+    }
+    
+    private func toggleArchiveIsPublic(archiveId: Int, currentIsPublicState: Bool) -> Observable<Result<Void, ArchiveError>> {
+        return self.archiveEditUsecase.switchIsPublicArchive(id: archiveId,
+                                                             isPublic: !currentIsPublicState)
     }
     
     // MARK: internal function
