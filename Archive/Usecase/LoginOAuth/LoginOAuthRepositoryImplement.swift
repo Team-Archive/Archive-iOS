@@ -67,4 +67,8 @@ class LoginOAuthRepositoryImplement: LoginOAuthRepository {
         return self.oAuthLogin(type: .apple, accessToken: accessToken)
     }
     
+    func isKakaotalkInstalled() -> Bool {
+        return self.kakaoRepository.isKakaotalkInstalled()
+    }
+    
 }

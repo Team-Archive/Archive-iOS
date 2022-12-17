@@ -12,10 +12,11 @@ public enum OAuthSignInType: String, Codable {
     case kakao
 }
 
-protocol LoginOAuthRepository {
+protocol LoginOAuthRepository { // TODO: 추상화하기
     func getToken(type: OAuthSignInType, completion: @escaping (Result<String, ArchiveError>) -> Void)
     func isExistEmailWithKakao(accessToken: String) -> Observable<Bool>
     func isExistEmailWithApple(accessToken: String) -> Observable<Bool>
     func loginWithKakao(accessToken: String) -> Observable<Result<String, ArchiveError>>
     func loginWithApple(accessToken: String) -> Observable<Result<String, ArchiveError>>
+    func isKakaotalkInstalled() -> Bool
 }

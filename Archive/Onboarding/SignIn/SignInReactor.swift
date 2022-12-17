@@ -14,6 +14,7 @@ import Alamofire
 final class SignInReactor: Reactor, Stepper {
     
     enum Action {
+        case setIsKakaotalkInstalled
         case idInput(text: String)
         case passwordInput(text: String)
         case moveToEmailSignIn
@@ -37,6 +38,7 @@ final class SignInReactor: Reactor, Stepper {
         case setValidation(Bool)
         case setIsLoading(Bool)
         case empty
+        case setIsKakaotalkInstalled(Bool)
     }
     
     struct State {
@@ -45,9 +47,10 @@ final class SignInReactor: Reactor, Stepper {
         var isValidEmail: Bool = false
         var isEnableSignIn: Bool = false
         var isLoading: Bool = false
+        var isKakaotalkInstalled: Bool = true
     }
     
-    let initialState = State()
+    let initialState: State
     let steps = PublishRelay<Step>()
     private let validator: Validator
     var error: PublishSubject<ArchiveError>
@@ -61,6 +64,7 @@ final class SignInReactor: Reactor, Stepper {
     private var debugTouchCnt: Int = 0
     
     init(validator: Validator, loginOAuthRepository: LoginOAuthRepository, findPasswordRepository: FindPasswordRepository, emailLogInRepository: EMailLogInRepository) {
+        self.initialState = .init()
         self.validator = validator
         self.error = .init()
         self.toastMessage = .init()
@@ -72,6 +76,8 @@ final class SignInReactor: Reactor, Stepper {
     
     func mutate(action: Action) -> Observable<Mutation> {
         switch action {
+        case .setIsKakaotalkInstalled:
+            return .just(.setIsKakaotalkInstalled(self.isKakaotalkInstalled()))
         case let .idInput(id):
             let isValid = validator.isValidEmail(id)
             return .from([.setID(id),
@@ -226,6 +232,8 @@ final class SignInReactor: Reactor, Stepper {
             newState.isEnableSignIn = isEnableSignIn
         case let .setIsLoading(isLoading):
             newState.isLoading = isLoading
+        case .setIsKakaotalkInstalled(let isInstalled):
+            newState.isKakaotalkInstalled = isInstalled
         case .empty:
             break
         }
@@ -282,6 +290,10 @@ final class SignInReactor: Reactor, Stepper {
     
     private func eMailLogIn(email: String, password: String) -> Observable<Result<EMailLogInSuccessData, ArchiveError>> {
         return self.emailLogInUsecase.loginEmail(eMail: email, password: password)
+    }
+    
+    private func isKakaotalkInstalled() -> Bool {
+        return self.oAuthUsecase.isKakaotalkInstalled()
     }
     
     private func debugTouch() {

@@ -17,6 +17,12 @@ class LoginWithKakaoRepositoryImplement: NSObject {
     
     private let disposeBag: DisposeBag = DisposeBag()
     
+    func isKakaotalkInstalled() -> Bool {
+        print("ddd")
+        print("dd? :\(UserApi.isKakaoTalkLoginAvailable())")
+        return UserApi.isKakaoTalkLoginAvailable()
+    }
+    
     func signIn(completion: @escaping (Result<String, ArchiveError>) -> Void) {
         if UserApi.isKakaoTalkLoginAvailable() {
             UserApi.shared.loginWithKakaoTalk { oAuthToken, error in
