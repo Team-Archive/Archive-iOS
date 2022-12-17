@@ -28,6 +28,7 @@ class CommunityFlow: Flow, MainTabFlowProtocol {
     // MARK: private function
     
     private func navigationToDetailScreen(infoData: ArchiveDetailInfo, index: Int, reactor: CommunityReactor) {
+        GAModule.sendEventLogToGA(.showCommunityDetail)
         let vc = CommunityDetailViewController(reactor: reactor)
         reactor.action.onNext(.spreadDetailData(infoData: infoData, index: index))
         let navi = UINavigationController(rootViewController: vc)
