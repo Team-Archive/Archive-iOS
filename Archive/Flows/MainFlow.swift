@@ -15,7 +15,6 @@ final class MainFlow: Flow {
     private let mainTabs: TabViewControllers
     private var mainTabBarContoller: MainTabBarViewController
     private var mainTabBarReactor: MainTabBarReactor
-    private let recordStoryBoard = UIStoryboard(name: "Record", bundle: nil)
     
     private lazy var rootViewController: UINavigationController = {
         let viewController = UINavigationController()

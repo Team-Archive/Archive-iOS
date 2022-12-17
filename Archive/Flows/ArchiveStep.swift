@@ -65,18 +65,6 @@ enum ArchiveStep: Step {
     case registCompleteIsRequired(thisMonthRegistCnt: Int)
     case registIsComplete
     
-    // Record
-    case recordIsRequired
-    case recordEmotionEditIsRequired(Emotion?)
-    case recordEmotionEditIsComplete(Emotion)
-    case recordImageSelectIsRequired(Emotion)
-    case recordImageSelectIsComplete(UIImage, [UIImage])
-    case recordUploadIsRequired(ContentsRecordModelData, UIImage, Emotion, [ImageInfo]?)
-    case recordUploadIsComplete(UIImage, Emotion, ContentsRecordModelData)
-    case recordUploadCompleteDone // 업로드 완료화면 닫기
-    case recordComplete
-    case recordClose // 완료 안하고 닫기
-    
     // Detail
     case detailIsRequired(ArchiveDetailInfo, Int)
     
