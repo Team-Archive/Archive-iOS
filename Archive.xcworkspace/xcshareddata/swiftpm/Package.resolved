@@ -100,6 +100,15 @@
       }
     },
     {
+      "identity" : "spring",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/HanweeeeLee/Spring",
+      "state" : {
+        "branch" : "master",
+        "revision" : "559573e41504b44b375f26d7e38b5a11bc90af42"
+      }
+    },
+    {
       "identity" : "swift-protobuf",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-protobuf.git",

@@ -52,11 +52,17 @@ final class EmailSignInViewController: UIViewController, StoryboardView, Activit
     func bind(reactor: SignInReactor) {
         
         reactor.error
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { errorMsg in
-                CommonAlertView.shared.show(message: errorMsg, btnText: "확인", hapticType: .error, confirmHandler: {
-                    CommonAlertView.shared.hide(nil)
-                })
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                if err.archiveErrorCode == .wrongPassword {
+                    CommonAlertView.shared.show(message: "아이디 또는 비밀번호가 일치하지 않습니다.", btnText: "확인", hapticType: .error, confirmHandler: {
+                        CommonAlertView.shared.hide()
+                    })
+                } else {
+                    CommonAlertView.shared.show(message: "오류", subMessage: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
+                        CommonAlertView.shared.hide()
+                    })
+                }
             })
             .disposed(by: self.disposeBag)
         

@@ -14,7 +14,8 @@ class DetailReactor: Reactor, Stepper {
     
     // MARK: private property
     
-    private var model: DetailModelProtocol
+    private let recordData: ArchiveDetailInfo
+    private let index: Int
     
     // MARK: internal property
     
@@ -23,9 +24,10 @@ class DetailReactor: Reactor, Stepper {
     
     // MARK: lifeCycle
     
-    init(model: DetailModelProtocol) {
-        self.model = model
-        self.action.onNext(.setDetailData(self.model.recordData))
+    init(recordData: ArchiveDetailInfo, index: Int) {
+        self.recordData = recordData
+        self.index = index
+        self.action.onNext(.setDetailData(self.recordData))
     }
     
     enum Action {
@@ -110,19 +112,19 @@ class DetailReactor: Reactor, Stepper {
     }
     
     func getIndex() -> Int {
-        return self.model.index
+        return self.index
     }
     
     // MARK: private function
     
     private func makeCardView(completion: @escaping (ShareCardView) -> Void) {
         DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: URL(string: (self?.model.recordData.mainImage)!)!) {
+            if let data = try? Data(contentsOf: URL(string: (self?.recordData.mainImage)!)!) {
                 DispatchQueue.main.async {
                     guard let self = self else { return }
                     guard let cardView: ShareCardView = ShareCardView.instance() else { return }
                     cardView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.73)
-                    cardView.setInfoData(emotion: Emotion.fromString(self.model.recordData.emotion) ?? .fun, thumbnailImage: UIImage(data: data) ?? UIImage(), eventName: self.model.recordData.name, date: self.model.recordData.watchedOn)
+                    cardView.setInfoData(emotion: self.recordData.emotion, thumbnailImage: UIImage(data: data) ?? UIImage(), eventName: self.recordData.name, date: self.recordData.watchedOn)
                     completion(cardView)
                 }
             } else {

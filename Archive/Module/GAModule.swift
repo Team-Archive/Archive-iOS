@@ -29,6 +29,13 @@ class GAModule: NSObject {
         // 내가 등록한 아카이브 보기
         case showDetail
         
+        // 커뮤니티 디테일
+        case communityPaging
+        case showCommunityDetail
+        
+        // 좋아요 한 리스트 눌러보기
+        case showMyLikeList
+        
     }
     
     static func sendEventLogToGA(_ event: GAEvent) {
@@ -56,6 +63,12 @@ class GAModule: NSObject {
             Analytics.logEvent("saveToPhotoAlbum", parameters: nil)
         case .showDetail:
             Analytics.logEvent("showDetail", parameters: nil)
+        case .communityPaging:
+            Analytics.logEvent("communityPaging", parameters: nil)
+        case .showCommunityDetail:
+            Analytics.logEvent("showCommunityDetail", parameters: nil)
+        case .showMyLikeList:
+            Analytics.logEvent("showMyLikeList", parameters: nil)
         }
 #endif
         

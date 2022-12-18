@@ -61,7 +61,7 @@ class InstagramStoryShareManager: NSObject {
                     completion(value)
                 })
             } else {
-                failure("인스타그램이 필요합니다")
+                failure("인스타그램이 설치되어 있어야합니다.😢")
             }
         }
     }

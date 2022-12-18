@@ -43,23 +43,8 @@ class RecordCardCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private func setNewEmotion(_ emotion: Emotion) {
-        switch emotion {
-        case .fun:
-            self.emotionImageView.image = Gen.Images.colorFun.image
-            self.mainContainerView.backgroundColor = Gen.Colors.funYellow.color
-        case .impressive:
-            self.emotionImageView.image = Gen.Images.colorImpressive.image
-            self.mainContainerView.backgroundColor = Gen.Colors.impressiveGreen.color
-        case .pleasant:
-            self.emotionImageView.image = Gen.Images.colorPleasant.image
-            self.mainContainerView.backgroundColor = Gen.Colors.pleasantRed.color
-        case .splendid:
-            self.emotionImageView.image = Gen.Images.colorSplendid.image
-            self.mainContainerView.backgroundColor = Gen.Colors.splendidBlue.color
-        case .wonderful:
-            self.emotionImageView.image = Gen.Images.colorWonderful.image
-            self.mainContainerView.backgroundColor = Gen.Colors.wonderfulPurple.color
-        }
+        self.emotionImageView.image = emotion.coverAlphaImage
+        self.mainContainerView.backgroundColor = emotion.color
     }
     
     // MARK: func

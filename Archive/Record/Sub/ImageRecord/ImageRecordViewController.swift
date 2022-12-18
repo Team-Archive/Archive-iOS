@@ -123,38 +123,16 @@ class ImageRecordViewController: UIViewController, StoryboardView, ImageRecordVi
         
         reactor.state
             .map { $0.emotion }
+            .distinctUntilChanged()
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
             .drive(onNext: { [weak self] emotion in
                 self?.addPhotoImgView.isHidden = false
                 self?.addPhotoBtn.isHidden = false
-                switch emotion {
-                case .fun:
-                    self?.coverImageView.image = Gen.Images.coverFun.image
-                    self?.topContainerView.backgroundColor = Gen.Colors.funYellow.color
-                    self?.miniEmotionImageView.image = Gen.Images.typeFunMini.image
-                    self?.emotionLabel.text = "재미있는"
-                case .impressive:
-                    self?.coverImageView.image = Gen.Images.coverImpressive.image
-                    self?.topContainerView.backgroundColor = Gen.Colors.impressiveGreen.color
-                    self?.miniEmotionImageView.image = Gen.Images.typeImpressiveMini.image
-                    self?.emotionLabel.text = "인상적인"
-                case .pleasant:
-                    self?.coverImageView.image = Gen.Images.coverPleasant.image
-                    self?.topContainerView.backgroundColor = Gen.Colors.pleasantRed.color
-                    self?.miniEmotionImageView.image = Gen.Images.typePleasantMini.image
-                    self?.emotionLabel.text = "기분좋은"
-                case .splendid:
-                    self?.coverImageView.image = Gen.Images.coverSplendid.image
-                    self?.topContainerView.backgroundColor = Gen.Colors.splendidBlue.color
-                    self?.miniEmotionImageView.image = Gen.Images.typeSplendidMini.image
-                    self?.emotionLabel.text = "아름다운"
-                case .wonderful:
-                    self?.coverImageView.image = Gen.Images.coverWonderful.image
-                    self?.topContainerView.backgroundColor = Gen.Colors.wonderfulPurple.color
-                    self?.miniEmotionImageView.image = Gen.Images.typeWonderfulMini.image
-                    self?.emotionLabel.text = "경이로운"
-                }
+                self?.coverImageView.image = emotion.coverImage
+                self?.topContainerView.backgroundColor = emotion.color
+                self?.miniEmotionImageView.image = emotion.miniImage
+                self?.emotionLabel.text = emotion.localizationTitle
             })
             .disposed(by: self.disposeBag)
             

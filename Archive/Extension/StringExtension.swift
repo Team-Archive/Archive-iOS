@@ -46,4 +46,17 @@ extension String {
         let floatValue: CGFloat = CGFloat(hexFloat / 255.0)
         return floatValue
     }
+    
+    func attrStringCustom(frontText: String, frontFont: UIFont, frontTextColor: UIColor, rearFont: UIFont, rearTextColor: UIColor) -> NSMutableAttributedString {
+        let sumAttString = NSMutableAttributedString(string: self, attributes: [NSAttributedString.Key.font: frontFont as Any, NSAttributedString.Key.foregroundColor: frontTextColor])
+        sumAttString.addAttributedStringInSpecificString(targetString: frontText, attr: [NSAttributedString.Key.font: rearFont as Any, NSAttributedString.Key.foregroundColor: rearTextColor])
+        return sumAttString
+    }
+    
+    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        
+        return ceil(boundingBox.width)
+    }
 }

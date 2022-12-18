@@ -35,6 +35,10 @@ class ImageSelectReactor: Reactor, Stepper {
         self.emotion = emotion
     }
     
+    deinit {
+        print("\(self) deinit")
+    }
+    
     enum Action {
         case setImageInfos([PHAsset: PhotoFromAlbumModel])
         case setSelectedImageInfo(PHAsset)

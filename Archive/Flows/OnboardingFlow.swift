@@ -24,7 +24,11 @@ final class OnboardingFlow: Flow {
     }()
     private let onboardingStoryBoard = UIStoryboard(name: Constants.onboardingStoryBoardName, bundle: nil)
     private let validator = Validator()
-    private lazy var signUpReactor = SignUpReactor(validator: validator, emailLogInRepository: EMailLogInRepositoryImplement())
+    private lazy var signUpReactor = SignUpReactor(validator: validator,
+                                                   emailLogInRepository: EMailLogInRepositoryImplement(),
+                                                   nicknameDuplicationRepository: NickNameDuplicationRepositoryImplement(),
+                                                   signUpEmailRepository: SignUpEmailRepositoryImplement(),
+                                                   signUpOAuthRepository: SignUpOAuthRepositoryImplement())
     private lazy var signInReactor = SignInReactor(validator: validator, loginOAuthRepository: LoginOAuthRepositoryImplement(), findPasswordRepository: FindPasswordRepositoryImplement(), emailLogInRepository: EMailLogInRepositoryImplement())
     
     func navigate(to step: Step) -> FlowContributors {
@@ -35,8 +39,8 @@ final class OnboardingFlow: Flow {
             return navigationToSignInScreen()
         case .eMailSignIn(reactor: let reactor):
             return navigationToEmailSignIn(reactor: reactor)
-        case .userIsSignedIn:
-            return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete)
+        case .userIsSignedIn(let isTempPw):
+            return .end(forwardToParentFlowWithStep: ArchiveStep.onboardingIsComplete(isTempPw: isTempPw))
         case .termsAgreementIsRequired:
             return navigationToTermsAgreementScreen()
         case .emailInputRequired:
@@ -52,8 +56,11 @@ final class OnboardingFlow: Flow {
             return navigationToTermsAgreementForOAuthScreen(accessToken: accessToken, loginType: type)
         case .findPassword:
             return navigationToFindPasswordScreen()
-        case .changePasswordFromFindPassword:
-            return navigationToChangePasswordScreen()
+        case .openUrlIsRequired(let url, let title):
+            navigationToWebView(url: url, title: title)
+            return .none
+        case .nicknameSignupIsRequired:
+            return navigationToNicknameScreen()
         default:
             return .none
         }
@@ -70,9 +77,12 @@ final class OnboardingFlow: Flow {
     }
     
     private func navigationToTermsAgreementScreen() -> FlowContributors {
+        self.signUpReactor.loginType = .eMail
         let termsAgreementViewController = onboardingStoryBoard
             .instantiateViewController(identifier: TermsAgreementViewController.identifier) { coder in
-                return TermsAgreementViewController(coder: coder, reactor: self.signUpReactor)
+                return TermsAgreementViewController(coder: coder,
+                                                    reactor: self.signUpReactor,
+                                                    progress: 0.25)
             }
         termsAgreementViewController.title = Constants.signUpNavigationTitle
         rootViewController.pushViewController(termsAgreementViewController, animated: true)
@@ -102,6 +112,13 @@ final class OnboardingFlow: Flow {
                                                  withNextStepper: signUpReactor))
     }
     
+    private func navigationToNicknameScreen() -> FlowContributors {
+        let vc = SignUpNicknameViewController(reactor: self.signUpReactor)
+        rootViewController.pushViewController(vc, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: vc,
+                                                 withNextStepper: signUpReactor))
+    }
+    
     private func navigationToSignUpCompletionScreen() -> FlowContributors {
         let signUpCompletionViewController = onboardingStoryBoard
             .instantiateViewController(identifier: SignUpCompletionViewController.identifier) { coder in
@@ -123,13 +140,20 @@ final class OnboardingFlow: Flow {
     }
     
     private func navigationToTermsAgreementForOAuthScreen(accessToken: String, loginType: OAuthSignInType) -> FlowContributors {
+        switch loginType {
+        case .kakao:
+            self.signUpReactor.loginType = .kakao
+        case .apple:
+            self.signUpReactor.loginType = .apple
+        }
+        self.signUpReactor.oAuthAccessToken = accessToken
         let termsAgreementViewController = onboardingStoryBoard
-            .instantiateViewController(identifier: TermsAgreementForOAuthViewController.identifier) { coder in
-                return TermsAgreementForOAuthViewController(coder: coder, reactor: self.signUpReactor)
+            .instantiateViewController(identifier: TermsAgreementViewController.identifier) { coder in
+                return TermsAgreementViewController(coder: coder,
+                                                    reactor: self.signUpReactor,
+                                                    progress: 0.5)
             }
         termsAgreementViewController.title = Constants.signUpNavigationTitle
-        self.signUpReactor.oAuthAccessToken = accessToken
-        self.signUpReactor.oAuthLoginType = loginType
         rootViewController.pushViewController(termsAgreementViewController, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: termsAgreementViewController,
                                                  withNextStepper: signUpReactor))
@@ -145,13 +169,10 @@ final class OnboardingFlow: Flow {
                                                  withNextStepper: signInReactor))
     }
     
-    private func navigationToChangePasswordScreen() -> FlowContributors {
-        let changePasswordViewController = onboardingStoryBoard
-            .instantiateViewController(identifier: ChangePasswordViewController.identifier) { coder in
-                return ChangePasswordViewController(coder: coder, reactor: self.signInReactor)
-            }
-        rootViewController.pushViewController(changePasswordViewController, animated: true)
-        return .one(flowContributor: .contribute(withNextPresentable: changePasswordViewController,
-                                                 withNextStepper: signInReactor))
+    private func navigationToWebView(url: URL, title: String) {
+        let vc = CommonWebViewController(url: url, title: title)
+        let navi = UINavigationController(rootViewController: vc)
+        navi.modalPresentationStyle = .fullScreen
+        self.rootViewController.present(navi, animated: true)
     }
 }

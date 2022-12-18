@@ -22,6 +22,7 @@ def pods
   pod 'lottie-ios'
   pod 'SwiftLint'
   pod 'SwiftyTimer'
+  pod 'Then'
   
   pod 'KakaoSDKCommon'
   pod 'KakaoSDKAuth'
@@ -36,7 +37,7 @@ post_install do |installer|
     installer.pods_project.targets.each do |target|
         target.build_configurations.each do |config|
             config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
-	    config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
+            config.build_settings["ONLY_ACTIVE_ARCH"] = "NO"
         end
     end
 end

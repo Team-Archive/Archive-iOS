@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Kingfisher
 
 class ShareCardView: UIView, NibIdentifiable {
     // MARK: IBOutlet
@@ -125,44 +124,12 @@ class ShareCardView: UIView, NibIdentifiable {
     // MARK: internal function
     
     func setInfoData(emotion: Emotion, thumbnailImage: UIImage, eventName: String, date: String) {
-        switch emotion {
-        case .fun:
-            self.topBackgroundColor = Gen.Colors.funYellowDarken.color
-            self.bottomBackgroundColor = Gen.Colors.funYellow.color
-            self.imageContentView.bgColor = Gen.Colors.funYellow.color
-            self.coverImageView.image = Gen.Images.colorFun.image
-            self.emotionImageView.image = Gen.Images.preFun.image
-            self.emotionTitleLabel.text = "재미있는"
-        case .impressive:
-            self.topBackgroundColor = Gen.Colors.impressiveGreenDarken.color
-            self.bottomBackgroundColor = Gen.Colors.impressiveGreen.color
-            self.imageContentView.bgColor = Gen.Colors.impressiveGreen.color
-            self.coverImageView.image = Gen.Images.colorImpressive.image
-            self.emotionImageView.image = Gen.Images.preImpressive.image
-            self.emotionTitleLabel.text = "인상적인"
-        case .pleasant:
-            self.topBackgroundColor = Gen.Colors.pleasantRedDarken.color
-            self.bottomBackgroundColor = Gen.Colors.pleasantRed.color
-            self.imageContentView.bgColor = Gen.Colors.pleasantRed.color
-            self.coverImageView.image = Gen.Images.colorPleasant.image
-            self.emotionImageView.image = Gen.Images.prePleasant.image
-            self.emotionTitleLabel.text = "기분좋은"
-        case .splendid:
-            self.topBackgroundColor = Gen.Colors.splendidBlueDarken.color
-            self.bottomBackgroundColor = Gen.Colors.splendidBlue.color
-            self.imageContentView.bgColor = Gen.Colors.splendidBlue.color
-            self.coverImageView.image = Gen.Images.colorSplendid.image
-            self.emotionImageView.image = Gen.Images.preSplendid.image
-            self.emotionTitleLabel.text = "아름다운"
-        case .wonderful:
-            self.topBackgroundColor = Gen.Colors.wonderfulPurpleDarken.color
-            self.bottomBackgroundColor = Gen.Colors.wonderfulPurple.color
-            self.imageContentView.bgColor = Gen.Colors.wonderfulPurple.color
-            self.coverImageView.image = Gen.Images.colorWonderful.image
-            self.emotionImageView.image = Gen.Images.preWonderful.image
-            self.emotionTitleLabel.text = "경이로운"
-        }
-        
+        self.topBackgroundColor = emotion.darkenColor
+        self.bottomBackgroundColor = emotion.color
+        self.imageContentView.bgColor = emotion.color
+        self.coverImageView.image = emotion.coverAlphaImage
+        self.emotionImageView.image = emotion.preImage
+        self.emotionTitleLabel.text = emotion.localizationTitle
         self.mainImageView.image = thumbnailImage
         self.descriptionView.titleLabel.text = eventName
         self.descriptionView.dateLabel.text = date

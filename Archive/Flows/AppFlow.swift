@@ -34,17 +34,35 @@ final class AppFlow: Flow {
         }
         
         switch step {
-        case .onboardingIsRequired:
-            return navigationToOnboardingScreen()
-        case .homeIsRequired:
-            return navigationToHomeScreen()
-        case .onboardingIsComplete:
-            return navigationToHomeScreen()
+        case .splashIsRequired:
+            return navigationToSplashScreen()
+        case .onboardingIsComplete(let isTempPw):
+            return navigationToMainScreen(isTempPw: isTempPw)
         case .logout:
             return navigationToOnboardingScreen()
+        case .splashIsComplete(let isLoggedIn):
+            if isLoggedIn {
+                LikeManager.shared.refreshMyLikeList()
+                return navigationToMainScreen(isTempPw: false)
+            } else {
+                return navigationToOnboardingScreen()
+            }
         default:
             return .none
         }
+    }
+    
+    private func navigationToSplashScreen() -> FlowContributors {
+        let splashFlow = SplashFlow()
+        Flows.use(splashFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
+            self?.rootWindow.rootViewController = root
+            self?.rootWindow.makeKeyAndVisible()
+        })
+        
+        return .one(flowContributor: .contribute(withNextPresentable: splashFlow,
+                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.splashIsRequired),
+                                                 allowStepWhenNotPresented: false,
+                                                 allowStepWhenDismissed: false))
     }
     
     private func navigationToOnboardingScreen() -> FlowContributors {
@@ -60,16 +78,16 @@ final class AppFlow: Flow {
                                                  allowStepWhenDismissed: false))
     }
     
-    private func navigationToHomeScreen() -> FlowContributors {
+    private func navigationToMainScreen(isTempPw: Bool) -> FlowContributors {
 
-        let homeFlow = HomeFlow()
-        Flows.use(homeFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
+        let mainFlow = MainFlow()
+        Flows.use(mainFlow, when: Flows.ExecuteStrategy.ready, block: { [weak self] root in
             self?.rootWindow.rootViewController = root
             self?.rootWindow.makeKeyAndVisible()
         })
         
-        return .one(flowContributor: .contribute(withNextPresentable: homeFlow,
-                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.homeIsRequired),
+        return .one(flowContributor: .contribute(withNextPresentable: mainFlow,
+                                                 withNextStepper: OneStepper(withSingleStep: ArchiveStep.mainIsRequired(isTempPw: isTempPw)),
                                                  allowStepWhenNotPresented: false,
                                                  allowStepWhenDismissed: false))
     }

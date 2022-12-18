@@ -153,8 +153,8 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
         
         reactor.state
             .map { $0.complete }
-            .asDriver(onErrorJustReturn: nil)
-            .drive(onNext: { [weak self] infoData in
+            .observe(on: MainScheduler.asyncInstance)
+            .subscribe(onNext: { [weak self] infoData in
                 guard let info = infoData else { return }
                 self?.removeConfrimBtn()
                 self?.delegate?.completeContentsRecord(infoData: info)
@@ -181,7 +181,10 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
         self.eventNameTextView.font = .fonts(.header2)
         self.eventNameTextView.textColor = Gen.Colors.black.color
         self.eventNameTextView.placeholderColor = Gen.Colors.gray03.color
-        self.eventNameTextView.placeholder = "전시명을 입력해주세요."
+        self.eventNameTextView.attributedPlaceholder = NSAttributedString(
+            string: "전시명을 입력해주세요.",
+            attributes: [NSAttributedString.Key.font: UIFont.fonts(.header2), NSAttributedString.Key.foregroundColor: Gen.Colors.gray032.color]
+        )
         self.eventNameTextView.textContainerInset = .zero
         self.eventNameTextView.maxHeight = self.eventNameTextViewHeightConstraint.constant * 3
         self.eventNameTextView.showsVerticalScrollIndicator = false
@@ -198,7 +201,10 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
         
         self.dateTextField.font = .fonts(.header2)
         self.dateTextField.textColor = Gen.Colors.black.color
-        self.dateTextField.placeholder = "YY/MM/DD"
+        self.dateTextField.attributedPlaceholder = NSAttributedString(
+            string: " YY/MM/DD",
+            attributes: [NSAttributedString.Key.font: UIFont.fonts(.header2), NSAttributedString.Key.foregroundColor: Gen.Colors.gray032.color]
+        )
         
         self.dateUnderLineView.backgroundColor = Gen.Colors.gray03.color
         
@@ -209,7 +215,10 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
         self.friendsTextView.font = .fonts(.header2)
         self.friendsTextView.textColor = Gen.Colors.black.color
         self.friendsTextView.placeholderColor = Gen.Colors.gray03.color
-        self.friendsTextView.placeholder = "동행인은 쉼표로 구분됩니다."
+        self.friendsTextView.attributedPlaceholder = NSAttributedString(
+            string: "동행인은 쉼표로 구분됩니다.",
+            attributes: [NSAttributedString.Key.font: UIFont.fonts(.header2), NSAttributedString.Key.foregroundColor: Gen.Colors.gray032.color]
+        )
         self.friendsTextView.textContainerInset = .zero
         self.friendsTextView.maxHeight = self.friendsTextViewHeightConstraint.constant * 3
         self.friendsTextView.showsVerticalScrollIndicator = false
@@ -269,18 +278,7 @@ class ContentsRecordViewController: UIViewController, StoryboardView, ContentsRe
     func setEmotion(_ emotion: Emotion?) {
         self.topCardView.backgroundColor = Gen.Colors.pleasantRed.color
         guard let emotion = emotion else { return }
-        switch emotion {
-        case .fun:
-            self.topCardView.backgroundColor = Gen.Colors.funYellow.color
-        case .impressive:
-            self.topCardView.backgroundColor = Gen.Colors.impressiveGreen.color
-        case .pleasant:
-            self.topCardView.backgroundColor = Gen.Colors.pleasantRed.color
-        case .splendid:
-            self.topCardView.backgroundColor = Gen.Colors.splendidBlue.color
-        case .wonderful:
-            self.topCardView.backgroundColor = Gen.Colors.wonderfulPurple.color
-        }
+        self.topCardView.backgroundColor = emotion.color
     }
     
     // MARK: action

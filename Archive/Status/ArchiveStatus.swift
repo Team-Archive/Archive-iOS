@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import RxSwift
 
 class ArchiveStatus: NSObject {
     
     enum Mode {
         case normal
-        case debug
+        case debug(url: String?)
     }
     
     // MARK: private property
@@ -19,6 +20,8 @@ class ArchiveStatus: NSObject {
     // MARK: internal property
     
     private(set) var mode: Mode = .normal
+    private(set) var isShownFakeSplash: Bool = false
+    var currentArchives: BehaviorSubject<[ArchiveInfo]> = .init(value: [])
     
     // MARK: lifeCycle
     
@@ -38,6 +41,10 @@ class ArchiveStatus: NSObject {
         } else {
             return .failure(.init(.commonError))
         }
+    }
+    
+    func runFakeSplash() {
+        self.isShownFakeSplash = true
     }
 
 }

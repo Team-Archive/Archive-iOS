@@ -12,12 +12,12 @@ import RxCocoa
 import RxDataSources
 import SnapKit
 
-protocol DetailViewControllerDelegate: CommonViewControllerProtocol {
-    func deletedArchive()
-    func willDeletedArchive(index: Int)
-}
-
 class DetailViewController: UIViewController, StoryboardView, ActivityIndicatorable {
+    
+    enum DetailType {
+        case home
+        case myLike
+    }
     
     enum CellModel {
         case cover(ArchiveDetailInfo)
@@ -38,7 +38,16 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     private let modalShareViewController: ModalShareViewController = ModalShareViewController.init(nibName: "ModalShareViewController", bundle: nil)
     private var willDisplayIndex: Int = 0
     
-    weak var delegate: DetailViewControllerDelegate?
+    private lazy var dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { [weak self] dataSource, collectionView, indexPath, item in
+        switch item {
+        case .cover(let infoData):
+            return self?.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+        case .commonImage(let imageInfo, let emotion, let name):
+            return self?.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+        }
+    })
+    
+    private let type: DetailType
     
     // MARK: internal property
     var disposeBag: DisposeBag = DisposeBag()
@@ -50,44 +59,43 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         initUI()
     }
     
-    init?(coder: NSCoder, reactor: DetailReactor) {
+    deinit {
+        print("\(self) deinit")
+    }
+    
+    init?(coder: NSCoder, reactor: DetailReactor, type: DetailType = .home) {
+        self.type = type
         super.init(coder: coder)
         self.reactor = reactor
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     func bind(reactor: DetailReactor) {
+        
         reactor.state
             .map { $0.detailData }
             .asDriver(onErrorJustReturn: nil)
             .compactMap { $0 }
             .drive(onNext: { [weak self] info in
-                self?.collectionView.delegate = nil
-                self?.collectionView.dataSource = nil
                 guard let images = info.images else { return }
                 self?.pageControl.numberOfPages = images.count + 1
-                var imageCellArr: [CellModel] = []
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.detailData }
+            .compactMap { $0 }
+            .distinctUntilChanged()
+            .map { [weak self] info -> [CellModel] in
+                var returnValue: [CellModel] = []
+                returnValue.append(.cover(info))
+                guard let images = info.images else { return [] }
                 for imageItem in images {
-                    imageCellArr.append(CellModel.commonImage(imageItem, Emotion.fromString(info.emotion) ?? .fun, info.name))
+                    returnValue.append(CellModel.commonImage(imageItem, info.emotion, info.name))
                 }
-                let sections = Observable.just([
-                    SectionModel(model: "card", items: [
-                        CellModel.cover(info)
-                    ]),
-                    SectionModel(model: "image", items: imageCellArr)
-                ])
-                guard let self = self else { return }
-                let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { dataSource, collectionView, indexPath, item in
-                    switch item {
-                    case .cover(let infoData):
-                        return self.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath)
-                    case .commonImage(let imageInfo, let emotion, let name):
-                        return self.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath)
-                    }
-                })
                 let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
                 layout.minimumLineSpacing = 0
                 layout.minimumInteritemSpacing = 0
@@ -96,21 +104,19 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
                 let height = UIScreen.main.bounds.height
                 layout.itemSize = CGSize(width: width, height: height)
                 layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                self.collectionView.collectionViewLayout = layout
-                sections
-                    .bind(to: self.collectionView.rx.items(dataSource: dataSource))
-                    .disposed(by: self.disposeBag)
-            })
+                self?.collectionView.collectionViewLayout = layout
+                return returnValue
+            }
+            .flatMap { info -> Observable<[SectionModel]> in
+                return .just([.init(model: "", items: info)])
+            }
+            .bind(to: self.collectionView.rx.items(dataSource: dataSource))
             .disposed(by: self.disposeBag)
         
         self.collectionView.rx.didEndDisplayingCell
             .asDriver()
             .drive(onNext: { [weak self] info in
-                var index: Int = 0
-                if info.at.section != 0 {
-                    index = info.at.item + 1
-                }
-                
+                let index: Int = info.at.item
                 if index != (self?.willDisplayIndex ?? 0) {
                     self?.pageControl.currentPage = self?.willDisplayIndex ?? 0
                 }
@@ -119,11 +125,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         
         self.collectionView.rx.willDisplayCell
             .subscribe(onNext: { [weak self] info in
-                if info.at.section == 0 {
-                    self?.willDisplayIndex = 0
-                } else {
-                    self?.willDisplayIndex = info.at.item + 1
-                }
+                self?.willDisplayIndex = info.at.item
             })
             .disposed(by: self.disposeBag)
         
@@ -157,15 +159,11 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isDeleted in
                 if isDeleted {
-                    self?.delegate?.deletedArchive()
+                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: "\(self?.reactor?.currentState.detailData?.archiveId ?? -1)")
                     self?.dismiss(animated: true, completion: nil)
                 }
             })
             .disposed(by: self.disposeBag)
-    }
-    
-    deinit {
-        
     }
     
     // MARK: private function
@@ -205,11 +203,16 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     }
     
     private func makeNaviBtn() {
-        let moreImage = Gen.Images.moreVertBlack24dp.image
-        moreImage.withRenderingMode(.alwaysTemplate)
-        let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(moreButtonClicked(_:)))
-        moreBarButtonItem.tintColor = Gen.Colors.white.color
-        self.navigationItem.rightBarButtonItem = moreBarButtonItem
+        switch self.type {
+        case .home:
+            let moreImage = Gen.Images.moreVertBlack24dp.image
+            moreImage.withRenderingMode(.alwaysTemplate)
+            let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(moreButtonClicked(_:)))
+            moreBarButtonItem.tintColor = Gen.Colors.white.color
+            self.navigationItem.rightBarButtonItem = moreBarButtonItem
+        case .myLike:
+            break
+        }
         
         let closeImage = Gen.Images.xIcon.image
         closeImage.withRenderingMode(.alwaysTemplate)
@@ -228,7 +231,6 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         let deleteAction: UIAlertAction = UIAlertAction(title: "삭제", style: .default) { (delete) in
             CommonAlertView.shared.show(message: "기록을 삭제하겠습니까?", subMessage: "삭제된 이미지와 글은 복구가 불가능합니다.", confirmBtnTxt: "삭제", cancelBtnTxt: "취소", confirmHandler: { [weak self] in
                 CommonAlertView.shared.hide(nil)
-                self?.delegate?.willDeletedArchive(index: self?.reactor?.getIndex() ?? -1)
                 self?.reactor?.action.onNext(.deleteArchive)
             }, cancelHandler: {
                 CommonAlertView.shared.hide(nil)
@@ -249,9 +251,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     }
     
     @objc private func backButtonClicked(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: { [weak self] in
-            self?.delegate?.closed(from: self ?? UIViewController())
-        })
+        self.dismiss(animated: true)
     }
 
 }

@@ -8,33 +8,55 @@
 import Moya
 
 enum ArchiveAPI {
-    case uploadImage(_ image: UIImage)
+    case uploadImage(_ imageData: Data)
     case registArchive(_ info: RecordData)
-    case registEmail(_ param: RequestEmailParam)
+    case registEmail(email: String, nickname: String, password: String)
+    case registOAuth(nickname: String, provider: String, providerAccessToken: String)
     case loginEmail(_ param: LoginEmailParam)
     case logInWithOAuth(logInType: OAuthSignInType, token: String)
     case isDuplicatedEmail(_ eMail: String)
     case deleteArchive(archiveId: String)
-    case getArchives
+    case getArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
     case getDetailArchive(archiveId: String)
     case getCurrentUserInfo
     case withdrawal
     case getKakaoUserInfo(kakaoAccessToken: String)
     case sendTempPassword(email: String)
     case changePassword(eMail: String, beforePassword: String, newPassword: String)
+    case getPublicArchives(sortBy: String, emotion: String?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?)
+    case like(archiveIdList: [String])
+    case unlike(archiveIdList: [String])
+    case getMyLikeList
+    case getBanner
+    case getThisMonthRegistArchiveCnt
+    case report(archiveId: Int, reason: String)
+    case uploadProfilePhotoImage(_ imageData: Data)
+    case getIsDuplicatedNickname(_ nickname: String)
+    case updateNickname(_ nickname: String)
+    case getProfileInfo
+    case editIsPublicArchive(isPublic: Bool, archiveId: Int)
 }
+        
 extension ArchiveAPI: TargetType {
     
     var baseURL: URL {
-        var domain: String = ""
-        if ArchiveStatus.shared.mode == .debug {
-            domain = CommonDefine.devApiServer
-        } else {
-            domain = CommonDefine.apiServer
-        }
+        let domain: String = {
+            var returnValue: String = ""
+            switch ArchiveStatus.shared.mode {
+            case .debug(let url):
+                if let url = url {
+                    returnValue = url
+                } else {
+                    returnValue = CommonDefine.devApiServer
+                }
+            case .normal:
+                returnValue = CommonDefine.apiServer
+            }
+            return returnValue
+        }()
         
         switch self {
-        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword:
+        case .uploadImage, .registArchive, .registEmail, .loginEmail, .logInWithOAuth, .isDuplicatedEmail, .deleteArchive, .getArchives, .getDetailArchive, .getCurrentUserInfo, .withdrawal, .sendTempPassword, .changePassword, .getPublicArchives, .like, .unlike, .getBanner, .getThisMonthRegistArchiveCnt, .getMyLikeList, .report, .uploadProfilePhotoImage, .getIsDuplicatedNickname, .updateNickname, .getProfileInfo, .registOAuth, .editIsPublicArchive:
             return URL(string: domain)!
         case .getKakaoUserInfo:
             return URL(string: CommonDefine.kakaoAPIServer)!
@@ -44,23 +66,25 @@ extension ArchiveAPI: TargetType {
     var path: String {
         switch self {
         case .uploadImage:
-            return "/api/v1/archive/image/upload"
+            return "/api/v2/archive/image/upload"
         case .registArchive:
             return "/api/v1/archive"
         case .registEmail:
-            return "/api/v1/auth/register"
+            return "/api/v2/auth/register"
+        case .registOAuth:
+            return "/api/v2/auth/register/social"
         case .loginEmail:
             return "/api/v1/auth/login"
         case .logInWithOAuth:
-            return "/api/v1/auth/social"
-        case .isDuplicatedEmail(let eMail):
-            return "/api/v1/auth/email/" + eMail
+            return "/api/v2/auth/login/social"
+        case .isDuplicatedEmail:
+            return "/api/v2/user/duplicate/email"
         case .deleteArchive(let archiveId):
             return "/api/v1/archive/" + archiveId
         case .getArchives:
-            return "/api/v1/archive"
+            return "/api/v2/archive"
         case .getDetailArchive(let archiveId):
-            return "/api/v1/archive/" + archiveId
+            return "/api/v2/archive/" + archiveId
         case .getCurrentUserInfo:
             return "/api/v1/auth/info"
         case .withdrawal:
@@ -70,7 +94,31 @@ extension ArchiveAPI: TargetType {
         case .sendTempPassword:
             return "api/v1/auth/password/temporary"
         case .changePassword:
-            return "api/v1/auth/password/reset"
+            return "api/v2/auth/password/reset"
+        case .getPublicArchives:
+            return "/api/v2/archive/community"
+        case .like:
+            return "/api/v2/archive/like"
+        case .unlike:
+            return "/api/v2/archive/like"
+        case .getMyLikeList:
+            return "/api/v2/archive/like"
+        case .getBanner:
+            return "/api/v2/banner"
+        case .getThisMonthRegistArchiveCnt:
+            return "/api/v2/archive/count/month"
+        case .report(let archiveId, _):
+            return "/api/v2/report/\(archiveId)"
+        case .uploadProfilePhotoImage:
+            return "/api/v2/user/profile/image/upload"
+        case .getIsDuplicatedNickname:
+            return "/api/v2/user/duplicate/nickname"
+        case .updateNickname:
+            return "/api/v2/user/nickname"
+        case .getProfileInfo:
+            return "/api/v2/user/profile"
+        case .editIsPublicArchive(_, let archiveId):
+            return "/api/v2/archive/\(archiveId)"
         }
     }
     
@@ -104,30 +152,70 @@ extension ArchiveAPI: TargetType {
             return .post
         case .changePassword:
             return .post
+        case .getPublicArchives:
+            return .get
+        case .like:
+            return .post
+        case .unlike:
+            return .delete
+        case .getMyLikeList:
+            return .get
+        case .getBanner:
+            return .get
+        case .getThisMonthRegistArchiveCnt:
+            return .get
+        case .report:
+            return .post
+        case .uploadProfilePhotoImage:
+            return .post
+        case .getIsDuplicatedNickname:
+            return .get
+        case .updateNickname:
+            return .put
+        case .getProfileInfo:
+            return .get
+        case .registOAuth:
+            return .post
+        case .editIsPublicArchive:
+            return .put
         }
     }
     
     var task: Task {
         switch self {
-        case .uploadImage(let image):
+        case .uploadImage(let imageData):
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
-            let data: MultipartFormData = MultipartFormData(provider: .data(image.pngData()!), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
+            let data: MultipartFormData = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
             return .uploadMultipart([data])
         case .registArchive(let infoData):
             return .requestJSONEncodable(infoData)
-        case .registEmail(let param):
-            return .requestJSONEncodable(param)
+        case .registEmail(let email, let nickname, let password):
+            return .requestParameters(parameters: ["email": email, "nickname": nickname, "password": password], encoding: JSONEncoding.default)
+        case .registOAuth(let nickname, let provider, let providerAccessToken):
+            return .requestParameters(parameters: ["nickname": nickname, "provider": provider, "providerAccessToken": providerAccessToken], encoding: JSONEncoding.default)
         case .loginEmail(let param):
             return .requestJSONEncodable(param)
         case .logInWithOAuth(let type, let token):
             return .requestParameters(parameters: ["providerAccessToken": token, "provider": type.rawValue], encoding: JSONEncoding.default)
-        case .isDuplicatedEmail:
-            return .requestPlain
+        case .isDuplicatedEmail(let email):
+            return .requestParameters(parameters: ["value": email], encoding: URLEncoding.default)
         case .deleteArchive:
             return .requestPlain
-        case .getArchives:
-            return .requestPlain
+        case .getArchives(let sortBy, let emotion, let lastSeenArchiveDateMilli, let lastSeenArchiveId):
+            let param: [String: Any] = {
+                var returnValue: [String: Any] = [String: Any]()
+                returnValue["sortType"] = sortBy
+                if let emotion = emotion {
+                    returnValue["emotion"] = emotion
+                }
+                if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli, let lastSeenArchiveId = lastSeenArchiveId {
+                    returnValue["lastArchiveDateTime"] = lastSeenArchiveDateMilli
+                    returnValue["lastArchiveId"] = lastSeenArchiveId
+                }
+                return returnValue
+            }()
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
         case .getDetailArchive:
             return .requestPlain
         case .getCurrentUserInfo:
@@ -140,6 +228,45 @@ extension ArchiveAPI: TargetType {
             return .requestParameters(parameters: ["email": email], encoding: JSONEncoding.default)
         case .changePassword(let eMail, let beforePassword, let newPassword):
             return .requestParameters(parameters: ["currentPassword": beforePassword, "email": eMail, "newPassword": newPassword], encoding: JSONEncoding.default)
+        case .getPublicArchives(let sortBy, let emotion, let lastSeenArchiveDateMilli, let lastSeenArchiveId):
+            let param: [String: Any] = {
+                var returnValue: [String: Any] = [String: Any]()
+                returnValue["sortType"] = sortBy
+                if let emotion = emotion {
+                    returnValue["emotion"] = emotion
+                }
+                if let lastSeenArchiveDateMilli = lastSeenArchiveDateMilli, let lastSeenArchiveId = lastSeenArchiveId {
+                    returnValue["lastArchiveDateTime"] = lastSeenArchiveDateMilli
+                    returnValue["lastArchiveId"] = lastSeenArchiveId
+                }
+                return returnValue
+            }()
+            return .requestParameters(parameters: param, encoding: URLEncoding.queryString)
+        case .like(let list):
+            return .requestParameters(parameters: ["archiveIds": list], encoding: JSONEncoding.default)
+        case .unlike(let list):
+            return .requestParameters(parameters: ["archiveIds": list], encoding: JSONEncoding.default)
+        case .getMyLikeList:
+            return .requestPlain
+        case .getBanner:
+            return .requestPlain
+        case .getThisMonthRegistArchiveCnt:
+            return .requestPlain
+        case .report(_, let reason):
+            return .requestParameters(parameters: ["reason": reason], encoding: JSONEncoding.default)
+        case .uploadProfilePhotoImage(let imageData):
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd-HH:mm:ss"
+            let data: MultipartFormData = MultipartFormData(provider: .data(imageData), name: "image", fileName: "\(dateFormatter.string(from: Date())).jpeg", mimeType: "image/jpeg")
+            return .uploadMultipart([data])
+        case .getIsDuplicatedNickname(let nickName):
+            return .requestParameters(parameters: ["value": nickName], encoding: URLEncoding.queryString)
+        case .updateNickname(let newNickname):
+            return .requestParameters(parameters: ["nickname": newNickname], encoding: JSONEncoding.default)
+        case .getProfileInfo:
+            return .requestPlain
+        case .editIsPublicArchive(let isPublic, _):
+            return .requestParameters(parameters: ["isPublic": isPublic], encoding: URLEncoding.queryString)
         }
     }
     
@@ -156,28 +283,53 @@ extension ArchiveAPI: TargetType {
         case .logInWithOAuth:
             return nil
         case .registArchive:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .registEmail:
             return nil
-        case .uploadImage:
+        case .registOAuth:
             return nil
+        case .uploadImage:
+            return ["Authorization": LogInManager.shared.accessToken]
         case .deleteArchive:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getArchives:
-//            return ["Authorization": "Bearer " + LogInManager.shared.getLogInToken()]
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getDetailArchive:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getCurrentUserInfo:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .withdrawal:
-            return ["Authorization": LogInManager.shared.getLogInToken()]
+            return ["Authorization": LogInManager.shared.accessToken]
         case .getKakaoUserInfo(let kakaoAccessToken):
             return ["Authorization": "Bearer \(kakaoAccessToken)"]
         case .sendTempPassword:
             return nil
         case .changePassword:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getPublicArchives:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .like:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .unlike:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getMyLikeList:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getBanner:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getThisMonthRegistArchiveCnt:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .report:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .uploadProfilePhotoImage:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getIsDuplicatedNickname:
             return nil
+        case .updateNickname:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .getProfileInfo:
+            return ["Authorization": LogInManager.shared.accessToken]
+        case .editIsPublicArchive:
+            return ["Authorization": LogInManager.shared.accessToken]
         }
     }
     

@@ -8,21 +8,34 @@
 
 import UIKit
 
-enum ArchiveErrorCode: Int, LocalizedError {
+enum ArchiveErrorCode: Int, LocalizedError, Equatable {
     case commonError = 10000
     case dataToJsonFail
     case stringToDataFail
     case invaldData // 데이터가 유효하지 않음
+    case publicArchiveIsRefreshed // 데이터가 초기화된듯
+    case publicArchiveIsEndOfPage // 페이지의 끝임
+    case photoAuth // 사진접근권한이 없음
+    case selfIsNull // self == null
+    case deserializationFail // 역직렬화 실패
     
     case archiveOAuthError = 11000
     case unexpectedAppleSignIn = 11100 // 에러는 발생하지 않았지만 애플로그인 이상함
     case tokenNotExsitAppleSignIn // 애플로그인 토큰 없음
     case tokenAsciiToStringFailAppleSignIn // 애플로그인 토큰데이터 -> 스트링 변환 실패
+    case invalidLoginType // 로그인 타입이 유효하지않음
     case unexpectedKakaoSignIn = 11120
     case kakaoIsNotIntalled // 카카오톡이 설치되어있지 않음
     case kakaoIdTokenIsNull // 카카오 ID Token이 존재하지 않음
     case responseHeaderIsNull // 헤더 존재하지 않음
     case loginTokenIsNull // 로그인 토큰이 존재하지않음
+    case wrongPassword // 비밀번호 틀림
+    
+    case imageUploadCntFail // 이미지가 다 업로드 되지 않은듯
+    case imageUploadFail // 이미지 Url이 없음
+    case archiveDataIsInvaild // 아카이브 등록 데이터 이상함.. 버그인듯
+    case editProfileIsInvaild // 프로필 업데이트 데이터 이상함
+    case convertImageFail // 이미지 변환 실패
 }
 
 enum ErrorFrom {
@@ -92,6 +105,30 @@ class ArchiveError: Error {
             returnValue = "로그인 응답 오류"
         case .loginTokenIsNull:
             returnValue = "로그인 토큰 오류"
+        case .publicArchiveIsRefreshed:
+            returnValue = "데이터 오류"
+        case .publicArchiveIsEndOfPage:
+            returnValue = "더 이상 공개된 카드가 없어요 😭"
+        case .photoAuth:
+            returnValue = "티켓 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다."
+        case .imageUploadCntFail:
+            returnValue = "이미지 업로드 오류"
+        case .imageUploadFail:
+            returnValue = "이미지 업로드 오류"
+        case .selfIsNull:
+            returnValue = "오류"
+        case .archiveDataIsInvaild:
+            returnValue = "오류"
+        case .editProfileIsInvaild:
+            returnValue = "오류"
+        case .convertImageFail:
+            returnValue = "이미지 변환 오류"
+        case .invalidLoginType:
+            returnValue = "유효하지 않은 로그인 타입"
+        case .deserializationFail:
+            returnValue = "데이터 역직렬화 실패"
+        default:
+            break
         }
         return returnValue
     }

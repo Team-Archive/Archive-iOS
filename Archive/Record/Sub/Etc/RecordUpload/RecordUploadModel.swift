@@ -51,10 +51,10 @@ class RecordUploadModel: RecordUploadModelProtocol {
             var colors: [String] = [String]()
             let provider = ArchiveProvider.shared.provider
             for item in infos {
-                let request = provider.rx.request(.uploadImage(item.image)).asObservable()
-                observarbleRequests.append(request)
-                photoContents.append(item.contents ?? "")
-                colors.append(item.backgroundColor.hexStringFromColor())
+//                let request = provider.rx.request(.uploadImage(item)).asObservable()
+//                observarbleRequests.append(request)
+//                photoContents.append(item.contents ?? "")
+//                colors.append(item.backgroundColor.hexStringFromColor())
             }
             Observable.zip(observarbleRequests)
                 .observe(on: ConcurrentDispatchQueueScheduler(qos: .background))
@@ -74,19 +74,19 @@ class RecordUploadModel: RecordUploadModelProtocol {
     }
     
     private func uploadMainImage(completion: @escaping (String) -> Void) {
-        let provider = ArchiveProvider.shared.provider
-        provider.request(.uploadImage(self.thumbnailImage), completion: { response in
-            switch response {
-            case .success(let result):
-                if let result: JSON = try? JSON.init(data: result.data) {
-                    completion(result["imageUrl"].stringValue)
-                } else {
-                    completion("")
-                }
-            case .failure(_):
-                completion("")
-            }
-        })
+//        let provider = ArchiveProvider.shared.provider
+//        provider.request(.uploadImage(self.thumbnailImage), completion: { response in
+//            switch response {
+//            case .success(let result):
+//                if let result: JSON = try? JSON.init(data: result.data) {
+//                    completion(result["imageUrl"].stringValue)
+//                } else {
+//                    completion("")
+//                }
+//            case .failure(_):
+//                completion("")
+//            }
+//        })
     }
     
     // MARK: internal function
@@ -94,12 +94,15 @@ class RecordUploadModel: RecordUploadModelProtocol {
     func record(completion: @escaping () -> Void) {
         uploadImages(completion: { [weak self] recordImageDatas in
             self?.uploadMainImage(completion: { mainImageUrl in
-                let recordData = RecordData(name: self?.contents.title ?? "",
-                                            watchedOn: self?.contents.date ?? "",
-                                            companions: self?.contents.friends ?? nil,
-                                            emotion: self?.emotion.rawValue ?? "",
-                                            mainImage: mainImageUrl,
-                                            images: recordImageDatas)
+                let recordData = RecordData(
+                    name: self?.contents.title ?? "",
+                    watchedOn: self?.contents.date ?? "",
+                    companions: self?.contents.friends ?? nil,
+                    emotion: self?.emotion.rawStringValue ?? "",
+                    mainImage: mainImageUrl,
+                    images: recordImageDatas,
+                    isPublic: true // TODO: 화면에서 조정하기
+                )
                 let provider = ArchiveProvider.shared.provider
                 provider.request(.registArchive(recordData), completion: { response in
                     switch response {
@@ -114,25 +117,4 @@ class RecordUploadModel: RecordUploadModelProtocol {
         })
     }
     
-}
-
-
-struct RecordData: CodableWrapper {
-    typealias selfType = RecordData
-    
-    let name: String
-    let watchedOn: String
-    let companions: [String]?
-    let emotion: String
-    let mainImage: String
-    let images: [RecordImageData]?
-    
-}
-
-struct RecordImageData: CodableWrapper {
-    typealias selfType = RecordImageData
-    
-    let image: String
-    let review: String
-    let backgroundColor: String
 }

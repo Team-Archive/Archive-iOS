@@ -14,7 +14,7 @@ import RxFlow
 final class EmailInputViewController: UIViewController, StoryboardView, ActivityIndicatorable {
     
     private enum Constant {
-        static let progress: Float = 0.66
+        static let progress: Float = 0.5
     }
     
     @IBOutlet private weak var progressView: UIProgressView!
@@ -44,6 +44,7 @@ final class EmailInputViewController: UIViewController, StoryboardView, Activity
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        progressView.setProgress(0.25, animated: false)
         progressView.setProgress(Constant.progress, animated: true)
     }
     

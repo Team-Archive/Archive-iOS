@@ -10,7 +10,7 @@ import ReactorKit
 import RxSwift
 import RxCocoa
 
-final class SignInViewController: UIViewController, StoryboardView, ActivityIndicatorable, SplashViewProtocol {
+final class SignInViewController: UIViewController, StoryboardView, ActivityIndicatorable, FakeSplashViewProtocol {
     
     // MARK: IBOutlet
     
@@ -33,7 +33,7 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
     
     var disposeBag = DisposeBag()
     weak var targetView: UIView?
-    var attachedView: UIView? = SplashView.instance()
+    var attachedView: UIView? = FakeSplashView()
     
     // MARK: lifeCycle
     
@@ -49,7 +49,13 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAttributes()
-        runSplashView()
+        self.targetView = self.view
+        let status = ArchiveStatus.shared
+        if !status.isShownFakeSplash {
+            showSplashView()
+            hideSplashView()
+            status.runFakeSplash()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -81,9 +87,9 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             .disposed(by: disposeBag)
         
         reactor.error
-            .asDriver(onErrorJustReturn: "")
-            .drive(onNext: { errorMsg in
-                CommonAlertView.shared.show(message: "오류", subMessage: errorMsg, btnText: "확인", hapticType: .error, confirmHandler: {
+            .asDriver(onErrorJustReturn: .init(.commonError))
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: "오류", subMessage: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
                     CommonAlertView.shared.hide()
                 })
             })
@@ -123,10 +129,21 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 let alert = UIAlertController(title: "디버그용 치트키", message: "비밀번호를 입력해주세요", preferredStyle: .alert)
                 alert.addTextField { [weak self] textField in
                     textField.isSecureTextEntry = true
+                    textField.placeholder = "비밀번호"
+                }
+                alert.addTextField { [weak self] textField in
+                    textField.placeholder = "테스트 서버 주소(공란시 개발서버)"
                 }
                 alert.addAction(UIAlertAction(title: "확인", style: .default, handler: { [weak alert] (_) in
                     guard let text: String = alert?.textFields?[0].text else { return }
-                    let result = ArchiveStatus.shared.changeMode(mode: .debug, password: text)
+                    let url: String? = {
+                        if alert?.textFields?[1].text == "" || alert?.textFields?[1].text == nil {
+                            return nil
+                        } else {
+                            return alert?.textFields?[1].text
+                        }
+                    }()
+                    let result = ArchiveStatus.shared.changeMode(mode: .debug(url: url), password: text)
                     switch result {
                     case .success(let mode):
                         CommonAlertView.shared.show(message: "모드 변경: \(mode)", btnText: "확인", hapticType: .success, confirmHandler: {
@@ -141,6 +158,13 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 self?.present(alert, animated: true, completion: nil)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.toastMessage
+            .asDriver(onErrorJustReturn: "")
+            .drive(onNext: { [weak self] toastMessage in
+                ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
+            })
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: private function
@@ -153,26 +177,6 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
         self.oAuthHelpLabel.font = .fonts(.body)
         self.oAuthHelpLabel.textColor = Gen.Colors.gray03.color
         self.oAuthHelpLabel.text = "다른 방법으로 로그인하기"
-    }
-    
-    private func runSplashView() {
-        if !AppConfigManager.shared.isPlayedIntroSplashView {
-            AppConfigManager.shared.isPlayedIntroSplashView = true
-            self.targetView = self.mainContainerView
-            showSplashView(completion: {
-                (self.attachedView as? SplashView)?.play()
-            })
-            (self.attachedView as? SplashView)?.isFinishAnimationFlag
-                .asDriver(onErrorJustReturn: true)
-                .drive(onNext: { [weak self] in
-                    if $0 {
-                        self?.hideSplashView(completion: { [weak self] in
-                            self?.attachedView = nil
-                        })
-                    }
-                })
-                .disposed(by: self.disposeBag)
-        }
     }
     
     // MARK: internal function

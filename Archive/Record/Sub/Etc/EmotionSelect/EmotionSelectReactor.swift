@@ -11,19 +11,18 @@ import RxRelay
 import RxFlow
 
 class EmotionSelectReactor: Reactor, Stepper {
-    // MARK: private property
     
-    private let model: EmotionSelectModelProtocol
+    // MARK: private property
     
     // MARK: internal property
     
     let initialState = State()
     let steps = PublishRelay<Step>()
+    let close: PublishSubject<Void> = .init()
     
     // MARK: lifeCycle
     
-    init(model: EmotionSelectModelProtocol, currentEmotion: Emotion?) {
-        self.model = model
+    init(currentEmotion: Emotion?) {
         if let emotion = currentEmotion {
             self.action.onNext(.select(emotion))
         }
@@ -48,6 +47,7 @@ class EmotionSelectReactor: Reactor, Stepper {
             return .just(.setEmotion(emotion))
         case .completeEmotionEdit:
             steps.accept(ArchiveStep.recordEmotionEditIsComplete(self.currentState.currentEmotion))
+            self.close.onNext(())
             return .empty()
         }
     }
