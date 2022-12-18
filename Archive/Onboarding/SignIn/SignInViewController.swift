@@ -56,6 +56,7 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
             hideSplashView()
             status.runFakeSplash()
         }
+        self.reactor?.action.onNext(.setIsKakaotalkInstalled)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -165,6 +166,23 @@ final class SignInViewController: UIViewController, StoryboardView, ActivityIndi
                 ArchiveToastView.shared.show(message: toastMessage, completeHandler: nil)
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isKakaotalkInstalled }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: false)
+            .drive(onNext: { [weak self] isInstalled in
+                if !isInstalled {
+                    guard let strongSelf = self else { return }
+                    strongSelf.kakaoSignInBtn.isHidden = !isInstalled
+                    strongSelf.kakaoSignInBtn.snp.updateConstraints {
+                        $0.width.equalTo(0)
+                        $0.leading.equalTo(strongSelf.appleSignInBtn.snp.trailing)
+                    }
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     // MARK: private function

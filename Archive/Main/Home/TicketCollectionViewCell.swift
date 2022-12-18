@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import Then
 
 final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
     
@@ -49,6 +50,10 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         return label
     }()
     
+    private lazy var lockImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
     var infoData: ArchiveInfo? {
         didSet {
             guard let info = self.infoData else { return }
@@ -64,6 +69,12 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
                                                       completionHandler: nil)
                 self?.descriptionView.titleLabel.text = info.archiveName
                 self?.descriptionView.dateLabel.text = info.watchedOn
+                self?.descriptionView.setLikeCount(info.likeCount)
+                if info.isPublic {
+                    self?.lockImageView.image = nil
+                } else {
+                    self?.lockImageView.image = Gen.Images.lock.image
+                }
             }
         }
     }
@@ -120,6 +131,13 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         emotionTitleLabel.snp.makeConstraints {
             $0.centerY.equalTo(emotionImageView.snp.centerY)
             $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+        }
+        
+        imageContentView.addSubview(lockImageView)
+        lockImageView.snp.makeConstraints {
+            $0.top.equalTo(self.imageContentView).offset(20)
+            $0.trailing.equalTo(self.imageContentView).offset(-20)
+            $0.width.height.equalTo(24)
         }
     }
 }

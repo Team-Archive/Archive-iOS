@@ -48,6 +48,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     })
     
     private let type: DetailType
+    private var lockNaviTitle: UIView?
     
     // MARK: internal property
     var disposeBag: DisposeBag = DisposeBag()
@@ -159,11 +160,36 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
             .asDriver(onErrorJustReturn: false)
             .drive(onNext: { [weak self] isDeleted in
                 if isDeleted {
-                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: "\(self?.reactor?.currentState.detailData?.archiveId ?? -1)")
+                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: "\(self?.reactor?.currentState.detailData.archiveId ?? -1)")
                     self?.dismiss(animated: true, completion: nil)
                 }
             })
             .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.err }
+            .asDriver(onErrorJustReturn: .init(wrappedValue: nil))
+            .compactMap { $0.value }
+            .drive(onNext: { err in
+                CommonAlertView.shared.show(message: "오류", subMessage: err.getMessage(), btnText: "확인", hapticType: .error, confirmHandler: {
+                    CommonAlertView.shared.hide()
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
+        reactor.state
+            .map { $0.isToggledIsPublicArchive }
+            .asDriver(onErrorJustReturn: .init(wrappedValue: nil))
+            .compactMap { $0.value }
+            .drive(onNext: { [weak self] _ in
+                CommonAlertView.shared.show(message: "변경 완료", btnText: "확인", hapticType: .success, confirmHandler: {
+                    CommonAlertView.shared.hide()
+                    self?.refreshNavi()
+                    NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_STATE_IS_UPDATED), object: nil)
+                })
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     // MARK: private function
@@ -202,6 +228,21 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         return cell
     }
     
+    private func makeLockNaviTitle() {
+        let titleView = UIView()
+        let titleImageView = UIImageView(image: Gen.Images.lock.image)
+        titleImageView.frame = CGRect(x: 0, y: 5, width: 19, height: 19)
+        titleView.addSubview(titleImageView)
+        let label = UILabel()
+        label.text = "나의 아카이브"
+        label.font = .fonts(.subTitle)
+        label.frame = CGRect(x: 24, y: 0, width: 87, height: 30)
+        titleView.addSubview(label)
+        titleView.frame = CGRect(x: 0, y: 0, width: 111, height: 30)
+        self.lockNaviTitle = titleView
+        self.navigationItem.titleView = titleView
+    }
+    
     private func makeNaviBtn() {
         switch self.type {
         case .home:
@@ -210,6 +251,8 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
             let moreBarButtonItem = UIBarButtonItem(image: moreImage, style: .plain, target: self, action: #selector(moreButtonClicked(_:)))
             moreBarButtonItem.tintColor = Gen.Colors.white.color
             self.navigationItem.rightBarButtonItem = moreBarButtonItem
+            self.title = "나의 아카이브"
+            refreshNavi()
         case .myLike:
             break
         }
@@ -220,6 +263,14 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         backBarButtonItem.tintColor = Gen.Colors.white.color
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Gen.Colors.white.color]
+    }
+    
+    private func refreshNavi() {
+        if !(reactor?.currentState.isPublic ?? false) {
+            makeLockNaviTitle()
+        } else {
+            self.navigationItem.titleView = nil
+        }
     }
     
     // MARK: internal function
@@ -243,9 +294,33 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
                 self?.modalShareViewController.fadeIn()
             })
         }
+        let toggleIsPublicTitle: String = {
+            if self.reactor?.currentState.isPublic ?? false {
+                return "기록을 비공개로 변경"
+            } else {
+                return "기록을 공개로 변경"
+            }
+        }()
+        let toggleIsPublicContents: String = {
+            if self.reactor?.currentState.isPublic ?? false {
+                return "기록을 비공개로 변경하시겠습니까?\n다른 사람들이 이 기록을 더 이상 볼 수 없어집니다."
+            } else {
+                return "기록을 공개로 변경하시겠습니까?\n다른 사람들이 이 기록을 볼 수 있게 됩니다."
+            }
+        }()
+        let toggleIsPublicAction: UIAlertAction = UIAlertAction(title: toggleIsPublicTitle, style: .default) { (delete) in
+            CommonAlertView.shared.show(message: toggleIsPublicTitle, subMessage: toggleIsPublicContents, confirmBtnTxt: "확인", cancelBtnTxt: "취소", confirmHandler: { [weak self] in
+                CommonAlertView.shared.hide({
+                    self?.reactor?.action.onNext(.toggleArchiveIsPublic)
+                })
+            }, cancelHandler: {
+                CommonAlertView.shared.hide(nil)
+            })
+        }
         alert.view.tintColor = .black
         alert.addAction(deleteAction)
         alert.addAction(shareAction)
+        alert.addAction(toggleIsPublicAction)
         alert.addAction(UIAlertAction(title: "취소", style: .cancel, handler: nil))
         self.present(alert, animated: true)
     }

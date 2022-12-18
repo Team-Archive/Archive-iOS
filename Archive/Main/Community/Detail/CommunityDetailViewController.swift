@@ -150,10 +150,10 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.contentMode = .scaleAspectFit
     }
     
-    private let photoContentsLabel = UILabel().then {
+    private let photoContentsTextView = UITextView().then {
         $0.font = .fonts(.body)
         $0.textColor = Gen.Colors.black.color
-        $0.numberOfLines = 5
+        $0.isEditable = false
     }
     
     private let rotatedTitleView = RotatedTitleView().then {
@@ -285,11 +285,12 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.edges.equalTo(self.bottomContentsView)
         }
         
-        self.bottomPhotoContentsView.addSubview(self.photoContentsLabel)
-        self.photoContentsLabel.snp.makeConstraints {
+        self.bottomPhotoContentsView.addSubview(self.photoContentsTextView)
+        self.photoContentsTextView.snp.makeConstraints {
             $0.top.equalTo(self.bottomPhotoContentsView.snp.top).offset(37)
             $0.leading.equalTo(self.bottomPhotoContentsView.snp.leading).offset(32)
             $0.trailing.equalTo(self.bottomPhotoContentsView.snp.trailing).offset(-32)
+            $0.bottom.equalTo(self.bottomContentsView)
         }
         
         
@@ -516,7 +517,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             self?.photoImageView.fadeIn(duration: 0.1,
                                         completeHandler: nil)
         }
-        self.photoContentsLabel.text = item.review
+        self.photoContentsTextView.text = item.review + "\n" + "\n"
         self.mainBackgroundView.backgroundColor = item.backgroundColor.colorWithHexString()
         
     }

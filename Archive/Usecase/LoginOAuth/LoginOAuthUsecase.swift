@@ -46,4 +46,8 @@ class LoginOAuthUsecase: NSObject {
         return self.repository.loginWithApple(accessToken: accessToken)
     }
     
+    func isKakaotalkInstalled() -> Bool {
+        return self.repository.isKakaotalkInstalled()
+    }
+    
 }

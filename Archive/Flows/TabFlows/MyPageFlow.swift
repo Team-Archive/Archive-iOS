@@ -74,8 +74,8 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
                                                  withNextStepper: reactor))
     }
     
-    private func navigationToMyLikeDetail(info: ArchiveDetailInfo) {
-        let reactor = DetailReactor(recordData: info, index: 0)
+    private func navigationToMyLikeDetail(info: ArchiveDetailInfo, isPublic: Bool) {
+        let reactor = DetailReactor(recordData: info, index: 0, isPublic: isPublic, archiveEditRepository: ArchiveEditRepositoryImplement())
         let detailViewController: DetailViewController = UIStoryboard(name: "Detail", bundle: nil).instantiateViewController(identifier: DetailViewController.identifier) { corder in
             return DetailViewController(coder: corder, reactor: reactor, type: .myLike)
         }
@@ -121,7 +121,7 @@ class MyPageFlow: Flow, MainTabFlowProtocol {
         case .communityIrRequiredFromCode:
             return .end(forwardToParentFlowWithStep: ArchiveStep.communityIrRequiredFromCode)
         case .myLikeArchiveDetailIsRequired(let infoData):
-            navigationToMyLikeDetail(info: infoData)
+            navigationToMyLikeDetail(info: infoData, isPublic: false)
             return .none
         case .editProfileIsComplete:
             return .none

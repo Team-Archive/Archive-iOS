@@ -144,7 +144,11 @@ final class HomeReactor: Reactor, Stepper, MainTabStepperProtocol {
                 self.getDetailArchiveInfo(id: "\(currentState.archives[index].archiveId)").map { [weak self] result in
                     switch result {
                     case .success(let info):
-                        self?.steps.accept(ArchiveStep.detailIsRequired(info, index))
+                        self?.steps.accept(ArchiveStep.detailIsRequired(
+                            infoData: info,
+                            index: index,
+                            isPublic: self?.currentState.archives[index].isPublic ?? false)
+                        )
                         return .empty
                     case .failure(let err):
                         self?.err.onNext(err)
