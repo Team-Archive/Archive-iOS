@@ -280,6 +280,16 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             })
             .disposed(by: self.disposeBag)
         
+        self.filterViewController.rx.selected
+            .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
+                if isAllSelected {
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: nil))
+                } else {
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: emotion))
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {
@@ -356,15 +366,6 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
         self.present(self.filterViewController, animated: false, completion: { [weak self] in
             self?.filterViewController.showEffect()
         })
-        self.filterViewController.rx.selected
-            .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
-                if isAllSelected {
-                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: nil))
-                } else {
-                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: emotion))
-                }
-            })
-            .disposed(by: self.disposeBag)
     }
 }
 
