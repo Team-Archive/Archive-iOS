@@ -19,7 +19,7 @@ class RegistPhotoReactor: Reactor {
     
     // MARK: internal property
     
-    let initialState: State = State()
+    let initialState: State
     var err: PublishSubject<ArchiveError> = .init()
     var completedImages: PublishSubject<[RegistImageInfo]> = .init()
     let emotion: Emotion
@@ -29,6 +29,7 @@ class RegistPhotoReactor: Reactor {
         case setImageInfos([PHAsset: PhotoFromAlbumModel])
         case confirm
         case setCropedImage(UIImage)
+        case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
     }
     
     enum Mutation {
@@ -37,6 +38,7 @@ class RegistPhotoReactor: Reactor {
         case setImageInfos([PHAsset: PhotoFromAlbumModel])
         case setIsLoading(Bool)
         case setSelectedImages([UIImage])
+        case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
     }
     
     struct State {
@@ -44,12 +46,14 @@ class RegistPhotoReactor: Reactor {
         var imageInfos: [PHAsset: PhotoFromAlbumModel] = [PHAsset: PhotoFromAlbumModel]()
         var isLoading: Bool = false
         var selectedImageArr: [UIImage] = []
+        var originPhotoInfo: [PHAsset: PhotoFromAlbumModel]
     }
     
     // MARK: life cycle
     
-    init(emotion: Emotion) {
+    init(emotion: Emotion, originPhotoInfo: [PHAsset: PhotoFromAlbumModel]) {
         self.emotion = emotion
+        self.initialState = .init(originPhotoInfo: originPhotoInfo)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
@@ -103,6 +107,8 @@ class RegistPhotoReactor: Reactor {
                     },
                 Observable.just(Mutation.setIsLoading(false))
             ])
+        case .setOriginPhotoInfo(let info):
+            return .just(.setOriginPhotoInfo(info))
         }
     }
     
@@ -119,6 +125,8 @@ class RegistPhotoReactor: Reactor {
             newState.isLoading = isLoading
         case .setSelectedImages(let images):
             newState.selectedImageArr = images
+        case .setOriginPhotoInfo(let info):
+            newState.originPhotoInfo = info
         }
         return newState
     }

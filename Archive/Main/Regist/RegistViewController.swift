@@ -12,6 +12,7 @@ import RxCocoa
 import RxSwift
 import ReactorKit
 import CropViewController
+import Photos
 
 class RegistViewController: UIViewController, View {
     
@@ -283,7 +284,9 @@ class RegistViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
                 GAModule.sendEventLogToGA(.startPhotoSelect)
-                let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(emotion: self?.reactor?.currentState.emotion ?? .pleasant))
+                let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(
+                    emotion: self?.reactor?.currentState.emotion ?? .pleasant,
+                    originPhotoInfo: reactor.currentState.originPhotoInfo))
                 vc.delegate = self
                 let navi = UINavigationController(rootViewController: vc)
                 navi.modalPresentationStyle = .fullScreen
@@ -573,10 +576,11 @@ class RegistViewController: UIViewController, View {
 }
 
 extension RegistViewController: RegistPhotoViewControllerDelegate {
-    func selectedImages(images: [RegistImageInfo]) {
+    func selectedImages(images: [RegistImageInfo], origin: [PHAsset: PhotoFromAlbumModel]) {
         DispatchQueue.main.async { [weak self] in
             self?.foregroundStep2TopView.hideEmptyView()
             self?.reactor?.action.onNext(.setImageInfo(RegistImagesInfo(images: images, isMoveFirstIndex: true)))
+            self?.reactor?.action.onNext(.setOriginPhotoInfo(origin))
         }
     }
 }

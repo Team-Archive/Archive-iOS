@@ -41,6 +41,7 @@ class RegistReactor: Reactor, Stepper {
         case requestPhotoAccessAuth
         case regist
         case registIsComplete
+        case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
     }
     
     enum Mutation {
@@ -56,6 +57,7 @@ class RegistReactor: Reactor, Stepper {
         case setPhotoContents(index: Int, contents: String)
         case clearPhotoContents
         case setIsForegroundViewConfirmIsEnable(Bool)
+        case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
     }
     
     struct State {
@@ -69,6 +71,7 @@ class RegistReactor: Reactor, Stepper {
         var isBehineViewConfirmIsEnable: Bool = false
         var photoContents: [Int: String] = [:]
         var isForegroundViewConfirmIsEnable: Bool = false
+        var originPhotoInfo: [PHAsset: PhotoFromAlbumModel] = [:]
     }
     
     // MARK: life cycle
@@ -205,6 +208,8 @@ class RegistReactor: Reactor, Stepper {
             NotificationCenter.default.post(name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
             self.steps.accept(ArchiveStep.registIsComplete)
             return .empty()
+        case .setOriginPhotoInfo(let info):
+            return .just(.setOriginPhotoInfo(info))
         }
     }
     
@@ -235,6 +240,8 @@ class RegistReactor: Reactor, Stepper {
             newState.photoContents.removeAll()
         case .setIsForegroundViewConfirmIsEnable(let isEnable):
             newState.isForegroundViewConfirmIsEnable = isEnable
+        case .setOriginPhotoInfo(let info):
+            newState.originPhotoInfo = info
         }
         return newState
     }
