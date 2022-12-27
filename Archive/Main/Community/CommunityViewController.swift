@@ -73,9 +73,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 24
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 60)
         $0.collectionViewLayout = layout
+        $0.delegate = self
     }
     
     
@@ -375,4 +375,20 @@ extension CommunityViewController: MajorTabViewController {
         self.bannerView.isAutoScrolling = false
     }
     
+}
+
+extension CommunityViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let defaultSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
+        guard let reactor = self.reactor else { return defaultSize }
+        let cellTitleWidth = CommunityCollectionViewCell.titleWidth
+        let item = reactor.currentState.archives.value[indexPath.item]
+        let currentTitleWidth = item.archiveName.width(withConstrainedHeight: 0, font: .fonts(.header3))
+        if currentTitleWidth > cellTitleWidth {
+            return .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08 + 30)
+        } else {
+            return defaultSize
+        }
+    }
 }
