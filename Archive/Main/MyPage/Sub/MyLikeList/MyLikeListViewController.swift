@@ -284,7 +284,8 @@ extension MyLikeListViewController: UICollectionViewDelegateFlowLayout {
         let cellTitleWidth = CommunityCollectionViewCell.titleWidth
         let item = reactor.currentState.myLikeArchives[indexPath.item]
         let currentTitleWidth = item.archiveName.width(withConstrainedHeight: 0, font: .fonts(.header3))
-        if currentTitleWidth > cellTitleWidth {
+        let archiveNameArr = (self.reactor?.currentState.myLikeArchives[indexPath.item].archiveName ?? "").split(separator: "\n")
+        if currentTitleWidth >= cellTitleWidth || archiveNameArr.count > 1 {
             return .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08 + 30)
         } else {
             return defaultSize
