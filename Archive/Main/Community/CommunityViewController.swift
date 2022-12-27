@@ -59,8 +59,16 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     }
     private let topContentsContainerViewHeight: CGFloat = 94
     
-    private lazy var bannerView = ArchiveBannerView(itemSize: .init(width: UIScreen.main.bounds.width, height: self.topContentsContainerViewHeight)).then {
+    private lazy var bannerView = ArchiveBannerView().then {
         $0.backgroundColor = Gen.Colors.white.color
+        $0.onceMoveWidth = UIScreen.main.bounds.width
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: self.topContentsContainerViewHeight)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        $0.layout = layout
     }
     
     private lazy var collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
