@@ -89,7 +89,8 @@ class FullImageViewController: UIViewController {
         self.view.addSubview(self.mainContentsView)
         let safeGuide = self.view.safeAreaLayoutGuide
         self.mainContentsView.snp.makeConstraints {
-            $0.edges.equalTo(safeGuide)
+            $0.top.leading.trailing.equalTo(safeGuide)
+            $0.bottom.equalTo(self.view)
         }
         
         self.mainContentsView.addSubview(self.scrollVew)

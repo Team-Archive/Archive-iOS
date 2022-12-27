@@ -124,6 +124,10 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         }
     }
     
+    static var titleWidth: CGFloat {
+        return UIScreen.main.bounds.width - 64 - 38
+    }
+    
     // MARK: lifeCycle
     
     override init(frame: CGRect) {
@@ -196,7 +200,7 @@ class CommunityCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         self.cardBottomView.snp.makeConstraints {
             $0.leading.equalTo(self.cardView.snp.leading)
             $0.trailing.equalTo(self.cardView.snp.trailing)
-            $0.bottom.equalTo(self.cardView.snp.bottom)
+            $0.top.equalTo(self.emotionCoverImageView.snp.bottom)
             $0.height.equalTo(self.cardView.snp.height).multipliedBy(0.2)
         }
         

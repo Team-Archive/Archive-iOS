@@ -64,9 +64,9 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 24
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 60)
         $0.collectionViewLayout = layout
+        $0.delegate = self
     }
     
     private lazy var emptyView = MyLikeEmptyView().then {
@@ -273,5 +273,22 @@ extension MyLikeListViewController: MyLikeEmptyViewDelegate {
 extension MyLikeListViewController: MyLikeCollectionViewCellDelegate {
     func likeCanceled(archiveId: Int) {
         self.reactor?.action.onNext(.myLikeArchivesLikeCancel(id: archiveId))
+    }
+}
+
+extension MyLikeListViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let defaultSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
+        guard let reactor = self.reactor else { return defaultSize }
+        let cellTitleWidth = CommunityCollectionViewCell.titleWidth
+        let item = reactor.currentState.myLikeArchives[indexPath.item]
+        let currentTitleWidth = item.archiveName.width(withConstrainedHeight: 0, font: .fonts(.header3))
+        let archiveNameArr = (self.reactor?.currentState.myLikeArchives[indexPath.item].archiveName ?? "").split(separator: "\n")
+        if currentTitleWidth >= cellTitleWidth || archiveNameArr.count > 1 {
+            return .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08 + 30)
+        } else {
+            return defaultSize
+        }
     }
 }

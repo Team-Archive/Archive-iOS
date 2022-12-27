@@ -227,6 +227,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                     }
                 }
         case .bannerClicked(let index):
+            guard index < self.currentState.bannerInfo.count else { return .empty() }
             let item = self.currentState.bannerInfo[index]
             guard let urlStr = item.mainContentUrl else { return .empty() }
             guard let url = URL(string: urlStr) else { return .empty() }

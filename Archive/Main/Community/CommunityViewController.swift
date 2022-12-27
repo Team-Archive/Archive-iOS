@@ -81,9 +81,9 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 24
         layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
         layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 60)
         $0.collectionViewLayout = layout
+        $0.delegate = self
     }
     
     
@@ -280,6 +280,16 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
             })
             .disposed(by: self.disposeBag)
         
+        self.filterViewController.rx.selected
+            .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
+                if isAllSelected {
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: nil))
+                } else {
+                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: emotion))
+                }
+            })
+            .disposed(by: self.disposeBag)
+        
     }
     
     deinit {
@@ -356,15 +366,6 @@ extension CommunityViewController: CommunityFilterHeaderViewDelegate {
         self.present(self.filterViewController, animated: false, completion: { [weak self] in
             self?.filterViewController.showEffect()
         })
-        self.filterViewController.rx.selected
-            .subscribe(onNext: { [weak self] sortBy, emotion, isAllSelected in
-                if isAllSelected {
-                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: nil))
-                } else {
-                    self?.reactor?.action.onNext(.getFirstPublicArchives(sortBy: sortBy, emotion: emotion))
-                }
-            })
-            .disposed(by: self.disposeBag)
     }
 }
 
@@ -382,4 +383,21 @@ extension CommunityViewController: MajorTabViewController {
         self.bannerView.isAutoScrolling = false
     }
     
+}
+
+extension CommunityViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let defaultSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08)
+        guard let reactor = self.reactor else { return defaultSize }
+        let cellTitleWidth = CommunityCollectionViewCell.titleWidth
+        let item = reactor.currentState.archives.value[indexPath.item]
+        let currentTitleWidth = item.archiveName.width(withConstrainedHeight: 0, font: .fonts(.header3))
+        let archiveNameArr = (self.reactor?.currentState.archives.value[indexPath.item].archiveName ?? "").split(separator: "\n")
+        if currentTitleWidth >= cellTitleWidth || archiveNameArr.count > 1 {
+            return .init(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.08 + 30)
+        } else {
+            return defaultSize
+        }
+    }
 }

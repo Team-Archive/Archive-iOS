@@ -15,7 +15,7 @@ import Photos
 import CropViewController
 
 protocol RegistPhotoViewControllerDelegate: AnyObject {
-    func selectedImages(images: [RegistImageInfo])
+    func selectedImages(images: [RegistImageInfo], origin: [PHAsset: PhotoFromAlbumModel])
 }
 
 class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
@@ -46,7 +46,6 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     // MARK: private property
     
     private var confirmBtn: UIBarButtonItem?
-    private let photoUsecase = PhotoUsecase()
     
     // MARK: internal property
     
@@ -116,7 +115,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         reactor.completedImages
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] imageInfos in
-                self?.delegate?.selectedImages(images: imageInfos)
+                self?.delegate?.selectedImages(images: imageInfos, origin: reactor.currentState.originPhotoInfo)
                 self?.dismiss(animated: true)
             })
             .disposed(by: self.disposeBag)
@@ -156,6 +155,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         if let albumView = HWPhotoListFromAlbumView.loadFromNibNamed(nibNamed: "HWPhotoListFromAlbumView") {
             albumView.delegate = self
             albumView.selectType = .multi
+            albumView.selectedIndexDic = self.reactor?.currentState.originPhotoInfo ?? [:]
             self.imageAlbumContainerView.addSubview(albumView)
             albumView.snp.makeConstraints { (make) in
                 make.edges.equalTo(self.imageAlbumContainerView)
@@ -235,6 +235,7 @@ extension RegistPhotoViewController: HWPhotoListFromAlbumViewDelegate {
     }
     
     func selectedImgsFromAlbum(selectedImg: [PHAsset: PhotoFromAlbumModel], focusIndexAsset: PHAsset) {
+        self.reactor?.action.onNext(.setOriginPhotoInfo(selectedImg))
         if selectedImg.count == 0 {
             self.setConfirmBtnTitle("선택")
             self.setConfirmBtnColor(Gen.Colors.gray04.color)
