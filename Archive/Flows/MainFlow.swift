@@ -56,7 +56,7 @@ final class MainFlow: Flow {
         let homeViewController = UIStoryboard(name: "Home", bundle: nil).instantiateViewController(identifier: HomeViewController.identifier) { coder in
             return HomeViewController(coder: coder, reactor: homeReactor)
         }
-        homeViewController.tabBarItem = UITabBarItem(title: "나의 티켓", image: Gen.Images.homeOff.image, selectedImage: Gen.Images.homeOn.image)
+        homeViewController.tabBarItem = UITabBarItem(title: "나의 관람", image: Gen.Images.homeOff.image, selectedImage: Gen.Images.homeOn.image)
         
         let dummyRecordViewController = DummyRecordViewController()
         dummyRecordViewController.tabBarItem = UITabBarItem(title: "전시 기록", image: Gen.Images.addArchvieOff.image, selectedImage: Gen.Images.addArchvieOn.image)
@@ -74,7 +74,7 @@ final class MainFlow: Flow {
                                                          myLikeRepository: MyLikeRepositoryImplement(),
                                                          detailRepository: DetailRepositoryImplement())
         let myPageViewController = MyPageViewController(reactor: myPageReactor)
-        myPageViewController.tabBarItem = UITabBarItem(title: "내 정보", image: Gen.Images.myPageOff.image, selectedImage: Gen.Images.myPageOn.image)
+        myPageViewController.tabBarItem = UITabBarItem(title: "나의 정보", image: Gen.Images.myPageOff.image, selectedImage: Gen.Images.myPageOn.image)
         
         return TabViewControllers(homeViewController: homeViewController,
                                   homeStepper: homeReactor,

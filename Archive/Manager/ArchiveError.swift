@@ -110,7 +110,7 @@ class ArchiveError: Error {
         case .publicArchiveIsEndOfPage:
             returnValue = "더 이상 공개된 카드가 없어요 😭"
         case .photoAuth:
-            returnValue = "티켓 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다."
+            returnValue = "전시 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다."
         case .imageUploadCntFail:
             returnValue = "이미지 업로드 오류"
         case .imageUploadFail:

@@ -42,7 +42,7 @@ class RegistEmotionSelectViewController: UIViewController {
     private let bottomViewSubtitleLabel = UILabel().then {
         $0.font = .fonts(.body)
         $0.textColor = Gen.Colors.gray02.color
-        $0.text = "선택한 감정으로 티켓커버가 변경됩니다."
+        $0.text = "선택한 감정으로 전시커버가 변경됩니다."
     }
     
     private let confirmBtn = UIButton().then {

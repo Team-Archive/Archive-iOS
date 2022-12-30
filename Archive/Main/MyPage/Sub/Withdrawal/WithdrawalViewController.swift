@@ -98,7 +98,7 @@ class WithdrawalViewController: UIViewController, StoryboardView, ActivityIndica
         self.mainContainerView.backgroundColor = .clear
         self.mainTitleLabel.font = .fonts(.header3)
         self.mainTitleLabel.textColor = Gen.Colors.gray01.color
-        self.mainTitleLabel.text = "아카이브를 삭제하면?"
+        self.mainTitleLabel.text = "아카이브를 탈퇴하면?"
         
         self.withdrawalBtn.layer.cornerRadius = 8
         self.withdrawalBtn.layer.borderWidth = 1
