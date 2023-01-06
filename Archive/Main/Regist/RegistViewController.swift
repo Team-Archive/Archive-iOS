@@ -499,10 +499,6 @@ class RegistViewController: UIViewController, View {
         cropViewController.doneButtonColor = Gen.Colors.white.color
         cropViewController.cancelButtonTitle = "취소"
         cropViewController.cancelButtonColor = Gen.Colors.white.color
-        cropViewController.aspectRatioLockEnabled = true
-        cropViewController.resetButtonHidden = true
-        cropViewController.customAspectRatio = CGSize(width: 300, height: 300)
-        cropViewController.aspectRatioPickerButtonHidden = true
         self.present(cropViewController, animated: true, completion: nil)
     }
     
