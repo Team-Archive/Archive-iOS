@@ -15,6 +15,7 @@ import CropViewController
 
 @objc protocol RegistEmotionSelectViewControllerDelegate: AnyObject {
     @objc optional func selectedEmotion(emotion: Emotion)
+    @objc optional func isUsingCover(_ isUseing: Bool)
 }
 
 class RegistEmotionSelectViewController: UIViewController {
@@ -72,6 +73,22 @@ class RegistEmotionSelectViewController: UIViewController {
         $0.numberOfLines = 2
     }
     
+    private let coverIsUseSwitchContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private lazy var coverIsUseSwitch = UISwitch().then {
+        $0.tintColor = Gen.Colors.gray04.color
+        $0.onTintColor = Gen.Colors.black.color
+        $0.isOn = true
+    }
+    
+    private let coverIsUseSwitchLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.white.color
+        $0.text = "감정 커버를 사용할래요"
+    }
+    
     // MARK: private property
     
     // MARK: internal property
@@ -120,6 +137,18 @@ class RegistEmotionSelectViewController: UIViewController {
                 self?.delegate?.selectedEmotion?(emotion: self?.selectedEmotion ?? .pleasant)
                 self?.view.alpha = 0
                 self?.dismiss(animated: false)
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.coverIsUseSwitch.rx.isOn
+            .asDriver()
+            .drive(onNext: { [weak self] isOn in
+                if isOn {
+                    self?.emotionSampleImageView.alpha = 1
+                } else {
+                    self?.emotionSampleImageView.alpha = 0
+                }
+                self?.delegate?.isUsingCover?(isOn)
             })
             .disposed(by: self.disposeBag)
     }
@@ -197,6 +226,25 @@ class RegistEmotionSelectViewController: UIViewController {
             $0.leading.equalTo(self.helpEmotionImageContainerView.snp.leading)
             $0.trailing.equalTo(self.helpEmotionImageContainerView.snp.trailing)
         }
+        
+        self.mainContentsView.addSubview(self.coverIsUseSwitchContainerView)
+        self.coverIsUseSwitchContainerView.snp.makeConstraints {
+            $0.top.equalTo(self.mainContentsView).offset(20)
+            $0.centerX.equalTo(self.mainContentsView)
+        }
+        
+        self.coverIsUseSwitchContainerView.addSubview(self.coverIsUseSwitch)
+        self.coverIsUseSwitch.snp.makeConstraints {
+            $0.trailing.top.bottom.equalTo(self.coverIsUseSwitchContainerView)
+        }
+        
+        self.coverIsUseSwitchContainerView.addSubview(self.coverIsUseSwitchLabel)
+        self.coverIsUseSwitchLabel.snp.makeConstraints {
+            $0.leading.equalTo(self.coverIsUseSwitchContainerView)
+            $0.trailing.equalTo(self.coverIsUseSwitch.snp.leading).offset(-10)
+            $0.centerY.equalTo(self.coverIsUseSwitch)
+        }
+        
     }
     
     // MARK: private function
@@ -241,6 +289,13 @@ extension Reactive where Base: RegistEmotionSelectViewController {
             .map { result in
                 let emotionRawValue = result[0] as? Int ?? 0
                 return Emotion.getEmotionFromIndex(emotionRawValue) ?? .pleasant
+            }
+    }
+    
+    var switchIsUsingCover: Observable<Bool> {
+        return delegate.methodInvoked(#selector(RegistEmotionSelectViewControllerDelegate.isUsingCover(_:)))
+            .map { result in
+                return result[0] as? Bool ?? true
             }
     }
 }

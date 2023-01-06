@@ -250,8 +250,10 @@ class RegistViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
                 GAModule.sendEventLogToGA(.startEmotionSelect)
+                let navi = UINavigationController(rootViewController: self?.emotionSelectViewController ?? UIViewController())
+                navi.modalPresentationStyle = .overFullScreen
                 self?.navigationController?
-                    .present(self?.emotionSelectViewController ?? UIViewController(),
+                    .present(navi,
                              animated: false,
                              completion: { [weak self] in
                         self?.foregroundContentsView.isHidden = true
