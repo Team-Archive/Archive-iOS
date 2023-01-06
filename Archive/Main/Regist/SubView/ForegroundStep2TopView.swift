@@ -141,10 +141,17 @@ class ForegroundStep2TopView: UIView {
             var cell: UICollectionViewCell?
             switch item.type {
             case .cover:
-                cell = self.makeCoverCell(emotion: self.emotion,
-                                          imageInfo: item.imageInfo ?? RegistImageInfo(image: UIImage(), color: .white),
-                                          from: collectionView,
-                                          indexPath: indexPath)
+                if self.reactor.currentState.isCoverUsing {
+                    cell = self.makeCoverCell(emotion: self.emotion,
+                                              imageInfo: item.imageInfo ?? RegistImageInfo(image: UIImage(), color: .white),
+                                              from: collectionView,
+                                              indexPath: indexPath)
+                } else {
+                    cell = self.makeCoverImageTypeCell(emotion: self.emotion,
+                                                       imageInfo: item.imageInfo ?? RegistImageInfo(image: UIImage(), color: .white),
+                                                       from: collectionView,
+                                                       indexPath: indexPath)
+                }
             case .image:
                 cell = self.makeCardCell(imageInfo: item.imageInfo ?? RegistImageInfo(image: UIImage(), color: .white),
                                          from: collectionView,
@@ -182,6 +189,8 @@ class ForegroundStep2TopView: UIView {
                                      forCellWithReuseIdentifier: RegistImageAddCollectionViewCell.identifier)
         self.collectionView.register(RegistImageCoverCollectionViewCell.self,
                                      forCellWithReuseIdentifier: RegistImageCoverCollectionViewCell.identifier)
+        self.collectionView.register(RegistImageCoverImageTypeCollectionViewCell.self,
+                                     forCellWithReuseIdentifier: RegistImageCoverImageTypeCollectionViewCell.identifier)
         
     }
     
@@ -278,6 +287,13 @@ class ForegroundStep2TopView: UIView {
     
     private func makeCoverCell(emotion: Emotion?, imageInfo: RegistImageInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCoverCollectionViewCell.identifier, for: indexPath) as? RegistImageCoverCollectionViewCell else { return UICollectionViewCell() }
+        cell.emotion = emotion
+        cell.image = imageInfo.image
+        return cell
+    }
+    
+    private func makeCoverImageTypeCell(emotion: Emotion?, imageInfo: RegistImageInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageCoverImageTypeCollectionViewCell.identifier, for: indexPath) as? RegistImageCoverImageTypeCollectionViewCell else { return UICollectionViewCell() }
         cell.emotion = emotion
         cell.image = imageInfo.image
         return cell

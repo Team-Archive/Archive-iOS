@@ -295,7 +295,8 @@ class RegistViewController: UIViewController, View {
                 GAModule.sendEventLogToGA(.startPhotoSelect)
                 let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(
                     emotion: self?.reactor?.currentState.emotion ?? .pleasant,
-                    originPhotoInfo: reactor.currentState.originPhotoInfo))
+                    originPhotoInfo: reactor.currentState.originPhotoInfo,
+                    isUsingCover: reactor.currentState.isCoverUsing))
                 vc.delegate = self
                 let navi = UINavigationController(rootViewController: vc)
                 navi.modalPresentationStyle = .fullScreen

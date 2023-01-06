@@ -103,6 +103,7 @@
 		783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */; };
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
+		784260132968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784260122968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift */; };
 		78436F26287C77F800013982 /* CommunityFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */; };
 		7845765627E3809F00BE6863 /* GAModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7845765527E3809F00BE6863 /* GAModule.swift */; };
 		78458D2A272C18BB00392B45 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78458D29272C18BB00392B45 /* Util.swift */; };
@@ -367,6 +368,7 @@
 		783A61DE273BEB02004D848F /* InstagramStoryShareManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramStoryShareManager.swift; sourceTree = "<group>"; };
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
+		784260122968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCoverImageTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		7845765527E3809F00BE6863 /* GAModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAModule.swift; sourceTree = "<group>"; };
 		78458D29272C18BB00392B45 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -1338,6 +1340,7 @@
 				7824796328B09FE8003E71A2 /* RegistImageAddCollectionViewCell.swift */,
 				78D5F50328B1241D00C2B271 /* RegistContentsBottomView.swift */,
 				78027CEE28B4FC450096B400 /* RegistBehindView.swift */,
+				784260122968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift */,
 			);
 			path = SubView;
 			sourceTree = "<group>";
@@ -1895,6 +1898,7 @@
 				7831D52427E5A5B200E3FA57 /* LoginOAuthRepositoryImplement.swift in Sources */,
 				44FB0A1727183C22006E1048 /* PasswordInputViewController.swift in Sources */,
 				783A61DF273BEB02004D848F /* InstagramStoryShareManager.swift in Sources */,
+				784260132968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift in Sources */,
 				78A3217F275BBEB20078650D /* UIColorExtension.swift in Sources */,
 				7839E49B28DEDF3A00A80A1D /* NickNameDuplicationUsecase.swift in Sources */,
 				78D58B1828BB575200AF3191 /* UploadImageRepositoryImplement.swift in Sources */,

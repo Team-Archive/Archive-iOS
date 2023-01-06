@@ -14,6 +14,11 @@ enum Direction {
     case bottom
 }
 
+enum CoverType {
+    case cover
+    case image
+}
+
 class CommonDefine: NSObject {
     static let kakaoAppKey: String = "147a5c186ee0f5fdc58244b704165132"
     static let devApiServer: String = "https://archive-ticket.site/dev" // 개발

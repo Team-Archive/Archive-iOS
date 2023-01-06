@@ -248,7 +248,10 @@ class RegistReactor: Reactor, Stepper {
         case .setOriginPhotoInfo(let info):
             newState.originPhotoInfo = info
         case .setIsUsingCover(let isUsing):
+            newState.originPhotoInfo = [:]
             newState.isCoverUsing = isUsing
+            newState.photoContents.removeAll()
+            newState.imageInfo = .init(images: [], isMoveFirstIndex: true)
         }
         return newState
     }

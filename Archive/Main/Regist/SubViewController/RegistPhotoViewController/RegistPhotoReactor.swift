@@ -42,6 +42,7 @@ class RegistPhotoReactor: Reactor {
     }
     
     struct State {
+        let isUsingCover: Bool
         var thumbnailImage: UIImage?
         var imageInfos: [PHAsset: PhotoFromAlbumModel] = [PHAsset: PhotoFromAlbumModel]()
         var isLoading: Bool = false
@@ -51,9 +52,9 @@ class RegistPhotoReactor: Reactor {
     
     // MARK: life cycle
     
-    init(emotion: Emotion, originPhotoInfo: [PHAsset: PhotoFromAlbumModel]) {
+    init(emotion: Emotion, originPhotoInfo: [PHAsset: PhotoFromAlbumModel], isUsingCover: Bool) {
         self.emotion = emotion
-        self.initialState = .init(originPhotoInfo: originPhotoInfo)
+        self.initialState = .init(isUsingCover: isUsingCover, originPhotoInfo: originPhotoInfo)
     }
     
     func mutate(action: Action) -> Observable<Mutation> {
