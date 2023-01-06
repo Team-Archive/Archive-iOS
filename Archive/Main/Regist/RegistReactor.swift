@@ -42,6 +42,7 @@ class RegistReactor: Reactor, Stepper {
         case regist
         case registIsComplete
         case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
+        case setIsUsingCover(Bool)
     }
     
     enum Mutation {
@@ -58,6 +59,7 @@ class RegistReactor: Reactor, Stepper {
         case clearPhotoContents
         case setIsForegroundViewConfirmIsEnable(Bool)
         case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
+        case setIsUsingCover(Bool)
     }
     
     struct State {
@@ -72,6 +74,7 @@ class RegistReactor: Reactor, Stepper {
         var photoContents: [Int: String] = [:]
         var isForegroundViewConfirmIsEnable: Bool = false
         var originPhotoInfo: [PHAsset: PhotoFromAlbumModel] = [:]
+        var isCoverUsing: Bool = true
     }
     
     // MARK: life cycle
@@ -210,6 +213,8 @@ class RegistReactor: Reactor, Stepper {
             return .empty()
         case .setOriginPhotoInfo(let info):
             return .just(.setOriginPhotoInfo(info))
+        case .setIsUsingCover(let isUsing):
+            return .just(.setIsUsingCover(isUsing))
         }
     }
     
@@ -242,6 +247,8 @@ class RegistReactor: Reactor, Stepper {
             newState.isForegroundViewConfirmIsEnable = isEnable
         case .setOriginPhotoInfo(let info):
             newState.originPhotoInfo = info
+        case .setIsUsingCover(let isUsing):
+            newState.isCoverUsing = isUsing
         }
         return newState
     }

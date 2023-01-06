@@ -275,6 +275,13 @@ class RegistViewController: UIViewController, View {
             })
             .disposed(by: self.disposeBag)
         
+        self.emotionSelectViewController.rx.switchIsUsingCover
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] isOn in
+                reactor.action.onNext(.setIsUsingCover(isOn))
+            })
+            .disposed(by: self.disposeBag)
+        
         self.foregroundStep2TopView.rx.selectImage
             .observe(on: ConcurrentDispatchQueueScheduler(queue: .global()))
             .subscribe(onNext: {

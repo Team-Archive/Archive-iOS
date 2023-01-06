@@ -61,8 +61,16 @@ class ForegroundStep2TopView: UIView {
 
     // MARK: private UI property
     
-    private let mainContentsView = UIView().then {
+    private let backgroundColorView = UIView().then {
         $0.backgroundColor = Gen.Colors.gray05.color
+    }
+    
+    private let emotionColorView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let mainContentsView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
     private let emotionCoverView = UIImageView().then {
@@ -88,6 +96,7 @@ class ForegroundStep2TopView: UIView {
     
     private let collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), collectionViewLayout: UICollectionViewLayout()).then {
         $0.isPagingEnabled = true
+        $0.backgroundColor = .clear
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0
@@ -185,16 +194,26 @@ class ForegroundStep2TopView: UIView {
     private func setup() {
         self.backgroundColor = .clear
         
+        self.addSubview(self.backgroundColorView)
+        self.backgroundColorView.snp.makeConstraints {
+            $0.edges.equalTo(self)
+        }
+        
+        self.addSubview(self.emotionColorView)
+        self.emotionColorView.snp.makeConstraints {
+            $0.edges.equalTo(self)
+        }
+
         self.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints {
             $0.edges.equalTo(self)
         }
-        
+
         self.addSubview(self.mainContentsView)
         self.mainContentsView.snp.makeConstraints {
             $0.edges.equalTo(self)
         }
-        
+
         self.mainContentsView.addSubview(self.emptyView)
         self.emptyView.snp.makeConstraints {
             $0.leading.equalTo(self.mainContentsView).offset(32)
@@ -202,23 +221,23 @@ class ForegroundStep2TopView: UIView {
             $0.height.equalTo(UIScreen.main.bounds.width - 64)
             $0.bottom.equalTo(self.mainContentsView).offset(-75)
         }
-        
+
         self.emptyView.addSubview(self.addIconImgView)
         self.addIconImgView.snp.makeConstraints {
             $0.width.height.equalTo(44)
             $0.center.equalTo(self.emptyView)
         }
-        
+
         self.mainContentsView.addSubview(self.emotionCoverView)
         self.emotionCoverView.snp.makeConstraints {
             $0.edges.equalTo(self.emptyView)
         }
-        
+
         self.emptyView.addSubview(self.btn)
         self.btn.snp.makeConstraints {
             $0.edges.equalTo(self.emptyView)
         }
-        
+
         self.mainContentsView.addSubview(self.upIconImgView)
         self.upIconImgView.snp.makeConstraints {
             $0.width.height.equalTo(44)
@@ -228,7 +247,7 @@ class ForegroundStep2TopView: UIView {
     }
     
     private func refreshEmotionUI(emotion: Emotion) {
-        self.mainContentsView.backgroundColor = emotion.color
+        self.emotionColorView.backgroundColor = emotion.color
         self.emotionCoverView.image = emotion.coverAlphaImage
         self.collectionView.reloadData()
     }
@@ -249,6 +268,11 @@ class ForegroundStep2TopView: UIView {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RegistImageAddCollectionViewCell.identifier, for: indexPath) as? RegistImageAddCollectionViewCell else { return UICollectionViewCell() }
         cell.topBarHeight = self.topBarHeight
         cell.delegate = self
+        if indexPath.item == 0 {
+            cell.mainContentsView.backgroundColor = .clear
+        } else {
+            cell.mainContentsView.backgroundColor = Gen.Colors.gray05.color
+        }
         return cell
     }
     
@@ -304,6 +328,16 @@ class ForegroundStep2TopView: UIView {
         self.collectionView.rx.willDisplayCell
             .subscribe(onNext: { [weak self] cell, indexPath in
                 self?.willDisplayIndex = indexPath.item
+            })
+            .disposed(by: self.disposeBag)
+        
+        self.reactor.state
+            .map { $0.isCoverUsing }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] isOn in
+                self?.emotionCoverView.isHidden = !isOn
+                self?.emotionColorView.isHidden = !isOn
             })
             .disposed(by: self.disposeBag)
     }

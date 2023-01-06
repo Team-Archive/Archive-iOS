@@ -17,8 +17,8 @@ class RegistImageAddCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
     
     // MARK: UI property
     
-    private let mainContentsView = UIView().then {
-        $0.backgroundColor = Gen.Colors.gray05.color
+    let mainContentsView = UIView().then {
+        $0.backgroundColor = .clear
     }
     
     private let addImageView = UIImageView().then {
