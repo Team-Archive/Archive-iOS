@@ -6,6 +6,7 @@
 //
 
 import RxSwift
+import RxDataSources
 
 protocol MyArchiveRepository {
     func getArchives(sortBy: ArchiveSortType, emotion: Emotion?, lastSeenArchiveDateMilli: Int?, lastSeenArchiveId: Int?) -> Observable<Result<ArchiveInfoFull, ArchiveError>>
@@ -32,6 +33,7 @@ struct ArchiveInfo: CodableWrapper {
 //    let isLiked: Bool
 //    let authorProfileImageUrl: String
     let likeCount: Int
+    let coverType: CoverType
     
     
     enum CodingKeys: String, CodingKey {
@@ -48,6 +50,7 @@ struct ArchiveInfo: CodableWrapper {
 //        case isLiked
 //        case authorProfileImageUrl = "authorProfileImage"
         case likeCount
+        case coverType
     }
     
     init(from decoder: Decoder) throws {
@@ -66,6 +69,18 @@ struct ArchiveInfo: CodableWrapper {
 //        self.isLiked = try container.decode(Bool.self, forKey: .isLiked)
 //        self.authorProfileImageUrl = try container.decode(String.self, forKey: .authorProfileImageUrl)
         self.likeCount = try container.decode(Int.self, forKey: .likeCount)
+        if let coverTypeRawValue = try? container.decode(String.self, forKey: .coverType) {
+            self.coverType = CoverType.coverTypeFromRawValue(coverTypeRawValue) ?? .cover
+        } else {
+            self.coverType = .cover
+        }
+        
     }
     
+}
+
+extension ArchiveInfo: IdentifiableType, Equatable {
+    typealias Identity = Int
+
+    var identity: Identity { return self.archiveId }
 }

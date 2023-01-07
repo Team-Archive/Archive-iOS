@@ -14,9 +14,17 @@ enum Direction {
     case bottom
 }
 
-enum CoverType {
+enum CoverType: String, Encodable, CaseIterable {
     case cover
     case image
+    
+    static func coverTypeFromRawValue(_ rawValue: String) -> CoverType? {
+        var returnValue: CoverType?
+        for item in CoverType.allCases where item.rawValue == rawValue {
+            returnValue = item
+        }
+        return returnValue
+    }
 }
 
 class CommonDefine: NSObject {

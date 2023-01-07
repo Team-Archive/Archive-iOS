@@ -94,7 +94,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
         let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { datasource, collectionView, indexPath, item in
-            var cell = self.makeArhiveCell(item, from: collectionView, indexPath: indexPath)
+            var cell = self.makeArchiveCell(item, from: collectionView, indexPath: indexPath)
             
             return cell
         }
@@ -298,7 +298,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     
     // MARK: private func
     
-    private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeArchiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityCollectionViewCell.identifier, for: indexPath) as? CommunityCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
         cell.index = indexPath.item
