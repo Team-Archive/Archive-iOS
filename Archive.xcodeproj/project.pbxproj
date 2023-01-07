@@ -202,6 +202,8 @@
 		78BB7E232778938500DF78AF /* DetailContentsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E212778938500DF78AF /* DetailContentsCollectionViewCell.swift */; };
 		78BB7E272778970900DF78AF /* DetailFriendsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BB7E252778970900DF78AF /* DetailFriendsCollectionViewCell.swift */; };
 		78BB7E282778970900DF78AF /* DetailFriendsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BB7E262778970900DF78AF /* DetailFriendsCollectionViewCell.xib */; };
+		78BC9B1729698B6C00133F56 /* DetailCardImageTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC9B1629698B6C00133F56 /* DetailCardImageTypeCollectionViewCell.swift */; };
+		78BC9B1929698C3400133F56 /* DetailCardImageTypeCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78BC9B1829698C3400133F56 /* DetailCardImageTypeCollectionViewCell.xib */; };
 		78C4B328272428AB0006EBAD /* MyPage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78C4B327272428AB0006EBAD /* MyPage.storyboard */; };
 		78C4B32B272428D40006EBAD /* WithdrawalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */; };
 		78C4B33527243C660006EBAD /* NSMutableAttributedStringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C4B33427243C660006EBAD /* NSMutableAttributedStringExtension.swift */; };
@@ -463,6 +465,8 @@
 		78BB7E212778938500DF78AF /* DetailContentsCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailContentsCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E252778970900DF78AF /* DetailFriendsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailFriendsCollectionViewCell.swift; sourceTree = "<group>"; };
 		78BB7E262778970900DF78AF /* DetailFriendsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DetailFriendsCollectionViewCell.xib; sourceTree = "<group>"; };
+		78BC9B1629698B6C00133F56 /* DetailCardImageTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCardImageTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		78BC9B1829698C3400133F56 /* DetailCardImageTypeCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DetailCardImageTypeCollectionViewCell.xib; sourceTree = "<group>"; };
 		78C4B327272428AB0006EBAD /* MyPage.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyPage.storyboard; sourceTree = "<group>"; };
 		78C4B32A272428D40006EBAD /* WithdrawalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalViewController.swift; sourceTree = "<group>"; };
 		78C4B33427243C660006EBAD /* NSMutableAttributedStringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSMutableAttributedStringExtension.swift; sourceTree = "<group>"; };
@@ -1299,6 +1303,8 @@
 				78BB7E24277896DD00DF78AF /* Sub */,
 				78BB7E112778563700DF78AF /* DetailCardCollectionViewCell.swift */,
 				78BB7E122778563700DF78AF /* DetailCardCollectionViewCell.xib */,
+				78BC9B1629698B6C00133F56 /* DetailCardImageTypeCollectionViewCell.swift */,
+				78BC9B1829698C3400133F56 /* DetailCardImageTypeCollectionViewCell.xib */,
 			);
 			path = DetailCard;
 			sourceTree = "<group>";
@@ -1604,6 +1610,7 @@
 				78599DD7276375C2003FD959 /* Home.storyboard in Resources */,
 				784ACCE528C6E5AE007EC7D5 /* Like.json in Resources */,
 				780389D3278956AF00DB1730 /* Splash.json in Resources */,
+				78BC9B1929698C3400133F56 /* DetailCardImageTypeCollectionViewCell.xib in Resources */,
 				784D1DCA27083D88004B1A23 /* Images.xcassets in Resources */,
 				78BB7E142778563700DF78AF /* DetailCardCollectionViewCell.xib in Resources */,
 				78315E722764EC38001B3342 /* Upload.json in Resources */,
@@ -1767,6 +1774,7 @@
 				781C8433282F6378004A0FB3 /* MainTabBarViewController.swift in Sources */,
 				7839E4AC28DF26BC00A80A1D /* ProfileRepositoryImplement.swift in Sources */,
 				7830103E2882A2980031F8CB /* BannerRepositoryImplement.swift in Sources */,
+				78BC9B1729698B6C00133F56 /* DetailCardImageTypeCollectionViewCell.swift in Sources */,
 				78D3EEC228716F9400409228 /* ArchiveProgressBar.swift in Sources */,
 				78599DD4276375C2003FD959 /* TicketImageContentView.swift in Sources */,
 				44FB09FB27183269006E1048 /* ArchiveStep.swift in Sources */,

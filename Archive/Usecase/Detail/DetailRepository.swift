@@ -24,6 +24,7 @@ struct ArchiveDetailInfo: CodableWrapper, Equatable {
     let images: [ArchiveDetailImageInfo]?
     let nickname: String
     let profileImage: String
+    let coverType: CoverType = .image
 }
 
 struct ArchiveDetailImageInfo: CodableWrapper {

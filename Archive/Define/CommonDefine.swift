@@ -14,7 +14,7 @@ enum Direction {
     case bottom
 }
 
-enum CoverType: String, Encodable, CaseIterable {
+enum CoverType: String, Codable, CaseIterable {
     case cover
     case image
     
