@@ -66,6 +66,8 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsAddedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsDeletedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsUpdatedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_STATE_IS_UPDATED), object: nil)
+        self.ticketCollectionView.register(TicketImageTypeCollectionViewCell.self,
+                                           forCellWithReuseIdentifier: TicketImageTypeCollectionViewCell.identifier)
     }
     
     override func viewWillAppear(_ animated: Bool) {

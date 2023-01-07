@@ -104,6 +104,7 @@
 		783A61E2273BEE9F004D848F /* TopConerRadiusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */; };
 		783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */; };
 		784260132968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784260122968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift */; };
+		7842601529684BC400A5B74E /* TicketImageTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7842601429684BC400A5B74E /* TicketImageTypeCollectionViewCell.swift */; };
 		78436F26287C77F800013982 /* CommunityFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */; };
 		7845765627E3809F00BE6863 /* GAModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7845765527E3809F00BE6863 /* GAModule.swift */; };
 		78458D2A272C18BB00392B45 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78458D29272C18BB00392B45 /* Util.swift */; };
@@ -131,7 +132,6 @@
 		78599DD8276375C2003FD959 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD0276375C2003FD959 /* HomeViewController.swift */; };
 		78599DD9276375C2003FD959 /* TicketDescriptionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD1276375C2003FD959 /* TicketDescriptionContentView.swift */; };
 		78599DDA276375C2003FD959 /* HomeReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD2276375C2003FD959 /* HomeReactor.swift */; };
-		78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DD3276375C2003FD959 /* TicketCollectionViewCellModel.swift */; };
 		78599DEA27638221003FD959 /* HomeShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78599DE927638221003FD959 /* HomeShimmerView.swift */; };
 		78599DED27638241003FD959 /* HomeShimmerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78599DEC27638241003FD959 /* HomeShimmerView.xib */; };
 		785F5E43273018BC00ACC7BA /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */; };
@@ -369,6 +369,7 @@
 		783A61E1273BEE9F004D848F /* TopConerRadiusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopConerRadiusView.swift; sourceTree = "<group>"; };
 		783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterHeaderView.swift; sourceTree = "<group>"; };
 		784260122968483E00A5B74E /* RegistImageCoverImageTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistImageCoverImageTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		7842601429684BC400A5B74E /* TicketImageTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketImageTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		7845765527E3809F00BE6863 /* GAModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GAModule.swift; sourceTree = "<group>"; };
 		78458D29272C18BB00392B45 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -397,7 +398,6 @@
 		78599DD0276375C2003FD959 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		78599DD1276375C2003FD959 /* TicketDescriptionContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketDescriptionContentView.swift; sourceTree = "<group>"; };
 		78599DD2276375C2003FD959 /* HomeReactor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeReactor.swift; sourceTree = "<group>"; };
-		78599DD3276375C2003FD959 /* TicketCollectionViewCellModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TicketCollectionViewCellModel.swift; sourceTree = "<group>"; };
 		78599DE927638221003FD959 /* HomeShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeShimmerView.swift; sourceTree = "<group>"; };
 		78599DEC27638241003FD959 /* HomeShimmerView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeShimmerView.xib; sourceTree = "<group>"; };
 		785F5E42273018BC00ACC7BA /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
@@ -1052,7 +1052,7 @@
 				78599DCC276375C2003FD959 /* TicketImageContentView.swift */,
 				78599DCD276375C2003FD959 /* TicketCollectionViewLayout.swift */,
 				78599DCE276375C2003FD959 /* TicketCollectionViewCell.swift */,
-				78599DD3276375C2003FD959 /* TicketCollectionViewCellModel.swift */,
+				7842601429684BC400A5B74E /* TicketImageTypeCollectionViewCell.swift */,
 				78599DD1276375C2003FD959 /* TicketDescriptionContentView.swift */,
 				78599DE927638221003FD959 /* HomeShimmerView.swift */,
 				78599DEC27638241003FD959 /* HomeShimmerView.xib */,
@@ -1884,8 +1884,8 @@
 				78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */,
 				78D10DF0294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift in Sources */,
 				784FCDE9282FEE9E007683D2 /* LoginAccessTokenRepository.swift in Sources */,
-				78599DDB276375C2003FD959 /* TicketCollectionViewCellModel.swift in Sources */,
 				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,
+				7842601529684BC400A5B74E /* TicketImageTypeCollectionViewCell.swift in Sources */,
 				78D58B1B28BB59AD00AF3191 /* RegistUsecase.swift in Sources */,
 				78486D6C27E6C974008448A7 /* ErrorExtension.swift in Sources */,
 				783FD01B287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift in Sources */,

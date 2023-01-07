@@ -1,8 +1,8 @@
 //
-//  TicketCollectionViewCell.swift
+//  TicketImageTypeCollectionViewCell.swift
 //  Archive
 //
-//  Created by TTOzzi on 2021/10/30.
+//  Created by hanwe on 2023/01/06.
 //
 
 import UIKit
@@ -10,24 +10,26 @@ import SnapKit
 import Kingfisher
 import Then
 
-final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
+final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
     
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         return stackView
     }()
+    
     private lazy var imageContentView: TicketImageContentView = {
         let view = TicketImageContentView()
+        view.layer.masksToBounds = true
+        view.clipsToBounds = true
         return view
     }()
     
-    private lazy var mainImageView: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
-    }()
+    private let mainImageContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
     
-    private lazy var coverImageView: UIImageView = {
+    private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
     }()
@@ -58,7 +60,6 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
                 self?.imageContentView.bgColor = info.emotion.color
-                self?.coverImageView.image = info.emotion.coverAlphaImage
                 self?.emotionImageView.image = info.emotion.preImage
                 self?.emotionTitleLabel.text = info.emotion.localizationTitle
                 self?.imageContentView.setNeedsDisplay()
@@ -78,10 +79,14 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupAttributes()
         setupLayouts()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupAttributes() {
@@ -102,15 +107,13 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         imageContentView.snp.makeConstraints {
             $0.width.equalTo(imageContentView.snp.height).multipliedBy(0.75)
         }
-        imageContentView.addSubview(mainImageView)
-        mainImageView.snp.makeConstraints {
-            $0.width.equalTo(mainImageView.snp.height)
-            $0.leading.trailing.centerY.equalToSuperview()
+        self.imageContentView.addSubview(self.mainImageContainerView)
+        self.mainImageContainerView.snp.makeConstraints {
+            $0.edges.equalTo(self.imageContentView)
         }
-        imageContentView.addSubview(coverImageView)
-        coverImageView.snp.makeConstraints {
-            $0.width.equalTo(coverImageView.snp.height)
-            $0.leading.trailing.centerY.equalToSuperview()
+        mainImageContainerView.addSubview(mainImageView)
+        mainImageView.snp.makeConstraints {
+            $0.edges.equalTo(self)
         }
         contentStackView.addArrangedSubview(descriptionView)
         descriptionView.snp.makeConstraints {
