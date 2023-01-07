@@ -39,6 +39,11 @@ final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdenti
         return view
     }()
     
+    private let emotionContainerView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Gen.Colors.whiteOpacity70.color
+    }
+    
     private lazy var emotionImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -47,7 +52,7 @@ final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdenti
     private lazy var emotionTitleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .fonts(.subTitle)
-        label.textColor = Gen.Colors.white.color
+        label.textColor = Gen.Colors.black.color
         return label
     }()
     
@@ -60,7 +65,7 @@ final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdenti
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
                 self?.imageContentView.bgColor = info.emotion.color
-                self?.emotionImageView.image = info.emotion.preImage
+                self?.emotionImageView.image = info.emotion.typeImage
                 self?.emotionTitleLabel.text = info.emotion.localizationTitle
                 self?.imageContentView.setNeedsDisplay()
                 self?.mainImageView.kf.setImage(with: URL(string: info.mainImageUrl),
@@ -121,18 +126,25 @@ final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdenti
         }
         descriptionView.setLayout()
         
-        imageContentView.addSubview(emotionImageView)
+        imageContentView.addSubview(self.emotionContainerView)
+        self.emotionContainerView.snp.makeConstraints {
+            $0.top.leading.equalTo(self.imageContentView).offset(12)
+        }
+        
+        emotionContainerView.addSubview(emotionImageView)
         emotionImageView.snp.makeConstraints {
             $0.width.equalTo(24)
             $0.height.equalTo(24)
-            $0.top.equalTo(imageContentView.snp.top).offset(20)
-            $0.leading.equalTo(imageContentView.snp.leading).offset(20)
+            $0.leading.equalTo(self.emotionContainerView).offset(8)
+            $0.top.equalTo(self.emotionContainerView).offset(6)
+            $0.bottom.equalTo(self.emotionContainerView).offset(-6)
         }
         
-        imageContentView.addSubview(emotionTitleLabel)
+        emotionContainerView.addSubview(emotionTitleLabel)
         emotionTitleLabel.snp.makeConstraints {
             $0.centerY.equalTo(emotionImageView.snp.centerY)
             $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(emotionContainerView.snp.trailing).offset(-8)
         }
         
         imageContentView.addSubview(lockImageView)
