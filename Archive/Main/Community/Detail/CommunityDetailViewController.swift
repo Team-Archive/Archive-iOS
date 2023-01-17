@@ -382,7 +382,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         reactor.state
             .map { $0.detailArchive }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""), innerIndex: 0, index: 0))
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(), innerIndex: 0, index: 0))
             .drive(onNext: { [weak self] data in
                 if data.innerIndex == 0 {
                     self?.showCover(infoData: data)
@@ -411,7 +411,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         reactor.state
             .map { $0.detailArchive }
             .distinctUntilChanged()
-            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(archiveId: 0, authorId: 0, name: "", watchedOn: "", emotion: .fun, companions: nil, mainImage: "", images: nil, nickname: "", profileImage: ""), innerIndex: 0, index: 0))
+            .asDriver(onErrorJustReturn: .init(archiveInfo: .init(), innerIndex: 0, index: 0))
             .drive(onNext: { [weak self] data in
                 self?.likeBtn.isLike = LikeManager.shared.likeList.contains("\(data.archiveInfo.archiveId)")
             })
