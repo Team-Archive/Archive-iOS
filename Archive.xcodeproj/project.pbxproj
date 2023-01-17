@@ -255,6 +255,7 @@
 		78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */; };
 		78ECDB18280A940D005C8D5D /* ConfirmBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */; };
 		78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */; };
+		78ED8EAA29767D4C006E7595 /* CommunityImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78ED8EA929767D4C006E7595 /* CommunityImageCollectionViewCell.swift */; };
 		78EDAD61274525D40028F56D /* ShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78EDAD60274525D40028F56D /* ShareCardView.swift */; };
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
 		78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8A2830C8420033882E /* MyPageViewController.swift */; };
@@ -517,6 +518,7 @@
 		78ECDB15280A8F1A005C8D5D /* FindPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPasswordViewController.swift; sourceTree = "<group>"; };
 		78ECDB17280A940D005C8D5D /* ConfirmBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmBtn.swift; sourceTree = "<group>"; };
 		78ED6765275B4DAB004E8AEC /* UserDefaultManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultManager.swift; sourceTree = "<group>"; };
+		78ED8EA929767D4C006E7595 /* CommunityImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		78EDAD60274525D40028F56D /* ShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCardView.swift; sourceTree = "<group>"; };
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
 		78F06C8A2830C8420033882E /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -764,6 +766,7 @@
 				781C843D282F7CF3004A0FB3 /* CommunityViewController.swift */,
 				781C843F282F7D05004A0FB3 /* CommunityReactor.swift */,
 				78E8E6342866F2F700B18AD8 /* CommunityCollectionViewCell.swift */,
+				78ED8EA929767D4C006E7595 /* CommunityImageCollectionViewCell.swift */,
 				78436F25287C77F800013982 /* CommunityFilterCollectionViewCell.swift */,
 				783FD01A287DB8DC003EE0C7 /* CommunityFilterHeaderView.swift */,
 				783010362882A1670031F8CB /* CommunityBannerViewCell.swift */,
@@ -1805,6 +1808,7 @@
 				44BE6F01271144AB00E74A7D /* TermsAgreementViewController.swift in Sources */,
 				78A32167275B92530078650D /* DetailViewController.swift in Sources */,
 				789E61BC2725847B00D6E18F /* ClassIdentifiable.swift in Sources */,
+				78ED8EAA29767D4C006E7595 /* CommunityImageCollectionViewCell.swift in Sources */,
 				78ECDB16280A8F1A005C8D5D /* FindPasswordViewController.swift in Sources */,
 				7839E4AA28DF26B300A80A1D /* ProfileRepository.swift in Sources */,
 				78179A5327E6FE7E00420F0A /* LoginWithKakaoRepositoryImplement.swift in Sources */,
