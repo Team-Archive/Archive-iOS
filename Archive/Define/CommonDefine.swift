@@ -15,8 +15,8 @@ enum Direction {
 }
 
 enum CoverType: String, Codable, CaseIterable {
-    case cover
-    case image
+    case cover = "EMOTION_COVER"
+    case image = "NO_COVER"
     
     static func coverTypeFromRawValue(_ rawValue: String) -> CoverType? {
         var returnValue: CoverType?

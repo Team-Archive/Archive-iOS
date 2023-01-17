@@ -50,7 +50,7 @@ struct ArchiveInfo: CodableWrapper {
 //        case isLiked
 //        case authorProfileImageUrl = "authorProfileImage"
         case likeCount
-        case coverType
+        case coverType = "coverImageType"
     }
     
     init(from decoder: Decoder) throws {
