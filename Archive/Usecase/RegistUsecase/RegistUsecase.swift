@@ -66,7 +66,7 @@ class RegistUsecase: NSObject {
     
     // MARK: internal function
     
-    func regist(name: String, watchedOn: String, companions: [String]?, emotion: String, images: [RegistImageInfo], imageContents: [Int: String], isPublic: Bool) -> Observable<Result<Void, ArchiveError>> {
+    func regist(name: String, watchedOn: String, companions: [String]?, emotion: String, images: [RegistImageInfo], imageContents: [Int: String], isPublic: Bool, coverType: CoverType) -> Observable<Result<Void, ArchiveError>> {
         return self.uploadImages(images)
             .map { result -> Result<[UploadImageInfo], ArchiveError> in
                 switch result {
@@ -101,7 +101,8 @@ class RegistUsecase: NSObject {
                                                             emotion: emotion,
                                                             mainImage: mainImage,
                                                             images: recordImageDataArr,
-                                                            isPublic: isPublic)
+                                                            isPublic: isPublic,
+                                                            coverImageType: coverType)
                     return self?.repository.regist(info: recordData) ?? .just(.failure(.init(.selfIsNull)))
                 case .failure(let err):
                     return .just(.failure(err))

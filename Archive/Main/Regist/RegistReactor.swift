@@ -170,22 +170,24 @@ class RegistReactor: Reactor, Stepper {
                 err.onNext(.init(.archiveDataIsInvaild))
                 return .just(.empty)
             }
-            let registObservable = self.registUsecase.regist(name: name,
-                                                             watchedOn: visitDate,
-                                                             companions: friendsToFriendsArr(self.currentState.friends),
-                                                             emotion: emotion.rawStringValue,
-                                                             images: self.currentState.imageInfo.images,
-                                                             imageContents: self.currentState.photoContents,
-                                                             isPublic: self.currentState.isPublic)
-                .map { [weak self] result -> RegistReactor.Mutation in
-                    switch result {
-                    case .success(_):
-                        break
-                    case .failure(let err):
-                        self?.err.onNext(err)
-                    }
-                    return .empty
+            let registObservable = self.registUsecase.regist(
+                name: name,
+                watchedOn: visitDate,
+                companions: friendsToFriendsArr(self.currentState.friends),
+                emotion: emotion.rawStringValue,
+                images: self.currentState.imageInfo.images,
+                imageContents: self.currentState.photoContents,
+                isPublic: self.currentState.isPublic,
+                coverType: self.currentState.isCoverUsing ? .cover : .image
+            ).map { [weak self] result -> RegistReactor.Mutation in
+                switch result {
+                case .success(_):
+                    break
+                case .failure(let err):
+                    self?.err.onNext(err)
                 }
+                return .empty
+            }
             let getThisMonthRegistCountObservable = self.registUsecase.getThisMonthRegistCnt()
                 .map { result -> Result<Int, ArchiveError> in
                     switch result {
