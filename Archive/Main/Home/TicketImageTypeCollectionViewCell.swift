@@ -31,6 +31,7 @@ final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdenti
     
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
