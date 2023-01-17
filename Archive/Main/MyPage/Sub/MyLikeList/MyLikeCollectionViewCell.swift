@@ -79,6 +79,20 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         $0.textColor = Gen.Colors.gray03.color
     }
     
+    private let emotionContainerView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Gen.Colors.whiteOpacity70.color
+    }
+    
+    private lazy var emotionImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private lazy var emotionTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.black.color
+    }
+    
     // MARK: private property
     
     private let disposeBag = DisposeBag()
@@ -105,6 +119,18 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
                 self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
+                self?.emotionImageView.image = info.emotion.typeImage
+                self?.emotionTitleLabel.text = info.emotion.localizationTitle
+                switch info.coverType {
+                case .cover:
+                    self?.emotionContainerView.isHidden = true
+                    self?.emotionCoverImageView.isHidden = false
+                    self?.thumbnailImageView.contentMode = .scaleToFill
+                case .image:
+                    self?.emotionCoverImageView.isHidden = true
+                    self?.emotionContainerView.isHidden = false
+                    self?.thumbnailImageView.contentMode = .scaleAspectFill
+                }
             }
         }
     }
@@ -212,6 +238,27 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         self.likeCntLabel.snp.makeConstraints {
             $0.centerX.equalTo(self.likeBtn.snp.centerX)
             $0.top.equalTo(self.likeBtn.snp.bottom).offset(-5)
+        }
+        
+        self.cardView.addSubview(self.emotionContainerView)
+        self.emotionContainerView.snp.makeConstraints {
+            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-4)
+        }
+        
+        emotionContainerView.addSubview(emotionImageView)
+        emotionImageView.snp.makeConstraints {
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+            $0.leading.equalTo(self.emotionContainerView).offset(8)
+            $0.top.equalTo(self.emotionContainerView).offset(6)
+            $0.bottom.equalTo(self.emotionContainerView).offset(-6)
+        }
+        
+        emotionContainerView.addSubview(emotionTitleLabel)
+        emotionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(emotionImageView.snp.centerY)
+            $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(emotionContainerView.snp.trailing).offset(-8)
         }
     }
     

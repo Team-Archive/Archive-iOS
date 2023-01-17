@@ -32,12 +32,7 @@ class CommunityImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
     
     private let thumbnailImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
-//        $0.backgroundColor = .clear
     }
-    
-//    private let emotionCoverImageView = UIImageView().then {
-//        $0.backgroundColor = .clear
-//    }
     
     private let userImageView = UIImageView().then {
         $0.backgroundColor = .clear
