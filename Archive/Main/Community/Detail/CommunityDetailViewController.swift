@@ -135,6 +135,28 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     
 //    private let // 친구들 보여줘야할까?
     
+    private let topFullCoverContentsView = UIView().then {
+        $0.backgroundColor = Gen.Colors.white.color
+    }
+    
+    private let fullMainImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+    }
+    
+    private let fullTypeEmotionContainerView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Gen.Colors.whiteOpacity70.color
+    }
+    
+    private lazy var fullTypeEmotionImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private lazy var fullTypeEmotionTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.black.color
+    }
+    
     // type Photo
     
     private let topPhotoContentsView = UIView().then {
@@ -349,6 +371,41 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.centerX.equalTo(likeBtn.snp.centerX)
             $0.top.equalTo(self.likeBtn.snp.bottom).offset(5)
         }
+        
+        
+        
+        
+        self.topContentsView.addSubview(self.topFullCoverContentsView)
+        self.topFullCoverContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.topContentsView)
+        }
+        
+        self.topFullCoverContentsView.addSubview(self.fullMainImageView)
+        self.fullMainImageView.snp.makeConstraints {
+            $0.edges.equalTo(self.topFullCoverContentsView)
+        }
+        
+        topFullCoverContentsView.addSubview(self.fullTypeEmotionContainerView)
+        self.fullTypeEmotionContainerView.snp.makeConstraints {
+            $0.leading.equalTo(self.topFullCoverContentsView).offset(12)
+            $0.top.equalTo(self.progressBar).offset(12)
+        }
+        
+        fullTypeEmotionContainerView.addSubview(fullTypeEmotionImageView)
+        fullTypeEmotionImageView.snp.makeConstraints {
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+            $0.leading.equalTo(self.fullTypeEmotionContainerView).offset(8)
+            $0.top.equalTo(self.fullTypeEmotionContainerView).offset(6)
+            $0.bottom.equalTo(self.fullTypeEmotionContainerView).offset(-6)
+        }
+        
+        fullTypeEmotionContainerView.addSubview(fullTypeEmotionTitleLabel)
+        fullTypeEmotionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(fullTypeEmotionImageView.snp.centerY)
+            $0.leading.equalTo(fullTypeEmotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(fullTypeEmotionContainerView.snp.trailing).offset(-8)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -439,7 +496,16 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     
     private func showCover(infoData: CommunityReactor.DetailInfo) {
         let item = infoData.archiveInfo
-        self.topCoverContentsView.isHidden = false
+        switch infoData.archiveInfo.coverType {
+        case .cover:
+            self.topCoverContentsView.isHidden = false
+            self.topFullCoverContentsView.isHidden = true
+        case .image:
+            print("무슨?")
+            self.topCoverContentsView.isHidden = true
+            self.topFullCoverContentsView.isHidden = false
+        }
+        
         self.bottomCoverContentsView.isHidden = false
         self.topPhotoContentsView.isHidden = true
         self.bottomPhotoContentsView.isHidden = true
@@ -449,17 +515,16 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
                                            placeholder: nil,
                                            options: [.cacheMemoryOnly],
                                            completionHandler: nil)
+        self.fullMainImageView.kf.setImage(with: URL(string: item.mainImage),
+                                       placeholder: nil,
+                                       options: [.cacheMemoryOnly],
+                                       completionHandler: nil)
+        
         self.topCoverEmotionCoverView.image = item.emotion.coverAlphaImage
         self.bottomCoverTitleLabel.text = item.name
         self.bottomCoverDateLabel.text = item.watchedOn
-//        self.userNameLabel.text = item.authorId
-        
-//        self.likeBtn.isLike
-//        private let likeCntLabel = UILabel().then {
-//            $0.font = .fonts(.body)
-//            $0.textColor = Gen.Colors.gray03.color
-//        }
-        
+        self.fullTypeEmotionImageView.image = item.emotion.typeImage
+        self.fullTypeEmotionTitleLabel.text = item.emotion.localizationTitle
        
         if self.currentIndex != -1 {
             if currentIndex > infoData.index {
@@ -507,6 +572,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
     private func showPhoto(infoData: CommunityReactor.DetailInfo) {
         guard let item = infoData.archiveInfo.images?[infoData.innerIndex-1] else { return }
         self.topCoverContentsView.isHidden = true
+        self.topFullCoverContentsView.isHidden = true
         self.bottomCoverContentsView.isHidden = true
         self.topPhotoContentsView.isHidden = false
         self.bottomPhotoContentsView.isHidden = false
