@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Then
 
 class ShareCardView: UIView, NibIdentifiable {
     // MARK: IBOutlet
@@ -25,6 +26,12 @@ class ShareCardView: UIView, NibIdentifiable {
         return view
     }()
     
+    
+    // cover
+    private let coverTypeContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
         return imageView
@@ -35,6 +42,12 @@ class ShareCardView: UIView, NibIdentifiable {
         let imageView = UIImageView()
         return imageView
     }()
+    
+    // full image
+    
+    
+    
+    // end
     
     private lazy var descriptionView: TicketDescriptionContentView = {
         let view = TicketDescriptionContentView()
@@ -90,31 +103,38 @@ class ShareCardView: UIView, NibIdentifiable {
         imageContentView.snp.makeConstraints {
             $0.width.equalTo(imageContentView.snp.height).multipliedBy(0.75)
         }
-        imageContentView.addSubview(mainImageView)
+        
+        self.imageContentView.addSubview(self.coverTypeContainerView)
+        self.coverTypeContainerView.snp.makeConstraints {
+            $0.edges.equalTo(self.imageContentView)
+        }
+        
+        
+        coverTypeContainerView.addSubview(mainImageView)
         mainImageView.snp.makeConstraints {
             $0.width.equalTo(mainImageView.snp.height)
             $0.leading.trailing.centerY.equalToSuperview()
         }
-        imageContentView.addSubview(coverImageView)
+        coverTypeContainerView.addSubview(coverImageView)
         coverImageView.snp.makeConstraints {
             $0.width.equalTo(coverImageView.snp.height)
             $0.leading.trailing.centerY.equalToSuperview()
         }
         contentStackView.addArrangedSubview(descriptionView)
         descriptionView.snp.makeConstraints {
-            $0.height.equalTo(imageContentView.snp.height).multipliedBy(0.3)
+            $0.height.equalTo(coverTypeContainerView.snp.height).multipliedBy(0.3)
         }
         descriptionView.setLayout()
         
-        imageContentView.addSubview(emotionImageView)
+        coverTypeContainerView.addSubview(emotionImageView)
         emotionImageView.snp.makeConstraints {
             $0.width.equalTo(24)
             $0.height.equalTo(24)
-            $0.top.equalTo(imageContentView.snp.top).offset(20)
-            $0.leading.equalTo(imageContentView.snp.leading).offset(20)
+            $0.top.equalTo(coverTypeContainerView.snp.top).offset(20)
+            $0.leading.equalTo(coverTypeContainerView.snp.leading).offset(20)
         }
         
-        imageContentView.addSubview(emotionTitleLabel)
+        coverTypeContainerView.addSubview(emotionTitleLabel)
         emotionTitleLabel.snp.makeConstraints {
             $0.centerY.equalTo(emotionImageView.snp.centerY)
             $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
@@ -130,6 +150,7 @@ class ShareCardView: UIView, NibIdentifiable {
         self.coverImageView.image = emotion.coverAlphaImage
         self.emotionImageView.image = emotion.preImage
         self.emotionTitleLabel.text = emotion.localizationTitle
+        self.coverTypeContainerView.backgroundColor = emotion.color
         self.mainImageView.image = thumbnailImage
         self.descriptionView.titleLabel.text = eventName
         self.descriptionView.dateLabel.text = date
