@@ -29,6 +29,23 @@ class DetailCardImageTypeCollectionViewCell: UICollectionViewCell, ClassIdentifi
     
     @IBOutlet weak var friendsCollectionView: UICollectionView!
     
+    private let emotionContainerView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Gen.Colors.whiteOpacity70.color
+    }
+    
+    private lazy var emotionImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
+    private lazy var emotionTitleLabel: UILabel = {
+        let label: UILabel = UILabel()
+        label.font = .fonts(.subTitle)
+        label.textColor = Gen.Colors.black.color
+        return label
+    }()
+    
     // MARK: private property
     
     // MARK: internal property
@@ -92,12 +109,36 @@ class DetailCardImageTypeCollectionViewCell: UICollectionViewCell, ClassIdentifi
         
         self.mainImageView.contentMode = .scaleAspectFill
         
+        centerContainerView.addSubview(self.emotionContainerView)
+        self.emotionContainerView.snp.makeConstraints {
+            $0.leading.equalTo(self.centerContainerView).offset(12)
+            $0.top.equalTo(self.topContainerView.snp.bottom).offset(12)
+        }
+        
+        emotionContainerView.addSubview(emotionImageView)
+        emotionImageView.snp.makeConstraints {
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+            $0.leading.equalTo(self.emotionContainerView).offset(8)
+            $0.top.equalTo(self.emotionContainerView).offset(6)
+            $0.bottom.equalTo(self.emotionContainerView).offset(-6)
+        }
+        
+        emotionContainerView.addSubview(emotionTitleLabel)
+        emotionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(emotionImageView.snp.centerY)
+            $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(emotionContainerView.snp.trailing).offset(-8)
+        }
+        
     }
     
     private func setNewEmotion(_ emotion: Emotion) {
         self.mainContetnsView.backgroundColor = Gen.Colors.gray05.color
         self.emotionLabel.text = emotion.localizationTitle
         self.miniEmotionImageView.image = emotion.preImage
+        self.emotionImageView.image = emotion.typeImage
+        self.emotionTitleLabel.text = emotion.localizationTitle
     }
     
     private func getFriendsCellWidth(_ text: String) -> CGFloat {
