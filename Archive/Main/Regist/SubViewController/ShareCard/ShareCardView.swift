@@ -45,6 +45,27 @@ class ShareCardView: UIView, NibIdentifiable {
     
     // full image
     
+    private let fullTypeContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private let fullTypeMainImageView = UIImageView().then {
+        $0.contentMode = .scaleAspectFill
+    }
+    
+    private let fullTypeEmotionContainerView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Gen.Colors.whiteOpacity70.color
+    }
+    
+    private lazy var fullTypeEmotionImageView = UIImageView().then {
+        $0.backgroundColor = .clear
+    }
+    
+    private lazy var fullTypeEmotionTitleLabel = UILabel().then {
+        $0.font = .fonts(.subTitle)
+        $0.textColor = Gen.Colors.black.color
+    }
     
     
     // end
@@ -122,11 +143,11 @@ class ShareCardView: UIView, NibIdentifiable {
         }
         contentStackView.addArrangedSubview(descriptionView)
         descriptionView.snp.makeConstraints {
-            $0.height.equalTo(coverTypeContainerView.snp.height).multipliedBy(0.3)
+            $0.height.equalTo(imageContentView.snp.height).multipliedBy(0.3)
         }
         descriptionView.setLayout()
         
-        coverTypeContainerView.addSubview(emotionImageView)
+        imageContentView.addSubview(emotionImageView)
         emotionImageView.snp.makeConstraints {
             $0.width.equalTo(24)
             $0.height.equalTo(24)
@@ -134,16 +155,47 @@ class ShareCardView: UIView, NibIdentifiable {
             $0.leading.equalTo(coverTypeContainerView.snp.leading).offset(20)
         }
         
-        coverTypeContainerView.addSubview(emotionTitleLabel)
+        imageContentView.addSubview(emotionTitleLabel)
         emotionTitleLabel.snp.makeConstraints {
             $0.centerY.equalTo(emotionImageView.snp.centerY)
             $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+        }
+        
+        self.imageContentView.addSubview(self.fullTypeContainerView)
+        self.fullTypeContainerView.snp.makeConstraints {
+            $0.edges.equalTo(self.imageContentView)
+        }
+        
+        self.fullTypeContainerView.addSubview(self.fullTypeMainImageView)
+        self.fullTypeMainImageView.snp.makeConstraints {
+            $0.edges.equalTo(self.fullTypeContainerView)
+        }
+        
+        fullTypeContainerView.addSubview(self.fullTypeEmotionContainerView)
+        self.fullTypeEmotionContainerView.snp.makeConstraints {
+            $0.leading.top.equalTo(self.fullTypeContainerView).offset(12)
+        }
+        
+        fullTypeEmotionContainerView.addSubview(fullTypeEmotionImageView)
+        fullTypeEmotionImageView.snp.makeConstraints {
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+            $0.leading.equalTo(self.fullTypeEmotionContainerView).offset(8)
+            $0.top.equalTo(self.fullTypeEmotionContainerView).offset(6)
+            $0.bottom.equalTo(self.fullTypeEmotionContainerView).offset(-6)
+        }
+        
+        fullTypeEmotionContainerView.addSubview(fullTypeEmotionTitleLabel)
+        fullTypeEmotionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(fullTypeEmotionImageView.snp.centerY)
+            $0.leading.equalTo(fullTypeEmotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(fullTypeEmotionContainerView.snp.trailing).offset(-8)
         }
     }
 
     // MARK: internal function
     
-    func setInfoData(emotion: Emotion, thumbnailImage: UIImage, eventName: String, date: String) {
+    func setInfoData(emotion: Emotion, thumbnailImage: UIImage, eventName: String, date: String, coverType: CoverType) {
         self.topBackgroundColor = emotion.darkenColor
         self.bottomBackgroundColor = emotion.color
         self.imageContentView.bgColor = emotion.color
@@ -154,6 +206,18 @@ class ShareCardView: UIView, NibIdentifiable {
         self.mainImageView.image = thumbnailImage
         self.descriptionView.titleLabel.text = eventName
         self.descriptionView.dateLabel.text = date
+        self.fullTypeMainImageView.image = thumbnailImage
+        self.fullTypeEmotionImageView.image = emotion.typeImage
+        self.fullTypeEmotionTitleLabel.text = emotion.localizationTitle
+        
+        switch coverType {
+        case .cover:
+            self.fullTypeContainerView.isHidden = true
+            self.coverTypeContainerView.isHidden = false
+        case .image:
+            self.fullTypeContainerView.isHidden = false
+            self.coverTypeContainerView.isHidden = true
+        }
     }
     
 }

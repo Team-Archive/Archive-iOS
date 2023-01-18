@@ -239,7 +239,8 @@ class RegistUploadCompleteViewController: UIViewController, View {
         cardView.setInfoData(emotion: self.reactor?.currentState.emotion ?? .pleasant,
                              thumbnailImage: self.reactor?.currentState.imageInfo.images[0].image ?? UIImage(),
                              eventName: self.reactor?.currentState.archiveName ?? "",
-                             date: self.reactor?.currentState.visitDate ?? "")
+                             date: self.reactor?.currentState.visitDate ?? "",
+                             coverType: (self.reactor?.currentState.isCoverUsing ?? true) ? .cover : .image)
         return cardView
     }
     
