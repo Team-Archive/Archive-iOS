@@ -242,7 +242,7 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         
         self.cardView.addSubview(self.emotionContainerView)
         self.emotionContainerView.snp.makeConstraints {
-            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-4)
+            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-12)
         }
         
         emotionContainerView.addSubview(emotionImageView)

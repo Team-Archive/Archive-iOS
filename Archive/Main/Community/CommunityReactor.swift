@@ -115,7 +115,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
             ])
         case .refreshPublicArchives:
             return Observable.concat([
-                Observable.just(Mutation.setIsLoading(true)),
                 getFirstPublicArchives(sortBy: self.archiveSortType, emotion: self.filterEmotion)
                     .map { [weak self] result in
                         switch result {
@@ -125,8 +124,7 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                             self?.err.onNext(err)
                             return .empty
                         }
-                    },
-                Observable.just(Mutation.setIsLoading(false))
+                    }
             ])
         case .getMorePublicArchives:
             if !self.usecase.isQuerying && !self.usecase.isEndOfPage {
