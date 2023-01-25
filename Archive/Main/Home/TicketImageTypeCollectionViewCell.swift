@@ -70,9 +70,11 @@ final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdenti
                 self?.emotionTitleLabel.text = info.emotion.localizationTitle
                 self?.imageContentView.setNeedsDisplay()
                 self?.mainImageView.kf.setImage(with: URL(string: info.mainImageUrl),
-                                                      placeholder: nil,
-                                                      options: [.cacheMemoryOnly],
-                                                      completionHandler: nil)
+                                                placeholder: nil,
+                                                options: [.cacheMemoryOnly],
+                                                completionHandler: { _ in 
+                    self?.mainImageView.fadeIn(completeHandler: nil)
+                })
                 self?.descriptionView.titleLabel.text = info.archiveName
                 self?.descriptionView.dateLabel.text = info.watchedOn
                 self?.descriptionView.setLikeCount(info.likeCount)
