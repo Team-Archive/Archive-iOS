@@ -315,9 +315,44 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.bottom.equalTo(self.bottomContentsView)
         }
         
+        self.view.addSubview(self.progressBar)
+        self.progressBar.snp.makeConstraints {
+            $0.top.equalTo(safeGuide)
+            $0.leading.trailing.equalTo(self.mainContentsView)
+            $0.height.equalTo(2)
+        }
         
+        self.topContentsView.addSubview(self.topFullCoverContentsView)
+        self.topFullCoverContentsView.snp.makeConstraints {
+            $0.edges.equalTo(self.topContentsView)
+        }
         
+        self.topFullCoverContentsView.addSubview(self.fullMainImageView)
+        self.fullMainImageView.snp.makeConstraints {
+            $0.edges.equalTo(self.topFullCoverContentsView)
+        }
         
+        self.topFullCoverContentsView.addSubview(self.fullTypeEmotionContainerView)
+        self.fullTypeEmotionContainerView.snp.makeConstraints {
+            $0.leading.equalTo(self.topFullCoverContentsView).offset(12)
+            $0.top.equalTo(self.progressBar).offset(12)
+        }
+        
+        self.fullTypeEmotionContainerView.addSubview(self.fullTypeEmotionImageView)
+        self.fullTypeEmotionImageView.snp.makeConstraints {
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+            $0.leading.equalTo(self.fullTypeEmotionContainerView).offset(8)
+            $0.top.equalTo(self.fullTypeEmotionContainerView).offset(6)
+            $0.bottom.equalTo(self.fullTypeEmotionContainerView).offset(-6)
+        }
+        
+        self.fullTypeEmotionContainerView.addSubview(self.fullTypeEmotionTitleLabel)
+        self.fullTypeEmotionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(fullTypeEmotionImageView.snp.centerY)
+            $0.leading.equalTo(fullTypeEmotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(fullTypeEmotionContainerView.snp.trailing).offset(-8)
+        }
         
         self.topContentsView.addSubview(self.leftTriangleView)
         self.leftTriangleView.snp.makeConstraints {
@@ -351,13 +386,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.width.equalTo(50)
         }
         
-        self.view.addSubview(self.progressBar)
-        self.progressBar.snp.makeConstraints {
-            $0.top.equalTo(safeGuide)
-            $0.leading.trailing.equalTo(self.mainContentsView)
-            $0.height.equalTo(2)
-        }
-        
         self.bottomContentsView.addSubview(self.likeBtn)
         self.likeBtn.snp.makeConstraints {
             $0.trailing.equalTo(self.bottomContentsView.snp.trailing).offset(-32)
@@ -375,37 +403,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         
         
         
-        self.topContentsView.addSubview(self.topFullCoverContentsView)
-        self.topFullCoverContentsView.snp.makeConstraints {
-            $0.edges.equalTo(self.topContentsView)
-        }
         
-        self.topFullCoverContentsView.addSubview(self.fullMainImageView)
-        self.fullMainImageView.snp.makeConstraints {
-            $0.edges.equalTo(self.topFullCoverContentsView)
-        }
-        
-        topFullCoverContentsView.addSubview(self.fullTypeEmotionContainerView)
-        self.fullTypeEmotionContainerView.snp.makeConstraints {
-            $0.leading.equalTo(self.topFullCoverContentsView).offset(12)
-            $0.top.equalTo(self.progressBar).offset(12)
-        }
-        
-        fullTypeEmotionContainerView.addSubview(fullTypeEmotionImageView)
-        fullTypeEmotionImageView.snp.makeConstraints {
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
-            $0.leading.equalTo(self.fullTypeEmotionContainerView).offset(8)
-            $0.top.equalTo(self.fullTypeEmotionContainerView).offset(6)
-            $0.bottom.equalTo(self.fullTypeEmotionContainerView).offset(-6)
-        }
-        
-        fullTypeEmotionContainerView.addSubview(fullTypeEmotionTitleLabel)
-        fullTypeEmotionTitleLabel.snp.makeConstraints {
-            $0.centerY.equalTo(fullTypeEmotionImageView.snp.centerY)
-            $0.leading.equalTo(fullTypeEmotionImageView.snp.trailing).offset(8)
-            $0.trailing.equalTo(fullTypeEmotionContainerView.snp.trailing).offset(-8)
-        }
     }
     
     required init?(coder: NSCoder) {

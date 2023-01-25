@@ -32,6 +32,7 @@ class CommunityImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
     
     private let thumbnailImageView = UIImageView().then {
         $0.contentMode = .scaleAspectFill
+        $0.backgroundColor = Gen.Colors.gray05.color
     }
     
     private let userImageView = UIImageView().then {
@@ -96,6 +97,7 @@ class CommunityImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
             DispatchQueue.main.async { [weak self] in
                 if let thumbnailUrl = URL(string: info.mainImage) {
                     self?.thumbnailImageView.kf.setImage(with: thumbnailUrl,
+                                                         placeholder: Gen.Images.defaultEmotionMain.image,
                                                          completionHandler: { [weak self] _ in
                         self?.thumbnailImageView.fadeIn(duration: 0.1,
                                                         completeHandler: nil)
@@ -200,7 +202,7 @@ class CommunityImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable 
         
         self.cardView.addSubview(self.emotionContainerView)
         self.emotionContainerView.snp.makeConstraints {
-            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-4)
+            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-16)
         }
         
         emotionContainerView.addSubview(emotionImageView)
