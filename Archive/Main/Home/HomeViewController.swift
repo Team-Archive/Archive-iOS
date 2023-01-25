@@ -11,6 +11,20 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
+struct UserArchiveSection {
+    var items: [ArchiveInfo]
+    var identity: Int {
+        return 0
+    }
+}
+
+extension UserArchiveSection: AnimatableSectionModelType {
+    init(original: UserArchiveSection, items: [ArchiveInfo]) {
+        self = original
+        self.items = items
+    }
+}
+
 final class HomeViewController: UIViewController, StoryboardView, ActivityIndicatorable, FakeSplashViewProtocol {
     
     // MARK: IBOutlet
@@ -42,6 +56,25 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     private let shimmerView: HomeShimmerView? = HomeShimmerView.instance()
     private var didScrollecDirection: Direction = .left
     
+    typealias ArchiveSectionDataSource = RxCollectionViewSectionedAnimatedDataSource<UserArchiveSection>
+    private lazy var dataSource: ArchiveSectionDataSource = {
+        let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
+        
+        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { [weak self] datasource, collectionView, indexPath, item in
+            var cell: UICollectionViewCell = {
+                switch item.coverType {
+                case .cover:
+                    return self?.makeArchiveCoverTypeCell(item, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+                case .image:
+                    return self?.makeArchiveImageTypeCell(item, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+                }
+            }()
+            return cell
+        }
+        return ds
+    }()
+    private var sections = BehaviorRelay<[UserArchiveSection]>(value: [])
+    
     // MARK: internal property
     
     var disposeBag = DisposeBag()
@@ -66,6 +99,9 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsAddedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_ADDED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsDeletedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_IS_DELETED), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.archiveIsUpdatedNotificationReceive(notification:)), name: Notification.Name(NotificationDefine.ARCHIVE_STATE_IS_UPDATED), object: nil)
+        self.ticketCollectionView.register(TicketImageTypeCollectionViewCell.self,
+                                           forCellWithReuseIdentifier: TicketImageTypeCollectionViewCell.identifier)
+        setupDatasource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -90,12 +126,14 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
             })
             .disposed(by: self.disposeBag)
         
-        reactor.state.map { $0.archives }
-        .distinctUntilChanged()
-        .bind(to: self.ticketCollectionView.rx.items(cellIdentifier: TicketCollectionViewCell.identifier, cellType: TicketCollectionViewCell.self)) { index, element, cell in
-            cell.infoData = element
-        }
-        .disposed(by: self.disposeBag)
+        reactor.state
+            .map { $0.archives }
+            .distinctUntilChanged()
+            .asDriver(onErrorJustReturn: [])
+            .drive(onNext: { [weak self] archives in
+                self?.sections.accept([UserArchiveSection(items: archives)])
+            })
+            .disposed(by: self.disposeBag)
         
         reactor.state
             .map { $0.archives }
@@ -297,6 +335,24 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
         if count != 1 {
             self.ticketCollectionView.scrollToItem(at: IndexPath(item: count - 2, section: 0), at: .top, animated: false)
         }
+    }
+    
+    private func makeArchiveCoverTypeCell(_ archive: ArchiveInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TicketCollectionViewCell.identifier, for: indexPath) as? TicketCollectionViewCell else { return UICollectionViewCell() }
+        cell.infoData = archive
+        return cell
+    }
+    
+    private func makeArchiveImageTypeCell(_ archive: ArchiveInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TicketImageTypeCollectionViewCell.identifier, for: indexPath) as? TicketImageTypeCollectionViewCell else { return UICollectionViewCell() }
+        cell.infoData = archive
+        return cell
+    }
+    
+    private func setupDatasource() {
+        self.ticketCollectionView.dataSource = nil
+        sections.bind(to: self.ticketCollectionView.rx.items(dataSource: self.dataSource))
+            .disposed(by: self.disposeBag)
     }
     
     // MARK: internal function

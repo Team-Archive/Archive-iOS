@@ -28,6 +28,7 @@ struct RecordData: CodableWrapper {
     let mainImage: String
     let images: [RecordImageData]?
     let isPublic: Bool
+    let coverImageType: CoverType
     
 }
 

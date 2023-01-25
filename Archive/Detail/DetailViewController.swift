@@ -41,7 +41,14 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     private lazy var dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CellModel>>(configureCell: { [weak self] dataSource, collectionView, indexPath, item in
         switch item {
         case .cover(let infoData):
-            return self?.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+            switch self?.reactor?.currentState.detailData.coverType {
+            case .cover:
+                return self?.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+            case .image:
+                return self?.makeCardImageTypeCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+            case .none:
+                return self?.makeCardCell(with: infoData, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
+            }
         case .commonImage(let imageInfo, let emotion, let name):
             return self?.makeImageCell(with: imageInfo, emotion: emotion, name: name, from: collectionView, indexPath: indexPath) ?? UICollectionViewCell()
         }
@@ -201,6 +208,7 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
         
         self.collectionView.showsHorizontalScrollIndicator = false
         self.collectionView.register(UINib(nibName: DetailCardCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: DetailCardCollectionViewCell.identifier)
+        self.collectionView.register(UINib(nibName: DetailCardImageTypeCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: DetailCardImageTypeCollectionViewCell.identifier)
         self.collectionView.register(UINib(nibName: DetailContentsCollectionViewCell.identifier, bundle: nil), forCellWithReuseIdentifier: DetailContentsCollectionViewCell.identifier)
         
         self.pageControl.pageIndicatorTintColor = Gen.Colors.gray03.color
@@ -214,6 +222,13 @@ class DetailViewController: UIViewController, StoryboardView, ActivityIndicatora
     
     private func makeCardCell(with element: ArchiveDetailInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCardCollectionViewCell.identifier, for: indexPath) as? DetailCardCollectionViewCell else { return UICollectionViewCell() }
+        cell.infoData = element
+        cell.topContainerViewHeightConstraint.constant = self.topbarHeight
+        return cell
+    }
+    
+    private func makeCardImageTypeCell(with element: ArchiveDetailInfo, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailCardImageTypeCollectionViewCell.identifier, for: indexPath) as? DetailCardImageTypeCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = element
         cell.topContainerViewHeightConstraint.constant = self.topbarHeight
         return cell

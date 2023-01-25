@@ -94,9 +94,12 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
         let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { datasource, collectionView, indexPath, item in
-            var cell = self.makeArhiveCell(item, from: collectionView, indexPath: indexPath)
-            
-            return cell
+            switch item.coverType {
+            case .cover:
+                return self.makeArchiveCell(item, from: collectionView, indexPath: indexPath)
+            case .image:
+                return self.makeArchiveImageCell(item, from: collectionView, indexPath: indexPath)
+            }
         }
         
         return ds
@@ -117,6 +120,7 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.register(CommunityCollectionViewCell.self, forCellWithReuseIdentifier: CommunityCollectionViewCell.identifier)
+        self.collectionView.register(CommunityImageCollectionViewCell.self, forCellWithReuseIdentifier: CommunityImageCollectionViewCell.identifier)
         collectionView.register(CommunityFilterHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CommunityFilterHeaderView.identifier)
         self.reactor?.action.onNext(.getFirstPublicArchives(sortBy: .sortByRegist, emotion: nil))
         setupDatasource()
@@ -298,8 +302,16 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
     
     // MARK: private func
     
-    private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeArchiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityCollectionViewCell.identifier, for: indexPath) as? CommunityCollectionViewCell else { return UICollectionViewCell() }
+        cell.infoData = archive
+        cell.index = indexPath.item
+        cell.isLike = LikeManager.shared.likeList.contains("\(archive.archiveId)")
+        return cell
+    }
+    
+    private func makeArchiveImageCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommunityImageCollectionViewCell.identifier, for: indexPath) as? CommunityImageCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
         cell.index = indexPath.item
         cell.isLike = LikeManager.shared.likeList.contains("\(archive.archiveId)")
@@ -346,6 +358,12 @@ class CommunityViewController: UIViewController, View, ActivityIndicatorable, Ac
         DispatchQueue.main.async { [weak self] in
             _ = self?.collectionView.visibleCells.map { [weak self] in
                 if let cell = ($0 as? CommunityCollectionViewCell) {
+                    if changedArchiveIdSet.contains("\(cell.infoData?.archiveId ?? 0)") {
+                        if cell.index != -1 {
+                            self?.collectionView.reloadItems(at: [IndexPath(item: cell.index, section: 0)])
+                        }
+                    }
+                } else if let cell = ($0 as? CommunityImageCollectionViewCell) {
                     if changedArchiveIdSet.contains("\(cell.infoData?.archiveId ?? 0)") {
                         if cell.index != -1 {
                             self?.collectionView.reloadItems(at: [IndexPath(item: cell.index, section: 0)])

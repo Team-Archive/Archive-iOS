@@ -152,7 +152,7 @@ class DetailReactor: Reactor, Stepper {
                     guard let self = self else { return }
                     guard let cardView: ShareCardView = ShareCardView.instance() else { return }
                     cardView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.width * 1.73)
-                    cardView.setInfoData(emotion: self.recordData.emotion, thumbnailImage: UIImage(data: data) ?? UIImage(), eventName: self.recordData.name, date: self.recordData.watchedOn)
+                    cardView.setInfoData(emotion: self.recordData.emotion, thumbnailImage: UIImage(data: data) ?? UIImage(), eventName: self.recordData.name, date: self.recordData.watchedOn, coverType: self.recordData.coverType)
                     completion(cardView)
                 }
             } else {

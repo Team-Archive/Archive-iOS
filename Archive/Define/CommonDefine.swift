@@ -14,6 +14,19 @@ enum Direction {
     case bottom
 }
 
+enum CoverType: String, Codable, CaseIterable {
+    case cover = "EMOTION_COVER"
+    case image = "NO_COVER"
+    
+    static func coverTypeFromRawValue(_ rawValue: String) -> CoverType? {
+        var returnValue: CoverType?
+        for item in CoverType.allCases where item.rawValue == rawValue {
+            returnValue = item
+        }
+        return returnValue
+    }
+}
+
 class CommonDefine: NSObject {
     static let kakaoAppKey: String = "147a5c186ee0f5fdc58244b704165132"
     static let devApiServer: String = "https://archive-ticket.site/dev" // 개발

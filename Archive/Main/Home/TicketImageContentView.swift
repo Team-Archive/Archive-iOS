@@ -10,6 +10,7 @@ import UIKit
 final class TicketImageContentView: UIView {
 
     var bgColor: UIColor?
+    var maskLayer: CAShapeLayer = CAShapeLayer()
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
@@ -45,5 +46,8 @@ final class TicketImageContentView: UIView {
 
         self.bgColor?.set()
         path.fill()
+
+        maskLayer.path = path.cgPath
+        self.layer.mask = maskLayer
     }
 }

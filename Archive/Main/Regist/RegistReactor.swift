@@ -42,6 +42,7 @@ class RegistReactor: Reactor, Stepper {
         case regist
         case registIsComplete
         case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
+        case setIsUsingCover(Bool)
     }
     
     enum Mutation {
@@ -58,6 +59,7 @@ class RegistReactor: Reactor, Stepper {
         case clearPhotoContents
         case setIsForegroundViewConfirmIsEnable(Bool)
         case setOriginPhotoInfo([PHAsset: PhotoFromAlbumModel])
+        case setIsUsingCover(Bool)
     }
     
     struct State {
@@ -72,6 +74,7 @@ class RegistReactor: Reactor, Stepper {
         var photoContents: [Int: String] = [:]
         var isForegroundViewConfirmIsEnable: Bool = false
         var originPhotoInfo: [PHAsset: PhotoFromAlbumModel] = [:]
+        var isCoverUsing: Bool = true
     }
     
     // MARK: life cycle
@@ -167,22 +170,24 @@ class RegistReactor: Reactor, Stepper {
                 err.onNext(.init(.archiveDataIsInvaild))
                 return .just(.empty)
             }
-            let registObservable = self.registUsecase.regist(name: name,
-                                                             watchedOn: visitDate,
-                                                             companions: friendsToFriendsArr(self.currentState.friends),
-                                                             emotion: emotion.rawStringValue,
-                                                             images: self.currentState.imageInfo.images,
-                                                             imageContents: self.currentState.photoContents,
-                                                             isPublic: self.currentState.isPublic)
-                .map { [weak self] result -> RegistReactor.Mutation in
-                    switch result {
-                    case .success(_):
-                        break
-                    case .failure(let err):
-                        self?.err.onNext(err)
-                    }
-                    return .empty
+            let registObservable = self.registUsecase.regist(
+                name: name,
+                watchedOn: visitDate,
+                companions: friendsToFriendsArr(self.currentState.friends),
+                emotion: emotion.rawStringValue,
+                images: self.currentState.imageInfo.images,
+                imageContents: self.currentState.photoContents,
+                isPublic: self.currentState.isPublic,
+                coverType: self.currentState.isCoverUsing ? .cover : .image
+            ).map { [weak self] result -> RegistReactor.Mutation in
+                switch result {
+                case .success(_):
+                    break
+                case .failure(let err):
+                    self?.err.onNext(err)
                 }
+                return .empty
+            }
             let getThisMonthRegistCountObservable = self.registUsecase.getThisMonthRegistCnt()
                 .map { result -> Result<Int, ArchiveError> in
                     switch result {
@@ -210,6 +215,8 @@ class RegistReactor: Reactor, Stepper {
             return .empty()
         case .setOriginPhotoInfo(let info):
             return .just(.setOriginPhotoInfo(info))
+        case .setIsUsingCover(let isUsing):
+            return .just(.setIsUsingCover(isUsing))
         }
     }
     
@@ -242,6 +249,11 @@ class RegistReactor: Reactor, Stepper {
             newState.isForegroundViewConfirmIsEnable = isEnable
         case .setOriginPhotoInfo(let info):
             newState.originPhotoInfo = info
+        case .setIsUsingCover(let isUsing):
+            newState.originPhotoInfo = [:]
+            newState.isCoverUsing = isUsing
+            newState.photoContents.removeAll()
+            newState.imageInfo = .init(images: [], isMoveFirstIndex: true)
         }
         return newState
     }

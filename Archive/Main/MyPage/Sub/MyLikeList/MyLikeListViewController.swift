@@ -81,7 +81,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
         let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { [weak self] datasource, collectionView, indexPath, item in
-            guard let cell = self?.makeArhiveCell(item, from: collectionView, indexPath: indexPath) else { return UICollectionViewCell() }
+            guard let cell = self?.makeArchiveCell(item, from: collectionView, indexPath: indexPath) else { return UICollectionViewCell() }
             
             return cell
         }
@@ -224,7 +224,7 @@ class MyLikeListViewController: UIViewController, View, ActivityIndicatorable, A
     
     // MARK: private func
     
-    private func makeArhiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
+    private func makeArchiveCell(_ archive: PublicArchive, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyLikeCollectionViewCell.identifier, for: indexPath) as? MyLikeCollectionViewCell else { return UICollectionViewCell() }
         cell.infoData = archive
         cell.delegate = self

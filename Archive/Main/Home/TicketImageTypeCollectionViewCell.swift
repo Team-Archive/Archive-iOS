@@ -1,8 +1,8 @@
 //
-//  TicketCollectionViewCell.swift
+//  TicketImageTypeCollectionViewCell.swift
 //  Archive
 //
-//  Created by TTOzzi on 2021/10/30.
+//  Created by hanwe on 2023/01/06.
 //
 
 import UIKit
@@ -10,25 +10,28 @@ import SnapKit
 import Kingfisher
 import Then
 
-final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
+final class TicketImageTypeCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
     
     private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         return stackView
     }()
+    
     private lazy var imageContentView: TicketImageContentView = {
         let view = TicketImageContentView()
+        view.layer.masksToBounds = true
+        view.clipsToBounds = true
         return view
     }()
     
+    private let mainImageContainerView = UIView().then {
+        $0.backgroundColor = .clear
+    }
+    
     private lazy var mainImageView: UIImageView = {
         let imageView = UIImageView()
-        return imageView
-    }()
-    
-    private lazy var coverImageView: UIImageView = {
-        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -36,6 +39,11 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         let view = TicketDescriptionContentView()
         return view
     }()
+    
+    private let emotionContainerView = UIView().then {
+        $0.layer.cornerRadius = 10
+        $0.backgroundColor = Gen.Colors.whiteOpacity70.color
+    }
     
     private lazy var emotionImageView: UIImageView = {
         let imageView = UIImageView()
@@ -45,7 +53,7 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
     private lazy var emotionTitleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.font = .fonts(.subTitle)
-        label.textColor = Gen.Colors.white.color
+        label.textColor = Gen.Colors.black.color
         return label
     }()
     
@@ -58,8 +66,7 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
                 self?.imageContentView.bgColor = info.emotion.color
-                self?.coverImageView.image = info.emotion.coverAlphaImage
-                self?.emotionImageView.image = info.emotion.preImage
+                self?.emotionImageView.image = info.emotion.typeImage
                 self?.emotionTitleLabel.text = info.emotion.localizationTitle
                 self?.imageContentView.setNeedsDisplay()
                 self?.mainImageView.kf.setImage(with: URL(string: info.mainImageUrl),
@@ -78,10 +85,14 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupAttributes()
         setupLayouts()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupAttributes() {
@@ -102,15 +113,13 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         imageContentView.snp.makeConstraints {
             $0.width.equalTo(imageContentView.snp.height).multipliedBy(0.75)
         }
-        imageContentView.addSubview(mainImageView)
-        mainImageView.snp.makeConstraints {
-            $0.width.equalTo(mainImageView.snp.height)
-            $0.leading.trailing.centerY.equalToSuperview()
+        self.imageContentView.addSubview(self.mainImageContainerView)
+        self.mainImageContainerView.snp.makeConstraints {
+            $0.edges.equalTo(self.imageContentView)
         }
-        imageContentView.addSubview(coverImageView)
-        coverImageView.snp.makeConstraints {
-            $0.width.equalTo(coverImageView.snp.height)
-            $0.leading.trailing.centerY.equalToSuperview()
+        mainImageContainerView.addSubview(mainImageView)
+        mainImageView.snp.makeConstraints {
+            $0.edges.equalTo(self)
         }
         contentStackView.addArrangedSubview(descriptionView)
         descriptionView.snp.makeConstraints {
@@ -118,18 +127,25 @@ final class TicketCollectionViewCell: UICollectionViewCell, ReuseIdentifiable {
         }
         descriptionView.setLayout()
         
-        imageContentView.addSubview(emotionImageView)
+        imageContentView.addSubview(self.emotionContainerView)
+        self.emotionContainerView.snp.makeConstraints {
+            $0.top.leading.equalTo(self.imageContentView).offset(12)
+        }
+        
+        emotionContainerView.addSubview(emotionImageView)
         emotionImageView.snp.makeConstraints {
             $0.width.equalTo(24)
             $0.height.equalTo(24)
-            $0.top.equalTo(imageContentView.snp.top).offset(20)
-            $0.leading.equalTo(imageContentView.snp.leading).offset(20)
+            $0.leading.equalTo(self.emotionContainerView).offset(8)
+            $0.top.equalTo(self.emotionContainerView).offset(6)
+            $0.bottom.equalTo(self.emotionContainerView).offset(-6)
         }
         
-        imageContentView.addSubview(emotionTitleLabel)
+        emotionContainerView.addSubview(emotionTitleLabel)
         emotionTitleLabel.snp.makeConstraints {
             $0.centerY.equalTo(emotionImageView.snp.centerY)
             $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(emotionContainerView.snp.trailing).offset(-8)
         }
         
         imageContentView.addSubview(lockImageView)

@@ -250,8 +250,10 @@ class RegistViewController: UIViewController, View {
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
                 GAModule.sendEventLogToGA(.startEmotionSelect)
+                let navi = UINavigationController(rootViewController: self?.emotionSelectViewController ?? UIViewController())
+                navi.modalPresentationStyle = .overFullScreen
                 self?.navigationController?
-                    .present(self?.emotionSelectViewController ?? UIViewController(),
+                    .present(navi,
                              animated: false,
                              completion: { [weak self] in
                         self?.foregroundContentsView.isHidden = true
@@ -273,6 +275,13 @@ class RegistViewController: UIViewController, View {
             })
             .disposed(by: self.disposeBag)
         
+        self.emotionSelectViewController.rx.switchIsUsingCover
+            .asDriver(onErrorJustReturn: true)
+            .drive(onNext: { [weak self] isOn in
+                reactor.action.onNext(.setIsUsingCover(isOn))
+            })
+            .disposed(by: self.disposeBag)
+        
         self.foregroundStep2TopView.rx.selectImage
             .observe(on: ConcurrentDispatchQueueScheduler(queue: .global()))
             .subscribe(onNext: {
@@ -286,7 +295,8 @@ class RegistViewController: UIViewController, View {
                 GAModule.sendEventLogToGA(.startPhotoSelect)
                 let vc = RegistPhotoViewController(reactor: RegistPhotoReactor(
                     emotion: self?.reactor?.currentState.emotion ?? .pleasant,
-                    originPhotoInfo: reactor.currentState.originPhotoInfo))
+                    originPhotoInfo: reactor.currentState.originPhotoInfo,
+                    isUsingCover: reactor.currentState.isCoverUsing))
                 vc.delegate = self
                 let navi = UINavigationController(rootViewController: vc)
                 navi.modalPresentationStyle = .fullScreen
@@ -458,7 +468,7 @@ class RegistViewController: UIViewController, View {
         reactor.moveToConfig
             .asDriver(onErrorJustReturn: ())
             .drive(onNext: { [weak self] in
-                CommonAlertView.shared.show(message: "티켓 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다.", subMessage: nil, btnText: "확인", hapticType: .warning, confirmHandler: {
+                CommonAlertView.shared.show(message: "전시 기록 사진을 선택하려면 사진 라이브러리 접근권한이 필요합니다.", subMessage: nil, btnText: "확인", hapticType: .warning, confirmHandler: {
                     Util.moveToSetting()
                     CommonAlertView.shared.hide(nil)
                 })
@@ -490,10 +500,6 @@ class RegistViewController: UIViewController, View {
         cropViewController.doneButtonColor = Gen.Colors.white.color
         cropViewController.cancelButtonTitle = "취소"
         cropViewController.cancelButtonColor = Gen.Colors.white.color
-        cropViewController.aspectRatioLockEnabled = true
-        cropViewController.resetButtonHidden = true
-        cropViewController.customAspectRatio = CGSize(width: 300, height: 300)
-        cropViewController.aspectRatioPickerButtonHidden = true
         self.present(cropViewController, animated: true, completion: nil)
     }
     

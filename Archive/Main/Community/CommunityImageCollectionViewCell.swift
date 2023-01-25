@@ -1,8 +1,8 @@
 //
-//  MyLikeCollectionViewCell.swift
+//  CommunityImageCollectionViewCell.swift
 //  Archive
 //
-//  Created by hanwe on 2022/07/31.
+//  Created by hanwe on 2023/01/17.
 //
 
 import UIKit
@@ -12,11 +12,7 @@ import RxSwift
 import RxCocoa
 import Then
 
-@objc protocol MyLikeCollectionViewCellDelegate: AnyObject {
-    @objc optional func likeCanceled(archiveId: Int)
-}
-
-class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
+class CommunityImageCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     
     // MARK: UI property
     
@@ -35,11 +31,8 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     }
     
     private let thumbnailImageView = UIImageView().then {
-        $0.backgroundColor = .clear
-    }
-    
-    private let emotionCoverImageView = UIImageView().then {
-        $0.backgroundColor = .clear
+        $0.contentMode = .scaleAspectFill
+        $0.backgroundColor = Gen.Colors.gray05.color
     }
     
     private let userImageView = UIImageView().then {
@@ -69,9 +62,8 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
         $0.textColor = Gen.Colors.gray03.color
     }
     
-    let likeBtn = LikeButton().then {
+    private let likeBtn = LikeButton().then {
         $0.backgroundColor = .clear
-        $0.isLike = true
     }
     
     private let likeCntLabel = UILabel().then {
@@ -96,7 +88,6 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
     // MARK: private property
     
     private let disposeBag = DisposeBag()
-    private var isLike: Bool = false // 화면에서 보여지는 버튼의 좋아요가 아닌 진짜 나의 상태값임
     
     // MARK: internal property
     
@@ -105,10 +96,16 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
             guard let info = self.infoData else { return }
             DispatchQueue.main.async { [weak self] in
                 if let thumbnailUrl = URL(string: info.mainImage) {
-                    self?.thumbnailImageView.kf.setImage(with: thumbnailUrl)
+                    self?.thumbnailImageView.kf.setImage(with: thumbnailUrl,
+                                                         placeholder: Gen.Images.defaultEmotionMain.image,
+                                                         completionHandler: { [weak self] _ in
+                        self?.thumbnailImageView.fadeIn(duration: 0.1,
+                                                        completeHandler: nil)
+                    })
                 }
                 
-                self?.emotionCoverImageView.image = info.emotion.coverAlphaImage
+                self?.emotionImageView.image = info.emotion.typeImage
+                self?.emotionTitleLabel.text = info.emotion.localizationTitle
                 if let userImageUrl = URL(string: info.authorProfileImage) {
                     self?.userImageView.kf.setImage(with: userImageUrl, placeholder: Gen.Images.userImagePlaceHolder.image)
                 } else {
@@ -118,24 +115,31 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
                 self?.userNicknameLabel.text = info.authorNickname
                 self?.archiveTitleLabel.text = info.archiveName
                 self?.dateLabel.text = info.watchedOn
-                self?.likeCntLabel.text = info.likeCount.likeCntToArchiveLikeCnt
-                self?.emotionImageView.image = info.emotion.typeImage
-                self?.emotionTitleLabel.text = info.emotion.localizationTitle
-                switch info.coverType {
-                case .cover:
-                    self?.emotionContainerView.isHidden = true
-                    self?.emotionCoverImageView.isHidden = false
-                    self?.thumbnailImageView.contentMode = .scaleToFill
-                case .image:
-                    self?.emotionCoverImageView.isHidden = true
-                    self?.emotionContainerView.isHidden = false
-                    self?.thumbnailImageView.contentMode = .scaleAspectFill
-                }
+                let likeCnt: Int = {
+                    var cnt = info.likeCount
+                    if LikeManager.shared.likeList.contains("\(info.archiveId)") {
+                        cnt += 1
+                    }
+                    return cnt
+                }()
+                self?.likeCntLabel.text = likeCnt.likeCntToArchiveLikeCnt
             }
         }
     }
     
-    weak var delegate: MyLikeCollectionViewCellDelegate?
+    weak var reactor: CommunityReactor?
+    var index: Int = -1
+    var isLike: Bool = false {
+        didSet {
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshLikeUI()
+            }
+        }
+    }
+    
+    static var titleWidth: CGFloat {
+        return UIScreen.main.bounds.width - 64 - 38
+    }
     
     // MARK: lifeCycle
     
@@ -181,14 +185,6 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
             $0.height.equalTo(self.cardView.snp.width)
         }
         
-        self.cardView.addSubview(self.emotionCoverImageView)
-        self.emotionCoverImageView.snp.makeConstraints {
-            $0.top.equalTo(self.cardView.snp.top)
-            $0.leading.equalTo(self.cardView.snp.leading)
-            $0.trailing.equalTo(self.cardView.snp.trailing)
-            $0.height.equalTo(self.cardView.snp.width)
-        }
-        
         self.cardView.addSubview(self.userImageView)
         self.userImageView.snp.makeConstraints {
             $0.width.equalTo(30)
@@ -204,12 +200,33 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
             $0.trailing.equalTo(self.cardView.snp.trailing).offset(2)
         }
         
+        self.cardView.addSubview(self.emotionContainerView)
+        self.emotionContainerView.snp.makeConstraints {
+            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-16)
+        }
+        
+        emotionContainerView.addSubview(emotionImageView)
+        emotionImageView.snp.makeConstraints {
+            $0.width.equalTo(24)
+            $0.height.equalTo(24)
+            $0.leading.equalTo(self.emotionContainerView).offset(8)
+            $0.top.equalTo(self.emotionContainerView).offset(6)
+            $0.bottom.equalTo(self.emotionContainerView).offset(-6)
+        }
+        
+        emotionContainerView.addSubview(emotionTitleLabel)
+        emotionTitleLabel.snp.makeConstraints {
+            $0.centerY.equalTo(emotionImageView.snp.centerY)
+            $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
+            $0.trailing.equalTo(emotionContainerView.snp.trailing).offset(-8)
+        }
+        
         
         self.cardView.addSubview(self.cardBottomView)
         self.cardBottomView.snp.makeConstraints {
             $0.leading.equalTo(self.cardView.snp.leading)
             $0.trailing.equalTo(self.cardView.snp.trailing)
-            $0.top.equalTo(self.emotionCoverImageView.snp.bottom)
+            $0.top.equalTo(self.thumbnailImageView.snp.bottom)
             $0.height.equalTo(self.cardView.snp.height).multipliedBy(0.2)
         }
         
@@ -239,70 +256,24 @@ class MyLikeCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
             $0.centerX.equalTo(self.likeBtn.snp.centerX)
             $0.top.equalTo(self.likeBtn.snp.bottom).offset(-5)
         }
-        
-        self.cardView.addSubview(self.emotionContainerView)
-        self.emotionContainerView.snp.makeConstraints {
-            $0.bottom.trailing.equalTo(self.thumbnailImageView).offset(-12)
-        }
-        
-        emotionContainerView.addSubview(emotionImageView)
-        emotionImageView.snp.makeConstraints {
-            $0.width.equalTo(24)
-            $0.height.equalTo(24)
-            $0.leading.equalTo(self.emotionContainerView).offset(8)
-            $0.top.equalTo(self.emotionContainerView).offset(6)
-            $0.bottom.equalTo(self.emotionContainerView).offset(-6)
-        }
-        
-        emotionContainerView.addSubview(emotionTitleLabel)
-        emotionTitleLabel.snp.makeConstraints {
-            $0.centerY.equalTo(emotionImageView.snp.centerY)
-            $0.leading.equalTo(emotionImageView.snp.trailing).offset(8)
-            $0.trailing.equalTo(emotionContainerView.snp.trailing).offset(-8)
-        }
     }
     
     private func bind() {
         self.likeBtn.rx.likeClicked
-            .subscribe(onNext: { [weak self] _ in
-                guard let archiveId = self?.infoData?.archiveId else { return }
-                LikeManager.shared.likeCancel(id: "\(archiveId)")
-                self?.delegate?.likeCanceled?(archiveId: archiveId)
+            .subscribe(onNext: { [weak self] isLike in
+                if isLike {
+                    LikeManager.shared.like(id: "\(self?.infoData?.archiveId ?? -1)")
+                } else {
+                    LikeManager.shared.likeCancel(id: "\(self?.infoData?.archiveId ?? -1)")
+                }
             })
             .disposed(by: self.disposeBag)
     }
     
+    private func refreshLikeUI() {
+        self.likeBtn.isLike = self.isLike
+    }
+    
     // MARK: internal function
     
-}
-
-class MyLikeCollectionViewCellDelegateProxy: DelegateProxy<MyLikeCollectionViewCell, MyLikeCollectionViewCellDelegate>, DelegateProxyType, MyLikeCollectionViewCellDelegate {
-    
-    
-    static func currentDelegate(for object: MyLikeCollectionViewCell) -> MyLikeCollectionViewCellDelegate? {
-        return object.delegate
-    }
-    
-    static func setCurrentDelegate(_ delegate: MyLikeCollectionViewCellDelegate?, to object: MyLikeCollectionViewCell) {
-        object.delegate = delegate
-    }
-    
-    static func registerKnownImplementations() {
-        self.register { (view) -> MyLikeCollectionViewCellDelegateProxy in
-            MyLikeCollectionViewCellDelegateProxy(parentObject: view, delegateProxy: self)
-        }
-    }
-}
-
-extension Reactive where Base: MyLikeCollectionViewCell {
-    var delegate: DelegateProxy<MyLikeCollectionViewCell, MyLikeCollectionViewCellDelegate> {
-        return MyLikeCollectionViewCellDelegateProxy.proxy(for: self.base)
-    }
-    
-    var likeCanceled: Observable<Int> {
-        return delegate.methodInvoked(#selector(MyLikeCollectionViewCellDelegate.likeCanceled(archiveId:)))
-            .map { result in
-                return result[0] as? Int ?? 0
-            }
-    }
 }

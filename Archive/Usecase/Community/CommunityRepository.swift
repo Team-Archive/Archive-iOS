@@ -25,6 +25,7 @@ struct PublicArchive: CodableWrapper {
     let watchedOn: String
     let dateMilli: Int?
     var likeCount: Int
+    var coverType: CoverType
     
     enum CodingKeys: String, CodingKey {
         case authorId
@@ -37,6 +38,7 @@ struct PublicArchive: CodableWrapper {
         case watchedOn
         case dateMilli
         case likeCount
+        case coverType = "coverImageType"
     }
     
 }

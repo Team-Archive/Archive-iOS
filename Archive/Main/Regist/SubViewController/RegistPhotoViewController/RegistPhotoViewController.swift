@@ -95,7 +95,11 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
             .asDriver(onErrorJustReturn: [])
             .drive(onNext: { [weak self] imageArr in
                 if imageArr.count == 0 { return }
-                self?.showImageEditView(image: imageArr[0])
+                if reactor.currentState.isUsingCover {
+                    self?.showImageCoverTypeEditView(image: imageArr[0])
+                } else {
+                    self?.showImageImageTypeEditView(image: imageArr[0])
+                }
             })
             .disposed(by: self.disposeBag)
         
@@ -199,7 +203,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         self.dismiss(animated: true, completion: nil)
     }
     
-    private func showImageEditView(image: UIImage) {
+    private func showImageCoverTypeEditView(image: UIImage) {
         let cropViewController: CropViewController = CropViewController(croppingStyle: .default, image: image)
         cropViewController.delegate = self
         cropViewController.doneButtonTitle = "확인"
@@ -222,6 +226,20 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
             make.trailing.equalTo(cropViewController.cropView.snp.trailing).offset(-12)
             make.height.equalTo(UIScreen.main.bounds.width - 24)
         }
+        self.present(cropViewController, animated: true, completion: nil)
+    }
+    
+    private func showImageImageTypeEditView(image: UIImage) {
+        let cropViewController: CropViewController = CropViewController(croppingStyle: .default, image: image)
+        cropViewController.delegate = self
+        cropViewController.doneButtonTitle = "확인"
+        cropViewController.doneButtonColor = Gen.Colors.white.color
+        cropViewController.cancelButtonTitle = "취소"
+        cropViewController.cancelButtonColor = Gen.Colors.white.color
+        cropViewController.aspectRatioLockEnabled = true
+        cropViewController.resetButtonHidden = true
+        cropViewController.customAspectRatio = CGSize(width: 300, height: 400)
+        cropViewController.aspectRatioPickerButtonHidden = true
         self.present(cropViewController, animated: true, completion: nil)
     }
     
