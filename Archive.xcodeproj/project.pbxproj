@@ -269,7 +269,6 @@
 /* Begin PBXFileReference section */
 		029C34E0C4CFA05B0DB2E343 /* Pods_Archive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Archive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		042D77236B7F2A3971336EF8 /* Pods-Archive.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive.debug.xcconfig"; path = "Target Support Files/Pods-Archive/Pods-Archive.debug.xcconfig"; sourceTree = "<group>"; };
-		06F06804D75A04AFC0A2BC3A /* Pods-Archive_debug.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.release.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.release.xcconfig"; sourceTree = "<group>"; };
 		448936892708380100EA423A /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		448936A92708401500EA423A /* SignInReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInReactor.swift; sourceTree = "<group>"; };
 		44922DA02719512A00A5EA2B /* SignInViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
@@ -526,7 +525,6 @@
 		78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthUsecase.swift; sourceTree = "<group>"; };
 		78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepository.swift; sourceTree = "<group>"; };
 		78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
-		FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Archive_debug.debug.xcconfig"; path = "Target Support Files/Pods-Archive_debug/Pods-Archive_debug.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1488,8 +1486,6 @@
 			children = (
 				042D77236B7F2A3971336EF8 /* Pods-Archive.debug.xcconfig */,
 				72C4423C0F1934D8C0AFE14D /* Pods-Archive.release.xcconfig */,
-				FA175B2EB22AA1439476C6F2 /* Pods-Archive_debug.debug.xcconfig */,
-				06F06804D75A04AFC0A2BC3A /* Pods-Archive_debug.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";

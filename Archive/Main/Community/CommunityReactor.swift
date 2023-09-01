@@ -23,7 +23,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     private let usecase: CommunityUsecase
     private let bannerUsecase: BannerUsecase
-    private let likeUsecase: LikeUsecase
     private let detailUsecase: DetailUsecase
     private let reportUsecase: ReportUsecase
     private var archiveSortType: ArchiveSortType = .sortByRegist
@@ -42,12 +41,10 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
     
     init(repository: CommunityRepository,
          bannerRepository: BannerRepository,
-         likeRepository: LikeRepository,
          detailRepository: DetailRepository,
          reportRepository: ReportRepository) {
         self.usecase = CommunityUsecase(repository: repository)
         self.bannerUsecase = BannerUsecase(repository: bannerRepository)
-        self.likeUsecase = LikeUsecase(repository: likeRepository)
         self.detailUsecase = DetailUsecase(repository: detailRepository)
         self.reportUsecase = ReportUsecase(repository: reportRepository)
     }
@@ -164,7 +161,6 @@ class CommunityReactor: Reactor, Stepper, MainTabStepperProtocol {
                             currentIndex: index,
                             reactor: self ?? CommunityReactor(repository: CommunityRepositoryImplement(),
                                                               bannerRepository: BannerRepositoryImplement(),
-                                                              likeRepository: LikeRepositoryImplement(),
                                                               detailRepository: DetailRepositoryImplement(),
                                                               reportRepository: ReportRepositoryImplement())))
                     case .failure(let err):

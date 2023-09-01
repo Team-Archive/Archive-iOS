@@ -63,7 +63,6 @@ final class MainFlow: Flow {
         
         let communityReactor: CommunityReactor = CommunityReactor(repository: CommunityRepositoryImplement(),
                                                                   bannerRepository: BannerRepositoryImplement(),
-                                                                  likeRepository: LikeRepositoryImplement(),
                                                                   detailRepository: DetailRepositoryImplement(),
                                                                   reportRepository: ReportRepositoryImplement())
         let communityViewController = CommunityViewController(reactor: communityReactor)
