@@ -133,8 +133,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
         $0.numberOfLines = 1
     }
     
-//    private let // 친구들 보여줘야할까?
-    
     private let topFullCoverContentsView = UIView().then {
         $0.backgroundColor = Gen.Colors.white.color
     }
@@ -400,10 +398,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             $0.top.equalTo(self.likeBtn.snp.bottom).offset(5)
         }
         
-        
-        
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -468,6 +462,7 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             .distinctUntilChanged()
             .asDriver(onErrorJustReturn: .init(archiveInfo: .init(), innerIndex: 0, index: 0))
             .drive(onNext: { [weak self] data in
+              self?.likeBtn.stopAnimation()
                 self?.likeBtn.isLike = LikeManager.shared.likeList.contains("\(data.archiveInfo.archiveId)")
             })
             .disposed(by: self.disposeBag)
@@ -499,7 +494,6 @@ class CommunityDetailViewController: UIViewController, View, ActivityIndicatorab
             self.topCoverContentsView.isHidden = false
             self.topFullCoverContentsView.isHidden = true
         case .image:
-            print("무슨?")
             self.topCoverContentsView.isHidden = true
             self.topFullCoverContentsView.isHidden = false
         }

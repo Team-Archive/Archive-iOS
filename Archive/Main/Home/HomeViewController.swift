@@ -18,7 +18,7 @@ struct UserArchiveSection {
     }
 }
 
-extension UserArchiveSection: AnimatableSectionModelType {
+extension UserArchiveSection: SectionModelType {
     init(original: UserArchiveSection, items: [ArchiveInfo]) {
         self = original
         self.items = items
@@ -56,11 +56,11 @@ final class HomeViewController: UIViewController, StoryboardView, ActivityIndica
     private let shimmerView: HomeShimmerView? = HomeShimmerView.instance()
     private var didScrollecDirection: Direction = .left
     
-    typealias ArchiveSectionDataSource = RxCollectionViewSectionedAnimatedDataSource<UserArchiveSection>
+    typealias ArchiveSectionDataSource = RxCollectionViewSectionedReloadDataSource<UserArchiveSection>
     private lazy var dataSource: ArchiveSectionDataSource = {
         let configuration = AnimationConfiguration(insertAnimation: .automatic, reloadAnimation: .automatic, deleteAnimation: .automatic)
         
-        let ds = ArchiveSectionDataSource(animationConfiguration: configuration) { [weak self] datasource, collectionView, indexPath, item in
+        let ds = ArchiveSectionDataSource { [weak self] datasource, collectionView, indexPath, item in
             var cell: UICollectionViewCell = {
                 switch item.coverType {
                 case .cover:
