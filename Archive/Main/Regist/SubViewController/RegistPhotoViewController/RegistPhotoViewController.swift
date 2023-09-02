@@ -192,12 +192,21 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         self.reactor?.action.onNext(.confirm)
     }
     
-    private func makeCancelBtn() {
-        let cancelBtn: UIBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelAction(_:)))
-        setConfirmBtnColor(Gen.Colors.black.color)
-        self.navigationController?.navigationBar.topItem?.leftBarButtonItems?.removeAll()
-        self.navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelBtn
-    }
+  private func makeCancelBtn() {
+    let cancelBtn: UIBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelAction(_:)))
+    
+    let attributes: [NSAttributedString.Key: Any] = [
+      NSAttributedString.Key.font: UIFont.fonts(.button) as Any
+    ]
+    
+    let attributedTitle = NSAttributedString(string: "취소", attributes: attributes)
+    
+    cancelBtn.setTitleTextAttributes(attributes, for: .normal)
+    
+    setConfirmBtnColor(Gen.Colors.black.color)
+    self.navigationController?.navigationBar.topItem?.leftBarButtonItems?.removeAll()
+    self.navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelBtn
+  }
     
     @objc private func cancelAction(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)

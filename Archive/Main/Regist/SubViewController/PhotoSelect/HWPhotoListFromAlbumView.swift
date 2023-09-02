@@ -105,7 +105,9 @@ class HWPhotoListFromAlbumView: UIView {
         var thumbnail = UIImage()
         option.isSynchronous = true
         manager.requestImage(for: asset, targetSize: CGSize(width: self.imgWidth, height: self.imgHeight), contentMode: .aspectFit, options: option, resultHandler: {(result, info) -> Void in
-            thumbnail = result!
+          if let result {
+            thumbnail = result
+          }
         })
         return thumbnail
     }
@@ -116,7 +118,9 @@ class HWPhotoListFromAlbumView: UIView {
         var thumbnail = UIImage()
         option.isSynchronous = true
         manager.requestImage(for: asset, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFit, options: option, resultHandler: {(result, info) -> Void in
-            thumbnail = result!
+          if let result {
+            thumbnail = result
+          }
         })
         return thumbnail
     }
