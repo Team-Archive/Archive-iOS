@@ -43,6 +43,9 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     $0.backgroundColor = .clear
   }
   
+  private let registPhotoSelectAlbumButtonView: RegistPhotoSelectAlbumButtonView = RegistPhotoSelectAlbumButtonView()
+  private var albumSelectorViewController: AlbumSelectorViewController?
+  
   // MARK: private property
   
   private var confirmBtn: UIBarButtonItem?
@@ -57,6 +60,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   
   init(reactor: RegistPhotoReactor) {
     super.init(nibName: nil, bundle: nil)
+    self.albumSelectorViewController = AlbumSelectorViewController(list: fetchAlbumList())
     self.reactor = reactor
   }
   
@@ -122,6 +126,16 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         self?.dismiss(animated: true)
       })
       .disposed(by: self.disposeBag)
+    
+    self.registPhotoSelectAlbumButtonView.rx.requestSelectAlbum
+      .asDriver(onErrorJustReturn: ())
+      .drive(onNext: { [weak self] in
+        guard let vc = self?.albumSelectorViewController else { return }
+        vc.modalPresentationStyle = .fullScreen
+        self?.present(vc, animated: true)
+      })
+      .disposed(by: self.disposeBag)
+    
   }
   
   // MARK: private function
@@ -172,19 +186,15 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     setConfirmBtnColor(Gen.Colors.gray04.color)
     
     let cancelBtn: UIBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelAction(_:)))
-    
-    let attributes: [NSAttributedString.Key: Any] = [
-      NSAttributedString.Key.font: UIFont.fonts(.button) as Any
-    ]
-    
-    let attributedTitle = NSAttributedString(string: "취소", attributes: attributes)
-    
-    cancelBtn.setTitleTextAttributes(attributes, for: .normal)
+    cancelBtn.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button), NSAttributedString.Key.foregroundColor: Gen.Colors.black.color], for: .normal)
+    cancelBtn.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button), NSAttributedString.Key.foregroundColor: Gen.Colors.black.color], for: .highlighted)
     
     self.navigationController?.navigationBar.topItem?.leftBarButtonItems?.removeAll()
     self.navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelBtn
     self.navigationController?.navigationBar.topItem?.rightBarButtonItems?.removeAll()
     self.navigationController?.navigationBar.topItem?.rightBarButtonItem = confirmBtn
+    
+    navigationItem.titleView = self.registPhotoSelectAlbumButtonView
   }
   
   private func setConfirmBtnColor(_ color: UIColor) {
@@ -246,6 +256,29 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     cropViewController.customAspectRatio = CGSize(width: 300, height: 400)
     cropViewController.aspectRatioPickerButtonHidden = true
     self.present(cropViewController, animated: true, completion: nil)
+  }
+  
+  private func fetchAlbumList() -> [AlbumModel] {
+    var album: [AlbumModel] = [AlbumModel]()
+    
+    let options = PHFetchOptions()
+    let userAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
+    
+    userAlbums.enumerateObjects { (collectionObj, count: Int, stop: UnsafeMutablePointer) in
+      let fetchOptions = PHFetchOptions()
+      fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+      fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
+      
+      let newAlbum = AlbumModel(
+        identity: UUID(),
+        name: collectionObj.localizedTitle ?? "",
+        count: collectionObj.estimatedAssetCount,
+        collection: collectionObj
+      )
+      album.append(newAlbum)
+    }
+    
+    return album
   }
   
   // MARK: internal function

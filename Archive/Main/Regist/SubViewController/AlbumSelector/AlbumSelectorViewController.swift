@@ -27,9 +27,17 @@ extension AlbumSection: AnimatableSectionModelType {
   }
 }
 
+protocol albumSelectorViewControllerDelegate: AnyObject {
+  func didSelectedAlbum(_ viewController: UIViewController, model: AlbumModel)
+}
+
 final class AlbumSelectorViewController: UIViewController {
   
   // MARK: UIProperty
+  
+  private let backgroundView = UIView().then {
+    $0.backgroundColor = Gen.Colors.white.color
+  }
   
   private let baseView = UIView().then {
     $0.backgroundColor = Gen.Colors.white.color
@@ -68,6 +76,8 @@ final class AlbumSelectorViewController: UIViewController {
   
   // MARK: internal property
   
+  weak var delegate: albumSelectorViewControllerDelegate?
+  
   // MARK: lifeCycle
   
   init(list: [AlbumModel]) {
@@ -91,6 +101,10 @@ final class AlbumSelectorViewController: UIViewController {
   
   private func setup() {
     
+    self.backgroundView.setSnpLayout(baseView: self.view, layoutConstraint: {
+      $0.edges.equalToSuperview()
+    })
+    
     self.view.addSubview(self.baseView)
     let safeGuide = self.view.safeAreaLayoutGuide
     self.baseView.snp.makeConstraints {
@@ -105,7 +119,19 @@ final class AlbumSelectorViewController: UIViewController {
   
   private func bind() {
     
-//        self?.sections.accept([ArchiveSection(items: archives)])
+    self.collectionView.rx.itemSelected
+      .asDriver()
+      .drive(onNext: { [weak self] info in
+        self?.dismiss(animated: true, completion: { [weak self] in
+          guard let model = self?.list[safe: info.item] else { return }
+          self?.delegate?.didSelectedAlbum(
+            self ?? UIViewController(),
+            model: model
+          )
+        })
+      })
+      .disposed(by: self.disposeBag)
+    
   }
   
   private func setupDatasource() {
