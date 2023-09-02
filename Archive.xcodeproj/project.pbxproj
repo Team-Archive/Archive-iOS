@@ -260,6 +260,9 @@
 		78EDAD63274525E80028F56D /* ShareCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 78EDAD62274525E80028F56D /* ShareCardView.xib */; };
 		78F06C8B2830C8420033882E /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8A2830C8420033882E /* MyPageViewController.swift */; };
 		78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F06C8C2830C8510033882E /* MyPageReactor.swift */; };
+		78F8620D2AA326780099D559 /* AlbumSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F8620C2AA326780099D559 /* AlbumSelectorViewController.swift */; };
+		78F8620F2AA332780099D559 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F8620E2AA332780099D559 /* AlbumModel.swift */; };
+		78F862112AA3352F0099D559 /* AlbumSelectorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F862102AA3352F0099D559 /* AlbumSelectorCollectionViewCell.swift */; };
 		78F92DAB2917F634009381D3 /* SignUpOAuthUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */; };
 		78F92DAD2917F63D009381D3 /* SignUpOAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */; };
 		78F92DAF2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */; };
@@ -522,6 +525,9 @@
 		78EDAD62274525E80028F56D /* ShareCardView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ShareCardView.xib; sourceTree = "<group>"; };
 		78F06C8A2830C8420033882E /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		78F06C8C2830C8510033882E /* MyPageReactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageReactor.swift; sourceTree = "<group>"; };
+		78F8620C2AA326780099D559 /* AlbumSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSelectorViewController.swift; sourceTree = "<group>"; };
+		78F8620E2AA332780099D559 /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		78F862102AA3352F0099D559 /* AlbumSelectorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumSelectorCollectionViewCell.swift; sourceTree = "<group>"; };
 		78F92DAA2917F634009381D3 /* SignUpOAuthUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthUsecase.swift; sourceTree = "<group>"; };
 		78F92DAC2917F63D009381D3 /* SignUpOAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepository.swift; sourceTree = "<group>"; };
 		78F92DAE2917F647009381D3 /* SignUpOAuthRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpOAuthRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -1273,6 +1279,7 @@
 		78BAF74A28AA169000641250 /* SubViewController */ = {
 			isa = PBXGroup;
 			children = (
+				78F8620B2AA3266E0099D559 /* AlbumSelector */,
 				78EDAD5F274525A50028F56D /* ShareCard */,
 				782FDF43272CFB6E004D1B6E /* PhotoSelect */,
 				78BAF75128AA278600641250 /* RegistPhotoViewController */,
@@ -1469,6 +1476,16 @@
 				78EDAD62274525E80028F56D /* ShareCardView.xib */,
 			);
 			path = ShareCard;
+			sourceTree = "<group>";
+		};
+		78F8620B2AA3266E0099D559 /* AlbumSelector */ = {
+			isa = PBXGroup;
+			children = (
+				78F8620C2AA326780099D559 /* AlbumSelectorViewController.swift */,
+				78F8620E2AA332780099D559 /* AlbumModel.swift */,
+				78F862102AA3352F0099D559 /* AlbumSelectorCollectionViewCell.swift */,
+			);
+			path = AlbumSelector;
 			sourceTree = "<group>";
 		};
 		78F92DA92917F62C009381D3 /* SignUpOAuth */ = {
@@ -1750,6 +1767,7 @@
 				78239830280C251F0071D874 /* LogInRepository.swift in Sources */,
 				78ED6766275B4DAB004E8AEC /* UserDefaultManager.swift in Sources */,
 				78599DD8276375C2003FD959 /* HomeViewController.swift in Sources */,
+				78F8620D2AA326780099D559 /* AlbumSelectorViewController.swift in Sources */,
 				78D5F4FF28B118EF00C2B271 /* ImageColorUsecase.swift in Sources */,
 				787C2861275CC04B00C1FB17 /* ModalShareViewController.swift in Sources */,
 				78027CF128B4FCC40096B400 /* ClearTextField.swift in Sources */,
@@ -1785,6 +1803,7 @@
 				78D5F50428B1241D00C2B271 /* RegistContentsBottomView.swift in Sources */,
 				78F06C8D2830C8510033882E /* MyPageReactor.swift in Sources */,
 				7839E49F28DEDF4E00A80A1D /* NickNameDuplicationRepositoryImplement.swift in Sources */,
+				78F862112AA3352F0099D559 /* AlbumSelectorCollectionViewCell.swift in Sources */,
 				78E8E63928671E6900B18AD8 /* LikeButton.swift in Sources */,
 				78315E6D2764AA12001B3342 /* CommonViewControllerProtocol.swift in Sources */,
 				78E8E6352866F2F700B18AD8 /* CommunityCollectionViewCell.swift in Sources */,
@@ -1892,6 +1911,7 @@
 				78B872E12726C6D1009EFB54 /* EmotionDefine.swift in Sources */,
 				78D10DF0294DD7EA00BD6156 /* ArchiveEditRepositoryImplement.swift in Sources */,
 				784FCDE9282FEE9E007683D2 /* LoginAccessTokenRepository.swift in Sources */,
+				78F8620F2AA332780099D559 /* AlbumModel.swift in Sources */,
 				7831D52227E5A5A300E3FA57 /* LoginOAuthRepository.swift in Sources */,
 				7842601529684BC400A5B74E /* TicketImageTypeCollectionViewCell.swift in Sources */,
 				78D58B1B28BB59AD00AF3191 /* RegistUsecase.swift in Sources */,
