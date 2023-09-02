@@ -35,7 +35,7 @@ final class AlbumSelectorViewController: UIViewController {
     $0.backgroundColor = Gen.Colors.white.color
   }
   
-  private lazy var collectionView = UICollectionView().then {
+  private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
     $0.alwaysBounceVertical = true
     
     $0.backgroundColor = Gen.Colors.white.color
@@ -43,6 +43,7 @@ final class AlbumSelectorViewController: UIViewController {
     layout.minimumLineSpacing = 0
     layout.minimumInteritemSpacing = 12
     layout.scrollDirection = .vertical
+    layout.itemSize = CGSize(width: UIDevice.screenWidth ?? 0, height: 50)
     $0.collectionViewLayout = layout
     
     $0.register(AlbumSelectorCollectionViewCell.self, forCellWithReuseIdentifier: AlbumSelectorCollectionViewCell.identifier)
