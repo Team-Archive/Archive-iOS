@@ -269,7 +269,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: PHFetchOptions())
     album.append(.init(
       identity: UUID(),
-      name: "전체",
+      name: "최근 항목",
       count: fetchResult.count,
       type: .all(thumbnail: fetchResult.lastObject)
     ))
@@ -345,6 +345,9 @@ extension RegistPhotoViewController: AlbumSelectorViewControllerDelegate {
       self.albumView?.setFetchAsset(fetchResult: self.fetchAllPhotoAssets())
     }
     self.registPhotoSelectAlbumButtonView.setTitle(model.name)
+    self.reactor?.action.onNext(.clearSelectedImage)
+    self.setConfirmBtnTitle("선택")
+    self.setConfirmBtnColor(Gen.Colors.gray04.color)
   }
   
 }

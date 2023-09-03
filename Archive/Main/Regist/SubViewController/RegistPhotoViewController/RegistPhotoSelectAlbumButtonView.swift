@@ -26,7 +26,7 @@ final class RegistPhotoSelectAlbumButtonView: UIView {
   private let contentsLabel = UILabel().then {
     $0.font = .fonts(.subTitle)
     $0.textColor = Gen.Colors.black.color
-    $0.text = "전체"
+    $0.text = "최근 항목"
   }
   
   private let iconImageView = UIImageView().then {
