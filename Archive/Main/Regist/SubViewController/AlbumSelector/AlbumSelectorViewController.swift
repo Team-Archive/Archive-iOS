@@ -27,7 +27,7 @@ extension AlbumSection: AnimatableSectionModelType {
   }
 }
 
-protocol albumSelectorViewControllerDelegate: AnyObject {
+protocol AlbumSelectorViewControllerDelegate: AnyObject {
   func didSelectedAlbum(_ viewController: UIViewController, model: AlbumModel)
 }
 
@@ -77,7 +77,7 @@ final class AlbumSelectorViewController: UIViewController {
   
   // MARK: internal property
   
-  weak var delegate: albumSelectorViewControllerDelegate?
+  weak var delegate: AlbumSelectorViewControllerDelegate?
   
   // MARK: lifeCycle
   

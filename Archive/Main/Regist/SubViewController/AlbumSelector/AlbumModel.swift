@@ -11,10 +11,19 @@ import RxDataSources
 
 struct AlbumModel: IdentifiableType, Equatable {
   
+  enum ModelType {
+    case all(thumbnail: PHAsset?)
+    case album(PHAssetCollection)
+  }
+  
   typealias Identity = UUID
   
   var identity: UUID
   let name: String
   let count: Int
-  let collection: PHAssetCollection
+  let type: ModelType
+  
+  static func == (lhs: AlbumModel, rhs: AlbumModel) -> Bool {
+    return lhs.identity == rhs.identity
+  }
 }

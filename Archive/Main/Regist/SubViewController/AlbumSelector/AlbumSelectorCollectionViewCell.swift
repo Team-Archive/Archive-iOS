@@ -18,7 +18,11 @@ final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifi
     $0.backgroundColor = Gen.Colors.white.color
   }
   
-  private let thumbnailImageView = UIImageView()
+  private let thumbnailImageView = UIImageView().then {
+    $0.layer.cornerRadius = 4
+    $0.layer.masksToBounds = true
+    $0.contentMode = .scaleAspectFill
+  }
   
   private let contentsContainerView = UIView().then {
     $0.backgroundColor = .clear
@@ -86,19 +90,35 @@ final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifi
   // MARK: internal function
   
   func setConfigure(_ infoData: AlbumModel) {
-    let assets = PHAsset.fetchAssets(in: infoData.collection, options: nil)
-    let firstAsset = assets.firstObject
-    if let firstAsset = firstAsset {
-      let requestOptions = PHImageRequestOptions()
-      requestOptions.isSynchronous = true
-      PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
-        if let image = image {
-          self?.thumbnailImageView.image = image
+    switch infoData.type {
+    case .all(let thumbnail):
+      if let thumbnail = thumbnail {
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        PHImageManager.default().requestImage(for: thumbnail, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
+          if let image = image {
+            self?.thumbnailImageView.image = image
+          }
         }
+      } else {
+        self.thumbnailImageView.image = Gen.Images.userImagePlaceHolder.image
       }
-    } else {
-      self.thumbnailImageView.image = Gen.Images.userImagePlaceHolder.image
+    case .album(let collection):
+      let assets = PHAsset.fetchAssets(in: collection, options: nil)
+      let firstAsset = assets.firstObject
+      if let firstAsset = firstAsset {
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
+          if let image = image {
+            self?.thumbnailImageView.image = image
+          }
+        }
+      } else {
+        self.thumbnailImageView.image = Gen.Images.userImagePlaceHolder.image
+      }
     }
+
     self.nameLabel.text = infoData.name
     self.countLabel.text = "\(infoData.count)"
   }

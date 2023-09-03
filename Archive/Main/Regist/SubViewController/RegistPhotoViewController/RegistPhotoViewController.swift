@@ -61,6 +61,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   
   init(reactor: RegistPhotoReactor) {
     self.albumSelectorViewController = AlbumSelectorViewController(list: RegistPhotoViewController.fetchAlbumList())
+    self.albumSelectorNavigation.delegate = self
     super.init(nibName: nil, bundle: nil)
     self.reactor = reactor
   }
@@ -262,6 +263,14 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   private static func fetchAlbumList() -> [AlbumModel] {
     var album: [AlbumModel] = [AlbumModel]()
     
+    let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: PHFetchOptions())
+    album.append(.init(
+      identity: UUID(),
+      name: "전체항목",
+      count: fetchResult.count,
+      type: .all(thumbnail: fetchResult.lastObject)
+    ))
+    
     let options = PHFetchOptions()
     let userAlbums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
     
@@ -274,7 +283,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
         identity: UUID(),
         name: collectionObj.localizedTitle ?? "",
         count: collectionObj.estimatedAssetCount,
-        collection: collectionObj
+        type: .album(collectionObj)
       )
       album.append(newAlbum)
     }
@@ -313,4 +322,12 @@ extension RegistPhotoViewController: CropViewControllerDelegate {
       })
     }
   }
+}
+
+extension RegistPhotoViewController: AlbumSelectorViewControllerDelegate {
+  
+  func didSelectedAlbum(_ viewController: UIViewController, model: AlbumModel) {
+    
+  }
+  
 }
