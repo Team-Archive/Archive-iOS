@@ -46,6 +46,11 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   private let registPhotoSelectAlbumButtonView: RegistPhotoSelectAlbumButtonView = RegistPhotoSelectAlbumButtonView()
   private var albumSelectorViewController: AlbumSelectorViewController
   private lazy var albumSelectorNavigation = UINavigationController(rootViewController: albumSelectorViewController)
+  private lazy var albumView: HWPhotoListFromAlbumView? = HWPhotoListFromAlbumView.loadFromNibNamed(nibNamed: "HWPhotoListFromAlbumView")?.then {
+    $0.delegate = self
+    $0.selectType = .multi
+    $0.selectedIndexDic = self.reactor?.currentState.originPhotoInfo ?? [:]
+  }
   
   // MARK: private property
   
@@ -61,8 +66,8 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   
   init(reactor: RegistPhotoReactor) {
     self.albumSelectorViewController = AlbumSelectorViewController(list: RegistPhotoViewController.fetchAlbumList())
-    self.albumSelectorNavigation.delegate = self
     super.init(nibName: nil, bundle: nil)
+    self.albumSelectorViewController.delegate = self
     self.reactor = reactor
   }
   
@@ -77,6 +82,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   override func viewDidLoad() {
     super.viewDidLoad()
     makeNavigationItems()
+    self.albumView?.setFetchAsset(fetchResult: self.fetchAllPhotoAssets())
   }
   
   override func loadView() {
@@ -171,10 +177,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
       $0.top.equalTo(self.imageThumbnailContainerView.snp.bottom)
     }
     
-    if let albumView = HWPhotoListFromAlbumView.loadFromNibNamed(nibNamed: "HWPhotoListFromAlbumView") {
-      albumView.delegate = self
-      albumView.selectType = .multi
-      albumView.selectedIndexDic = self.reactor?.currentState.originPhotoInfo ?? [:]
+    if let albumView {
       self.imageAlbumContainerView.addSubview(albumView)
       albumView.snp.makeConstraints { (make) in
         make.edges.equalTo(self.imageAlbumContainerView)
@@ -266,7 +269,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     let fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: PHFetchOptions())
     album.append(.init(
       identity: UUID(),
-      name: "전체항목",
+      name: "전체",
       count: fetchResult.count,
       type: .all(thumbnail: fetchResult.lastObject)
     ))
@@ -289,6 +292,14 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     }
     
     return album
+  }
+  
+  private func fetchAllPhotoAssets() -> PHFetchResult<PHAsset> {
+    let allPhotosOptions: PHFetchOptions = PHFetchOptions()
+    let requestOptions: PHImageRequestOptions = PHImageRequestOptions()
+    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+    requestOptions.isSynchronous = true
+    return PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
   }
   
   // MARK: internal function
@@ -327,7 +338,13 @@ extension RegistPhotoViewController: CropViewControllerDelegate {
 extension RegistPhotoViewController: AlbumSelectorViewControllerDelegate {
   
   func didSelectedAlbum(_ viewController: UIViewController, model: AlbumModel) {
-    
+    switch model.type {
+    case .album(let collection):
+      self.albumView?.setFetchAsset(fetchResult: PHAsset.fetchAssets(in: collection, options: nil))
+    case .all:
+      self.albumView?.setFetchAsset(fetchResult: self.fetchAllPhotoAssets())
+    }
+    self.registPhotoSelectAlbumButtonView.setTitle(model.name)
   }
   
 }

@@ -26,13 +26,13 @@ class HWPhotoListFromAlbumView: UIView {
   @IBOutlet weak var imgCollectionView: UICollectionView!
   
   // MARK: varReplace
-  var imgWidth: CGFloat = 300
-  var imgHeight: CGFloat = 300
-  var minimumLineSpacing: CGFloat = 4.0
-  var minimumInteritemSpacing: CGFloat = 4.0
+  private var imgWidth: CGFloat = 300
+  private var imgHeight: CGFloat = 300
+  private var minimumLineSpacing: CGFloat = 4.0
+  private var minimumInteritemSpacing: CGFloat = 4.0
   
   // MARK: var
-  var fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: PHFetchOptions())
+  private var fetchResult: PHFetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: PHFetchOptions())
   
   weak var delegate: HWPhotoListFromAlbumViewDelegate?
   
@@ -63,7 +63,7 @@ class HWPhotoListFromAlbumView: UIView {
   
   override func awakeFromNib() {
     initUI()
-    initFuntion()
+//    initFuntion()
   }
   
   // MARK: func
@@ -75,7 +75,7 @@ class HWPhotoListFromAlbumView: UIView {
     ).instantiate(withOwner: nil, options: nil)[0] as? HWPhotoListFromAlbumView
   }
   
-  func initUI() {
+  private func initUI() {
     self.imgCollectionView.register(UINib(nibName: "PhotoFromAlbumCell", bundle: nil), forCellWithReuseIdentifier: "PhotoFromAlbumCell")
     self.imgCollectionView.delegate = self
     self.imgCollectionView.dataSource = self
@@ -86,20 +86,12 @@ class HWPhotoListFromAlbumView: UIView {
     self.imgCollectionView.collectionViewLayout = layout
   }
   
-  func initFuntion() {
-    setFetchAsset()
-    PHPhotoLibrary.shared().register(self)
-  }
+//  private func initFuntion() {
+//    PHPhotoLibrary.shared().register(self)
+//  }
+
   
-  func setFetchAsset() {
-    let allPhotosOptions: PHFetchOptions = PHFetchOptions()
-    let requestOptions: PHImageRequestOptions = PHImageRequestOptions()
-    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-    requestOptions.isSynchronous = true
-    self.fetchResult = PHAsset.fetchAssets(with: PHAssetMediaType.image, options: allPhotosOptions)
-  }
-  
-  func getAssetThumbnail(asset: PHAsset) -> UIImage {
+  private func getAssetThumbnail(asset: PHAsset) -> UIImage {
     let manager = PHImageManager.default()
     let option = PHImageRequestOptions()
     var thumbnail = UIImage()
@@ -112,7 +104,7 @@ class HWPhotoListFromAlbumView: UIView {
     return thumbnail
   }
   
-  func getOriginAssetThumbnail(asset: PHAsset) -> UIImage {
+  private func getOriginAssetThumbnail(asset: PHAsset) -> UIImage {
     let manager = PHImageManager.default()
     let option = PHImageRequestOptions()
     var thumbnail = UIImage()
@@ -125,10 +117,17 @@ class HWPhotoListFromAlbumView: UIView {
     return thumbnail
   }
   
-  func setFocusAtIndex(index: Int) {
+  private func setFocusAtIndex(index: Int) {
     self.focusImgIndex = index
     self.delegate?.changeFocusImg(focusIndex: self.focusImgIndex)
     self.delegate?.selectedImgsFromAlbum(selectedImg: self.selectedIndexDic, focusIndexAsset: self.fetchResult[self.focusImgIndex])
+  }
+  
+  func setFetchAsset(fetchResult: PHFetchResult<PHAsset>) {
+    self.fetchResult = fetchResult
+    self.selectedIndexDic.removeAll()
+    self.focusImgIndex = 0
+    self.imgCollectionView.reloadData()
   }
 }
 
@@ -245,74 +244,74 @@ extension HWPhotoListFromAlbumView: UICollectionViewDelegate, UICollectionViewDa
   }
 }
 
-// MARK: - PHPhotoLibraryChangeObserver
-extension HWPhotoListFromAlbumView: PHPhotoLibraryChangeObserver {
-  public func photoLibraryDidChange(_ changeInstance: PHChange) {
-    let allPhotosOptions: PHFetchOptions = PHFetchOptions()
-    let requestOptions: PHImageRequestOptions = PHImageRequestOptions()
-    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-    requestOptions.isSynchronous = true
-    guard let changes = changeInstance.changeDetails(for: self.fetchResult) else { return }
-    
-    if changes.removedIndexes != nil {
-      let removeArr = Array(changes.removedObjects)
-      var willFocusMoveNum = 0
-      for i in 0..<removeArr.count {
-        if self.fetchResult[self.focusImgIndex] == removeArr[i] {
-          self.focusImgIndex = 0
-          break
-        } else if self.focusImgIndex > self.fetchResult.index(of: removeArr[i]) {
-          willFocusMoveNum -= 1
-        }
-      }
-      self.focusImgIndex += willFocusMoveNum
-      if self.focusImgIndex < 0 {
-        self.focusImgIndex = 0
-      }
-      let removeArr2 = Array(changes.removedObjects)
-      var removedSequenceIndex: Array = [Int]()
-      for i in 0..<removeArr2.count { // 선택된 객체 삭제
-        if self.selectedIndexDic[removeArr2[i]] != nil {
-          removedSequenceIndex.append(self.selectedIndexDic[removeArr2[i]]!.sequenceNum)
-          self.selectedIndexDic[removeArr2[i]] = nil
-        }
-      }
-      let keyArr = Array(self.selectedIndexDic.keys)
-      for i in 0..<keyArr.count { // sequenceNum수정
-        var willReduceNum = 0
-        willReduceNum = 0
-        for j in 0..<removedSequenceIndex.count {
-          if self.selectedIndexDic[keyArr[i]]!.sequenceNum >= removedSequenceIndex[j] {
-            willReduceNum += 1
-          }
-        }
-        self.selectedIndexDic[keyArr[i]]!.sequenceNum -= willReduceNum
-      }
-    }
-    
-    if changes.insertedIndexes != nil {
-      let insertArr = Array(changes.insertedObjects)
-      var willFocusMoveNum = 0
-      for i in 0..<insertArr.count {
-        if self.fetchResult[self.focusImgIndex].creationDate!.timeIntervalSince1970 <= insertArr[i].creationDate!.timeIntervalSince1970 {
-          willFocusMoveNum += 1
-        }
-      }
-      self.focusImgIndex += willFocusMoveNum
-    }
-    
-    DispatchQueue.main.async {
-      self.setFetchAsset()
-      self.setFocusAtIndex(index: self.focusImgIndex)
-      if self.selectType == .single { // 싱글셀렉트모드의경우
-        if self.selectedIndexDic.count == 0 {
-          let modelObj: PhotoFromAlbumModel = PhotoFromAlbumModel()
-          modelObj.sequenceNum = 0
-          modelObj.asset = self.fetchResult[0]
-          self.selectedIndexDic[self.fetchResult[0]] = modelObj
-        }
-      }
-      self.imgCollectionView.reloadData()
-    }
-  }
-}
+//// MARK: - PHPhotoLibraryChangeObserver
+//extension HWPhotoListFromAlbumView: PHPhotoLibraryChangeObserver {
+//  public func photoLibraryDidChange(_ changeInstance: PHChange) {
+//    let allPhotosOptions: PHFetchOptions = PHFetchOptions()
+//    let requestOptions: PHImageRequestOptions = PHImageRequestOptions()
+//    allPhotosOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+//    requestOptions.isSynchronous = true
+//    guard let changes = changeInstance.changeDetails(for: self.fetchResult) else { return }
+//
+//    if changes.removedIndexes != nil {
+//      let removeArr = Array(changes.removedObjects)
+//      var willFocusMoveNum = 0
+//      for i in 0..<removeArr.count {
+//        if self.fetchResult[self.focusImgIndex] == removeArr[i] {
+//          self.focusImgIndex = 0
+//          break
+//        } else if self.focusImgIndex > self.fetchResult.index(of: removeArr[i]) {
+//          willFocusMoveNum -= 1
+//        }
+//      }
+//      self.focusImgIndex += willFocusMoveNum
+//      if self.focusImgIndex < 0 {
+//        self.focusImgIndex = 0
+//      }
+//      let removeArr2 = Array(changes.removedObjects)
+//      var removedSequenceIndex: Array = [Int]()
+//      for i in 0..<removeArr2.count { // 선택된 객체 삭제
+//        if self.selectedIndexDic[removeArr2[i]] != nil {
+//          removedSequenceIndex.append(self.selectedIndexDic[removeArr2[i]]!.sequenceNum)
+//          self.selectedIndexDic[removeArr2[i]] = nil
+//        }
+//      }
+//      let keyArr = Array(self.selectedIndexDic.keys)
+//      for i in 0..<keyArr.count { // sequenceNum수정
+//        var willReduceNum = 0
+//        willReduceNum = 0
+//        for j in 0..<removedSequenceIndex.count {
+//          if self.selectedIndexDic[keyArr[i]]!.sequenceNum >= removedSequenceIndex[j] {
+//            willReduceNum += 1
+//          }
+//        }
+//        self.selectedIndexDic[keyArr[i]]!.sequenceNum -= willReduceNum
+//      }
+//    }
+//
+//    if changes.insertedIndexes != nil {
+//      let insertArr = Array(changes.insertedObjects)
+//      var willFocusMoveNum = 0
+//      for i in 0..<insertArr.count {
+//        if self.fetchResult[self.focusImgIndex].creationDate!.timeIntervalSince1970 <= insertArr[i].creationDate!.timeIntervalSince1970 {
+//          willFocusMoveNum += 1
+//        }
+//      }
+//      self.focusImgIndex += willFocusMoveNum
+//    }
+//
+//    DispatchQueue.main.async {
+//      self.setFetchAsset()
+//      self.setFocusAtIndex(index: self.focusImgIndex)
+//      if self.selectType == .single { // 싱글셀렉트모드의경우
+//        if self.selectedIndexDic.count == 0 {
+//          let modelObj: PhotoFromAlbumModel = PhotoFromAlbumModel()
+//          modelObj.sequenceNum = 0
+//          modelObj.asset = self.fetchResult[0]
+//          self.selectedIndexDic[self.fetchResult[0]] = modelObj
+//        }
+//      }
+//      self.imgCollectionView.reloadData()
+//    }
+//  }
+//}

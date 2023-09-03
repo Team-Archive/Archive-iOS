@@ -26,7 +26,7 @@ final class RegistPhotoSelectAlbumButtonView: UIView {
   private let contentsLabel = UILabel().then {
     $0.font = .fonts(.subTitle)
     $0.textColor = Gen.Colors.black.color
-    $0.text = "전체항목"
+    $0.text = "전체"
   }
   
   private let iconImageView = UIImageView().then {
@@ -104,6 +104,10 @@ final class RegistPhotoSelectAlbumButtonView: UIView {
   }
   
   // MARK: internal function
+  
+  func setTitle(_ title: String) {
+    self.contentsLabel.text = title
+  }
   
   
 }
