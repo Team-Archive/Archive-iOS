@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Then
+import Photos
 
 final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifiable {
   
@@ -24,7 +25,7 @@ final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifi
   }
   
   private let nameLabel = UILabel().then {
-    $0.font = .fonts(.header2)
+    $0.font = .fonts(.subTitle)
     $0.textColor = Gen.Colors.black.color
   }
   
@@ -48,6 +49,11 @@ final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifi
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    self.thumbnailImageView.image = Gen.Images.userImagePlaceHolder.image
+  }
+  
   // MARK: private function
   
   private func setup() {
@@ -58,13 +64,13 @@ final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifi
     
     self.thumbnailImageView.setSnpLayout(baseView: self.baseView, layoutConstraint: {
       $0.leading.bottom.top.equalToSuperview()
-      $0.height.equalTo(50)
+      $0.width.equalTo(80)
     })
     
     self.contentsContainerView.setSnpLayout(baseView: self.baseView, layoutConstraint: {
       $0.leading.equalTo(self.thumbnailImageView.snp.trailing).offset(8)
       $0.trailing.equalToSuperview()
-      $0.centerY.equalToSuperview()
+      $0.centerY.equalTo(self.thumbnailImageView)
     })
     
     self.nameLabel.setSnpLayout(baseView: self.contentsContainerView, layoutConstraint: {
@@ -73,15 +79,26 @@ final class AlbumSelectorCollectionViewCell: UICollectionViewCell, ClassIdentifi
     
     self.countLabel.setSnpLayout(baseView: self.contentsContainerView, layoutConstraint: {
       $0.bottom.leading.equalToSuperview()
-      $0.top.equalTo(self.nameLabel.snp.bottom).offset(12)
+      $0.top.equalTo(self.nameLabel.snp.bottom).offset(4)
     })
   }
   
   // MARK: internal function
   
   func setConfigure(_ infoData: AlbumModel) {
-    // TODO: 사진 넣기
-//    thumbnailImageView
+    let assets = PHAsset.fetchAssets(in: infoData.collection, options: nil)
+    let firstAsset = assets.firstObject
+    if let firstAsset = firstAsset {
+      let requestOptions = PHImageRequestOptions()
+      requestOptions.isSynchronous = true
+      PHImageManager.default().requestImage(for: firstAsset, targetSize: CGSize(width: 80, height: 80), contentMode: .aspectFill, options: requestOptions) { [weak self] (image, _) in
+        if let image = image {
+          self?.thumbnailImageView.image = image
+        }
+      }
+    } else {
+      self.thumbnailImageView.image = Gen.Images.userImagePlaceHolder.image
+    }
     self.nameLabel.text = infoData.name
     self.countLabel.text = "\(infoData.count)"
   }

@@ -44,7 +44,8 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   }
   
   private let registPhotoSelectAlbumButtonView: RegistPhotoSelectAlbumButtonView = RegistPhotoSelectAlbumButtonView()
-  private var albumSelectorViewController: AlbumSelectorViewController?
+  private var albumSelectorViewController: AlbumSelectorViewController
+  private lazy var albumSelectorNavigation = UINavigationController(rootViewController: albumSelectorViewController)
   
   // MARK: private property
   
@@ -59,8 +60,8 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
   // MARK: lifeCycle
   
   init(reactor: RegistPhotoReactor) {
+    self.albumSelectorViewController = AlbumSelectorViewController(list: RegistPhotoViewController.fetchAlbumList())
     super.init(nibName: nil, bundle: nil)
-    self.albumSelectorViewController = AlbumSelectorViewController(list: fetchAlbumList())
     self.reactor = reactor
   }
   
@@ -130,7 +131,7 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     self.registPhotoSelectAlbumButtonView.rx.requestSelectAlbum
       .asDriver(onErrorJustReturn: ())
       .drive(onNext: { [weak self] in
-        guard let vc = self?.albumSelectorViewController else { return }
+        guard let vc = self?.albumSelectorNavigation else { return }
         vc.modalPresentationStyle = .fullScreen
         self?.present(vc, animated: true)
       })
@@ -258,11 +259,11 @@ class RegistPhotoViewController: UIViewController, View, ActivityIndicatorable {
     self.present(cropViewController, animated: true, completion: nil)
   }
   
-  private func fetchAlbumList() -> [AlbumModel] {
+  private static func fetchAlbumList() -> [AlbumModel] {
     var album: [AlbumModel] = [AlbumModel]()
     
     let options = PHFetchOptions()
-    let userAlbums = PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .any, options: options)
+    let userAlbums = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: options)
     
     userAlbums.enumerateObjects { (collectionObj, count: Int, stop: UnsafeMutablePointer) in
       let fetchOptions = PHFetchOptions()

@@ -185,6 +185,8 @@
 		78A96A202868A85B00B8DF2F /* DetailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */; };
 		78A96A222868A89300B8DF2F /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A212868A89300B8DF2F /* DetailRepository.swift */; };
 		78A96A242868A89E00B8DF2F /* DetailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */; };
+		78AFA3752AA34FD30069CFEE /* RegistPhotoSelectAlbumButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AFA3742AA34FD30069CFEE /* RegistPhotoSelectAlbumButtonView.swift */; };
+		78AFA3772AA359020069CFEE /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AFA3762AA359020069CFEE /* CollectionExtension.swift */; };
 		78B0988628F1CC27005ED913 /* SignUpEmailUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0988528F1CC27005ED913 /* SignUpEmailUsecase.swift */; };
 		78B0988828F1CC34005ED913 /* SignUpEmailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0988728F1CC34005ED913 /* SignUpEmailRepository.swift */; };
 		78B0988A28F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B0988928F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift */; };
@@ -451,6 +453,8 @@
 		78A96A1F2868A85B00B8DF2F /* DetailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailUsecase.swift; sourceTree = "<group>"; };
 		78A96A212868A89300B8DF2F /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		78A96A232868A89E00B8DF2F /* DetailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepositoryImplement.swift; sourceTree = "<group>"; };
+		78AFA3742AA34FD30069CFEE /* RegistPhotoSelectAlbumButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistPhotoSelectAlbumButtonView.swift; sourceTree = "<group>"; };
+		78AFA3762AA359020069CFEE /* CollectionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
 		78B0988528F1CC27005ED913 /* SignUpEmailUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailUsecase.swift; sourceTree = "<group>"; };
 		78B0988728F1CC34005ED913 /* SignUpEmailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailRepository.swift; sourceTree = "<group>"; };
 		78B0988928F1CC3F005ED913 /* SignUpEmailRepositoryImplement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpEmailRepositoryImplement.swift; sourceTree = "<group>"; };
@@ -1171,6 +1175,7 @@
 				78486D6B27E6C974008448A7 /* ErrorExtension.swift */,
 				78E8E6362866FD3A00B18AD8 /* IntExtension.swift */,
 				78DB247D28C37BD500CF5726 /* UINavigationControllerExtension.swift */,
+				78AFA3762AA359020069CFEE /* CollectionExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -1293,6 +1298,7 @@
 			children = (
 				78BAF75228AA279100641250 /* RegistPhotoViewController.swift */,
 				78BAF75828AA396000641250 /* RegistPhotoReactor.swift */,
+				78AFA3742AA34FD30069CFEE /* RegistPhotoSelectAlbumButtonView.swift */,
 			);
 			path = RegistPhotoViewController;
 			sourceTree = "<group>";
@@ -1746,6 +1752,7 @@
 				7823ACDA28CF3693005CFFC7 /* ReportRepositoryImplement.swift in Sources */,
 				784FCDE7282FEE88007683D2 /* LoginAccessTokenUsecase.swift in Sources */,
 				789EAC2E289651CE00DC7F1A /* MyLikeRepository.swift in Sources */,
+				78AFA3752AA34FD30069CFEE /* RegistPhotoSelectAlbumButtonView.swift in Sources */,
 				44FB0A2227184376006E1048 /* ReuseIdentifiable.swift in Sources */,
 				78A5349F291294D400308DA6 /* UploadProfilePhotoImageRepository.swift in Sources */,
 				7825935628C3193300BB9814 /* LikeUsecase.swift in Sources */,
@@ -1940,6 +1947,7 @@
 				78D31DF1288460CF000D81BE /* CommonWebViewController.swift in Sources */,
 				78D58B1D28BB5ABE00AF3191 /* RegistRepositoty.swift in Sources */,
 				78BAF75328AA279100641250 /* RegistPhotoViewController.swift in Sources */,
+				78AFA3772AA359020069CFEE /* CollectionExtension.swift in Sources */,
 				7823982E280C23E80071D874 /* LogInManager.swift in Sources */,
 				78E3582028955EFF00DB1974 /* MyPageUsecase.swift in Sources */,
 				789EAC2928964F9C00DC7F1A /* MyLikeListViewController.swift in Sources */,

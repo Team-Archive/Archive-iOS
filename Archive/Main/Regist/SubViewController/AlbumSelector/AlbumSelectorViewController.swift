@@ -46,14 +46,15 @@ final class AlbumSelectorViewController: UIViewController {
   private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout()).then {
     $0.alwaysBounceVertical = true
     
-    $0.backgroundColor = Gen.Colors.white.color
+    $0.backgroundColor = .clear
     let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-    layout.minimumLineSpacing = 0
-    layout.minimumInteritemSpacing = 12
+    layout.minimumLineSpacing = 12
+    layout.minimumInteritemSpacing = 0
     layout.scrollDirection = .vertical
-    layout.itemSize = CGSize(width: UIDevice.screenWidth ?? 0, height: 50)
-    $0.collectionViewLayout = layout
+    layout.itemSize = CGSize(width: UIDevice.screenWidth ?? 0, height: 80)
     
+    $0.collectionViewLayout = layout
+    $0.contentInset = .init(top: 0, left: 16, bottom: 0, right: -16)
     $0.register(AlbumSelectorCollectionViewCell.self, forCellWithReuseIdentifier: AlbumSelectorCollectionViewCell.identifier)
   }
   
@@ -83,7 +84,6 @@ final class AlbumSelectorViewController: UIViewController {
   init(list: [AlbumModel]) {
     self.list = list
     super.init(nibName: nil, bundle: nil)
-    setup()
   }
   
   required init?(coder: NSCoder) {
@@ -95,6 +95,13 @@ final class AlbumSelectorViewController: UIViewController {
     setupDatasource()
     bind()
     self.sections.accept([.init(items: self.list)])
+    makeNavigationItems()
+    self.title = "사진첩 선택"
+  }
+  
+  override func loadView() {
+    super.loadView()
+    setup()
   }
   
   // MARK: private function
@@ -105,16 +112,15 @@ final class AlbumSelectorViewController: UIViewController {
       $0.edges.equalToSuperview()
     })
     
-    self.view.addSubview(self.baseView)
-    let safeGuide = self.view.safeAreaLayoutGuide
-    self.baseView.snp.makeConstraints {
+    self.baseView.setSnpLayout(baseView: self.view, layoutConstraint: {
+      let safeGuide = self.view.safeAreaLayoutGuide
       $0.edges.equalTo(safeGuide)
-    }
+    })
     
-    self.baseView.addSubview(self.collectionView)
-    self.collectionView.snp.makeConstraints {
+    self.collectionView.setSnpLayout(baseView: self.baseView, layoutConstraint: {
       $0.edges.equalToSuperview()
-    }
+    })
+    
   }
   
   private func bind() {
@@ -135,15 +141,29 @@ final class AlbumSelectorViewController: UIViewController {
   }
   
   private func setupDatasource() {
-//    self.collectionView.dataSource = nil
+    self.collectionView.dataSource = nil
     sections.bind(to: self.collectionView.rx.items(dataSource: dataSource))
       .disposed(by: self.disposeBag)
+  }
+  
+  private func makeNavigationItems() {
+    
+    let cancelBtn: UIBarButtonItem = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancelAction(_:)))
+    cancelBtn.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button), NSAttributedString.Key.foregroundColor: Gen.Colors.black.color], for: .normal)
+    cancelBtn.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.fonts(.button), NSAttributedString.Key.foregroundColor: Gen.Colors.black.color], for: .highlighted)
+    
+    self.navigationController?.navigationBar.topItem?.leftBarButtonItems?.removeAll()
+    self.navigationController?.navigationBar.topItem?.leftBarButtonItem = cancelBtn
   }
   
   private func makeCell(_ model: AlbumModel, from collectionView: UICollectionView, indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AlbumSelectorCollectionViewCell.identifier, for: indexPath) as? AlbumSelectorCollectionViewCell else { return UICollectionViewCell() }
     cell.setConfigure(model)
     return cell
+  }
+  
+  @objc private func cancelAction(_ sender: UIButton) {
+    self.dismiss(animated: true, completion: nil)
   }
   
   // MARK: internal function
